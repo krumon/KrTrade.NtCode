@@ -14,4 +14,9 @@
     <Folder Include="Responses\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\KrTrade.WebApp.Core\KrTrade.WebApp.Core.csproj" />
+    <ProjectReference Include="..\KrTrade.WebApp.Infrastructure\KrTrade.WebApp.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
