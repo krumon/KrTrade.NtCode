@@ -17,4 +17,9 @@
     <Folder Include="Options\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.3" />
+  </ItemGroup>
+
 </Project>
