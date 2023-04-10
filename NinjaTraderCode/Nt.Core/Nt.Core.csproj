@@ -1,0 +1,575 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3A644626-5B81-4EE5-9D67-6B77D5BA4940}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Nt.Core</RootNamespace>
+    <AssemblyName>Nt.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.6.0.0\lib\net461\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.6.0.0\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.6.0.0\lib\net461\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Workflow.Runtime" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attributes\DoesNotReturnAttribute.cs" />
+    <Compile Include="Attributes\OSPlatformAttribute.cs" />
+    <Compile Include="Attributes\AliasAttribute.cs" />
+    <Compile Include="Attributes\RequiresUnreferencedCodeAttribute.cs" />
+    <Compile Include="Attributes\UnconditionalSuppressMessageAttribute.cs" />
+    <Compile Include="Configuration\BinderOptions.cs" />
+    <Compile Include="Configuration\ChainedBuilderExtensions.cs" />
+    <Compile Include="Configuration\ChainedConfigurationProvider.cs" />
+    <Compile Include="Configuration\ChainedConfigurationSource.cs" />
+    <Compile Include="Configuration\CommandLineConfigurationExtensions.cs" />
+    <Compile Include="Configuration\CommandLine\CommandLineConfigurationProvider.cs" />
+    <Compile Include="Configuration\CommandLine\CommandLineConfigurationSource.cs" />
+    <Compile Include="Configuration\ConfigurationBinder.cs" />
+    <Compile Include="Configuration\ConfigurationBuilder.cs" />
+    <Compile Include="Configuration\ConfigurationExtensions.cs" />
+    <Compile Include="Configuration\ConfigurationKeyComparer.cs" />
+    <Compile Include="Configuration\ConfigurationKeyNameAttribute.cs" />
+    <Compile Include="Configuration\ConfigurationManager.cs" />
+    <Compile Include="Configuration\ConfigurationPath.cs" />
+    <Compile Include="Configuration\ConfigurationProvider.cs" />
+    <Compile Include="Configuration\ConfigurationReloadToken.cs" />
+    <Compile Include="Configuration\ConfigurationRoot.cs" />
+    <Compile Include="Configuration\ConfigurationRootExtensions.cs" />
+    <Compile Include="Configuration\ConfigurationSection.cs" />
+    <Compile Include="Configuration\.Interfaces\IConfiguration.cs" />
+    <Compile Include="Configuration\.Interfaces\IConfigurationBuilder.cs" />
+    <Compile Include="Configuration\.Interfaces\IConfigurationProvider.cs" />
+    <Compile Include="Configuration\.Interfaces\IConfigurationRoot.cs" />
+    <Compile Include="Configuration\.Interfaces\IConfigurationSection.cs" />
+    <Compile Include="Configuration\.Interfaces\IConfigurationSource.cs" />
+    <Compile Include="Configuration\EnvironmentVariablesExtensions.cs" />
+    <Compile Include="Configuration\EnvironmentVariables\EnvironmentVariablesConfigurationProvider.cs" />
+    <Compile Include="Configuration\EnvironmentVariables\EnvironmentVariablesConfigurationSource.cs" />
+    <Compile Include="Configuration\FileConfigurationExtensions.cs" />
+    <Compile Include="Configuration\FileConfigurationProvider.cs" />
+    <Compile Include="Configuration\FileConfigurationSource.cs" />
+    <Compile Include="Configuration\FileLoadExceptionContext.cs" />
+    <Compile Include="Configuration\InternalConfigurationRootExtensions.cs" />
+    <Compile Include="Configuration\JsonConfigurationExtensions.cs" />
+    <Compile Include="Configuration\Json\JsonConfigurationFileParser.cs" />
+    <Compile Include="Configuration\Json\JsonConfigurationProvider.cs" />
+    <Compile Include="Configuration\Json\JsonConfigurationSource.cs" />
+    <Compile Include="Configuration\Json\JsonStreamConfigurationProvider.cs" />
+    <Compile Include="Configuration\Json\JsonStreamConfigurationSource.cs" />
+    <Compile Include="Configuration\MemoryConfigurationBuilderExtensions.cs" />
+    <Compile Include="Configuration\Memory\MemoryConfigurationProvider.cs" />
+    <Compile Include="Configuration\Memory\MemoryConfigurationSource.cs" />
+    <Compile Include="Configuration\StreamConfigurationProvider.cs" />
+    <Compile Include="Configuration\StreamConfigurationSource.cs" />
+    <Compile Include="Configuration\UserSecretsConfigurationExtensions.cs" />
+    <Compile Include="Configuration\UserSecrets\PathHelper.cs" />
+    <Compile Include="Configuration\UserSecrets\UserSecretsIdAttribute.cs" />
+    <Compile Include="Data\Ninjascripts\NinjaScriptEvent.cs" />
+    <Compile Include="Data\Ninjascripts\NinjascriptState.cs" />
+    <Compile Include="DependencyInjection\DefaultServiceProviderFactory.cs" />
+    <Compile Include="DependencyInjection\DynamicallyAccessedMemberAttribute.cs" />
+    <Compile Include="Data\Instruments\IInstrument.cs" />
+    <Compile Include="Data\Instruments\Instrument.cs" />
+    <Compile Include="Data\PartialHolidays\IPartialHoliday.cs" />
+    <Compile Include="Data\Series\DataSerie.cs" />
+    <Compile Include="Data\Sessions\ISession.cs" />
+    <Compile Include="Data\TradingHours\ITradingHours.cs" />
+    <Compile Include="DependencyInjection\Interfaces\IAsyncDisposable.cs" />
+    <Compile Include="DependencyInjection\Interfaces\IServiceScopeFactory.cs" />
+    <Compile Include="DependencyInjection\Interfaces\ISupportRequiredService.cs" />
+    <Compile Include="DependencyInjection\OptionsBuilderConfigurationExtensions.cs" />
+    <Compile Include="DependencyInjection\OptionsBuilderExtensions.cs" />
+    <Compile Include="DependencyInjection\OptionsConfigurationServiceCollectionExtensions.cs" />
+    <Compile Include="DependencyInjection\OptionsServiceCollectionExtensions.cs" />
+    <Compile Include="DependencyInjection\ServiceCollectionContainerBuilderExtensions.cs" />
+    <Compile Include="DependencyInjection\ServiceCollectionHostedServiceExtensions.cs" />
+    <Compile Include="DependencyInjection\ServiceLookup\CallSiteResultCacheLocation.cs" />
+    <Compile Include="DependencyInjection\ServiceLookup\CallSiteValidator.cs" />
+    <Compile Include="DependencyInjection\ServiceLookup\CallSiteVisitor.cs" />
+    <Compile Include="DependencyInjection\ServiceLookup\CompiledServiceProviderEngine.cs" />
+    <Compile Include="DependencyInjection\ServiceLookup\DynamicServiceProviderEngine.cs" />
+    <Compile Include="DependencyInjection\ServiceLookup\ResultCache.cs" />
+    <Compile Include="DependencyInjection\Interfaces\IServiceProviderIsService.cs" />
+    <Compile Include="DependencyInjection\ServiceLookup\ServiceProviderEngine.cs" />
+    <Compile Include="DependencyInjection\ServiceLookup\StackGuard.cs" />
+    <Compile Include="DependencyInjection\ServiceCollectionDescriptorExtensions.cs" />
+    <Compile Include="DependencyInjection\ServiceLifetime.cs" />
+    <Compile Include="DependencyInjection\ServiceLookup\ServiceProviderEngineScope.cs" />
+    <Compile Include="DependencyInjection\ValidatorOptions.cs" />
+    <Compile Include="FileProviders\EmptyDisposable.cs" />
+    <Compile Include="FileProviders\Interfaces\IFileInfo.cs" />
+    <Compile Include="FileProviders\Interfaces\IDirectoryContents.cs" />
+    <Compile Include="FileProviders\Interfaces\IFileProvider.cs" />
+    <Compile Include="FileProviders\Interfaces\IPollingChangeToken.cs" />
+    <Compile Include="FileProviders\Internal\PhysicalDirectoryContents.cs" />
+    <Compile Include="FileProviders\NotFoundDirectoryContents.cs" />
+    <Compile Include="FileProviders\NotFoundFileInfo.cs" />
+    <Compile Include="FileProviders\NullChangeToken.cs" />
+    <Compile Include="FileProviders\NullFileProvider.cs" />
+    <Compile Include="FileProviders\PhysicalFileProvider.cs" />
+    <Compile Include="FileProviders\Physical\Clock.cs" />
+    <Compile Include="FileProviders\Physical\ExclusionFilters.cs" />
+    <Compile Include="FileProviders\Physical\FileSystemInfoHelper.cs" />
+    <Compile Include="FileProviders\Physical\IClock.cs" />
+    <Compile Include="FileProviders\Physical\Internal\PathUtils.cs" />
+    <Compile Include="FileProviders\Physical\PhysicalDirectoryInfo.cs" />
+    <Compile Include="FileProviders\Physical\PhysicalFileInfo.cs" />
+    <Compile Include="FileProviders\Physical\PhysicalFilesWatcher.cs" />
+    <Compile Include="FileProviders\Physical\PollingFileChangeToken.cs" />
+    <Compile Include="FileProviders\Physical\PollingWildCardChangeToken.cs" />
+    <Compile Include="FileSystemGlobbing\Abstractions\DirectoryInfoBase.cs" />
+    <Compile Include="FileSystemGlobbing\Abstractions\DirectoryInfoWrapper.cs" />
+    <Compile Include="FileSystemGlobbing\Abstractions\FileInfoBase.cs" />
+    <Compile Include="FileSystemGlobbing\Abstractions\FileInfoWrapper.cs" />
+    <Compile Include="FileSystemGlobbing\Abstractions\FileSystemInfoBase.cs" />
+    <Compile Include="FileSystemGlobbing\FilePatternMatch.cs" />
+    <Compile Include="FileSystemGlobbing\InMemoryDirectoryInfo.cs" />
+    <Compile Include="FileSystemGlobbing\Internal\ILinearPattern.cs" />
+    <Compile Include="FileSystemGlobbing\Internal\InMemoryFileInfo.cs" />
+    <Compile Include="FileSystemGlobbing\Internal\IPathSegment.cs" />
+    <Compile Include="FileSystemGlobbing\Internal\IPattern.cs" />
+    <Compile Include="FileSystemGlobbing\Internal\IPatternContext.cs" />
+    <Compile Include="FileSystemGlobbing\Internal\IRaggedPattern.cs" />
+    <Compile Include="FileSystemGlobbing\Internal\MatcherContext.cs" />
+    <Compile Include="FileSystemGlobbing\Internal\PathSegments\CurrentPathSegment.cs" />
+    <Compile Include="FileSystemGlobbing\Internal\PathSegments\LiteralPathSegment.cs" />
+    <Compile Include="FileSystemGlobbing\Internal\PathSegments\ParentPathSegment.cs" />
+    <Compile Include="FileSystemGlobbing\Internal\PathSegments\RecursiveWildcardSegment.cs" />
+    <Compile Include="FileSystemGlobbing\Internal\PathSegments\WildcardPathSegment.cs" />
+    <Compile Include="FileSystemGlobbing\Internal\PatternContexts\PatternContext.cs" />
+    <Compile Include="FileSystemGlobbing\Internal\PatternContexts\PatternContextLinear.cs" />
+    <Compile Include="FileSystemGlobbing\Internal\PatternContexts\PatternContextLinearExclude.cs" />
+    <Compile Include="FileSystemGlobbing\Internal\PatternContexts\PatternContextLinearInclude.cs" />
+    <Compile Include="FileSystemGlobbing\Internal\PatternContexts\PatternContextRagged.cs" />
+    <Compile Include="FileSystemGlobbing\Internal\PatternContexts\PatternContextRaggedExclude.cs" />
+    <Compile Include="FileSystemGlobbing\Internal\PatternContexts\PatternContextRaggedIncluded.cs" />
+    <Compile Include="FileSystemGlobbing\Internal\Patterns\PatternBuilder.cs" />
+    <Compile Include="FileSystemGlobbing\Internal\PatternTestResult.cs" />
+    <Compile Include="FileSystemGlobbing\Matcher.cs" />
+    <Compile Include="FileSystemGlobbing\MatcherExtensions.cs" />
+    <Compile Include="FileSystemGlobbing\PatternMatchingResult.cs" />
+    <Compile Include="Helpers\HashHelpers.cs" />
+    <Compile Include="Helpers\StringComparisonHelper.cs" />
+    <Compile Include="Hosting\BackgroundServiceExceptionBehavior.cs" />
+    <Compile Include="Hosting\Environments.cs" />
+    <Compile Include="Hosting\BaseHostBuilder.cs" />
+    <Compile Include="Hosting\HostEnvironmentEnvExtensions.cs" />
+    <Compile Include="Hosting\HostingAbstractionsHostExtensions.cs" />
+    <Compile Include="Hosting\HostingHostBuilderExtensions.cs" />
+    <Compile Include="Hosting\Interfaces\INinjaHost.cs" />
+    <Compile Include="Hosting\Internal\ConfigureContainerAdapter.cs" />
+    <Compile Include="Hosting\Internal\ConsoleLifetimeOptions.cs" />
+    <Compile Include="Hosting\BaseHost.cs" />
+    <Compile Include="Hosting\Internal\Host.cs" />
+    <Compile Include="Hosting\HostBuilderContext.cs" />
+    <Compile Include="Hosting\HostDefaults.cs" />
+    <Compile Include="Hosting\HostOptions.cs" />
+    <Compile Include="Hosting\HostBuilder.cs" />
+    <Compile Include="Hosting\Host.cs" />
+    <Compile Include="Hosting\Interfaces\IHostApplicationLifetime.cs" />
+    <Compile Include="Hosting\Interfaces\IHostedService.cs" />
+    <Compile Include="Hosting\Interfaces\IHost.cs" />
+    <Compile Include="DependencyInjection\ServiceLookup\CallSiteChain.cs" />
+    <Compile Include="DependencyInjection\ServiceLookup\CallSiteFactory.cs" />
+    <Compile Include="DependencyInjection\ServiceLookup\CallSiteKind.cs" />
+    <Compile Include="DependencyInjection\ServiceLookup\CallSiteRuntimeResolver.cs" />
+    <Compile Include="DependencyInjection\ServiceProviderFactory.cs" />
+    <Compile Include="DependencyInjection\ServiceLookup\ParameterDefaultValue.cs" />
+    <Compile Include="DependencyInjection\ServiceLookup\ServiceCacheKey.cs" />
+    <Compile Include="DependencyInjection\ServiceLookup\ServiceCallSite.cs" />
+    <Compile Include="DependencyInjection\ServiceProviderServiceExtensions.cs" />
+    <Compile Include="DependencyInjection\ServiceProviderOptions.cs" />
+    <Compile Include="DependencyInjection\ServiceProvider.cs" />
+    <Compile Include="DependencyInjection\ServiceCollection.cs" />
+    <Compile Include="DependencyInjection\ServiceCollectionServiceExtensions.cs" />
+    <Compile Include="DependencyInjection\ServiceDescriptor.cs" />
+    <Compile Include="DependencyInjection\Interfaces\IServiceProviderBuilder.cs" />
+    <Compile Include="DependencyInjection\Interfaces\IServiceScope.cs" />
+    <Compile Include="DependencyInjection\zEliminar\Base\BaseServiceCollection.cs" />
+    <Compile Include="Hosting\Interfaces\IHostEnvironment.cs" />
+    <Compile Include="Hosting\Interfaces\IHostLifetime.cs" />
+    <Compile Include="Hosting\Internal\ApplicationLifetime.cs" />
+    <Compile Include="Hosting\Internal\ConsoleLifetime.cs" />
+    <Compile Include="Hosting\Internal\HostingEnvironment.cs" />
+    <Compile Include="Hosting\Internal\LoggerHostingExtensions.cs" />
+    <Compile Include="Hosting\Internal\IConfigureContainerAdapter.cs" />
+    <Compile Include="Hosting\Internal\IServiceFactoryAdapter.cs" />
+    <Compile Include="Hosting\Internal\LoggerEventIds.cs" />
+    <Compile Include="Hosting\Internal\ServiceFactoryAdapter.cs" />
+    <Compile Include="Internal\NonCapturingTimer.cs" />
+    <Compile Include="Helpers\TypeNameHelper.cs" />
+    <Compile Include="Logging\Console\Configuration\ConsoleLoggerFormatterConfigureOptions.cs" />
+    <Compile Include="Logging\Console\Configuration\ConsoleLoggerFormatterOptionsChangeTokenSource.cs" />
+    <Compile Include="Logging\Delegate\DebugLogger.cs" />
+    <Compile Include="Logging\Delegate\DebugLoggerProvider.cs" />
+    <Compile Include="Logging\File\BaseFileFormatter.cs" />
+    <Compile Include="Logging\File\BaseFileFormatterOptions.cs" />
+    <Compile Include="Logging\Interfaces\IExternalScopeProvider.cs" />
+    <Compile Include="Logging\Interfaces\ISupportExternalScope.cs" />
+    <Compile Include="Logging\Abstractions\LogEntry.cs" />
+    <Compile Include="Logging\Abstractions\NullLogger.cs" />
+    <Compile Include="Logging\Abstractions\NullLogger%27T%27.cs" />
+    <Compile Include="Logging\Abstractions\NullLoggerFactory.cs" />
+    <Compile Include="Logging\Abstractions\NullLoggerProvider.cs" />
+    <Compile Include="Logging\ActivityTrackingOptions.cs" />
+    <Compile Include="Logging\Configuration\ILoggerProviderConfiguration.cs" />
+    <Compile Include="Logging\Configuration\ILoggerProviderConfigurationFactory.cs" />
+    <Compile Include="Logging\Configuration\LoggerProviderConfiguration.cs" />
+    <Compile Include="Logging\Configuration\LoggerProviderConfigurationFactory.cs" />
+    <Compile Include="Logging\SourceLogValues.cs" />
+    <Compile Include="Logging\Options\LoggerProviderConfigureOptions.cs" />
+    <Compile Include="Logging\Options\LoggerProviderOptions.cs" />
+    <Compile Include="Logging\Options\LoggerProviderOptionsChangeTokenSource.cs" />
+    <Compile Include="Logging\Configuration\LoggingBuilderConfigurationExtensions.cs" />
+    <Compile Include="Logging\Configuration\LoggingConfiguration.cs" />
+    <Compile Include="Logging\Extensions\ConsoleLoggerFormatterExtensions.cs" />
+    <Compile Include="Logging\Extensions\ConsoleLoggerFactoryExtensions.cs" />
+    <Compile Include="Logging\Console\AnsiParser.cs" />
+    <Compile Include="Logging\Console\Formatter\ConsoleFormatterNames.cs" />
+    <Compile Include="Logging\Console\ConsoleLoggerFormat.cs" />
+    <Compile Include="Logging\Console\Formatter\FormatterOptionsMonitor.cs" />
+    <Compile Include="Logging\Console\PooledByteBufferWriter.cs" />
+    <Compile Include="Logging\Console\Formatter\SimpleConsoleFormatter.cs" />
+    <Compile Include="Logging\Console\Formatter\ConsoleFormatter.cs" />
+    <Compile Include="Logging\Console\Formatter\SystemdConsoleFormatter.cs" />
+    <Compile Include="Logging\Console\Formatter\JsonConsoleFormatterOptions.cs" />
+    <Compile Include="Logging\Console\Loggers\ColorConsoleLoggerOptions.cs" />
+    <Compile Include="Logging\Extensions\ColorConsoleLoggerFactoryExtensions.cs" />
+    <Compile Include="Logging\Console\Loggers\ColorConsoleLoggerProvider.cs" />
+    <Compile Include="Logging\Console\Loggers\ColorConsoleLogger.cs" />
+    <Compile Include="Logging\Console\Formatter\SimpleConsoleFormatterOptions.cs" />
+    <Compile Include="Logging\Console\Formatter\ConsoleFormatterOptions.cs" />
+    <Compile Include="Logging\Console\AnsiLogConsole.cs" />
+    <Compile Include="Logging\Console\AnsiParsingLogConsole.cs" />
+    <Compile Include="Logging\Console\Loggers\ConsoleLogger.cs" />
+    <Compile Include="Logging\Console\Loggers\ConsoleLoggerOptions.cs" />
+    <Compile Include="Logging\Console\Loggers\ConsoleLoggerProvider.cs" />
+    <Compile Include="Logging\Console\ConsoleLoggerProcessor.cs" />
+    <Compile Include="Logging\Console\Configuration\DefaultConsoleFormatterConfigureOptions.cs" />
+    <Compile Include="Logging\Console\Configuration\DefaultConsoleLoggerConfigureOptions.cs" />
+    <Compile Include="Logging\Console\IConsole.cs" />
+    <Compile Include="Logging\Console\LogMessageEntry.cs" />
+    <Compile Include="Logging\Console\LoggerColorBehavior.cs" />
+    <Compile Include="Logging\Console\TextWriterExtensions.cs" />
+    <Compile Include="Logging\Extensions\DebugLoggerFactoryExtensions.cs" />
+    <Compile Include="Logging\Debugger\DebugLogger.cs" />
+    <Compile Include="Logging\Debugger\DebugLoggerProvider.cs" />
+    <Compile Include="Logging\Extensions\EventLoggerFactoryExtensions.cs" />
+    <Compile Include="Logging\EventLog\EventLogLogger.cs" />
+    <Compile Include="Logging\EventLog\EventLogLoggerProvider.cs" />
+    <Compile Include="Logging\EventLog\EventLogSettings.cs" />
+    <Compile Include="Logging\EventLog\IEventLog.cs" />
+    <Compile Include="Logging\EventLog\WindowsEventLog.cs" />
+    <Compile Include="Logging\Extensions\EventSourceLoggerFactoryExtensions.cs" />
+    <Compile Include="Logging\EventSource\EventSourceLogger.cs" />
+    <Compile Include="Logging\EventSource\EventSourceLoggerProvider.cs" />
+    <Compile Include="Logging\EventSource\ExceptionInfo.cs" />
+    <Compile Include="Logging\EventSource\LoggingEventSource.cs" />
+    <Compile Include="Logging\File\DefaultFileFormatterConfigureOptions.cs" />
+    <Compile Include="Logging\File\DefaultFileLoggerConfigureOptions.cs" />
+    <Compile Include="Logging\File\FileFormatterNames.cs" />
+    <Compile Include="Logging\File\FileFormatter.cs" />
+    <Compile Include="Logging\File\FileFormatterOptions.cs" />
+    <Compile Include="Logging\File\FileLogger.cs" />
+    <Compile Include="Logging\File\FileLoggerFormatterConfigureOptions.cs" />
+    <Compile Include="Logging\File\FileLoggerFormatterOptionsChangeTokenSource.cs" />
+    <Compile Include="Logging\File\FileFormatterOptionsMonitor.cs" />
+    <Compile Include="Logging\Extensions\FileLoggerFormatterExtensions.cs" />
+    <Compile Include="Logging\File\TimestampOptions.cs" />
+    <Compile Include="Logging\Internal\LogValuesSourceFormatter.cs" />
+    <Compile Include="Logging\File\FileLoggerOptions.cs" />
+    <Compile Include="Logging\Extensions\FileLoggerFactoryExtensions.cs" />
+    <Compile Include="Logging\File\FileLoggerProvider.cs" />
+    <Compile Include="Logging\Extensions\FilterLoggingBuilderExtensions.cs" />
+    <Compile Include="Logging\Internal\DefaultLoggerLevelConfigureOptions.cs" />
+    <Compile Include="Logging\Interfaces\ILoggerFactory.cs" />
+    <Compile Include="Logging\Internal\EventLogFiltersConfigureOptions.cs" />
+    <Compile Include="Logging\Internal\EventLogFiltersConfigureOptionsChangeSource.cs" />
+    <Compile Include="Logging\Internal\FormattedLogValues.cs" />
+    <Compile Include="Logging\Console\Formatter\JsonConsoleFormatter.cs" />
+    <Compile Include="Logging\Internal\Logger.cs" />
+    <Compile Include="Logging\Internal\LoggerFactoryScopeProvider.cs" />
+    <Compile Include="Logging\Internal\LoggerFilterConfigureOptions.cs" />
+    <Compile Include="Logging\Internal\LoggerRuleSelector.cs" />
+    <Compile Include="Logging\Internal\LoggerInformation.cs" />
+    <Compile Include="Logging\Internal\ScopeLogger.cs" />
+    <Compile Include="Logging\Internal\MessageLogger.cs" />
+    <Compile Include="Logging\Internal\LogValuesFormatter.cs" />
+    <Compile Include="Logging\Internal\NullScope.cs" />
+    <Compile Include="Logging\Internal\ProviderAliasUtilities.cs" />
+    <Compile Include="Logging\Internal\StaticFilterOptionsMonitor.cs" />
+    <Compile Include="Logging\LogDefineOptions.cs" />
+    <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Logging\LoggerExternalScopeProvider.cs" />
+    <Compile Include="Logging\LoggerFactory.cs" />
+    <Compile Include="Logging\Extensions\LoggerFactoryExtensions.cs" />
+    <Compile Include="Logging\LoggerFactoryOptions.cs" />
+    <Compile Include="Logging\LoggerFilterOptions.cs" />
+    <Compile Include="Logging\LoggerFilterRule.cs" />
+    <Compile Include="Logging\LoggerMessage.cs" />
+    <Compile Include="Logging\LoggerMessageAttribute.cs" />
+    <Compile Include="Logging\Extensions\LoggingBuilderExtensions.cs" />
+    <Compile Include="DependencyInjection\LoggingServiceCollectionExtensions.cs" />
+    <Compile Include="Logging\Internal\NullExternalScopeProvider.cs" />
+    <Compile Include="Logging\ProviderAliasAttribute.cs" />
+    <Compile Include="Options\ConfigurationChangeTokenSource.cs" />
+    <Compile Include="Options\ConfigureFromConfigurationOptions.cs" />
+    <Compile Include="Options\Internal\UnnamedOptionsManager.cs" />
+    <Compile Include="Options\NamedConfigureFromConfigurationOptions.cs" />
+    <Compile Include="Primitives\CancellationChangeToken.cs" />
+    <Compile Include="Primitives\ChangeToken.cs" />
+    <Compile Include="Options\ConfigureNamedOptions.cs" />
+    <Compile Include="Primitives\CompositeChangeToken.cs" />
+    <Compile Include="Primitives\IChangeToken.cs" />
+    <Compile Include="Options\Interfaces\IConfigureNamedOptions.cs" />
+    <Compile Include="Options\Interfaces\IConfigureOptions.cs" />
+    <Compile Include="Options\ConfigureOptions.cs" />
+    <Compile Include="Options\Interfaces\IOptions.cs" />
+    <Compile Include="Options\Interfaces\IOptionsChangeTokenSource.cs" />
+    <Compile Include="Options\Interfaces\IOptionsMonitor.cs" />
+    <Compile Include="Options\Interfaces\IOptionsMonitorCache.cs" />
+    <Compile Include="Options\Interfaces\IOptionsSnapshot.cs" />
+    <Compile Include="Options\Interfaces\IValidateOptions.cs" />
+    <Compile Include="Options\Interfaces\IPostConfigureOptions.cs" />
+    <Compile Include="Options\Interfaces\IOptionsFactory.cs" />
+    <Compile Include="Options\Options.cs" />
+    <Compile Include="Options\OptionsBuilder.cs" />
+    <Compile Include="Options\OptionsCache.cs" />
+    <Compile Include="Options\OptionsFactory.cs" />
+    <Compile Include="Options\OptionsManager.cs" />
+    <Compile Include="Options\OptionsMonitor.cs" />
+    <Compile Include="Options\OptionsMonitorExtensions.cs" />
+    <Compile Include="Options\OptionsWrapper.cs" />
+    <Compile Include="Options\PostConfigureOptions.cs" />
+    <Compile Include="Options\ValidateOptions.cs" />
+    <Compile Include="Options\ValidateOptionsResult.cs" />
+    <Compile Include="Primitives\StringSegment.cs" />
+    <Compile Include="Primitives\StringTokenizer.cs" />
+    <Compile Include="Services\.Interfaces\IDataLoadedService.cs" />
+    <Compile Include="Services\.Interfaces\IConfigureService.cs" />
+    <Compile Include="Services\.Interfaces\IOnSessionUpdateService.cs" />
+    <Compile Include="Services\.Interfaces\IOnMarketDataService.cs" />
+    <Compile Include="Services\.Interfaces\IOnBarUpdateService.cs" />
+    <Compile Include="Services\DataSeries\DataSeriesOptions.cs" />
+    <Compile Include="Services\DataSeries\DataSeriesProvider.cs" />
+    <Compile Include="DependencyInjection\Interfaces\IServiceDescriptor.cs" />
+    <Compile Include="Hosting\Interfaces\IHostBuilder.cs" />
+    <Compile Include="DependencyInjection\Interfaces\IServiceProvider.cs" />
+    <Compile Include="DependencyInjection\Interfaces\IServiceCollection.cs" />
+    <Compile Include="DependencyInjection\Interfaces\IServiceProviderFactory.cs" />
+    <Compile Include="Services\DataSeries\DataSeriesService.cs" />
+    <Compile Include="Services\DataSeries\DataSeriesBuilder.cs" />
+    <Compile Include="Services\DataSeries\ConfigureDataSeriesOptions.cs" />
+    <Compile Include="Data\Bars\BarsPeriod.cs" />
+    <Compile Include="Services\DataSeries\DataSeriesCollection.cs" />
+    <Compile Include="Services\DataSeries\Interfaces\IDataSeriesBuilder.cs" />
+    <Compile Include="Services\DataSeries\Interfaces\IDataSeriesCollection.cs" />
+    <Compile Include="Services\DataSeries\Interfaces\IDataSeriesDescriptor.cs" />
+    <Compile Include="Data\TradingSessions\Session.cs" />
+    <Compile Include="Data\TradingSessions\SessionCollection.cs" />
+    <Compile Include="Data\TradingSessions\SessionExtensions.cs" />
+    <Compile Include="Services\DataSeries\DataSeriesDescriptor.cs" />
+    <Compile Include="Events\EventType.cs" />
+    <Compile Include="Events\SessionUpdateArgs.cs" />
+    <Compile Include="Exceptions\CreateBuilderException.cs" />
+    <Compile Include="Exceptions\SetConfigurationException.cs" />
+    <Compile Include="Exceptions\SetDefaultException.cs" />
+    <Compile Include="Exceptions\OnBarUpdateException.cs" />
+    <Compile Include="Exceptions\LoadException.cs" />
+    <Compile Include="DependencyInjection\DynamicallyAccessedMemberTypes.cs" />
+    <Compile Include="Resources\ExceptionMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExceptionMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Primitives\IElement.cs" />
+    <Compile Include="FileProviders\zEliminar\NtFileType.cs" />
+    <Compile Include="Primitives\BaseElement.cs" />
+    <Compile Include="Data\Bars\TradingBar.cs" />
+    <Compile Include="Data\Brokers\BrokerExtensions.cs" />
+    <Compile Include="Data\Brokers\Broker.cs" />
+    <Compile Include="Data\Bars\PeriodType.cs" />
+    <Compile Include="Data\TradingPatterns\Swing\SwingLevel.cs" />
+    <Compile Include="Data\TradingPatterns\Swing\SwingPoint.cs" />
+    <Compile Include="Data\Exchanges\MarketExchangeExtensions.cs" />
+    <Compile Include="Data\Exchanges\MarketExchange.cs" />
+    <Compile Include="Data\Instruments\InstrumentCode.cs" />
+    <Compile Include="Data\Instruments\InstrumentCodeExtensions.cs" />
+    <Compile Include="Events\SessionChangedEvent.cs" />
+    <Compile Include="Data\Platforms\Platform.cs" />
+    <Compile Include="Data\TradingSessions\Interface\ISessions.cs" />
+    <Compile Include="Data\TradingSessions\Interface\ITradingSessionCollection.cs" />
+    <Compile Include="Data\TradingSessions\Internal\TradingSessionCollection.cs" />
+    <Compile Include="Data\TradingSessions\Internal\SessionFactory.cs" />
+    <Compile Include="Data\TradingSessions\Internal\TradingSessionConfiguration.cs" />
+    <Compile Include="Data\TradingTimes\Interfaces\ITradingTime.cs" />
+    <Compile Include="Data\TradingSessions\SessionCompareResult.cs" />
+    <Compile Include="Data\TradingSessions\Internal\TradingSessionExtensions.cs" />
+    <Compile Include="Data\TradingSessions\SessionTypeExtensions.cs" />
+    <Compile Include="Data\TradingTimes\TradingTimeTypeExtensions.cs" />
+    <Compile Include="Data\TradingHours\TradingHoursCodeExtensions.cs" />
+    <Compile Include="Data\TradingHours\TradingHoursCode.cs" />
+    <Compile Include="Data\Users\UserAccount.cs" />
+    <Compile Include="Data\Users\UserSettings.cs" />
+    <Compile Include="Data\Bars\BarType.cs" />
+    <Compile Include="Data\TradingPatterns\ChartPattern.cs" />
+    <Compile Include="Data\Rendering\ArrowBaseType.cs" />
+    <Compile Include="Data\Rendering\ArrowHeadType.cs" />
+    <Compile Include="Data\Rendering\ArrowType.cs" />
+    <Compile Include="Data\Rendering\HorizontalAlignment.cs" />
+    <Compile Include="Data\Rendering\LabelArrowPlacement.cs" />
+    <Compile Include="Data\Rendering\LabelLineType.cs" />
+    <Compile Include="Data\Rendering\LabelPlacement.cs" />
+    <Compile Include="Data\Rendering\VerticalAlignment.cs" />
+    <Compile Include="Data\TradingPatterns\Swing\SwingLevelCalculateMode.cs" />
+    <Compile Include="Data\TradingPatterns\Swing\SwingType.cs" />
+    <Compile Include="Data\Bars\BaseBar.cs" />
+    <Compile Include="Data\MarketData\MarketDataType.cs" />
+    <Compile Include="Data\TradingTimes\TradingTimeType.cs" />
+    <Compile Include="Data\TradingSessions\Internal\TradingSession.cs" />
+    <Compile Include="Data\TradingSessions\SessionType.cs" />
+    <Compile Include="FileProviders\zEliminar\XmlFileItem.cs" />
+    <Compile Include="Data\Rendering\Margin.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Data\TradingTimes\TradingTime.cs" />
+    <Compile Include="Logging\EventId.cs" />
+    <Compile Include="Logging\Interfaces\ILogger.cs" />
+    <Compile Include="Logging\Interfaces\ILoggerProvider.cs" />
+    <Compile Include="Logging\Interfaces\ILoggingBuilder.cs" />
+    <Compile Include="Logging\Internal\LoggingBuilder.cs" />
+    <Compile Include="Logging\Extensions\LoggerExtensions.cs" />
+    <Compile Include="Logging\LogLevel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kr.Core\Kr.Core.csproj">
+      <Project>{7b0da799-b199-47d4-baee-83f4a1fe636a}</Project>
+      <Name>Kr.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\ExceptionMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ExceptionMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(ProjectDir)bin\Debug\$(TargetFileName)" "$(registry:HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders@Personal)\NinjaTrader 8\bin\Custom" /E /Y
+xcopy "$(ProjectDir)bin\Debug\$(TargetName).pdb" "$(registry:HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders@Personal)\NinjaTrader 8\bin\Custom" /E /Y
+xcopy "$(ProjectDir)bin\Debug\appsettings.json" "$(registry:HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders@Personal)\NinjaTrader 8\bin\Custom" /E /Y</PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets" Condition="Exists('..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets'))" />
+    <Error Condition="!Exists('..\packages\System.Text.Json.6.0.0\build\System.Text.Json.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Text.Json.6.0.0\build\System.Text.Json.targets'))" />
+  </Target>
+  <Import Project="..\packages\System.Text.Json.6.0.0\build\System.Text.Json.targets" Condition="Exists('..\packages\System.Text.Json.6.0.0\build\System.Text.Json.targets')" />
+</Project>

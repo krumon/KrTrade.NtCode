@@ -1,0 +1,20 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information"
+    },
+    "OutputWindow": {
+      "LogLevel": {
+        "Default": "Trace"
+      },
+      "FormatterName" : "OutputWindow",
+      "FormatterOptions": {
+        "LogLogLevel": "false",
+        "LogDateTime": "false",
+        "Singleline": "false",
+        "UseUtcTimestamp": "false",
+        "TimestampFormat": "yyyy/MM/dd HH:mm:ss.fff"
+      }
+    }
+  }
+}

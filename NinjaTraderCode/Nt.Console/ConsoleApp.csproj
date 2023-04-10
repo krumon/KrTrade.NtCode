@@ -1,0 +1,384 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B1E2972B-D95F-4367-988D-49BFADFC0787}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ConsoleApp</RootNamespace>
+    <AssemblyName>ConsoleApp</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.6.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.6.0.0\lib\net461\Microsoft.Extensions.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.6.0.0\lib\net461\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Binder, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Binder.6.0.0\lib\net461\Microsoft.Extensions.Configuration.Binder.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.CommandLine, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.CommandLine.6.0.0\lib\net461\Microsoft.Extensions.Configuration.CommandLine.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.EnvironmentVariables, Version=6.0.0.1, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.EnvironmentVariables.6.0.1\lib\net461\Microsoft.Extensions.Configuration.EnvironmentVariables.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.FileExtensions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.FileExtensions.6.0.0\lib\net461\Microsoft.Extensions.Configuration.FileExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Json.6.0.0\lib\net461\Microsoft.Extensions.Configuration.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.UserSecrets, Version=6.0.0.1, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.UserSecrets.6.0.1\lib\net461\Microsoft.Extensions.Configuration.UserSecrets.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.6.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.6.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.6.0.0\lib\net461\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Physical, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Physical.6.0.0\lib\net461\Microsoft.Extensions.FileProviders.Physical.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileSystemGlobbing, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileSystemGlobbing.6.0.0\lib\net461\Microsoft.Extensions.FileSystemGlobbing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Hosting, Version=6.0.0.1, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Hosting.6.0.1\lib\net461\Microsoft.Extensions.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Hosting.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Hosting.Abstractions.6.0.0\lib\net461\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.6.0.0\lib\net461\Microsoft.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\lib\net461\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Configuration, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Configuration.6.0.0\lib\net461\Microsoft.Extensions.Logging.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Console, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Console.6.0.0\lib\net461\Microsoft.Extensions.Logging.Console.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Debug, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Debug.6.0.0\lib\net461\Microsoft.Extensions.Logging.Debug.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.EventLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.EventLog.6.0.0\lib\net461\Microsoft.Extensions.Logging.EventLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.EventSource, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.EventSource.6.0.0\lib\net461\Microsoft.Extensions.Logging.EventSource.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.6.0.0\lib\net461\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options.ConfigurationExtensions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.ConfigurationExtensions.6.0.0\lib\net461\Microsoft.Extensions.Options.ConfigurationExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.6.0.0\lib\net461\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="NinjaTrader.Core, Version=8.0.24.3, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\NinjaTrader.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="NinjaTrader.Gui">
+      <HintPath>..\References\NinjaTrader.Gui.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct2D1, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\SharpDX.Direct2D1.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.6.0.0\lib\net461\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.6.0.0\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.6.0.0\lib\net461\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="KrTradeStats.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="zTests\NinjascriptHostingTests.cs" />
+    <Compile Include="zTests\NtConnectionTests.cs" />
+    <Compile Include="zTests\SessionsManagerTests.cs" />
+    <Compile Include="zTests\SimulatorTests.cs" />
+    <Compile Include="zTests\TradingSessionTests.cs" />
+    <Compile Include="zTests\TradingTimeTests.cs" />
+    <Compile Include="zTests\TransientFaultHandlingOptions.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Base\IBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Base\IConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Base\IElement.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Base\INinjascript.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Indicators\Base\IIndicator.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Indicators\Base\IIndicatorBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Indicators\Base\IIndicatorConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Managers\Base\IManager.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Managers\Base\IManagerBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Managers\Base\IManagerConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Managers\Indicators\IIndicatorsManager.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Managers\Indicators\IIndicatorsManagerBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Managers\Indicators\IIndicatorsManagerConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Managers\Sessions\ISessionsManager.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Managers\Sessions\ISessionsManagerBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Managers\Sessions\ISessionsManagerConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Managers\Strategies\IStrategiesManager.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Managers\Strategies\IStrategiesManagerBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Managers\Strategies\IStrategiesManagerConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Sessions\Base\ISession.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Sessions\Base\ISessionBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Sessions\Base\ISessionConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Sessions\SessionFilters\ISessionFilters.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Sessions\SessionFilters\ISessionFiltersBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Sessions\SessionFilters\ISessionFiltersConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Sessions\SessionHoursList\ISessionHoursList.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Sessions\SessionHoursList\ISessionHoursListBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Sessions\SessionHoursList\ISessionHoursListConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Sessions\SessionHours\ISessionHours.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Sessions\SessionHours\ISessionHoursBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Sessions\SessionHours\ISessionHoursConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Sessions\SessionsIterator\ISessionsIterator.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Sessions\SessionsIterator\ISessionsIteratorBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Sessions\SessionsIterator\ISessionsIteratorConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Sessions\SessionStats\ISessionStats.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Sessions\SessionStats\ISessionStatsBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Sessions\SessionStats\ISessionStatsConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Strategies\Base\IStrategy.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Strategies\Base\IStrategyBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Strategies\Base\IStrategyConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\Base\BaseBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\Base\BaseConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\Base\BaseElement.cs" />
+    <Compile Include="zToDelete\NinjaScript\Base\BaseNinjascript.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\Base\Session.cs" />
+    <Compile Include="zToDelete\NinjaScript\Data\SwingLevel.cs" />
+    <Compile Include="zToDelete\NinjaScript\Data\SwingPoint.cs" />
+    <Compile Include="zToDelete\NinjaScript\Data\TradingBar.cs" />
+    <Compile Include="zToDelete\NinjaScript\Caches\BarsCache.cs" />
+    <Compile Include="zToDelete\NinjaScript\Caches\Base\BaseCache.cs" />
+    <Compile Include="zToDelete\NinjaScript\Caches\CacheSearchMode.cs" />
+    <Compile Include="zToDelete\NinjaScript\Caches\SwingLevelsCache.cs" />
+    <Compile Include="zToDelete\NinjaScript\Caches\SwingPointsCache.cs" />
+    <Compile Include="zToDelete\NinjaScript\Data\TradingTime.cs" />
+    <Compile Include="zToDelete\NinjaScript\Indicators\Base\BaseIndicator.cs" />
+    <Compile Include="zToDelete\NinjaScript\Indicators\Base\BaseIndicatorBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\Indicators\Base\BaseIndicatorConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\Managers\Base\BaseManager.cs" />
+    <Compile Include="zToDelete\NinjaScript\Managers\Base\BaseManagerBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\Managers\Base\BaseManagerConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\Managers\Indicators\Base\BaseIndicatorsManager.cs" />
+    <Compile Include="zToDelete\NinjaScript\Managers\Indicators\Base\BaseIndicatorsManagerBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\Managers\Indicators\Base\BaseIndicatorsManagerConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\Managers\Sessions\SessionsManager.cs" />
+    <Compile Include="zToDelete\NinjaScript\Managers\Sessions\SessionsManagerBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\Managers\Sessions\SessionsManagerConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\Managers\Strategies\Base\BaseStrategiesManager.cs" />
+    <Compile Include="zToDelete\NinjaScript\Managers\Strategies\Base\BaseStrategiesManagerBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\Managers\Strategies\Base\BaseStrategiesManagerConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\Base\BaseSession.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\Base\BaseSessionBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\Base\BaseSessionConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Sessions\Base\ISessions.cs" />
+    <Compile Include="zToDelete\NinjaScript\.Interfaces\Sessions\Base\ITradingSessionCollection.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\Base\SessionCollection.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\Base\SessionTypeExtensions.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\Base\TradingTimeTypeExtensions.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\Internal\SessionFactory.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\Internal\TradingSession.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\Internal\TradingSessionCollection.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\Internal\TradingSessionConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\Internal\TradingSessionExtensions.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\SessionFilters\SessionFilters.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\SessionFilters\SessionFiltersBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\SessionFilters\SessionFiltersConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\SessionHoursList\SessionHoursList.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\SessionHoursList\SessionHoursListBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\SessionHoursList\SessionHoursListConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\SessionHours\SessionHours.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\SessionHours\SessionHoursBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\SessionHours\SessionHoursConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\SessionsIterator\SessionsIterator.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\SessionsIterator\SessionsIteratorBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\SessionsIterator\SessionsIteratorConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\SessionStats\SessionStats.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\SessionStats\SessionStatsBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\Sessions\SessionStats\SessionStatsConfiguration.cs" />
+    <Compile Include="zToDelete\NinjaScript\Strategies\Base\BaseStrategy.cs" />
+    <Compile Include="zToDelete\NinjaScript\Strategies\Base\BaseStrategyBuilder.cs" />
+    <Compile Include="zToDelete\NinjaScript\Strategies\Base\BaseStrategyConfiguration.cs" />
+    <Compile Include="zToDelete\Providers\Instruments\InstrumentProvider.cs" />
+    <Compile Include="zToDelete\Providers\Instruments\InstrumentProviderOptions.cs" />
+    <Compile Include="zToDelete\Providers\Sessions\Interface\ISessionBuilder.cs" />
+    <Compile Include="zToDelete\Providers\Sessions\Interface\ISessionProvider.cs" />
+    <Compile Include="zToDelete\Providers\Sessions\SessionBuilder.cs" />
+    <Compile Include="zToDelete\Providers\Sessions\SessionFactory.cs" />
+    <Compile Include="zToDelete\Providers\Sessions\SessionProvider.cs" />
+    <Compile Include="zToDelete\Providers\Sessions\SessionProviderConfiguration.cs" />
+    <Compile Include="zToDelete\Providers\Sessions_2\BaseSessionProvider.cs" />
+    <Compile Include="zToDelete\Providers\Sessions_2\SessionConfiguration.cs" />
+    <Compile Include="zToDelete\Providers\Sessions_2\SessionDescriptor.cs" />
+    <Compile Include="zToDelete\Providers\Sessions_2\SessionDescriptorCollection.cs" />
+    <Compile Include="zToDelete\Services\Exceptions\BaseExceptionHandler.cs" />
+    <Compile Include="zToDelete\Services\Exceptions\Interfaces\IExceptionHandler.cs" />
+    <Compile Include="zToDelete\Services\Lifetime\HostLifetime.cs" />
+    <Compile Include="zToDelete\Services\Lifetime\Interfaces\IHostLifetime.cs" />
+    <Compile Include="zToDelete\Services\Lifetime\Interfaces\INinjascriptLifetime.cs" />
+    <Compile Include="zToDelete\Services\Lifetime\NinjascriptLifetime.cs" />
+    <Compile Include="zToDelete\Services\Lifetime\NinjascriptLifetimeHostedService.cs" />
+    <Compile Include="zToDelete\Services\Logging\Console\NinjascriptConsoleLoggerConfiguration.cs" />
+    <Compile Include="zToDelete\Services\Logging\Console\NinjascriptConsoleLoggerExtensions.cs" />
+    <Compile Include="zToDelete\Services\Logging\Console\NinjascriptConsoleLoggerProvider.cs" />
+    <Compile Include="zToDelete\Services\Logging\Console\NinjascriptConsoleLoggerService.cs" />
+    <Compile Include="zToDelete\Services\Logging\Default\LoggerExtensions.cs" />
+    <Compile Include="zToDelete\Services\Logging\Default\LoggerSourceFormatter.cs" />
+    <Compile Include="zToDelete\Services\Logging\File\FileLogger.cs" />
+    <Compile Include="zToDelete\Services\Logging\File\FileLoggerConfiguration.cs" />
+    <Compile Include="zToDelete\Services\Logging\File\FileLoggerExtensions.cs" />
+    <Compile Include="zToDelete\Services\Logging\File\FileLoggerProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kr.Core\Kr.Core.csproj">
+      <Project>{7B0DA799-B199-47D4-BAEE-83F4A1FE636A}</Project>
+      <Name>Kr.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nt.Connect\NtConnect.csproj">
+      <Project>{d32c9296-c1c6-4e7c-8e9f-5139ba0a2334}</Project>
+      <Name>NtConnect</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nt.Core\Nt.Core.csproj">
+      <Project>{3a644626-5b81-4ee5-9d67-6b77d5ba4940}</Project>
+      <Name>Nt.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nt.Scripts\NtScripts.csproj">
+      <Project>{77C4DCF3-98A3-4C20-95F1-0806C30FE114}</Project>
+      <Name>NtScripts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets" Condition="Exists('..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets'))" />
+    <Error Condition="!Exists('..\packages\System.Text.Json.6.0.0\build\System.Text.Json.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Text.Json.6.0.0\build\System.Text.Json.targets'))" />
+  </Target>
+  <Import Project="..\packages\System.Text.Json.6.0.0\build\System.Text.Json.targets" Condition="Exists('..\packages\System.Text.Json.6.0.0\build\System.Text.Json.targets')" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties appsettings_1json__JsonSchema="" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

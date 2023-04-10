@@ -1,0 +1,6 @@
+{
+  "environment": "development",
+  "applicationName": "krtrade",
+  "isInDesignMode": true
+  //"contentRoot" :  ""
+}

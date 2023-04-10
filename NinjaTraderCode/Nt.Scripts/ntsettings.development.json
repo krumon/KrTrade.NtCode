@@ -1,0 +1,121 @@
+{
+  // -------------------------------------------------------------------------
+  // Section to configure the NinjaScripts launched in the ninatrader platform.
+  // -------------------------------------------------------------------------
+  "NinjaScript": {
+    "MasterScripts": {
+      "KrTrade.Master": [ "KrumonMaster" ],
+      "KrTrade.Stats": [ "MasterStats", "MasterSwings" ],
+      "KrTrade.Signals": [ "MasterSwings", "MasterReversal" ],
+      "KrTrade.Zone": [ "MasterWichkoff" ],
+      "KrTrade.Orders": ["MasterOrders"]
+    }
+  },
+
+  // ----------------------------------------------------------------------------------------------------
+  // Section to configure the MasterScripts used by the ninjascript launched in the ninjatrader platform.
+  // ----------------------------------------------------------------------------------------------------
+  "MasterScripts": {
+
+    "MasterStats": {
+      "Ninjascripts": {
+        "SessionsIndicator": "Active",
+        "StatsIndicator": "Active",
+        "BuyAndSellStrategy": "Real",
+        "TrailingStopStrategy": "Real"
+      }
+    },
+    "MasterSwings": {
+      "Ninjascripts": {
+        "SessionsIndicator": "Disable",
+        "SessionsStats": "Disable",
+        "BuyAndSellStrategy": "Historical",
+        "TrailingStopStrategy": "Real"
+      }
+    }
+  },
+
+  // ----------------------------------------------------------------------
+  // Section to configure the ninjascripts developed in our own assemblies.
+  // ----------------------------------------------------------------------
+  "Ninjascripts_": {
+
+    // ---------------------------------------------------
+    // Section to configure the default ninjascript level.
+    // ---------------------------------------------------
+    "Level": {
+      "Default": "Active"
+    },
+    // ------------------------------------------------------------------------------------------------------------------------------------
+    // Section to configure the ninjascript providers that we are going to include in the masterscripts and the levels of each one of them.
+    // ------------------------------------------------------------------------------------------------------------------------------------
+    "Configure": {
+      "MasterStats": // MasterScriptProviderName
+      {
+        "SessionsIndicator": "Active", // NinjascriptProviderName : NinjascriptLevel
+        "StatsIndicator": "Disable",
+        "BuyAndSellStrategy": "Historical",
+        "TrailingStopStrategy": "Real"
+      },
+
+      "MasterSwings": {
+        "SessionsIndicator": "Disable",
+        "SessionsStats": "Disable",
+        "BuyAndSellStrategy": "Historical",
+        "TrailingStopStrategy": "Real"
+      }
+    },
+
+    // ----------------------------------------------------------------------------
+    // Sections to configure the options of the ninjascripts for each MasterScript.
+    // ----------------------------------------------------------------------------
+    "Options": {
+      "SessionsIndicator": {
+        "MasterStats": {
+          // Include SessionsIndicatorOptions for MasterStats
+        },
+        "MasterSwings": {
+          // Include SessionsIndicatorOptions for MasterSwings
+        }
+      }
+    }
+  },
+
+  // TODO: Delete when the previous section is implemented.
+  "Ninjascripts": {
+    "Level": {
+      "Default": "Real"
+    },
+    "Krumon": "ok",
+    "Sessions": {
+      "Level": {
+        "Default": "Historical"
+      },
+      "test1": true,
+      "test2": "36.0",
+      "test3": "Krumon"
+    }
+  },
+
+  // ---------------------------------------------------------------------
+  // Don't remove this sections. It's necesary to create the ninjascripts. 
+  // If new ninjascript is created...include it in this sections
+  // ---------------------------------------------------------------------
+  "Scripts": {
+    "TesterScripts": [
+      "NinjascriptTester"
+    ],
+    "MasterScripts": [
+      "MasterStats",
+      "MasterSwing"
+    ],
+    "Indicators": [
+      "SessionsIndicator",
+      "StatsIndicator"
+    ],
+    "Strategies": [
+      "BuyAndSellStrategy",
+      "TrailingStopStrategy"
+    ]
+  }
+}

@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{77C4DCF3-98A3-4C20-95F1-0806C30FE114}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Nt.Scripts</RootNamespace>
+    <AssemblyName>Nt.Scripts</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="NinjaTrader.Core">
+      <HintPath>..\References\NinjaTrader.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="NinjaTrader.Custom">
+      <HintPath>..\..\..\NinjaTrader 8\bin\Custom\NinjaTrader.Custom.dll</HintPath>
+    </Reference>
+    <Reference Include="NinjaTrader.Gui">
+      <HintPath>..\References\NinjaTrader.Gui.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="SharpDX">
+      <HintPath>..\References\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct2D1">
+      <HintPath>..\References\SharpDX.Direct2D1.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuration\NinjascriptConfigHelpers.cs" />
+    <Compile Include="DrawingTools\LabelLines\LabelLine\LabelLine.cs" />
+    <Compile Include="DrawingTools\LabelLines\LabelLine\LabelLine.v.0.1.cs" />
+    <Compile Include="DrawingTools\LabelLines\LabelLine\LabelLineHelpers.cs" />
+    <Compile Include="DrawingTools\LabelLines\PriceLine\PriceLine.v.0.1.cs" />
+    <Compile Include="DrawingTools\LabelLines\TimeLine\TimeLine.v.0.1.cs" />
+    <Compile Include="DrawingTools\LabelLineDrawingMethods.cs" />
+    <Compile Include="Hosting\INinjaHost.cs" />
+    <Compile Include="Hosting\NinjaHostBuilder.cs" />
+    <Compile Include="Hosting\NinjaHost.cs" />
+    <Compile Include="Hosting\HostingHostBuilderExtensions.cs" />
+    <Compile Include="Hosting\Internal\NinjaHost.cs" />
+    <Compile Include="MasterScripts\MasterScriptFactory.cs" />
+    <Compile Include="MasterScripts\MasterScriptFilters.cs" />
+    <Compile Include="MasterScripts\MasterScriptOptions.cs" />
+    <Compile Include="Configuration\MasterScriptSections.cs" />
+    <Compile Include="MasterScripts\MasterScriptProvider.cs" />
+    <Compile Include="MasterScripts\MasterStats\MasterStats.cs" />
+    <Compile Include="MasterScripts\MasterScriptProviderAliasAttribute.cs" />
+    <Compile Include="MasterScripts\MasterScriptHostBuilderExtensions.cs" />
+    <Compile Include="MasterScripts\MasterScriptServiceCollectionExtensions.cs" />
+    <Compile Include="MasterScripts\NinjascriptBuilder.cs" />
+    <Compile Include="Ninjascripts\Indicators\_revisar\Base\MyBaseIndicator.cs" />
+    <Compile Include="Ninjascripts\Indicators\_revisar\Templates\IndicatorTemplate.cs" />
+    <Compile Include="Ninjascripts\Indicators\_revisar\TradingZone\TradingZone.cs" />
+    <Compile Include="Logging\NinjascriptLoggingEventIds.cs" />
+    <Compile Include="Logging\NinjatraderLoggerFormatterConfigureOptions.cs" />
+    <Compile Include="Logging\NinjatraderLoggerFormatterOptionsChangeTokenSource.cs" />
+    <Compile Include="Logging\NinjatraderLoggerFactoryExtensions.cs" />
+    <Compile Include="Logging\NinjatraderLoggerFormatterExtensions.cs" />
+    <Compile Include="Logging\OutputWindowFormatter.cs" />
+    <Compile Include="Logging\NinjatraderLoggerFormatterNames.cs" />
+    <Compile Include="Logging\NinjatraderLoggerFormatter.cs" />
+    <Compile Include="Logging\NinjatraderLoggerFormatterOptions.cs" />
+    <Compile Include="Logging\NinjatraderLoggerFormatterOptionsMonitor.cs" />
+    <Compile Include="Logging\NinjatraderLogger.cs" />
+    <Compile Include="Logging\NinjatraderLoggerProvider.cs" />
+    <Compile Include="Logging\NinjatraderLoggerOptions.cs" />
+    <Compile Include="Logging\OutputWindowFormatterOptions.cs" />
+    <Compile Include="Ninjascripts\Configuration\INinjascriptProviderConfiguration.cs" />
+    <Compile Include="Ninjascripts\Configuration\INinjascriptProviderConfigurationFactory.cs" />
+    <Compile Include="Ninjascripts\Configuration\NinjascriptBuilderConfigurationExtensions.cs" />
+    <Compile Include="Ninjascripts\Configuration\NinjascriptConfiguration.cs" />
+    <Compile Include="Ninjascripts\Configuration\NinjascriptProviderConfiguration.cs" />
+    <Compile Include="Ninjascripts\Configuration\NinjascriptProviderConfigurationFactory.cs" />
+    <Compile Include="Ninjascripts\IConfigurable.cs" />
+    <Compile Include="Ninjascripts\INinjascript.cs" />
+    <Compile Include="Ninjascripts\INinjascriptBuilder.cs" />
+    <Compile Include="Ninjascripts\INinjascriptFactory.cs" />
+    <Compile Include="Ninjascripts\INinjascriptProvider.cs" />
+    <Compile Include="Ninjascripts\Internal\DefaultLoggerLevelConfigureOptions.cs" />
+    <Compile Include="Ninjascripts\Internal\NinjascriptFilterConfigureOptions.cs" />
+    <Compile Include="Ninjascripts\Internal\NinjascriptRuleSelector.cs" />
+    <Compile Include="Ninjascripts\Internal\Ninjascript.cs" />
+    <Compile Include="Ninjascripts\Internal\NinjascriptBuilder.cs" />
+    <Compile Include="Ninjascripts\Internal\NinjascriptConfig.cs" />
+    <Compile Include="Ninjascripts\Internal\NinjascriptInfo.cs" />
+    <Compile Include="Ninjascripts\Internal\StaticFilterOptionsMonitor.cs" />
+    <Compile Include="Ninjascripts\IRecalculableOnBarUpdate.cs" />
+    <Compile Include="Ninjascripts\IRecalculableOnEachTick.cs" />
+    <Compile Include="Ninjascripts\Indicators\Sessions\IRecalculableOnSessionChanged.cs" />
+    <Compile Include="Ninjascripts\NinjascriptFilterOptions.cs" />
+    <Compile Include="Ninjascripts\NinjascriptFilterRule.cs" />
+    <Compile Include="Ninjascripts\Ninjascript.cs" />
+    <Compile Include="Ninjascripts\Extensions\NinjascriptBuilderExtensions.cs" />
+    <Compile Include="Ninjascripts\NinjascriptFactory.cs" />
+    <Compile Include="Ninjascripts\NinjascriptFactoryOptions.cs" />
+    <Compile Include="Ninjascripts\Extensions\NinjascriptHostBuilderExtensions.cs" />
+    <Compile Include="Ninjascripts\NinjascriptLevel.cs" />
+    <Compile Include="Ninjascripts\NinjascriptOptions.cs" />
+    <Compile Include="Ninjascripts\NinjascriptProviderAliasAttribute.cs" />
+    <Compile Include="Ninjascripts\Extensions\NinjascriptServiceCollectionExtensions.cs" />
+    <Compile Include="Ninjascripts\Extensions\NinjascriptStateExtensions.cs" />
+    <Compile Include="Ninjascripts\Options\NinjascriptProviderConfigureOptions.cs" />
+    <Compile Include="Ninjascripts\Options\NinjascriptProviderOptions.cs" />
+    <Compile Include="Ninjascripts\Options\NinjascriptProviderOptionsChangeTokenSource.cs" />
+    <Compile Include="Ninjascripts\Indicators\Sessions\SessionChangedEventHandler.cs" />
+    <Compile Include="Ninjascripts\Indicators\Sessions\SessionChangedEventArgs.cs" />
+    <Compile Include="Configuration\SectionNames.cs" />
+    <Compile Include="NinjatraderObjects\BaseNinjaScript.cs" />
+    <Compile Include="NinjatraderObjects\INinjaScript.cs" />
+    <Compile Include="Services\IConfigurableScript.cs" />
+    <Compile Include="Services\ITradingScript.cs" />
+    <Compile Include="Services\IScriptBuilder.cs" />
+    <Compile Include="Services\IScriptFactory.cs" />
+    <Compile Include="Services\IScriptProvider.cs" />
+    <Compile Include="Services\IRecalculableOnBarUpdate.cs" />
+    <Compile Include="Services\IRecalculableOnEachTick.cs" />
+    <Compile Include="NinjatraderObjects\ChartBarsProperties.cs" />
+    <Compile Include="NinjatraderObjects\.Design\DesignChartBarsProperties.cs" />
+    <Compile Include="NinjatraderObjects\.Design\DesignGlobalsData.cs" />
+    <Compile Include="NinjatraderObjects\.Design\DesignNinjascriptBase.cs" />
+    <Compile Include="NinjatraderObjects\.Design\DesignNinjatraderServiceCollectionExtensions.cs" />
+    <Compile Include="NinjatraderObjects\IChartBarsProperties.cs" />
+    <Compile Include="NinjatraderObjects\NinjatraderObjectsServiceCollectionExtensions.cs" />
+    <Compile Include="Ninjascripts\Indicators\Sessions\SessionsProvider.cs" />
+    <Compile Include="NinjatraderObjects\.Design\DesignServicesServiceCollectionExtensions.cs" />
+    <Compile Include="Services\DataSeries\ConfigureDataSeriesOptions.cs" />
+    <Compile Include="Services\DataSeries\DataSeriesBuilder.cs" />
+    <Compile Include="Services\DataSeries\DataSeriesDescriptor.cs" />
+    <Compile Include="Services\DataSeries\DataSeriesOptions.cs" />
+    <Compile Include="Services\DataSeries\DataSeriesProvider.cs" />
+    <Compile Include="Services\DataSeries\DataSeries.cs" />
+    <Compile Include="Services\DataSeries\IDataSeriesBuilder.cs" />
+    <Compile Include="Services\DataSeries\IDataSeriesCollection.cs" />
+    <Compile Include="Services\DataSeries\DataSeriesServiceCollectionExtensions.cs" />
+    <Compile Include="Ninjascripts\Indicators\Sessions\SessionsNinjascriptBuilderExtensions.cs" />
+    <Compile Include="Services\DataSeries\IDataSeries.cs" />
+    <Compile Include="NinjatraderObjects\INinjaScriptBase.cs" />
+    <Compile Include="NinjatraderObjects\NinjaScriptBase.cs" />
+    <Compile Include="NinjatraderObjects\GlobalsData.cs" />
+    <Compile Include="NinjatraderObjects\IGlobalsData.cs" />
+    <Compile Include="NinjatraderObjects\ServicesServiceCollectionExtensions.cs" />
+    <Compile Include="Ninjascripts\Indicators\Sessions\SessionsFilters\ISessionsFilters.cs" />
+    <Compile Include="Ninjascripts\Indicators\Sessions\SessionsIterator\ISessionsIterator.cs" />
+    <Compile Include="Ninjascripts\Indicators\Sessions\ISessions.cs" />
+    <Compile Include="Ninjascripts\Indicators\Sessions\SessionsFilters\SessionsFiltersOptions.cs" />
+    <Compile Include="Ninjascripts\Indicators\Sessions\SessionsFilters\SessionsFilters.cs" />
+    <Compile Include="Ninjascripts\Indicators\Sessions\SessionsIterator\SessionsIteratorOptions.cs" />
+    <Compile Include="Ninjascripts\Indicators\Sessions\SessionsIterator\SessionsIterator.cs" />
+    <Compile Include="Ninjascripts\Indicators\Sessions\SessionsOptions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ninjascripts\Indicators\Sessions\Sessions.cs" />
+    <Compile Include="Ninjascripts\Strategies\StrategyTester.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kr.Core\Kr.Core.csproj">
+      <Project>{7B0DA799-B199-47D4-BAEE-83F4A1FE636A}</Project>
+      <Name>Kr.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nt.Core\Nt.Core.csproj">
+      <Project>{3a644626-5b81-4ee5-9d67-6b77d5ba4940}</Project>
+      <Name>Nt.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DrawingTools\LabelRegions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="launchsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ntsettings.development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ntsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(ProjectDir)bin\Debug\$(TargetFileName)" "$(registry:HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders@Personal)\NinjaTrader 8\bin\Custom" /E /Y
+xcopy "$(ProjectDir)bin\Debug\$(TargetName).pdb" "$(registry:HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders@Personal)\NinjaTrader 8\bin\Custom" /E /Y
+xcopy "$(ProjectDir)bin\Debug\ntsettings.json" "$(registry:HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders@Personal)\NinjaTrader 8\bin\Custom" /E /Y
+xcopy "$(ProjectDir)bin\Debug\ntsettings.development.json" "$(registry:HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders@Personal)\NinjaTrader 8\bin\Custom" /E /Y</PostBuildEvent>
+  </PropertyGroup>
+</Project>
