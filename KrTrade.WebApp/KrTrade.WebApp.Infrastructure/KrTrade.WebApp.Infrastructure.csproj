@@ -1,11 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
     <Folder Include="Configurations\" />
     <Folder Include="Filters\" />
     <Folder Include="Mappings\" />
@@ -20,6 +19,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.32" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.32">
       <PrivateAssets>all</PrivateAssets>
@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KrTrade.WebApp.Core\KrTrade.WebApp.Core.csproj" />
+    <ProjectReference Include="..\KrTrade.WebApp.Services\KrTrade.WebApp.Services.csproj" />
   </ItemGroup>
 
 </Project>
