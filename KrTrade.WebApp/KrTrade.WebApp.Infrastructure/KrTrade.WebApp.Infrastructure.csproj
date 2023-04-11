@@ -9,7 +9,6 @@
     <Folder Include="Filters\" />
     <Folder Include="Mappings\" />
     <Folder Include="Interfaces\" />
-    <Folder Include="Extensions\" />
     <Folder Include="Validators\" />
     <Folder Include="Services\" />
     <Folder Include="Repositories\" />

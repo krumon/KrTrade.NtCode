@@ -28,7 +28,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     // That are consumed by the UserManager and RoleManager
     // https://github.com/aspnet/Identity/blob/dev/src/EF/IdentityEntityFrameworkBuilderExtensions.cs
     .AddEntityFrameworkStores<ApplicationDbContext>()
-
+  
     // Adds a provider that generates unique keys and hashes for things like
     // forgot password links, phone number verification codes etc...
     .AddDefaultTokenProviders();
@@ -96,7 +96,6 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    //context.Database.EnsureCreated();
 }
 
 
