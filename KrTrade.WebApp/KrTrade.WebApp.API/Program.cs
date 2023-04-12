@@ -3,6 +3,7 @@ using KrTrade.WebApp.Infrastructure.Extensions;
 using KrTrade.WebApp.Services.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
@@ -98,18 +99,28 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<KrTradeDbContext>();
-    context.Instruments.Add(new KrTrade.WebApp.Core.Entities.Instrument
-    {
-        InstrumentID = "MES",
-        Description="Krumon"
-    });
+SqlConnectionStringBuilder b = new SqlConnectionStringBuilder();
+b.TrustServerCertificate = true;
+b.DataSource = "DESKTOP-J9DFBPR\\KRUMONET";
+b.InitialCatalog = "KrTrade";
+b.UserID = "sa";
+b.Password = "KrumonTrade-20";
+b.IntegratedSecurity = true;
 
-    string debug = context.Model.ToDebugString();
-}
+var cs = b.ConnectionString;
 
+//using(SqlConnection c = new SqlConnection(cs))
+//{
+//	try
+//	{
+//        c.Open();
+//    }
+//	catch (Exception ex)
+//	{
 
+//		throw;
+//	}
+    
+//}
 
 app.Run();

@@ -9,14 +9,17 @@ using System.Text;
 
 namespace KrTrade.WebApp.Infrastructure.Extensions
 {
+    
     public static class IdentityServiceCollectionExtensions
     {
+        public const string defaultConnectionString = @"Server=DESKTOP-J9DFBPR\KRUMONET;Database=KrTradeDB;User ID=sa;Password=KrumonTrade-20";
 
         public static IServiceCollection AddDbContexts(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<KrTradeDbContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(configuration.GetConnectionString("FreeConnection"));
+                //options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
 
             return services;
