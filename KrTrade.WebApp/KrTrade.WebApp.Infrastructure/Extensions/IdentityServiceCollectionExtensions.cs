@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using KrTrade.WebApp.Infrastructure.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -8,6 +11,17 @@ namespace KrTrade.WebApp.Infrastructure.Extensions
 {
     public static class IdentityServiceCollectionExtensions
     {
+
+        public static IServiceCollection AddDbContexts(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContext<KrTradeDbContext>(options =>
+            {
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            return services;
+
+        }
 
         //public static IServiceCollection AddDefaultIdentity<TUser>(this IServiceCollection services)
         //    where TUser : IdentityUser
