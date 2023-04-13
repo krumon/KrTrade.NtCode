@@ -1,5 +1,4 @@
-﻿using KrTrade.WebApp.Core.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Reflection;
 
