@@ -1,4 +1,3 @@
-using KrTrade.WebApp.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KrTrade.WebAPI.Controllers
@@ -7,7 +6,6 @@ namespace KrTrade.WebAPI.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
         private static readonly string[] Summaries = new[]
         {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -15,10 +13,9 @@ namespace KrTrade.WebAPI.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, ApplicationDbContext context)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
-            _context = context;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]

@@ -5,15 +5,13 @@ VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KrTrade.WebApp.API", "KrTrade.WebApp.API\KrTrade.WebApp.API.csproj", "{1F508E9C-4F58-4DB6-A1C7-C7309B68B32E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KrTrade.WebApp.Infrastructure", "KrTrade.WebApp.Infrastructure\KrTrade.WebApp.Infrastructure.csproj", "{0063553A-B0F0-4570-9D31-CEBE424EAF9B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KrTrade.WebApp.Core", "KrTrade.WebApp.Core\KrTrade.WebApp.Core.csproj", "{16CC3B12-6F9F-4C03-B61C-9CFC4EFC74A4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KrTrade.WebApp.UnitTests", "KrTrade.WebApp.UnitTests\KrTrade.WebApp.UnitTests.csproj", "{FCCE9B7A-EC71-4DDB-B50A-7D81E162CBEB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KrTrade.WebApp.Services", "KrTrade.WebApp.Services\KrTrade.WebApp.Services.csproj", "{A78E042A-497B-4CB3-A0ED-43158889160B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrTrade.WebApp.Relational", "KrTrade.WebApp.Relational\KrTrade.WebApp.Relational.csproj", "{485416B2-6644-4A1C-83A0-507C1CA2CF20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KrTrade.WebApp.Relational", "KrTrade.WebApp.Relational\KrTrade.WebApp.Relational.csproj", "{485416B2-6644-4A1C-83A0-507C1CA2CF20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +23,6 @@ Global
 		{1F508E9C-4F58-4DB6-A1C7-C7309B68B32E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F508E9C-4F58-4DB6-A1C7-C7309B68B32E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F508E9C-4F58-4DB6-A1C7-C7309B68B32E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0063553A-B0F0-4570-9D31-CEBE424EAF9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0063553A-B0F0-4570-9D31-CEBE424EAF9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0063553A-B0F0-4570-9D31-CEBE424EAF9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0063553A-B0F0-4570-9D31-CEBE424EAF9B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{16CC3B12-6F9F-4C03-B61C-9CFC4EFC74A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{16CC3B12-6F9F-4C03-B61C-9CFC4EFC74A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16CC3B12-6F9F-4C03-B61C-9CFC4EFC74A4}.Release|Any CPU.ActiveCfg = Release|Any CPU

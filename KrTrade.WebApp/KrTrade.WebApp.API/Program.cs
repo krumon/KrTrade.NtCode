@@ -1,12 +1,5 @@
-using KrTrade.WebApp.Infrastructure.Data;
-using KrTrade.WebApp.Infrastructure.Extensions;
-using KrTrade.WebApp.Services.Entities;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Data.SqlClient;
+using KrTrade.WebApp.Relational.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
