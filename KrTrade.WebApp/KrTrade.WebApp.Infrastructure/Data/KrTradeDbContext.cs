@@ -11,6 +11,7 @@ namespace KrTrade.WebApp.Infrastructure.Data
 
         public KrTradeDbContext(DbContextOptions<KrTradeDbContext> options) : base(options)
         {
+            //var s = this.Database.GetDbConnection();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

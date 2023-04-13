@@ -8,9 +8,9 @@ namespace KrTrade.WebApp.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Instrument> builder)
         {
-            builder.HasKey(x => x.InstrumentID);
+            builder.HasKey(x => x.InstrumentId);
 
-            builder.Property(e => e.InstrumentID)
+            builder.Property(e => e.InstrumentId)
                 .IsRequired()
                 .HasMaxLength(10)
                 .IsUnicode(true);

@@ -20,7 +20,11 @@ builder.Services.AddSwaggerGen();
 //// Add data base contexts
 //builder.Services.AddDbContexts(builder.Configuration);
 
-builder.Services.AddDbContext<KrTradeDbContext>();
+//builder.Services.AddDbContext<KrTradeDbContext>();
+builder.Services.AddDbContext<KrTradeDbContext>(options =>
+{
+    options.UseSqlServer("name=ConnectionStrings:DefaultConnection");
+});
 
 //// Add ApplicationDbContext to DI
 //builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -156,6 +160,7 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetService<KrTradeDbContext>();
+    context?.Database.GetDbConnection().Open();
 }
 
 
