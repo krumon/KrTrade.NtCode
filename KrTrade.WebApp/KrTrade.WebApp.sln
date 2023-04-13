@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KrTrade.WebApp.Infrastructu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KrTrade.WebApp.Core", "KrTrade.WebApp.Core\KrTrade.WebApp.Core.csproj", "{16CC3B12-6F9F-4C03-B61C-9CFC4EFC74A4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KrTrade.WebApp.IntegrationTests", "KrTrade.WebApp.IntegrationTests\KrTrade.WebApp.IntegrationTests.csproj", "{9D430A8A-ED41-4243-9342-35F26EB2468A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KrTrade.WebApp.UnitTests", "KrTrade.WebApp.UnitTests\KrTrade.WebApp.UnitTests.csproj", "{FCCE9B7A-EC71-4DDB-B50A-7D81E162CBEB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrTrade.WebApp.Services", "KrTrade.WebApp.Services\KrTrade.WebApp.Services.csproj", "{A78E042A-497B-4CB3-A0ED-43158889160B}"
