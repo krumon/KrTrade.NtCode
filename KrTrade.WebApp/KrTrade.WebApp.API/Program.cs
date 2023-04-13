@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,8 +17,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Add data base contexts
-builder.Services.AddDbContexts(builder.Configuration);
+//// Add data base contexts
+//builder.Services.AddDbContexts(builder.Configuration);
+
+builder.Services.AddDbContext<KrTradeDbContext>();
 
 //// Add ApplicationDbContext to DI
 //builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -34,7 +37,7 @@ builder.Services.AddDbContexts(builder.Configuration);
 //    // That are consumed by the UserManager and RoleManager
 //    // https://github.com/aspnet/Identity/blob/dev/src/EF/IdentityEntityFrameworkBuilderExtensions.cs
 //    .AddEntityFrameworkStores<ApplicationDbContext>()
-  
+
 //    // Adds a provider that generates unique keys and hashes for things like
 //    // forgot password links, phone number verification codes etc...
 //    .AddDefaultTokenProviders();
@@ -99,28 +102,61 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-SqlConnectionStringBuilder b = new SqlConnectionStringBuilder();
-b.TrustServerCertificate = true;
-b.DataSource = "DESKTOP-J9DFBPR\\KRUMONET";
-b.InitialCatalog = "KrTrade";
-b.UserID = "sa";
-b.Password = "KrumonTrade-20";
-b.IntegratedSecurity = true;
+//SqlConnectionStringBuilder b = new SqlConnectionStringBuilder();
+//b.DataSource = @"DESKTOP-VFT7HDS\SQLEXPRESS";
+//b.InitialCatalog = "KrTradeDB";
+//b.IntegratedSecurity = true;
+////b.TrustServerCertificate = true;
+////b.UserID = "sa";
+////b.Password = "KrumonTrade-20";
 
-var cs = b.ConnectionString;
+//var cs = b.ConnectionString;
 
-//using(SqlConnection c = new SqlConnection(cs))
+//using (SqlConnection c = new SqlConnection(cs))
 //{
-//	try
-//	{
+//    try
+//    {
 //        c.Open();
+//        string state = c.State.ToString();
+//        var id = c.ClientConnectionId;
+//        var dataBase = c.Database;
+//        using (SqlCommand cmd = c.CreateCommand())
+//        {
+//            cmd.CommandText = 
+//                "create table TablaEmpresa " + 
+//                "(" +
+//                    "IdEmpresa int identity(1,1) primary key," +
+//                    "RucEmpresa varchar(13)," +
+//                    "RazonSocialEmp varchar(90)," +
+//                    "NombreComercialEmp varchar(90)," +
+//                    "TelefonoEmp1 varchar(14)," +
+//                    "TelefonoEmp2 varchar(14)," +
+//                    "CorreoEmp varchar(50)," +
+//                    "CiudadEmp varchar(25)," +
+//                    "DireccionEmp varchar(150)," +
+//                    "ActividadEconomica varchar(300)" + 
+//                ")";
+//            cmd.CommandType = CommandType.Text;
+//            var rows = cmd.ExecuteNonQuery();
+//        }
+        
 //    }
-//	catch (Exception ex)
-//	{
+//    catch (Exception ex)
+//    {
 
-//		throw;
-//	}
-    
+//        throw;
+//    }
+//    finally
+//    {
+//        c.Close();
+////    }
+
 //}
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetService<KrTradeDbContext>();
+}
+
 
 app.Run();

@@ -1,5 +1,6 @@
 ﻿using KrTrade.WebApp.Core.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace KrTrade.WebApp.Infrastructure.Data
 {
@@ -12,26 +13,19 @@ namespace KrTrade.WebApp.Infrastructure.Data
         {
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Data Source=DESKTOP-VFT7HDS\\SQLEXPRESS;Initial Catalog=KrTradeDB;Integrated Security=True; Trusted_Connection=True");
+            }
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Instrument>(entity =>
-            {
-                entity.HasKey(x => x.InstrumentID);
-
-                entity.Property(e => e.InstrumentID)
-                    .IsRequired()
-                    .HasMaxLength(10)
-                    .IsUnicode(true);
-
-                entity.Property(e => e.Description)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.ToTable("Instruments");
-                
-            });
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }
