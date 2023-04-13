@@ -1,4 +1,4 @@
-﻿namespace KrTrade.WebApp.Services.Services
+﻿namespace KrTrade.WebApp.Services.FinancialMarkets
 {
     public class InstrumentService
     {

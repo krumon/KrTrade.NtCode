@@ -18,6 +18,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.16" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5">
       <PrivateAssets>all</PrivateAssets>
@@ -27,6 +31,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KrTrade.WebApp.Core\KrTrade.WebApp.Core.csproj" />
+    <ProjectReference Include="..\KrTrade.WebApp.Services\KrTrade.WebApp.Services.csproj" />
   </ItemGroup>
 
 </Project>

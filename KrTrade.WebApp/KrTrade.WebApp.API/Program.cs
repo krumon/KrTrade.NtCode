@@ -16,7 +16,10 @@ builder.Services.AddSwaggerGen();
 //builder.Services.AddDbContext<KrTradeDbContext>();
 builder.Services.AddDbContext<KrTradeDbContext>(options =>
 {
-    options.UseSqlServer("name=ConnectionStrings:DefaultConnection");
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), options =>
+    {
+        options.MigrationsAssembly("KrTrade.WebApp.Relational");
+    });
 });
 
 //// Add ApplicationDbContext to DI
@@ -136,7 +139,7 @@ app.MapControllers();
 //            cmd.CommandType = CommandType.Text;
 //            var rows = cmd.ExecuteNonQuery();
 //        }
-        
+
 //    }
 //    catch (Exception ex)
 //    {
@@ -154,6 +157,9 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetService<KrTradeDbContext>();
     context?.Database.GetDbConnection().Open();
+    
+    
+    context?.Database.GetDbConnection().Close();
 }
 
 

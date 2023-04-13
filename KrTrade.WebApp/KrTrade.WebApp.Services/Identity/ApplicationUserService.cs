@@ -1,4 +1,4 @@
-﻿namespace KrTrade.WebApp.Services
+﻿namespace KrTrade.WebApp.Services.Identity
 {
     public class ApplicationUserService
     {
