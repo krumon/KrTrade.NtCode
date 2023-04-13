@@ -10,11 +10,11 @@ namespace KrTrade.WebApp.Relational.Data
     public class KrTradeDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
     {
 
-        public DbSet<Instrument> Instruments => Set<Instrument>();
+        public DbSet<Instrument> Instruments {get;set;}
+        public DbSet<Setting> Settings {get;set;}
 
         public KrTradeDbContext(DbContextOptions<KrTradeDbContext> options) : base(options)
         {
-            //var s = this.Database.GetDbConnection();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
