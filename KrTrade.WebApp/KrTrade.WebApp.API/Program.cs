@@ -16,7 +16,7 @@ builder.Services.AddSwaggerGen();
 //builder.Services.AddDbContext<KrTradeDbContext>();
 builder.Services.AddDbContext<KrTradeDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("HomeConnection"), options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("WorkConnection"), options =>
     {
         options.MigrationsAssembly("KrTrade.WebApp.Relational");
     });

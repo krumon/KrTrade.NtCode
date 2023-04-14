@@ -11,7 +11,7 @@ namespace KrTrade.WebApp.Relational.Data
     {
 
         public DbSet<Instrument> Instruments => Set<Instrument>();
-        public DbSet<Setting> Settings {get;set;}
+        public DbSet<Setting> Settings => Set<Setting>();
 
         public KrTradeDbContext(DbContextOptions<KrTradeDbContext> options) : base(options)
         {
@@ -21,11 +21,6 @@ namespace KrTrade.WebApp.Relational.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace KrTrade.WebApp.Relational.Data.Configurations
                 .HasMaxLength(100)
                 .IsUnicode(false);
 
-            builder.ToTable("Instrument");
+            builder.ToTable("Instruments");
 
         }
     }
