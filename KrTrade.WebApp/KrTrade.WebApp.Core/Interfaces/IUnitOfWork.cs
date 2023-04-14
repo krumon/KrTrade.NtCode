@@ -5,7 +5,7 @@ namespace KrTrade.WebApp.Core.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        IInstrumentRepository InstrumentRepository { get; }
+        IInstrumentsRepository InstrumentRepository { get; }
         void SaveChanges();
         Task SaveChangesAsync();
     }

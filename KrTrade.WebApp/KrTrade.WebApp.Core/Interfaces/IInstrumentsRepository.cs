@@ -2,7 +2,7 @@
 
 namespace KrTrade.WebApp.Core.Interfaces
 {
-    public interface IInstrumentRepository : IRepository<Instrument>
+    public interface IInstrumentsRepository : IRepository<Instrument>
     {
     }
 }

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace KrTrade.WebApp.Core.Interfaces
 {
-    public interface IInstrumentService
+    public interface IInstrumentsService
     {
         IEnumerable<Instrument> GetInstruments();
         Task<Instrument> GetInstrument(int id);
