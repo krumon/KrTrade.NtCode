@@ -1,9 +1,8 @@
 ﻿using KrTrade.WebApp.Core.Interfaces;
 using KrTrade.WebApp.Services.Trading;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace KrTrade.WebApp.Relational.Extensions
+namespace KrTrade.WebApp.Services.Extensions
 {
 
     public static class ServicesServiceCollectionExtensions
@@ -12,8 +11,6 @@ namespace KrTrade.WebApp.Relational.Extensions
         {
             services.AddTransient<IInstrumentsService, InstrumentsService>();
             //services.AddTransient<ISecurityService, SecurityService>();
-            //services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
-            //services.AddTransient<IUnitOfWork, UnitOfWork>();
             //services.AddSingleton<IPasswordService, PasswordService>();
             //services.AddSingleton<IUriService>(provider =>
             //{

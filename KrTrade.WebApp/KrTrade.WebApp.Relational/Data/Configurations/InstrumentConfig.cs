@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace KrTrade.WebApp.Relational.Data.Configurations
 {
-    public class InstrumentConfiguration : IEntityTypeConfiguration<Instrument>
+    public class InstrumentConfig : IEntityTypeConfiguration<Instrument>
     {
         public void Configure(EntityTypeBuilder<Instrument> builder)
         {
-            builder.HasKey(x => x.InstrumentId);
+            builder.HasKey(x => x.Id);
 
-            builder.Property(e => e.InstrumentId)
+            builder.Property(e => e.Id)
                 .IsRequired()
                 .HasMaxLength(10)
                 .IsUnicode(true);

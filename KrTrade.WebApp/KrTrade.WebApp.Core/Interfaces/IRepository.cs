@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using KrTrade.WebApp.Core.Entities;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace KrTrade.WebApp.Core.Interfaces
 {
     public interface IRepository<T> 
-        where T : class
+        where T : BaseEntity
     {
         IEnumerable<T> GetAll();
         Task<T> GetById(int id);
