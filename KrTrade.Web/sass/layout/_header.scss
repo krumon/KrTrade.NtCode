@@ -1,0 +1,24 @@
+.header
+{
+    background-color: red;
+    text-align: center;
+    &__top
+    {
+        background-color: blue;
+        border-radius: .5em;
+        margin-top: 2em;
+        padding: 1em .5em;
+        &--p
+        {}
+    }
+
+    &__bot
+    {
+        background-color: black;
+        color: white;
+        &--logo
+        {}
+    }
+
+
+}

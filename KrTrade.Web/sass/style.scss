@@ -1,1 +1,29 @@
+// Utilities
+@import "utilities/_variables.scss";
+@import "utilities/_functions.scss";
+@import "utilities/_mixins.scss";
+
+// Vendors
+
+// Base
 @import "base/_reset.scss";
+@import "base/_fonts.scss";
+
+// Layout
+@import "layout/_navigation.scss";
+@import "layout/_grid.scss";
+@import "layout/_header.scss";
+@import "layout/_main.scss";
+@import "layout/_footer.scss";
+@import "layout/_forms.scss";
+
+// Components
+@import "components/_buttons.scss";
+
+// Pages
+@import "pages/_home.scss";
+@import "pages/_contact.scss";
+
+// Themes
+@import "themes/_palettes.scss";
+@import "themes/_theme.scss";

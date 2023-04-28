@@ -1,23 +1,28 @@
 /* Define the custom properties */
 :root{
     /* Colores */
-    --dark  : #393939;
+    --color-primary: #181818;
+    --color-secondary: #f0f0f0;
     
     /* Tipografía */
-    --tipo-principal   : Helvetica, Arial, sans-serif;
-    --tipo-secundaria  : Verdana;
+    --font-primary: Helvetica, Arial, sans-serif;
+    --font-secondary: Verdana;
   }
     
   /* (Opcional) Las adaptamos al modo oscuro */
   @media (prefers-color-scheme: dark) {
     :root{
-        --dark  : #ececec;
+        --color-primary: #f0f0f0;
+        --color-secondary: #181818;
     }
   }
   
   /* (Opcional) Configuramos si un usuario ha activado el modo alto contraste. (WD) */
   @media (prefers-contrast: high){
-      :root{}
+      :root{
+        --color-primary: black;
+        --color-secondary: white;
+      }
   }
   
   /* (Opcional) Desactivamos los animations en el caso de que el usuario haya configurado el modo sin animation */
@@ -87,8 +92,8 @@
   
   /* (Opcional) Configuramos el texto que seleccionamos */
   ::selection {
-    background-color: var(--dark);
-    color: var(--blanco);
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
   }
   
   /* Nivelamos problemas de tipografías y colocación de formularios */
@@ -119,8 +124,9 @@
   body {
     min-height  : 100vh;
     font-size   : 100%;
-    font-family : var(--tipo-principal);
-    color       : var(--dark);
+    font-family : var(--font-primary);
+    color       : var(--color-primary);
+    background-color: var(--color-secondary);
     /* (Opcional) */ hyphens: auto;
     /* (Opcional) */ font-smooth: always;
     /* (Opcional) */ -webkit-font-smoothing: antialiased;
