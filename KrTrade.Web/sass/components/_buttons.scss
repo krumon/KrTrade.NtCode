@@ -1,12 +1,20 @@
-.button
+.btn
 {
     background-color: red;
-    &__login
-    {}
+    &__header{
+        &--reg{
+            background-color: saddlebrown;
+        }
+        &--login{
+            background-color: pink;
+        }
+        &--signup{
+            background-color: orange;
+        }
+        &--lan{
+            background-color: yellowgreen;
+        }
 
-    &__register
-    {}
+    }
 
-    &__sign-up
-    {}
 }

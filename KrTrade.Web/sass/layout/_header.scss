@@ -1,24 +1,35 @@
 .header
 {
     background-color: red;
-    text-align: center;
     &__top
     {
         background-color: blue;
         border-radius: .5em;
-        margin-top: 2em;
-        padding: 1em .5em;
-        &--p
-        {}
+        margin: .5em 1em;
+        &--h{
+            background-color: gray;
+        }
+        &--p{
+            background-color: limegreen;
+        }
     }
 
     &__bot
     {
-        background-color: black;
-        color: white;
-        &--logo
-        {}
+        background-color: magenta;
+        display:flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        &--logo{
+            background-color: cyan;
+        }
+        &--buttons{
+            background-color: magenta;
+            display:flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: space-between; 
+        }
     }
-
-
 }

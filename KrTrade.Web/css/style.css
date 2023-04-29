@@ -152,18 +152,36 @@ body {
 
 .header {
   background-color: red;
-  text-align: center;
 }
 .header__top {
   background-color: blue;
   border-radius: 0.5em;
-  margin-top: 2em;
-  padding: 1em 0.5em;
+  margin: 0.5em 1em;
+}
+.header__top--h {
+  background-color: gray;
+}
+.header__top--p {
+  background-color: limegreen;
 }
 .header__bot {
-  background-color: black;
-  color: white;
+  background-color: magenta;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
 }
+.header__bot--logo {
+  background-color: cyan;
+}
+.header__bot--buttons {
+  background-color: magenta;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
 .main {
   background-color: lime;
 }
@@ -173,6 +191,18 @@ body {
   color: yellow;
 }
 
-.button {
+.btn {
   background-color: red;
+}
+.btn__header--reg {
+  background-color: saddlebrown;
+}
+.btn__header--login {
+  background-color: pink;
+}
+.btn__header--signup {
+  background-color: orange;
+}
+.btn__header--lan {
+  background-color: yellowgreen;
 }
