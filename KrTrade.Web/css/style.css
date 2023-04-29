@@ -150,19 +150,45 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.body {
+  -webkit-hyphens: none;
+          hyphens: none;
+}
+
 .header {
   background-color: red;
+  position: fixed;
+  width: 100%;
+  overflow-wrap: break-word;
+  text-justify: auto;
 }
 .header__top {
   background-color: blue;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
   border-radius: 0.5em;
-  margin: 0.5em 1em;
+  margin: 0.5em;
 }
-.header__top--h {
+.header__top--img {
+  align-self: center;
+  max-height: 10em;
+}
+.header__top--texts {
+  color: white;
+  padding: 0.5em;
+}
+.header__top--texts--h {
   background-color: gray;
+  color: white;
 }
-.header__top--p {
+.header__top--texts--p {
   background-color: limegreen;
+}
+.header__top--btn {
+  background-color: pink;
+  align-self: center;
 }
 .header__bot {
   background-color: magenta;

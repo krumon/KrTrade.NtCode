@@ -1,16 +1,44 @@
 .header
 {
     background-color: red;
-    &__top
-    {
+
+    position: fixed;
+    width: 100%;
+    overflow-wrap:break-word;
+    text-justify: auto;
+
+    &__top{
         background-color: blue;
+
+        display:flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content:space-between;
+
         border-radius: .5em;
-        margin: .5em 1em;
-        &--h{
-            background-color: gray;
+        margin: .5em;
+        
+        
+        &--img{
+            align-self: center;
+            max-height: 10em;
         }
-        &--p{
-            background-color: limegreen;
+
+        &--texts{
+            color: white;
+            padding: 0.5em;
+            &--h{
+                background-color: gray;
+                color: white;
+            }
+            &--p{
+                background-color: limegreen;
+            }
+        }
+        
+        &--btn{
+            background-color: pink;
+            align-self: center;
         }
     }
 
