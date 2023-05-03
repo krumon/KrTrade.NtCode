@@ -1,0 +1,32 @@
+.nav{
+    background-color: gray;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding: 0em 1em;
+    max-height: 3em;
+}
+
+.navlogo{
+    background-color:brown;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    &__img{
+        object-fit:contain;
+        width: 2em;
+    }
+    &__p{
+        align-self: center;
+    }
+}
+
+.navmenu{
+    background-color: magenta;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between; 
+}
