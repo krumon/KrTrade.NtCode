@@ -157,62 +157,137 @@ body {
           hyphens: none;
 }
 
-.nav {
-  background-color: gray;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  padding: 0em 1em;
-  max-height: 3em;
+main {
+  width: 90%;
+  background-color: coral;
 }
 
-.navlogo {
-  background-color: brown;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-}
-.navlogo__img {
-  -o-object-fit: contain;
-     object-fit: contain;
-  width: 2em;
-}
-.navlogo__p {
-  align-self: center;
+/*.nav{
+    background-color: gray;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding: 0em 1em;
+    max-height: 3em;
 }
 
-.navmenu {
-  background-color: magenta;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
+.navlogo{
+    background-color:brown;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    &__img{
+        object-fit:contain;
+        width: 2em;
+    }
+    &__p{
+        align-self: center;
+    }
 }
 
+.navmenu{
+    background-color: magenta;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between; 
+}*/
 .header {
-  background-color: blue;
-  overflow-wrap: break-word;
-  text-justify: auto;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  max-height: 6.5em;
-  border-radius: 0.5em;
-  margin: 0.5em;
-}
-.header__left {
-  align-self: center;
-}
-.header__middle {
-  padding: 0.5em;
-}
-.header__right {
-  align-self: center;
+  background-color: red;
+  position: fixed;
 }
 
+.header-banner {
+  background-color: blue;
+  margin: 0.5rem;
+  max-height: 10rem;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.header-banner__img {
+  background-color: red;
+}
+.header-banner__texts {
+  background-color: aqua;
+}
+.header-banner__buttons {
+  background-color: magenta;
+}
+.header-nav {
+  background-color: yellowgreen;
+  height: 2rem;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.header-nav__buttons {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.header-banner-button {
+  background-color: gray;
+}
+
+.header-nav-logo {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.header-nav-logo__icon {
+  background-color: antiquewhite;
+}
+.header-nav-menu__header {
+  top: 20em;
+}
+.header-nav-menu__items {
+  display: none;
+}
+
+/*.header{
+
+    // General properties
+    background-color: blue;
+    // Text properties
+    overflow-wrap:break-word;
+    text-justify: auto;
+    // Flex properties
+    display:flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content:space-between;
+    // Adjust-decoration properties
+    max-height: 6.5em;
+    border-radius: .5em;
+    margin: .5em;
+
+    &__left{
+        align-self: center;
+        &__img{
+        }
+    }
+    &__middle{
+        padding: 0.5em;
+        &__h{
+        }
+        &__p{
+        }
+    }
+    &__right{
+        align-self: center;
+    }
+}*/
 .main {
   background-color: lime;
 }
@@ -222,18 +297,23 @@ body {
   color: yellow;
 }
 
-.btn {
-  background-color: red;
-}
-.btn__header--reg {
-  background-color: saddlebrown;
-}
-.btn__header--login {
-  background-color: pink;
-}
-.btn__header--signup {
-  background-color: orange;
-}
-.btn__header--lan {
-  background-color: yellowgreen;
-}
+/*.btn
+{
+    background-color: red;
+    &__header{
+        &--reg{
+            background-color: saddlebrown;
+        }
+        &--login{
+            background-color: pink;
+        }
+        &--signup{
+            background-color: orange;
+        }
+        &--lan{
+            background-color: yellowgreen;
+        }
+
+    }
+
+}*/

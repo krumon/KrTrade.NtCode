@@ -1,4 +1,111 @@
 .header{
+    background-color: red;
+    position: fixed;
+}
+
+.header-banner{
+    background-color: blue;
+    margin: .5rem;
+    max-height: 10rem;
+    @include flex(flex,row,space-between,center);
+
+    &__img{
+        background-color: red;
+        
+    }
+
+    &__texts{
+        background-color: aqua;
+    }
+
+    &__buttons{
+        background-color: magenta;
+    }
+
+    &__h1{
+
+    }
+
+
+    &__p{
+
+    }
+
+}
+
+.header-nav{
+
+    background-color: yellowgreen;
+    height: 2rem;
+    @include flex(flex, row, space-between,center);
+
+    &__logo{
+
+    }
+
+    &__buttons{
+        @include flex(flex,nowrap,space-between,center);
+    }
+
+    &__btn1{
+
+    }
+
+    &__btn2{
+
+    }
+
+    &__btn3{
+
+    }
+}
+
+.header-banner-button{
+    background-color: gray;
+}
+
+.header-nav-button{
+
+
+    &__login{
+        
+    }
+
+    &__signup{
+
+    }
+
+}
+
+
+.header-nav-logo{
+    @include flex(flex,row,center,center);
+    &__icon{
+        background-color: antiquewhite;
+    }
+
+    &__text{
+
+    }
+}
+
+.header-nav-menu{
+    
+    &__header{
+        top: 20em;
+    }
+    &__items{
+        display:none;
+        
+    }
+}
+
+
+
+
+
+
+/*.header{
 
     // General properties
     background-color: blue;
@@ -30,5 +137,5 @@
     &__right{
         align-self: center;
     }
-}
+}*/
 
