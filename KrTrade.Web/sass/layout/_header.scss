@@ -1,141 +1,43 @@
 .header{
-    background-color: red;
     position: fixed;
-}
 
-.header-banner{
-    background-color: blue;
-    margin: .5rem;
-    max-height: 10rem;
-    @include flex(flex,row,space-between,center);
-
+    &__banner{
+        background-color: blue;
+        width: 100%;
+        min-height: 6.5rem;
+        margin: 0.5rem;
+        border-radius: .2rem;
+        @include flex(row, nowrap, space-between, center);
+        @include media(sm){
+            max-height: 5rem;
+        }
+    }
     &__img{
-        background-color: red;
-        
-    }
+        object-fit: cover;
+        object-position: left;
+        width: auto;
+        height: 6.5rem;
 
+        @include media(sm){
+            display: none;
+        }
+    }
     &__texts{
-        background-color: aqua;
-    }
-
-    &__buttons{
-        background-color: magenta;
-    }
-
-    &__h1{
-
-    }
-
-
-    &__p{
-
-    }
-
-}
-
-.header-nav{
-
-    background-color: yellowgreen;
-    height: 2rem;
-    @include flex(flex, row, space-between,center);
-
-    &__logo{
-
-    }
-
-    &__buttons{
-        @include flex(flex,nowrap,space-between,center);
-    }
-
-    &__btn1{
-
-    }
-
-    &__btn2{
-
-    }
-
-    &__btn3{
-
-    }
-}
-
-.header-banner-button{
-    background-color: gray;
-}
-
-.header-nav-button{
-
-
-    &__login{
+        text-align: left;
         
     }
+    &__a{
 
-    &__signup{
-
+        &__a--login{}
+        &__a--signup{}
     }
+    &__h1{ }
+    &__p{ }
 
+    &__nav{
+        background-color: yellow;
+    }
+    &__logo{}
+    &__anchors{}
+    &__menu{}
 }
-
-
-.header-nav-logo{
-    @include flex(flex,row,center,center);
-    &__icon{
-        background-color: antiquewhite;
-    }
-
-    &__text{
-
-    }
-}
-
-.header-nav-menu{
-    
-    &__header{
-        top: 20em;
-    }
-    &__items{
-        display:none;
-        
-    }
-}
-
-
-
-
-
-
-/*.header{
-
-    // General properties
-    background-color: blue;
-    // Text properties
-    overflow-wrap:break-word;
-    text-justify: auto;
-    // Flex properties
-    display:flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content:space-between;
-    // Adjust-decoration properties
-    max-height: 6.5em;
-    border-radius: .5em;
-    margin: .5em;
-
-    &__left{
-        align-self: center;
-        &__img{
-        }
-    }
-    &__middle{
-        padding: 0.5em;
-        &__h{
-        }
-        &__p{
-        }
-    }
-    &__right{
-        align-self: center;
-    }
-}*/
-
