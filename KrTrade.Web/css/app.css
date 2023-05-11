@@ -150,11 +150,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+@font-face {
+  font-family: open-sans-regular;
+  src: url(assets/fonts/OpenSans-Regular.ttf) format("truetype");
+}
+@font-face {
+  font-family: open-sans-semibold;
+  src: url(assets/fonts/OpenSans-Regular.ttf) format("truetype");
+}
 .body {
   background-color: black;
   color: white;
   -webkit-hyphens: none;
           hyphens: none;
+  font-family: open-sans-regular;
 }
 
 /*.nav{
@@ -189,54 +198,99 @@ body {
     flex-wrap: nowrap;
     justify-content: space-between; 
 }*/
+.banner {
+  background-color: black;
+  width: 100%;
+  padding: 0.5rem;
+  max-height: 11.5;
+}
+.banner__container {
+  background-color: blue;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+@media screen and (max-width: 991px) {
+  .banner__container {
+    background-image: url("/KrTrade.Web/assets/images/header_background.png"), linear-gradient(to right, #2D9CDB 0%, #003B70 100%);
+  }
+}
+@media screen and (min-width: 991px) {
+  .banner__container {
+    background-image: linear-gradient(to right, #2D9CDB 0%, #003B70 100%);
+  }
+}
+.banner__img {
+  height: 104px;
+  width: 320px;
+}
+@media screen and (max-width: 991px) {
+  .banner__img {
+    margin-left: -320px;
+    display: none;
+    transition: all 0.3s ease;
+  }
+}
+@media screen and (min-width: 991px) and (max-width: 1199px) {
+  .banner__img {
+    margin-left: -160px;
+    transition: all 0.3s ease;
+  }
+}
+@media screen and (min-width: 1199px) {
+  .banner__img {
+    margin-left: 0px;
+    transition: all 0.3s ease;
+  }
+}
+.banner__content {
+  font-family: open-sans-semibold;
+  font-weight: 800;
+}
+.banner__h1 {
+  font-family: open-sans-semibold;
+}
+@media screen and (max-width: 991px) {
+  .banner__p {
+    display: none;
+  }
+}
 .header {
   position: fixed;
+  width: 100%;
 }
 .header__banner {
   background-color: blue;
-  width: 100%;
-  min-height: 6.5rem;
   margin: 0.5rem;
   border-radius: 0.2rem;
+  max-height: 104px;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-between;
   align-items: center;
 }
-@media screen and (min-width: 600px) {
-  .header__banner {
-    max-height: 5rem;
-  }
-}
 .header__img {
-  -o-object-fit: cover;
-     object-fit: cover;
-  -o-object-position: left;
-     object-position: left;
-  width: auto;
-  height: 6.5rem;
+  height: 104px;
+  width: 320px;
 }
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 380px) and (max-width: 994px) {
   .header__img {
     display: none;
   }
 }
-.header__texts {
-  text-align: left;
+@media screen and (min-width: 994px) and (max-width: 1199px) {
+  .header__img {
+    margin-left: -160px;
+  }
 }
 .header__nav {
   background-color: yellow;
 }
-.main {
-  background-color: lime;
-}
-
-.footer {
-  background-color: brown;
-  color: yellow;
-}
-
 /*.btn
 {
     background-color: red;
