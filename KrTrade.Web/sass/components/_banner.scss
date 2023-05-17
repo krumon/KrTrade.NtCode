@@ -10,7 +10,11 @@
         @include flex(row, nowrap,space-between,center);
         border-radius: 0.25rem;
         overflow: hidden;
+        @media screen and (max-width: var(--bk-lg)) {
+                        background-image: url('/KrTrade.Web/assets/images/header_background.png'),
+            linear-gradient(to right, #2D9CDB 0%, #003B70 100%);
 
+        }
         @include  media(max, $bk-laptop) {
             background-image: url('/KrTrade.Web/assets/images/header_background.png'),
             linear-gradient(to right, #2D9CDB 0%, #003B70 100%);
@@ -44,8 +48,8 @@
         line-height: 1.5rem;
     }
     &__h1{
-        font-weight: $fw-bold;
         font-size: $fs-xlarge;
+        font-weight: $fw-bold;
 
         
         @media  screen and (max-width: var(--bk-laptop)) {

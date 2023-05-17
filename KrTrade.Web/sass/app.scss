@@ -1,10 +1,10 @@
 // base
-@import "base/_variables";
-@import "base/_functions";
-@import "base/_mixins";
-@import "base/_reset";
-@import "base/_typography";
-@import "base/_generic";
+@import "partials/_variables";
+@import "partials/_functions";
+@import "partials/_mixins";
+@import "partials/_reset";
+@import "partials/_typography";
+@import "partials/_globals";
 
 // Components
 @import "components/_banner";
@@ -13,7 +13,3 @@
 // Pages
 @import "pages/_home";
 @import "pages/_contact";
-
-// Themes
-@import "themes/_palettes";
-@import "themes/_theme";

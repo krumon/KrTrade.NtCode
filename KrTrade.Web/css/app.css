@@ -1,13 +1,55 @@
 @charset "UTF-8";
 :root {
-  --cl-primary: #000;
-  --bk-mobile-xs: $bk-mobile-xs;
-  --bk-mobile: $bk-mobile;
-  --bk-tablet: $bk-tablet;
-  --bk-tablet-h: $bk-tablet-h;
-  --bk-laptop: $bk-laptop;
-  --bk-desktop: $bk-desktop;
-  --bk-desktop-xl: $bk-desktop-xl;
+  --c-primary-300: #8bc1ff;
+  --c-primary-400: #009bff;
+  --c-primary-500: #026dce;
+  --c-primary-600: #00154e;
+  --c-primary-700: #011b34;
+  --c-secondary-100: #fff;
+  --c-secondary-200: #e0e0e0;
+  --c-secondary-300: #979797;
+  --c-secondary-400: #686868;
+  --c-secondary-500: #4a4a4a;
+  --c-secondary-600: #373737;
+  --c-secondary-700: #272727;
+  --c-secondary-800: #202020;
+  --c-secondary-900: #000;
+  --c-semantic-success-500: #af0;
+  --c-semantic-success-600: #79aa00;
+  --c-semantic-warning-500: #f2a007;
+  --c-semantic-warning-600: #ba7209;
+  --c-semantic-danger-500: #ff4141;
+  --c-semantic-danger-600: #ba3232;
+  --c-shadow-down: 0px 2px 4px rgba(0,0,0,0.5);
+  --c-shadow-1: 4px 2px 4px 2px #202020;
+  --ff-backup: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --ff-light: var(--ff-backup);
+  --ff-regular: var(--ff-backup);
+  --ff-semi-bold: var(--ff-backup);
+  --ff-bold: var(--ff-backup);
+  --ff-extra-bold: var(--ff-backup);
+  --ff-icons-regular: fa-regular, sans-serif;
+  --ff-icons-solid: fa-solid, sans-serif;
+  --ff-icons-brands: fa-brands, sans-serif;
+  --ff-open-sans-light: open-sans-light, var(--ff-backup);
+  --ff-open-sans-regular: open-sans-regular, var(--ff-backup);
+  --ff-open-sans-semibold: open-sans-semibold, var(--ff-backup);
+  --ff-open-sans-bold: open-sans-bold, var(var(--ff-backup));
+  --ff-open-sans-extrabold: open-sans-extrabold, var(--ff-backup);
+  --ff-light: var(--ff-open-sans-light);
+  --ff-regular: var(--ff-open-sans-regular);
+  --ff-semibold: var(--ff-open-sans-semibold);
+  --ff-bold: var(--ff-open-sans-bold);
+  --ff-extrabold: var(--ff-open-sans-extrabold);
+  --bk-xs: 0;
+  --bk-sm: 544px;
+  --bk-md: 768px;
+  --bk-lg: 992px;
+  --bk-xl: 1200px;
+  --bk-xxl: 1440px;
+  --bk-hd: 1600px;
+  --c-body-color: var(--c-secondary-100);
+  --c-body-bg: var(--c-secondary-800);
 }
 
 /* Define the custom properties */
@@ -162,84 +204,78 @@ body {
 }
 
 @font-face {
-  font-family: open-sans;
+  font-family: open-sans-light;
   src: url(../assets/fonts/OpenSans_SemiCondensed-Light.ttf) format("truetype");
-  font-weight: 300;
-  font-style: normal;
 }
 @font-face {
-  font-family: open-sans;
+  font-family: open-sans-light;
   src: url(../assets/fonts/OpenSans_SemiCondensed-LightItalic.ttf) format("truetype");
-  font-weight: 300;
   font-style: italic;
 }
 @font-face {
-  font-family: open-sans;
+  font-family: open-sans-regular;
   src: url(../assets/fonts/OpenSans_SemiCondensed-Regular.ttf) format("truetype");
-  font-weight: normal;
-  font-style: normal;
 }
 @font-face {
-  font-family: open-sans;
+  font-family: open-sans-regular;
   src: url(../assets/fonts/OpenSans_SemiCondensed-Italic.ttf) format("truetype");
-  font-weight: normal;
   font-style: italic;
 }
 @font-face {
-  font-family: open-sans;
+  font-family: open-sans-medium;
   src: url(../assets/fonts/OpenSans_SemiCondensed-Medium.ttf) format("truetype");
-  font-weight: 500;
-  font-style: normal;
 }
 @font-face {
-  font-family: open-sans;
+  font-family: open-sans-medium;
   src: url(../assets/fonts/OpenSans_SemiCondensed-MediumItalic.ttf) format("truetype");
-  font-weight: 500;
   font-style: italic;
 }
 @font-face {
-  font-family: open-sans;
+  font-family: open-sans-semibold;
   src: url(../assets/fonts/OpenSans_SemiCondensed-SemiBold.ttf) format("truetype");
-  font-weight: 600;
-  font-style: normal;
 }
 @font-face {
-  font-family: open-sans;
+  font-family: open-sans-semibold;
   src: url(../assets/fonts/OpenSans_SemiCondensed-SemiBoldItalic.ttf) format("truetype");
-  font-weight: 600;
   font-style: italic;
 }
 @font-face {
-  font-family: open-sans;
+  font-family: open-sans-bold;
   src: url(../assets/fonts/OpenSans_SemiCondensed-Bold.ttf) format("truetype");
-  font-weight: 700;
-  font-style: normal;
 }
 @font-face {
-  font-family: open-sans;
+  font-family: open-sans-bold;
   src: url(../assets/fonts/OpenSans_SemiCondensed-BoldItalic.ttf) format("truetype");
-  font-weight: 700;
   font-style: italic;
 }
 @font-face {
-  font-family: open-sans;
+  font-family: open-sans-extrabold;
   src: url(../assets/fonts/OpenSans_SemiCondensed-ExtraBold.ttf) format("truetype");
-  font-weight: 800;
-  font-style: normal;
 }
 @font-face {
-  font-family: open-sans;
+  font-family: open-sans-extrabold;
   src: url(../assets/fonts/OpenSans_SemiCondensed-ExtraBoldItalic.ttf) format("truetype");
-  font-weight: 800;
   font-style: italic;
+}
+@font-face {
+  font-family: fa-regular;
+  src: url(../assets/fonts/fa-regular-400.ttf) format("truetype");
+}
+@font-face {
+  font-family: fa-solid;
+  src: url(../assets/fonts/fa-solid-900.ttf) format("truetype");
+}
+@font-face {
+  font-family: fa-brands;
+  src: url(../assets/fonts/fa-brands-400) format("truetype");
 }
 html {
-  font-family: open-sans;
+  font-family: var(--ff-regular);
 }
 
 body {
-  background-color: black;
-  color: white;
+  background-color: var(--c-body-bg);
+  color: var(--c-body-color);
   -webkit-hyphens: none;
           hyphens: none;
 }
@@ -257,6 +293,11 @@ body {
   flex: initial;
   border-radius: 0.25rem;
   overflow: hidden;
+}
+@media screen and (max-width: var(--bk-lg)) {
+  .banner__container {
+    background-image: url("/KrTrade.Web/assets/images/header_background.png"), linear-gradient(to right, #2D9CDB 0%, #003B70 100%);
+  }
 }
 @media screen and (max-width: 991px) {
   .banner__container {
@@ -295,8 +336,8 @@ body {
   line-height: 1.5rem;
 }
 .banner__h1 {
-  font-weight: 700;
   font-size: 1.25rem;
+  font-weight: 700;
 }
 .banner__p {
   font-size: 0.875rem;
