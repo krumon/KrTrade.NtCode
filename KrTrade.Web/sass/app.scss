@@ -1,28 +1,19 @@
-// Utilities
-@import "utilities/_variables.scss";
-@import "utilities/_functions.scss";
-@import "utilities/_mixins.scss";
-
-// Base
-@import "base/_reset.scss";
-@import "base/_fonts.scss";
-
-// Layout
-@import "layout/_body.scss";
-@import "layout/_navigation.scss";
-@import "layout/_grid.scss";
-@import "layout/_header.scss";
-@import "layout/_main.scss";
-@import "layout/_footer.scss";
-@import "layout/_forms.scss";
+// base
+@import "base/_variables";
+@import "base/_functions";
+@import "base/_mixins";
+@import "base/_reset";
+@import "base/_typography";
+@import "base/_generic";
 
 // Components
-@import "components/_buttons.scss";
+@import "components/_banner";
+@import "components/_header";
 
 // Pages
-@import "pages/_home.scss";
-@import "pages/_contact.scss";
+@import "pages/_home";
+@import "pages/_contact";
 
 // Themes
-@import "themes/_palettes.scss";
-@import "themes/_theme.scss";
+@import "themes/_palettes";
+@import "themes/_theme";

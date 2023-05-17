@@ -1,0 +1,48 @@
+// Breakpoints
+$bk-mobile-xs:      320px;
+$bk-mobile:         480px;
+$bk-tablet:         600px;
+$bk-tablet-h:       768px;
+$bk-laptop:         991px;
+$bk-desktop:        1199px;
+$bk-desktop-xl:     1400px;
+
+// font weights
+$fw-black:          900;
+$fw-extrabold:      800; 
+$fw-bold:           700; 
+$fw-semibold:       600; 
+$fw-medium:         500; 
+$fw-regular:        400; 
+$fw-light:          300; 
+$fw-extralight:     200; 
+$fw-thin:           100; 
+
+// font sizes
+$fs-xxsmall:        .375rem;
+$fs-xsmall:         .5rem; 
+$fs-small:          .625rem; 
+$fs-regular:        .75rem; 
+$fs-medium:         .875rem; 
+$fs-large:          1rem; 
+$fs-xlarge:         1.25rem; 
+$fs-xxlarge:        1.5rem; 
+
+//Colors
+$cl-primary:       #000000;
+
+:root{
+
+    //colors
+    --cl-primary:       #000;
+
+    // breakpoints
+    --bk-mobile-xs:     $bk-mobile-xs;
+    --bk-mobile:        $bk-mobile;   
+    --bk-tablet:        $bk-tablet;   
+    --bk-tablet-h:      $bk-tablet-h; 
+    --bk-laptop:        $bk-laptop;  
+    --bk-desktop:       $bk-desktop;  
+    --bk-desktop-xl:    $bk-desktop-xl;
+   
+}

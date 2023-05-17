@@ -1,0 +1,25 @@
+// Ordena los bloques horizontal o verticalmente
+@mixin flex($direction: row, $wrap: nowrap, $justify-content: center, $align-items: center, $initial: initial ){
+
+    display: flex;
+    flex-flow: $direction $wrap;
+    justify-content: $justify-content;
+    align-items: $align-items;
+    flex: $initial;
+}
+
+@mixin media($type, $bk){
+    @if($type==min){
+        @media  screen and (min-width: $bk) {
+            @content; 
+        }
+    }
+    @else if ($type==max){
+        @media  screen and (max-width: $bk) {
+            @content;
+        }
+    }
+    @else{
+        @error "UNKNOWN MEDIA PARAMETER. THE FIRST PARAMETER MUST BE 'min' or 'max'.";  
+    }
+}
