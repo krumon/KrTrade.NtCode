@@ -1,11 +1,10 @@
 // Ordena los bloques horizontal o verticalmente
-@mixin flex($direction: row, $wrap: nowrap, $justify-content: center, $align-items: center, $initial: initial ){
+@mixin flex($display, $direction, $wrap, $justify, $align){
 
-    display: flex;
+    display: $display;
     flex-flow: $direction $wrap;
-    justify-content: $justify-content;
-    align-items: $align-items;
-    flex: $initial;
+    justify-content: $justify;
+    align-items: $align;
 }
 
 @mixin media($type, $bk){

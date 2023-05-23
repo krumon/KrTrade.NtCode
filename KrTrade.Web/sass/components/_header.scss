@@ -1,58 +1,85 @@
-.header{
-    position: fixed;
-    width: 100%;
 
-    &__banner{
-        background-color: blue;
-        margin: 0.5rem;
-        border-radius: .2rem;
-        max-height: 104px;
-        // min-height: 6.5rem;
-        @include flex(row, nowrap, space-between, center);
-        // @include media(480px){
-        // }
-    }
-    &__img{
-        height: 104px;
-        width: 320px;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// .header{
+//     position: fixed;
+//     width: 100%;
+
+//     &__banner{
+//         background-color: blue;
+//         margin: 0.5rem;
+//         border-radius: .2rem;
+//         max-height: 104px;
+//         // min-height: 6.5rem;
+//         @include flex(row, nowrap, space-between, center);
+//         // @include media(480px){
+//         // }
+//     }
+//     &__img{
+//         height: 104px;
+//         width: 320px;
         
 
-        @media screen and (min-width: 380px) and (max-width: 994px){
-            display: none;
-        }   
-        @media screen and (min-width: 994px) and (max-width: 1199px){
-            margin-left: -160px;
-        }
-    }
-    &__texts{
-        // text-align: left;
+//         @media screen and (min-width: 380px) and (max-width: 994px){
+//             display: none;
+//         }   
+//         @media screen and (min-width: 994px) and (max-width: 1199px){
+//             margin-left: -160px;
+//         }
+//     }
+//     &__texts{
+//         // text-align: left;
         
-    }
-    &__a{
-        // margin: 0.5rem;
-        // padding: 0.5rem;
-        // color: black;
-        // border: 1px solid white;
-        // border-radius: 1rem;
-        // background-color: greenyellow;
+//     }
+//     &__a{
+//         // margin: 0.5rem;
+//         // padding: 0.5rem;
+//         // color: black;
+//         // border: 1px solid white;
+//         // border-radius: 1rem;
+//         // background-color: greenyellow;
         
 
-        &__a--login{}
-        &__a--signup{}
-    }
-    &__h1{ }
-    &__p{
-        // @include media(980px){
-        //     display: none;
-        // }
-    }
+//         &__a--login{}
+//         &__a--signup{}
+//     }
+//     &__h1{ }
+//     &__p{
+//         // @include media(980px){
+//         //     display: none;
+//         // }
+//     }
 
-    &__nav{
-        background-color: yellow;   
-        // max-height: 10rem;
-        // @include flex(row, nowrap, space-between, center);
-    }
-    &__logo{}
-    &__anchors{}
-    &__menu{}
-}
+//     &__nav{
+//         background-color: yellow;   
+//         // max-height: 10rem;
+//         // @include flex(row, nowrap, space-between, center);
+//     }
+//     &__logo{}
+//     &__anchors{}
+//     &__menu{}
+// }

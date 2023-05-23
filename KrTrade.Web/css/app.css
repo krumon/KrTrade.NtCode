@@ -28,9 +28,6 @@
   --ff-semi-bold: var(--ff-backup);
   --ff-bold: var(--ff-backup);
   --ff-extra-bold: var(--ff-backup);
-  --ff-icons-regular: fa-regular, sans-serif;
-  --ff-icons-solid: fa-solid, sans-serif;
-  --ff-icons-brands: fa-brands, sans-serif;
   --ff-open-sans-light: open-sans-light, var(--ff-backup);
   --ff-open-sans-regular: open-sans-regular, var(--ff-backup);
   --ff-open-sans-semibold: open-sans-semibold, var(--ff-backup);
@@ -41,6 +38,9 @@
   --ff-semibold: var(--ff-open-sans-semibold);
   --ff-bold: var(--ff-open-sans-bold);
   --ff-extrabold: var(--ff-open-sans-extrabold);
+  --ff-icon-regular: fa-regular, sans-serif;
+  --ff-icon-solid: fa-solid, sans-serif;
+  --ff-icon-brands: fa-brands, sans-serif;
   --bk-xs: 0;
   --bk-sm: 544px;
   --bk-md: 768px;
@@ -52,28 +52,16 @@
   --c-body-bg: var(--c-secondary-800);
 }
 
-/* Define the custom properties */
-:root {
-  /* Colores */
-  --color-primary: #181818;
-  --color-secondary: #f0f0f0;
-  /* Tipografía */
-  --font-primary: Helvetica, Arial, sans-serif;
-  --font-secondary: Verdana;
-}
-
-/* (Opcional) Las adaptamos al modo oscuro */
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-primary: #f0f0f0;
-    --color-secondary: #181818;
+    --c-body-color: var(--c-secondary-100);
+    --c-body-bg: var(--c-secondary-800);
   }
 }
-/* (Opcional) Configuramos si un usuario ha activado el modo alto contraste. (WD) */
 @media (prefers-contrast: high) {
   :root {
-    --color-primary: black;
-    --color-secondary: white;
+    --c-body-color: var(--c-secondary-800);
+    --c-body-bg: var(--c-secondary-100);
   }
 }
 /* (Opcional) Desactivamos los animations en el caso de que el usuario haya configurado el modo sin animation */
@@ -269,123 +257,107 @@ body {
   font-family: fa-brands;
   src: url(../assets/fonts/fa-brands-400) format("truetype");
 }
-html {
-  font-family: var(--ff-regular);
+.wrapper {
+  width: 100%;
 }
 
-body {
+.Body {
   background-color: var(--c-body-bg);
   color: var(--c-body-color);
+  font-family: var(--ff-regular);
   -webkit-hyphens: none;
           hyphens: none;
 }
 
-.banner {
-  background-color: black;
-  width: 100%;
-  padding: 0.5rem;
+.Header-wrapper {
+  background-color: green;
 }
-.banner__container {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: center;
-  flex: initial;
-  border-radius: 0.25rem;
-  overflow: hidden;
-}
-@media screen and (max-width: var(--bk-lg)) {
-  .banner__container {
-    background-image: url("/KrTrade.Web/assets/images/header_background.png"), linear-gradient(to right, #2D9CDB 0%, #003B70 100%);
-  }
-}
-@media screen and (max-width: 991px) {
-  .banner__container {
-    background-image: url("/KrTrade.Web/assets/images/header_background.png"), linear-gradient(to right, #2D9CDB 0%, #003B70 100%);
-  }
-}
-@media screen and (min-width: 991px) {
-  .banner__container {
-    background-image: linear-gradient(to right, #2D9CDB 0%, #003B70 100%);
-  }
-}
-.banner__img {
-  height: 6.5rem;
-  width: 20rem;
-}
-@media screen and (max-width: 991px) {
-  .banner__img {
-    margin-left: -20rem;
-    transition: all 0.3s ease;
-  }
-}
-@media screen and (min-width: 991px) and (max-width: 1199px) {
-  .banner__img {
-    margin-left: -10rem;
-    transition: all 0.3s ease;
-  }
-}
-@media screen and (min-width: 1199px) {
-  .banner__img {
-    margin-left: 0rem;
-    transition: all 0.3s ease;
-  }
-}
-.banner__content {
-  margin: 0 1rem;
-  line-height: 1.5rem;
-}
-.banner__h1 {
-  font-size: 1.25rem;
-  font-weight: 700;
-}
-.banner__p {
-  font-size: 0.875rem;
-  font-weight: 600;
-  margin: 0.5rem 0;
-  line-height: 1.5;
-}
-.banner__button {
-  margin: 0 1rem 0 0;
-}
-.banner__btn {
-  color: black;
-  font-weight: 600;
-  font-size: 0.75rem;
+.Header-banner {
   background-color: lime;
-  padding: 0.75rem 1.2rem;
-  border-radius: 1.5rem;
+}
+.Header-nav {
+  background-color: crimson;
 }
 
-.header {
-  position: fixed;
-  width: 100%;
+.Main {
+  background-color: lightgrey;
 }
-.header__banner {
-  background-color: blue;
-  margin: 0.5rem;
-  border-radius: 0.2rem;
-  max-height: 104px;
+
+.Footer {
+  background-color: gray;
+}
+
+.Vmenu {
+  position: relative;
+}
+.Vmenu-head {
+  background-color: black;
+}
+.Vmenu-head:after {
+  content: ">";
+  background-color: yellowgreen;
+  display: inline-flex;
+}
+.Vmenu-items {
+  background-color: white;
+  position: absolute;
+}
+.Banner {
+  padding: 0.5em 0.5em;
+}
+.Banner-wrapper {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
-  flex: initial;
+  background-color: blue;
+  border-radius: 0.5em;
 }
-.header__img {
-  height: 104px;
-  width: 320px;
+.Banner-img {
+  background-color: bisque;
+  width: 15em;
 }
-@media screen and (min-width: 380px) and (max-width: 994px) {
-  .header__img {
-    display: none;
-  }
+.Banner-container {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: left;
+  align-items: center;
 }
-@media screen and (min-width: 994px) and (max-width: 1199px) {
-  .header__img {
-    margin-left: -160px;
-  }
-}
-.header__nav {
+.Banner-h2 {
   background-color: yellow;
+  font-weight: bold;
+}
+.Banner-p {
+  background-color: yellowgreen;
+}
+.Banner-button {
+  background-color: aquamarine;
+}
+
+.Nav-wrapper {
+  background-color: chocolate;
+}
+.Nav-main {
+  background-color: orange;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.Nav-h1 {
+  background-color: yellow;
+}
+.Nav-links {
+  background-color: red;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: center;
+}
+.Nav-hidden {
+  background-color: olivedrab;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
 }

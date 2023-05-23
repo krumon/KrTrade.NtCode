@@ -1,0 +1,29 @@
+.Nav{
+
+    &-wrapper{
+        background-color: chocolate;
+    }
+
+    &-main{
+        background-color: orange;
+        @include flex(flex, row, nowrap, space-between, center);
+    }
+    &-h1{
+        background-color: yellow;
+    }
+    &-img{}
+    &-links{
+        background-color: red;
+        @include flex(flex, row, nowrap, flex-end, center);
+    }
+    &-li{
+    }
+
+    &-hidden{
+        background-color: olivedrab;
+        @include flex(flex, row, nowrap, space-between, center);
+    }
+    &-menu{}
+    &-button{}
+
+}

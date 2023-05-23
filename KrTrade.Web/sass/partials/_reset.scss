@@ -1,30 +1,3 @@
-/* Define the custom properties */
-:root{
-    /* Colores */
-    --color-primary: #181818;
-    --color-secondary: #f0f0f0;
-    
-    /* Tipografía */
-    --font-primary: Helvetica, Arial, sans-serif;
-    --font-secondary: Verdana;
-  }
-    
-  /* (Opcional) Las adaptamos al modo oscuro */
-  @media (prefers-color-scheme: dark) {
-    :root{
-        --color-primary: #f0f0f0;
-        --color-secondary: #181818;
-    }
-  }
-  
-  /* (Opcional) Configuramos si un usuario ha activado el modo alto contraste. (WD) */
-  @media (prefers-contrast: high){
-      :root{
-        --color-primary: black;
-        --color-secondary: white;
-      }
-  }
-  
   /* (Opcional) Desactivamos los animations en el caso de que el usuario haya configurado el modo sin animation */
   @media (prefers-reduced-motion: reduce) {
     * {

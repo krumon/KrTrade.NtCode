@@ -4,11 +4,13 @@
 @import "partials/_mixins";
 @import "partials/_reset";
 @import "partials/_typography";
-@import "partials/_globals";
 
 // Components
+@import "components/_globals";
+@import "components/_buttons";
+@import "components/_menus";
 @import "components/_banner";
-@import "components/_header";
+@import "components/_nav";
 
 // Pages
 @import "pages/_home";

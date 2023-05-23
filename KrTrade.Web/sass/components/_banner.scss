@@ -1,89 +1,141 @@
-// @import '../base/variables';
 
-.banner{
+.Banner{
 
-    background-color: black;
-    width: 100%;
-    padding: 0.5rem;
+    padding: .5em 0.5em;
 
-    &__container{
-        @include flex(row, nowrap,space-between,center);
-        border-radius: 0.25rem;
-        overflow: hidden;
-        @media screen and (max-width: var(--bk-lg)) {
-                        background-image: url('/KrTrade.Web/assets/images/header_background.png'),
-            linear-gradient(to right, #2D9CDB 0%, #003B70 100%);
-
-        }
-        @include  media(max, $bk-laptop) {
-            background-image: url('/KrTrade.Web/assets/images/header_background.png'),
-            linear-gradient(to right, #2D9CDB 0%, #003B70 100%);
-        }
-        @include media(min, $bk-laptop){
-            background-image: linear-gradient(to right, #2D9CDB 0%, #003B70 100%);
-        }
+    &-wrapper{
+        @include flex(flex, row, nowrap,space-between,center);
+        background-color: blue;
+        border-radius: 0.5em;
     }
-    &__img{
-
-        height: 6.5rem;
-        width: 20rem;
+    &-img{
+        background-color: bisque;
+        width: 15em;
+    }
+    &-container{
+        @include flex(flex, row, nowrap,left,center);
+    }   
+    &-texts{
         
-        @include media(max, $bk-laptop){
-            margin-left: -20rem;
-            transition: all 0.3s ease;
-            
-        }
-        @media screen and (min-width:$bk-laptop) and (max-width: $bk-desktop){
-            margin-left: -10rem;
-            transition: all 0.3s ease;
-        }
-        @include media(min, $bk-desktop){
-            margin-left: 0rem;
-            transition: all 0.3s ease;
-        }
-
     }
-    &__content{
-        margin: 0 1rem;
-        line-height: 1.5rem;
+    &-h2{
+        background-color: yellow;
+        font-weight: bold;
     }
-    &__h1{
-        font-size: $fs-xlarge;
-        font-weight: $fw-bold;
-
-        
-        @media  screen and (max-width: var(--bk-laptop)) {
-        }
-        @media screen and (min-width:var(--bk-laptop)) and (max-width: var(--bk-desktop)){
-        }
-        @media screen and (min-width: var(--bk-desktop)){
-        }
+    &-p{
+        background-color: yellowgreen;
     }
-    &__p{
-        font-size: $fs-medium;
-        font-weight: $fw-semibold;
-        margin: 0.5rem 0;
-        line-height: 1.5;
-        @media  screen and (max-width: var(--bk-laptop)) {
-            // display:none;
-        }
-        @media screen and (min-width:var(--bk-laptop)) and (max-width: var(--bk-desktop)){
-
-        }
-        @media screen and (min-width: var(--bk-desktop)){
-        }
-    }
-    &__button{
-        margin: 0 1rem 0 0;
-    }
-    &__btn{
-
-        color: black;
-        font-weight: $fw-semibold;
-        font-size: $fs-regular;
-        background-color: lime;
-        padding: .75rem 1.2rem;
-        border-radius: 1.5rem;
+    
+    &-button{
+        background-color: aquamarine;
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// @import '../base/variables';
+
+// .banner{
+
+//     background-color: black;
+//     width: 100%;
+//     padding: 0.5rem;
+
+//     &__container{
+//         @include flex(row, nowrap,space-between,center);
+//         border-radius: 0.25rem;
+//         overflow: hidden;
+//         @media screen and (max-width: var(--bk-lg)) {
+//                         background-image: url('/KrTrade.Web/assets/images/header_background.png'),
+//             linear-gradient(to right, #2D9CDB 0%, #003B70 100%);
+
+//         }
+//         @include  media(max, $bk-laptop) {
+//             background-image: url('/KrTrade.Web/assets/images/header_background.png'),
+//             linear-gradient(to right, #2D9CDB 0%, #003B70 100%);
+//         }
+//         @include media(min, $bk-laptop){
+//             background-image: linear-gradient(to right, #2D9CDB 0%, #003B70 100%);
+//         }
+//     }
+//     &__img{
+
+//         height: 6.5rem;
+//         width: 20rem;
+        
+//         @include media(max, $bk-laptop){
+//             margin-left: -20rem;
+//             transition: all 0.3s ease;
+            
+//         }
+//         @media screen and (min-width:$bk-laptop) and (max-width: $bk-desktop){
+//             margin-left: -10rem;
+//             transition: all 0.3s ease;
+//         }
+//         @include media(min, $bk-desktop){
+//             margin-left: 0rem;
+//             transition: all 0.3s ease;
+//         }
+
+//     }
+//     &__content{
+//         margin: 0 1rem;
+//         line-height: 1.5rem;
+//     }
+//     &__h1{
+//         font-size: $fs-xlarge;
+//         font-weight: $fw-bold;
+
+        
+//         @media  screen and (max-width: var(--bk-laptop)) {
+//         }
+//         @media screen and (min-width:var(--bk-laptop)) and (max-width: var(--bk-desktop)){
+//         }
+//         @media screen and (min-width: var(--bk-desktop)){
+//         }
+//     }
+//     &__p{
+//         font-size: $fs-medium;
+//         font-weight: $fw-semibold;
+//         margin: 0.5rem 0;
+//         line-height: 1.5;
+//         @media  screen and (max-width: var(--bk-laptop)) {
+//             // display:none;
+//         }
+//         @media screen and (min-width:var(--bk-laptop)) and (max-width: var(--bk-desktop)){
+
+//         }
+//         @media screen and (min-width: var(--bk-desktop)){
+//         }
+//     }
+//     &__button{
+//         margin: 0 1rem 0 0;
+//     }
+//     &__btn{
+
+//         color: black;
+//         font-weight: $fw-semibold;
+//         font-size: $fs-regular;
+//         background-color: lime;
+//         padding: .75rem 1.2rem;
+//         border-radius: 1.5rem;
+//     }
+
+// }
