@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrTrade.NtCode", "KrTrade.NtCode\KrTrade.NtCode.csproj", "{B1E2972B-D95F-4367-988D-49BFADFC0787}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrTrade.NtCode.Core", "KrTrade.NtCode.Core\KrTrade.NtCode.Core.csproj", "{3A644626-5B81-4EE5-9D67-6B77D5BA4940}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrTrade.NtCode.DI", "KrTrade.NtCode.Core\KrTrade.NtCode.DI.csproj", "{3A644626-5B81-4EE5-9D67-6B77D5BA4940}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrTrade.NtCode.Scripts", "KrTrade.NtCode.Scripts\KrTrade.NtCode.Scripts.csproj", "{77C4DCF3-98A3-4C20-95F1-0806C30FE114}"
 EndProject
