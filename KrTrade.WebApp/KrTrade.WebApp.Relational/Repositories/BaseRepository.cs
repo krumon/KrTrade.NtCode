@@ -24,7 +24,8 @@ namespace KrTrade.WebApp.Relational.Repositories
 
         public async Task<TEntity> GetById(int id)
         {
-            return await _entities.FindAsync(id);
+            TEntity? entity = await _entities.FindAsync(id);
+            return entity;
         }
 
         public async Task Add(TEntity entity)
