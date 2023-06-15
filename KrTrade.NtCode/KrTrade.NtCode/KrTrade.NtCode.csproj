@@ -346,21 +346,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Kr.Core\Kr.Core.csproj">
-      <Project>{7B0DA799-B199-47D4-BAEE-83F4A1FE636A}</Project>
-      <Name>Kr.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Nt.Connect\NtConnect.csproj">
+    <ProjectReference Include="..\Nt.Connect\KrTrade.NtCode.Connect.csproj">
       <Project>{d32c9296-c1c6-4e7c-8e9f-5139ba0a2334}</Project>
-      <Name>NtConnect</Name>
+      <Name>KrTrade.NtCode.Connect</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Nt.Core\Nt.Core.csproj">
+    <ProjectReference Include="..\Nt.Core\KrTrade.NtCode.Core.csproj">
       <Project>{3a644626-5b81-4ee5-9d67-6b77d5ba4940}</Project>
-      <Name>Nt.Core</Name>
+      <Name>KrTrade.NtCode.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Nt.Scripts\NtScripts.csproj">
+    <ProjectReference Include="..\Nt.Scripts\KrTrade.NtCode.Scripts.csproj">
       <Project>{77C4DCF3-98A3-4C20-95F1-0806C30FE114}</Project>
-      <Name>NtScripts</Name>
+      <Name>KrTrade.NtCode.Scripts</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

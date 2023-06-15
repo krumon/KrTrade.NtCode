@@ -19,8 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\KrTrade.WebApp.Core\KrTrade.WebAPI.Core.csproj" />
-    <ProjectReference Include="..\KrTrade.WebApp.Services\KrTrade.WebAPI.Services.csproj" />
+    <ProjectReference Include="..\KrTrade.WebAPI.Core\KrTrade.WebAPI.Core.csproj" />
+    <ProjectReference Include="..\KrTrade.WebAPI.Services\KrTrade.WebAPI.Services.csproj" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

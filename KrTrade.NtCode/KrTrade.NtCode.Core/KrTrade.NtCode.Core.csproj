@@ -538,12 +538,6 @@
     <Compile Include="Logging\LogLevel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Kr.Core\Kr.Core.csproj">
-      <Project>{7b0da799-b199-47d4-baee-83f4a1fe636a}</Project>
-      <Name>Kr.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

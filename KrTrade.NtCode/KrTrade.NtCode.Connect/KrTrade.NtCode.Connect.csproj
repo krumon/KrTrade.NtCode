@@ -52,9 +52,9 @@
     <Compile Include="Simulator\NtSimulator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Nt.Core\Nt.Core.csproj">
+    <ProjectReference Include="..\Nt.Core\KrTrade.NtCode.Core.csproj">
       <Project>{3a644626-5b81-4ee5-9d67-6b77d5ba4940}</Project>
-      <Name>Nt.Core</Name>
+      <Name>KrTrade.NtCode.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
