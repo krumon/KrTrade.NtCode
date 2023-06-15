@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp
+﻿namespace KrTrade.NtCode
 {
     /// <summary>
     /// The base class class for any session configuration.

@@ -1,6 +1,6 @@
 ﻿using Nt.Core.Configuration;
 
-namespace Nt.Scripts.Ninjascripts.Configuration
+namespace KrTrade.NtCode.Ninjascripts.Configuration
 {
     internal sealed class NinjascriptProviderConfiguration<T> : INinjascriptProviderConfiguration<T>
     {

@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Logging
+﻿namespace KrTrade.NtCode.Logging
 {
     /// <summary>
     /// Identifies a logging event. The primary identifier is the "Id" property, with the "Name" property providing a short description of this type of event.

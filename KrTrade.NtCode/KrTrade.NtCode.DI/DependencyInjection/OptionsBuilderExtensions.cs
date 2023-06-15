@@ -1,8 +1,8 @@
-﻿using Nt.Core.Attributes;
-using Nt.Core.Options;
+﻿using KrTrade.NtCode.Attributes;
+using KrTrade.NtCode.Options;
 using System;
 
-namespace Nt.Core.DependencyInjection
+namespace KrTrade.NtCode.DependencyInjection
 {
     /// <summary>
     /// Extension methods for adding configuration related options services to the DI container via <see cref="OptionsBuilder{TOptions}"/>.

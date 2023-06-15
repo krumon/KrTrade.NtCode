@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Hosting
+﻿namespace KrTrade.NtCode.Hosting
 {
     /// <summary>
     /// Specifies a behavior that the <see cref="IHost"/> will honor if

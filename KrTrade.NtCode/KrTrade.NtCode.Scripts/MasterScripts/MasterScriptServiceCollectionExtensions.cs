@@ -1,7 +1,7 @@
 ﻿using Nt.Core.DependencyInjection;
 using System;
 
-namespace Nt.Scripts.MasterScripts
+namespace KrTrade.NtCode.MasterScripts
 {
     /// <summary>
     /// Extension methods for setting up ninjascripts services in an <see cref="IServiceCollection" />.

@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.FileSystemGlobbing.Internal
+﻿namespace KrTrade.NtCode.FileSystemGlobbing.Internal
 {
     //
     // Resumen:

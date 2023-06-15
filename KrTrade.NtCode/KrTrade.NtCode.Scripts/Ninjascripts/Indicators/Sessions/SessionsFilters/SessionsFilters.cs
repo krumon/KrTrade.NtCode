@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nt.Scripts.Ninjascripts.Indicators
+namespace KrTrade.NtCode.Ninjascripts.Indicators
 {
     /// <summary>
     /// Service to control the access to any session.

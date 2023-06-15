@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Logging.Console
+﻿namespace KrTrade.NtCode.Logging.Console
 {
     /// <summary>
     /// Options for the built-in default console log formatter.

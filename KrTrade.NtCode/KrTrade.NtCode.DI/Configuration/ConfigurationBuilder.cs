@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Nt.Core.Configuration
+namespace KrTrade.NtCode.Configuration
 {
     /// <summary>
     /// Used to build key/value based configuration settings for use in an application.

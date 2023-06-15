@@ -1,4 +1,4 @@
-﻿using Nt.Core.Attributes;
+﻿using KrTrade.NtCode.Attributes;
 using System;
 using System.Buffers;
 using System.IO;
@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Nt.Core.Logging.Console
+namespace KrTrade.NtCode.Logging.Console
 {
     internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
     {

@@ -1,7 +1,7 @@
-﻿using Nt.Core.DependencyInjection;
+﻿using KrTrade.NtCode.DependencyInjection;
 using System;
 
-namespace Nt.Core.Options
+namespace KrTrade.NtCode.Options
 {
     /// <summary>
     /// Used to configure <typeparamref name="TOptions"/> instances.

@@ -1,6 +1,6 @@
-﻿using Nt.Core.FileProviders;
+﻿using KrTrade.NtCode.FileProviders;
 
-namespace Nt.Core.Hosting
+namespace KrTrade.NtCode.Hosting
 {
     /// <summary>
     /// Provides information about the hosting environment an application is running in.

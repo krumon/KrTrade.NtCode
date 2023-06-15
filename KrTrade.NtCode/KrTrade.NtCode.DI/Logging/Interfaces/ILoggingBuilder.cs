@@ -1,6 +1,6 @@
-﻿using Nt.Core.DependencyInjection;
+﻿using KrTrade.NtCode.DependencyInjection;
 
-namespace Nt.Core.Logging
+namespace KrTrade.NtCode.Logging
 {
     public interface ILoggingBuilder
     {

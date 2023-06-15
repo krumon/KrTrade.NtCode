@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Nt.Core.DependencyInjection.ServiceLookup
+namespace KrTrade.NtCode.DependencyInjection.ServiceLookup
 {
     /// <summary>
     /// Summary description for ServiceCallSite

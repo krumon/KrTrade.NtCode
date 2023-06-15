@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
     /// <summary>
     /// Handles all exceptions, simply logging them to the logger

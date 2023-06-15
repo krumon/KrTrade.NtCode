@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
 
     public abstract class Cache<T>

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Nt.Core.Data
+namespace KrTrade.NtCode.Data
 {
     public class SwingLevel : BaseElement
     {

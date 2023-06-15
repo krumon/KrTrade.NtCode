@@ -3,7 +3,7 @@ using Nt.Core.DependencyInjection;
 using System;
 using System.Diagnostics;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
     public class SessionDescriptor : IServiceDescriptor
     {

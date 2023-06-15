@@ -1,9 +1,9 @@
 ﻿using Nt.Core.DependencyInjection;
 using Nt.Core.Options;
-using Nt.Scripts.Ninjascripts.Internal;
+using KrTrade.NtCode.Ninjascripts.Internal;
 using System;
 
-namespace Nt.Scripts.Ninjascripts
+namespace KrTrade.NtCode.Ninjascripts
 {
     /// <summary>
     /// Extension methods for setting up ninjascripts services in an <see cref="IServiceCollection" />.

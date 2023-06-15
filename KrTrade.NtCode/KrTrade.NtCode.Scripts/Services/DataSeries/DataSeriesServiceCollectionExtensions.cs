@@ -1,7 +1,7 @@
 ﻿using Nt.Core.DependencyInjection;
 using System;
 
-namespace Nt.Scripts.Services
+namespace KrTrade.NtCode.Services
 {
     public static class DataSeriesServiceCollectionExtensions
     {

@@ -1,6 +1,6 @@
 ﻿using Nt.Core.DependencyInjection;
 
-namespace Nt.Scripts.Services
+namespace KrTrade.NtCode.Services
 {
     public interface IScriptBuilder
     {

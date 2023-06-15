@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nt.Core.Logging
+namespace KrTrade.NtCode.Logging
 {
     /// <summary>
     /// Represents a storage of common scope data.

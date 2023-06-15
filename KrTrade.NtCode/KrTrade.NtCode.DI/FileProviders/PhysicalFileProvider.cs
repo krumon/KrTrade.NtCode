@@ -1,13 +1,13 @@
-﻿using Nt.Core.FileProviders.Internal;
-using Nt.Core.FileProviders.Physical;
-using Nt.Core.FileProviders.Physical.Internal;
-using Nt.Core.Primitives;
+﻿using KrTrade.NtCode.FileProviders.Internal;
+using KrTrade.NtCode.FileProviders.Physical;
+using KrTrade.NtCode.FileProviders.Physical.Internal;
+using KrTrade.NtCode.Primitives;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
 
-namespace Nt.Core.FileProviders
+namespace KrTrade.NtCode.FileProviders
 {
     /// <summary>
     /// Looks up files using the on-disk file system

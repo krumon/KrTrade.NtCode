@@ -1,8 +1,8 @@
-﻿using Nt.Core.Primitives;
+﻿using KrTrade.NtCode.Primitives;
 using System;
 using System.Collections.Generic;
 
-namespace Nt.Core.Configuration
+namespace KrTrade.NtCode.Configuration
 {
     /// <summary>
     /// Chained implementation of <see cref="IConfigurationProvider"/>

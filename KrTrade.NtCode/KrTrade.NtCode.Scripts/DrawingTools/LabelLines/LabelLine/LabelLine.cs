@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Input;
 using System.Windows;
 using System.ComponentModel.DataAnnotations;
-using Nt.Scripts.DrawingTools;
+using KrTrade.NtCode.DrawingTools;
 using Nt.Core.Data;
 
 #endregion

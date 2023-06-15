@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace Nt.Scripts.Logging
+namespace KrTrade.NtCode.Logging
 {
     public abstract class NinjatraderLoggerFormatter
     {

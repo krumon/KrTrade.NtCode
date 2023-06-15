@@ -1,8 +1,8 @@
-﻿using Nt.Core.Logging;
+﻿using KrTrade.NtCode.Logging;
 using System;
 using System.Reflection;
 
-namespace Nt.Core.Hosting.Internal
+namespace KrTrade.NtCode.Hosting.Internal
 {
     internal static class LoggerHostingExtensions
     {

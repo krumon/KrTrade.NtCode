@@ -1,9 +1,9 @@
-﻿using Nt.Core.FileSystemGlobbing.Internal.PathSegments;
-using Nt.Core.FileSystemGlobbing.Internal.PatternContexts;
+﻿using KrTrade.NtCode.FileSystemGlobbing.Internal.PathSegments;
+using KrTrade.NtCode.FileSystemGlobbing.Internal.PatternContexts;
 using System;
 using System.Collections.Generic;
 
-namespace Nt.Core.FileSystemGlobbing.Internal.Patterns
+namespace KrTrade.NtCode.FileSystemGlobbing.Internal.Patterns
 {
     public class PatternBuilder
     {

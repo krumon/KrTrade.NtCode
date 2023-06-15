@@ -1,7 +1,7 @@
-﻿using Nt.Core.DependencyInjection;
+﻿using KrTrade.NtCode.DependencyInjection;
 using System.Threading;
 
-namespace Nt.Core.Options.Internal
+namespace KrTrade.NtCode.Options.Internal
 {
     internal sealed class UnnamedOptionsManager<[DynamicallyAccessedMembers(Options.DynamicallyAccessedMembers)] TOptions> : IOptions<TOptions>
         where TOptions : class

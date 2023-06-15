@@ -1,9 +1,9 @@
 ﻿using Kr.Core.Tests;
-using ConsoleApp;
+using KrTrade.NtCode;
 using System;
 using System.Threading;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
     internal class SimulatorTests : BaseConsoleTests
     {

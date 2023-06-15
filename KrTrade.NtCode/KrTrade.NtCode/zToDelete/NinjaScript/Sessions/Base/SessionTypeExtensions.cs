@@ -3,7 +3,7 @@ using Nt.Core.Data.Internal;
 using System;
 using System.Linq;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
 
     /// <summary>

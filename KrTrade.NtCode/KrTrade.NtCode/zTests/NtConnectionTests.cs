@@ -2,7 +2,7 @@
 using System;
 using System.Timers;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
     internal class NtConnectionTests : BaseConsoleTests
     {

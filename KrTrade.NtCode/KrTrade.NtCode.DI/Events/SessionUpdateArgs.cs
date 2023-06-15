@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nt.Core.Events
+namespace KrTrade.NtCode.Events
 {
 
     /// <summary>

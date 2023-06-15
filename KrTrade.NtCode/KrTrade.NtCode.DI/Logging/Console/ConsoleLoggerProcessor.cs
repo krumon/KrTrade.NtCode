@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Threading;
 
-namespace Nt.Core.Logging.Console
+namespace KrTrade.NtCode.Logging.Console
 {
     internal class ConsoleLoggerProcessor : IDisposable
     {

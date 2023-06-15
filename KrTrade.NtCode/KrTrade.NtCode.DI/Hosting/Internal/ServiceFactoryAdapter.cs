@@ -1,7 +1,7 @@
-﻿using Nt.Core.DependencyInjection;
+﻿using KrTrade.NtCode.DependencyInjection;
 using System;
 
-namespace Nt.Core.Hosting.Internal
+namespace KrTrade.NtCode.Hosting.Internal
 {
     public sealed class ServiceFactoryAdapter<TContainerBuilder> : IServiceFactoryAdapter
     {

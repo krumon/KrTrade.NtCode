@@ -1,6 +1,6 @@
-﻿using Nt.Scripts.Ninjascripts;
+﻿using KrTrade.NtCode.Ninjascripts;
 
-namespace Nt.Scripts.Ninjascripts.Indicators
+namespace KrTrade.NtCode.Ninjascripts.Indicators
 {
     /// <summary>
     /// Represents a <see cref="ISessions"/> service.

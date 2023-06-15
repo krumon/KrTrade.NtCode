@@ -1,7 +1,7 @@
-﻿using Nt.Core.Logging.Internal;
+﻿using KrTrade.NtCode.Logging.Internal;
 using System;
 
-namespace Nt.Core.Logging.Debug
+namespace KrTrade.NtCode.Logging.Debug
 {
     /// <summary>
     /// A logger that writes messages in the debug output window only when a debugger is attached.

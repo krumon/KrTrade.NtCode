@@ -3,7 +3,7 @@ using NinjaTrader.NinjaScript;
 using Nt.Core.Events;
 using System.Collections.Generic;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
 
     /// <summary>

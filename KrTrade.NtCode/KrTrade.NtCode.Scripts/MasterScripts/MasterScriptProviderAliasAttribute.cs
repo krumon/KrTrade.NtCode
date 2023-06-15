@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Nt.Scripts.MasterScripts
+namespace KrTrade.NtCode.MasterScripts
 {
     /// <summary>
     /// Defines alias to be used in configure options.

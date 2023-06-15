@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nt.Core.Logging.Console
+namespace KrTrade.NtCode.Logging.Console
 {
 
     public sealed class ColorConsoleLogger : ILogger

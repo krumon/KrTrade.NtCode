@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Nt.Core.FileProviders.Physical
+namespace KrTrade.NtCode.FileProviders.Physical
 {
     /// <summary>
     /// Represents a directory on a physical filesystem

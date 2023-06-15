@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace Nt.Core.DependencyInjection
+namespace KrTrade.NtCode.DependencyInjection
 {
     /// <summary>
     /// Describes a service with its service type, implementation, and lifetime.

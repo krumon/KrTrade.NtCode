@@ -1,7 +1,7 @@
 ﻿using Nt.Scripts.Hosting;
 using Nt.Scripts.NinjatraderObjects;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
     internal class KrTradeStats : BaseNinjaScript
     {

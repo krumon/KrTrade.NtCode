@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Nt.Scripts.MasterScripts
+namespace KrTrade.NtCode.MasterScripts
 {
     public class MasterScriptFilters
     {

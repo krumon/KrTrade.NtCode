@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Data.Internal
+﻿namespace KrTrade.NtCode.Data.Internal
 {
     public class TradingSessionConfiguration
     {

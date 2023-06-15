@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace ConsoleApp.Internal
+namespace KrTrade.NtCode.Internal
 {
     /// <summary>
     /// Contents trading session information.

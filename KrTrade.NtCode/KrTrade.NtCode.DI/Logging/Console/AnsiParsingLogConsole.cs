@@ -1,8 +1,8 @@
-﻿using Nt.Core.Attributes;
+﻿using KrTrade.NtCode.Attributes;
 using System;
 using System.IO;
 
-namespace Nt.Core.Logging.Console
+namespace KrTrade.NtCode.Logging.Console
 {
     [UnsupportedOSPlatform("android")]
     [UnsupportedOSPlatform("browser")]

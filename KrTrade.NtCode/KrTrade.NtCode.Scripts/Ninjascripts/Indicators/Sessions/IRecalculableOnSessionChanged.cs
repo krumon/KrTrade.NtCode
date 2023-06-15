@@ -1,4 +1,4 @@
-﻿namespace Nt.Scripts.Ninjascripts.Indicators
+﻿namespace KrTrade.NtCode.Ninjascripts.Indicators
 {
     /// <summary>
     /// Represents the services thats are recalculable when the session changed.

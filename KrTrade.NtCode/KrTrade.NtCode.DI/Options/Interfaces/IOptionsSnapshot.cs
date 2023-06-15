@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Options
+﻿namespace KrTrade.NtCode.Options
 {
     /// <summary>
     /// Used to access the value of TOptions for the lifetime of a request.

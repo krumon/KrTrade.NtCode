@@ -1,11 +1,11 @@
-﻿using Nt.Core.Configuration;
-using Nt.Core.DependencyInjection;
-using Nt.Core.Logging.Configuration;
-using Nt.Core.Logging.Internal;
-using Nt.Core.Options;
+﻿using KrTrade.NtCode.Configuration;
+using KrTrade.NtCode.DependencyInjection;
+using KrTrade.NtCode.Logging.Configuration;
+using KrTrade.NtCode.Logging.Internal;
+using KrTrade.NtCode.Options;
 using System;
 
-namespace Nt.Core.Logging
+namespace KrTrade.NtCode.Logging
 {
     /// <summary>
     /// Extension methods for setting up logging services in an <see cref="ILoggingBuilder" />.

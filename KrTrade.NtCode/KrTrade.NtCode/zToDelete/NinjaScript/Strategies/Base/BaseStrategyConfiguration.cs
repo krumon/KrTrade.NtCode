@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp
+﻿namespace KrTrade.NtCode
 {
     /// <summary>
     /// The base class of any strategy configuration.

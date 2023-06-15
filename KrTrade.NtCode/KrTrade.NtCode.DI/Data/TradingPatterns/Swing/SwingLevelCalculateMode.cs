@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Data
+﻿namespace KrTrade.NtCode.Data
 {
     /// <summary>
     /// The calculate mode for the swing level.

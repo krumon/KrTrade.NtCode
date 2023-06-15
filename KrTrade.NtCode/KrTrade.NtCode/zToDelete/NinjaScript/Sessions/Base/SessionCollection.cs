@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
     public class SessionCollection : ITradingSessionCollection
     {

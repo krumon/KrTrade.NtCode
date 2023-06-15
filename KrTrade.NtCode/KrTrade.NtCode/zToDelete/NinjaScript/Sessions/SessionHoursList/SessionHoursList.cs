@@ -4,7 +4,7 @@ using Nt.Core.Events;
 using System;
 using System.Collections.Generic;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
     /// <summary>
     /// Represents the SessionHours collection funcionality for any session.

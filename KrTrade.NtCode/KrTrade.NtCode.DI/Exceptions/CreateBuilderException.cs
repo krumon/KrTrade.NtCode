@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nt.Core.Exceptions
+namespace KrTrade.NtCode.Exceptions
 {
     [Serializable]
     public class CreateBuilderException : Exception

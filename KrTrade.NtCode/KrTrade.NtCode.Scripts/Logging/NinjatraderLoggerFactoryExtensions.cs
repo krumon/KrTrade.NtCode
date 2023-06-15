@@ -4,7 +4,7 @@ using Nt.Core.Logging.Configuration;
 using Nt.Core.Logging.Options;
 using System;
 
-namespace Nt.Scripts.Logging
+namespace KrTrade.NtCode.Logging
 {
     /// <summary>
     /// Extension methods for the <see cref="NinjatraderLogger"/>.

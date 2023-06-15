@@ -1,7 +1,7 @@
-﻿using Nt.Core.Configuration.EnvironmentVariables;
+﻿using KrTrade.NtCode.Configuration.EnvironmentVariables;
 using System;
 
-namespace Nt.Core.Configuration
+namespace KrTrade.NtCode.Configuration
 {
     /// <summary>
     /// Extension methods for registering <see cref="EnvironmentVariablesConfigurationProvider"/> with <see cref="IConfigurationBuilder"/>.

@@ -1,4 +1,4 @@
-﻿namespace Nt.Scripts.Services
+﻿namespace KrTrade.NtCode.Services
 {
     /// <summary>
     /// Represents the ninjascript services that are recalculable when the price is updated.

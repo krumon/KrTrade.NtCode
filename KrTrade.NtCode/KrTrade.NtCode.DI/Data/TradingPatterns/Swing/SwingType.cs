@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Data
+﻿namespace KrTrade.NtCode.Data
 {
     /// <summary>
     /// The type of swing. The swing can be formed by high prices or low prices

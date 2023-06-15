@@ -1,7 +1,7 @@
-﻿using Nt.Core.DependencyInjection;
-using Nt.Core.Options;
+﻿using KrTrade.NtCode.DependencyInjection;
+using KrTrade.NtCode.Options;
 
-namespace Nt.Core.Services
+namespace KrTrade.NtCode.Services
 {
     /// <summary>
     /// Represents default implementation of <see cref="DataSeriesProvider"/>.

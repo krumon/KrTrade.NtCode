@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nt.Core.Logging.EventLog
+namespace KrTrade.NtCode.Logging.EventLog
 {
     /// <summary>
     /// Settings for <see cref="EventLogLogger"/>.

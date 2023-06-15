@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Nt.Core.FileProviders.Physical
+namespace KrTrade.NtCode.FileProviders.Physical
 {
     internal static class FileSystemInfoHelper
     {

@@ -2,7 +2,7 @@
 using Nt.Core.DependencyInjection;
 using Nt.Core.Options;
 
-namespace Nt.Scripts.Ninjascripts.Options
+namespace KrTrade.NtCode.Ninjascripts.Options
 {
     /// <summary>
     /// Provides a set of helpers to initialize options objects from logger provider configuration.

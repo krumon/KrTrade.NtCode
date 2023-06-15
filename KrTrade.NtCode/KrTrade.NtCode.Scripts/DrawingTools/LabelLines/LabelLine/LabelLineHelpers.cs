@@ -8,7 +8,7 @@ using System.Windows;
 
 #endregion
 
-namespace Nt.Scripts.DrawingTools
+namespace KrTrade.NtCode.DrawingTools
 {
     
     /// <summary>

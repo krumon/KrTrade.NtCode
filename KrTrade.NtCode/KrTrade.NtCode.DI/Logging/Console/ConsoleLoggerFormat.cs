@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nt.Core.Logging.Console
+namespace KrTrade.NtCode.Logging.Console
 {
     /// <summary>
     /// Format of <see cref="Internal.ConsoleLogger"/> messages.

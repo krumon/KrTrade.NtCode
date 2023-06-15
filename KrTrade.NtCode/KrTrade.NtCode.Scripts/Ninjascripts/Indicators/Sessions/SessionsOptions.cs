@@ -1,4 +1,4 @@
-﻿namespace Nt.Scripts.Ninjascripts.Indicators
+﻿namespace KrTrade.NtCode.Ninjascripts.Indicators
 {
     public class SessionsOptions
     {

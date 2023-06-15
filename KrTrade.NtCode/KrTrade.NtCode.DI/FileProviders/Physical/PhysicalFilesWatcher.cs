@@ -1,8 +1,8 @@
-﻿using Nt.Core.Attributes;
-using Nt.Core.FileProviders.Physical.Internal;
-using Nt.Core.FileSystemGlobbing;
-using Nt.Core.Internal;
-using Nt.Core.Primitives;
+﻿using KrTrade.NtCode.Attributes;
+using KrTrade.NtCode.FileProviders.Physical.Internal;
+using KrTrade.NtCode.FileSystemGlobbing;
+using KrTrade.NtCode.Internal;
+using KrTrade.NtCode.Primitives;
 using System;
 using System.Collections.Concurrent;
 using System.IO;
@@ -10,7 +10,7 @@ using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Nt.Core.FileProviders.Physical
+namespace KrTrade.NtCode.FileProviders.Physical
 {
     /// <summary>
     ///     <para>

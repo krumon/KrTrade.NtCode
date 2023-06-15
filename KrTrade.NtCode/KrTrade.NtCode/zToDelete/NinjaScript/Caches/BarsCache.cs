@@ -3,7 +3,7 @@ using NinjaTrader.NinjaScript;
 using System;
 using Nt.Core.Data;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
     public class BarsCache : Cache<TradingBar>
     {

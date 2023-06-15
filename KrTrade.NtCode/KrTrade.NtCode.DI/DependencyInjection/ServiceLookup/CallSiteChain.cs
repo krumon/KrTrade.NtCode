@@ -3,7 +3,7 @@ using System.Text;
 using System;
 using Kr.Core.Helpers;
 
-namespace Nt.Core.DependencyInjection.ServiceLookup
+namespace KrTrade.NtCode.DependencyInjection.ServiceLookup
 {
     internal sealed class CallSiteChain
     {

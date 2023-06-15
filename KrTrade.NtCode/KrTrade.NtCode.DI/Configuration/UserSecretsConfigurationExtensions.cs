@@ -1,10 +1,10 @@
-﻿using Nt.Core.Configuration.UserSecrets;
-using Nt.Core.FileProviders;
+﻿using KrTrade.NtCode.Configuration.UserSecrets;
+using KrTrade.NtCode.FileProviders;
 using System;
 using System.IO;
 using System.Reflection;
 
-namespace Nt.Core.Configuration
+namespace KrTrade.NtCode.Configuration
 {
     /// <summary>
     /// Configuration extensions for adding user secrets configuration source.

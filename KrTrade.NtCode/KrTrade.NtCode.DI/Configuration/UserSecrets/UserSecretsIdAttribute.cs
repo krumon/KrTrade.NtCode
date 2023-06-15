@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nt.Core.Configuration.UserSecrets
+namespace KrTrade.NtCode.Configuration.UserSecrets
 {
     /// <summary>
     /// <para>

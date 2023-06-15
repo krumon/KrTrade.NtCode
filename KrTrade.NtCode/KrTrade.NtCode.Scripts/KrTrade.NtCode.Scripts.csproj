@@ -202,7 +202,7 @@
     <Compile Include="Ninjascripts\Strategies\StrategyTester.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\KrTrade.NtCode.Core\KrTrade.NtCode.DI.csproj">
+    <ProjectReference Include="..\KrTrade.NtCode.DI\KrTrade.NtCode.DI.csproj">
       <Project>{3a644626-5b81-4ee5-9d67-6b77d5ba4940}</Project>
       <Name>KrTrade.NtCode.DI</Name>
     </ProjectReference>

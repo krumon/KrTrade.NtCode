@@ -1,10 +1,10 @@
-﻿using Nt.Core.Primitives;
+﻿using KrTrade.NtCode.Primitives;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
 
-namespace Nt.Core.FileProviders.Physical
+namespace KrTrade.NtCode.FileProviders.Physical
 {
     /// <summary>
     ///     <para>

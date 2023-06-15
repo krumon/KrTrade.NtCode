@@ -1,7 +1,7 @@
 ﻿
 using System.IO;
 
-namespace Nt.Core.Configuration
+namespace KrTrade.NtCode.Configuration
 {
     /// <summary>
     /// Stream based <see cref="IConfigurationSource" />.

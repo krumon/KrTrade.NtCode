@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Logging.File
+﻿namespace KrTrade.NtCode.Logging.File
 {
     /// <summary>
     /// Reserved formatter names for the built-in console formatters.

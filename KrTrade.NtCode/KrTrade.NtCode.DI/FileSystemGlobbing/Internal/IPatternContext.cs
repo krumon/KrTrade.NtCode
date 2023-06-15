@@ -1,7 +1,7 @@
-﻿using Nt.Core.FileSystemGlobbing.Abstractions;
+﻿using KrTrade.NtCode.FileSystemGlobbing.Abstractions;
 using System;
 
-namespace Nt.Core.FileSystemGlobbing.Internal
+namespace KrTrade.NtCode.FileSystemGlobbing.Internal
 {
     /// <summary>
     /// This API supports infrastructure and is not intended to be used directly from

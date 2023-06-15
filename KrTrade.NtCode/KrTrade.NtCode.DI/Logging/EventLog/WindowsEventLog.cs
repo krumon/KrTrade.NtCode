@@ -1,9 +1,9 @@
-﻿using Nt.Core.Attributes;
+﻿using KrTrade.NtCode.Attributes;
 using System;
 using System.Diagnostics;
 using System.Security;
 
-namespace Nt.Core.Logging.EventLog
+namespace KrTrade.NtCode.Logging.EventLog
 {
     [SupportedOSPlatform("windows")]
     internal sealed class WindowsEventLog : IEventLog

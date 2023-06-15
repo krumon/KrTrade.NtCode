@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nt.Scripts.Ninjascripts
+namespace KrTrade.NtCode.Ninjascripts
 {
     /// <summary>
     /// Represents a type used to configure the ninjascript system and create instances of

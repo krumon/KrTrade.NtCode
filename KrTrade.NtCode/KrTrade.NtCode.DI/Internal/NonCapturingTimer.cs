@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Nt.Core.Internal
+namespace KrTrade.NtCode.Internal
 {
     // A convenience API for interacting with System.Threading.Timer in a way
     // that doesn't capture the ExecutionContext. We should be using this (or equivalent)

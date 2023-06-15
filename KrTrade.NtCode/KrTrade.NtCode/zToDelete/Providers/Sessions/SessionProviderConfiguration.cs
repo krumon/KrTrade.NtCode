@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp
+﻿namespace KrTrade.NtCode
 {
     public class SessionProviderConfiguration
     {

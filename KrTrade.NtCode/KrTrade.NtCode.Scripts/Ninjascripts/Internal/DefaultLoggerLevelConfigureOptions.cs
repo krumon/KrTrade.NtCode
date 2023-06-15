@@ -1,6 +1,6 @@
 ﻿using Nt.Core.Options;
 
-namespace Nt.Scripts.Ninjascripts.Internal
+namespace KrTrade.NtCode.Ninjascripts.Internal
 {
     internal sealed class DefaultNinjascriptLevelConfigureOptions : ConfigureOptions<NinjascriptFilterOptions>
     {

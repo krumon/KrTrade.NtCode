@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Logging.Console
+﻿namespace KrTrade.NtCode.Logging.Console
 {
     /// <summary>
     /// Determines when to use color when logging messages.

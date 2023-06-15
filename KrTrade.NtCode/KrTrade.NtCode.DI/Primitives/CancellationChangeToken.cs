@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Nt.Core.Primitives
+namespace KrTrade.NtCode.Primitives
 {
     /// <summary>
     /// A <see cref="IChangeToken"/> implementation using <see cref="CancellationToken"/>.

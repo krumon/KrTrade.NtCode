@@ -1,10 +1,10 @@
-﻿using Nt.Core.Attributes;
-using Nt.Core.Options;
-using Nt.Core.Options.Internal;
+﻿using KrTrade.NtCode.Attributes;
+using KrTrade.NtCode.Options;
+using KrTrade.NtCode.Options.Internal;
 using System;
 using System.Collections.Generic;
 
-namespace Nt.Core.DependencyInjection
+namespace KrTrade.NtCode.DependencyInjection
 {
     /// <summary>
     /// Extension methods for adding options services to the DI container.

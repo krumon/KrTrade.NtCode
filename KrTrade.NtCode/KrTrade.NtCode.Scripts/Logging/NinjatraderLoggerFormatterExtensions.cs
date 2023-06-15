@@ -5,7 +5,7 @@ using Nt.Core.Logging.Configuration;
 using Nt.Core.Options;
 using System;
 
-namespace Nt.Scripts.Logging
+namespace KrTrade.NtCode.Logging
 {
     [UnsupportedOSPlatform("browser")]
     public static class NinjatraderLoggerFormatterExtensions

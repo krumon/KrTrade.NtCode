@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 
-namespace Nt.Core.Options
+namespace KrTrade.NtCode.Options
 {
     /// <summary>
     /// Used to cache <typeparamref name="TOptions"/> instances.

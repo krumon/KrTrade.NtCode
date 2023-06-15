@@ -5,7 +5,7 @@ using Nt.Core.Logging;
 using Nt.Core.Options;
 using System;
 
-namespace Nt.Scripts.Hosting
+namespace KrTrade.NtCode.Hosting
 {
     /// <summary>
     /// Default services host builder.

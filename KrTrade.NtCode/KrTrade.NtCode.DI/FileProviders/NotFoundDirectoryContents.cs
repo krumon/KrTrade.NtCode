@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Nt.Core.FileProviders
+namespace KrTrade.NtCode.FileProviders
 {
     /// <summary>
     /// Represents a non-existing directory

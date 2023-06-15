@@ -1,12 +1,12 @@
-﻿using Nt.Core.Attributes;
-using Nt.Core.DependencyInjection;
+﻿using KrTrade.NtCode.Attributes;
+using KrTrade.NtCode.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
-namespace Nt.Core.Configuration
+namespace KrTrade.NtCode.Configuration
 {
     /// <summary>
     /// Static helper class that allows binding strongly typed objects to configuration values.

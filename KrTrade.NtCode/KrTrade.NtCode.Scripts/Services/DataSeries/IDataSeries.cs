@@ -1,7 +1,7 @@
 ﻿using Nt.Core.Hosting;
 using System;
 
-namespace Nt.Scripts.Services
+namespace KrTrade.NtCode.Services
 {
     /// <summary>
     /// Represents default implementation of any data serie.

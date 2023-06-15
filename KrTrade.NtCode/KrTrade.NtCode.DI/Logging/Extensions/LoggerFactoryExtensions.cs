@@ -1,8 +1,8 @@
-﻿using Nt.Core.Helpers;
-using Nt.Core.Internal;
+﻿using KrTrade.NtCode.Helpers;
+using KrTrade.NtCode.Internal;
 using System;
 
-namespace Nt.Core.Logging
+namespace KrTrade.NtCode.Logging
 {
     /// <summary>
     /// ILoggerFactory extension methods for common scenarios.

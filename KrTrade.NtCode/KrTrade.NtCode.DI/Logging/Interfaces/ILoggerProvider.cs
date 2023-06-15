@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nt.Core.Logging
+namespace KrTrade.NtCode.Logging
 {
     /// <summary>
     /// Represents a type that can create instances of <see cref="ILogger"/>.

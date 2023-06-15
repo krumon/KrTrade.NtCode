@@ -2,7 +2,7 @@
 using System.Text;
 using System;
 
-namespace Nt.Core.Helpers
+namespace KrTrade.NtCode.Helpers
 {
     public static class TypeNameHelper
     {

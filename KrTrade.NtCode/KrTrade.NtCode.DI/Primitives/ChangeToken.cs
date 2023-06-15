@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Nt.Core.Primitives
+namespace KrTrade.NtCode.Primitives
 {
     /// <summary>
     /// Propagates notifications that a change has occurred.

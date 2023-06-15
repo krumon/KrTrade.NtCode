@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace Nt.Core.Data
+namespace KrTrade.NtCode.Data
 {
     public interface ITradingSessionCollection :
         IList<ISessions>,

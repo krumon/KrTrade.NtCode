@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nt.Core.Logging.Internal
+namespace KrTrade.NtCode.Logging.Internal
 {
     internal readonly struct LoggerInformation
     {

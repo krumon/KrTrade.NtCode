@@ -1,6 +1,6 @@
-﻿using Nt.Core.DependencyInjection;
+﻿using KrTrade.NtCode.DependencyInjection;
 
-namespace Nt.Core.Options
+namespace KrTrade.NtCode.Options
 {
     /// <summary>
     /// Helper class.

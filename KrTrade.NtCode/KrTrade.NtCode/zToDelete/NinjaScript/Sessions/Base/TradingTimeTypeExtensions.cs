@@ -1,7 +1,7 @@
 ﻿using Nt.Core.Data;
 using System;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
 
     /// <summary>

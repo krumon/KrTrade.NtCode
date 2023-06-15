@@ -1,7 +1,7 @@
-﻿using Nt.Core.Data;
+﻿using KrTrade.NtCode.Data;
 using System;
 
-namespace Nt.Core.Services
+namespace KrTrade.NtCode.Services
 {
     /// <summary>
     /// Represents any ninjascript data series.

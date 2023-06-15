@@ -1,9 +1,9 @@
 ﻿using NinjaTrader.NinjaScript;
-using ConsoleApp;
-using ConsoleApp;
+using KrTrade.NtCode;
+using KrTrade.NtCode;
 using System;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
     public class SwingPointsCache : Cache<SwingPoint>
     {

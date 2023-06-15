@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Nt.Core.Hosting
+namespace KrTrade.NtCode.Hosting
 {
     /// <summary>
     /// Represents the properties and methods to built a ninjascript host.

@@ -1,6 +1,6 @@
 ﻿using Nt.Core.Data;
 
-namespace Nt.Scripts.Services
+namespace KrTrade.NtCode.Services
 {
     /// <summary>
     /// Represents a ninjascript instrument.

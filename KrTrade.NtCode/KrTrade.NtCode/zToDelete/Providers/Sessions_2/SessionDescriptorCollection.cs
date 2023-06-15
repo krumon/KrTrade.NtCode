@@ -1,4 +1,4 @@
-﻿//namespace ConsoleApp
+﻿//namespace KrTrade.NtCode
 //{
 //    /// <summary>
 //    /// Represents a deafault implementation of session descriptor collection.

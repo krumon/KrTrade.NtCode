@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Nt.Core.Logging.Console
+namespace KrTrade.NtCode.Logging.Console
 {
     /// <summary>
     /// For consoles which understand the ANSI escape code sequences to represent color

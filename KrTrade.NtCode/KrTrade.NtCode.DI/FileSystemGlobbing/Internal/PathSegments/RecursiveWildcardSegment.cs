@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.FileSystemGlobbing.Internal.PathSegments
+﻿namespace KrTrade.NtCode.FileSystemGlobbing.Internal.PathSegments
 {
     public class RecursiveWildcardSegment : IPathSegment
     {

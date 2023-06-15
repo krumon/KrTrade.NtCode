@@ -1,7 +1,7 @@
 ﻿using Nt.Core.Configuration;
 using System;
 
-namespace Nt.Scripts.Ninjascripts.Configuration
+namespace KrTrade.NtCode.Ninjascripts.Configuration
 {
     /// <summary>
     /// Allows access to configuration section associated with ninjascript provider

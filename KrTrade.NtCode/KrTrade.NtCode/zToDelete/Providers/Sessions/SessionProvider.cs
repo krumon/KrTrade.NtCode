@@ -1,7 +1,7 @@
-﻿using ConsoleApp;
+﻿using KrTrade.NtCode;
 using Nt.Core.Data;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
     public class SessionProvider : ISessionProvider
     {

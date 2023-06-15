@@ -2,7 +2,7 @@
 using NinjaTrader.NinjaScript;
 using Nt.Core.Events;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
     /// <summary>
     /// Represents consts, fields and properties of the Ninjatrader user configuration.

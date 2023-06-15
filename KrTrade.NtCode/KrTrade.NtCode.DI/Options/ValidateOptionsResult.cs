@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Nt.Core.Options
+namespace KrTrade.NtCode.Options
 {
     /// <summary>
     /// Represents the result of an options validation.

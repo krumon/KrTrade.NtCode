@@ -1,6 +1,6 @@
 ﻿using Nt.Core.Hosting;
 
-namespace Nt.Scripts.Hosting
+namespace KrTrade.NtCode.Hosting
 {
     public interface INinjaHost : IHost
     {

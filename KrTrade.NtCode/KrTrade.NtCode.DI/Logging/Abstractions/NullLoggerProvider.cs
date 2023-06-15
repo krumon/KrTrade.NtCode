@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Logging.Abstractions
+﻿namespace KrTrade.NtCode.Logging.Abstractions
 {
     /// <summary>
     /// Provider for the <see cref="NullLogger"/>.

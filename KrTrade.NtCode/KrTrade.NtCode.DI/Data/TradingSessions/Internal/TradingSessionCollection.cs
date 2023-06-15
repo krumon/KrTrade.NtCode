@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Nt.Core.Data.Internal
+namespace KrTrade.NtCode.Data.Internal
 {
     public class TradingSessionCollection : ITradingSessionCollection
     {

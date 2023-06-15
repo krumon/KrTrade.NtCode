@@ -1,4 +1,4 @@
-﻿namespace Nt.Scripts.Services
+﻿namespace KrTrade.NtCode.Services
 {
 
     /// <summary>

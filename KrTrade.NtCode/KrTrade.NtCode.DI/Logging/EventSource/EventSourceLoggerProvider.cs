@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Nt.Core.Logging.EventSource
+namespace KrTrade.NtCode.Logging.EventSource
 {
     /// <summary>
     /// The provider for the <see cref="EventSourceLogger"/>.

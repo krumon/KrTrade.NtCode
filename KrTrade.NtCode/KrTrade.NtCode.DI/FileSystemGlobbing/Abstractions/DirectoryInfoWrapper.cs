@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Nt.Core.FileSystemGlobbing.Abstractions
+namespace KrTrade.NtCode.FileSystemGlobbing.Abstractions
 {
     /// <summary>
     /// Wraps an instance of <see cref="System.IO.DirectoryInfo" /> and provides implementation of

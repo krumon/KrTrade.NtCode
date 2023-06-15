@@ -1,7 +1,7 @@
-﻿using Nt.Core.Data;
+﻿using KrTrade.NtCode.Data;
 using System;
 
-namespace Nt.Core.Brokers
+namespace KrTrade.NtCode.Brokers
 {
     public static class BrokerExtensions
     {

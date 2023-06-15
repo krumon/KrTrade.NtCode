@@ -1,10 +1,10 @@
 ﻿using Nt.Core.DependencyInjection;
 using Nt.Core.Options;
-using Nt.Scripts.Ninjascripts.Internal;
+using KrTrade.NtCode.Ninjascripts.Internal;
 using System;
 using System.Collections.Generic;
 
-namespace Nt.Scripts.Ninjascripts
+namespace KrTrade.NtCode.Ninjascripts
 {
     /// <summary>
     /// Produces instances of <see cref="INinjascript"/> classes based on the given providers.

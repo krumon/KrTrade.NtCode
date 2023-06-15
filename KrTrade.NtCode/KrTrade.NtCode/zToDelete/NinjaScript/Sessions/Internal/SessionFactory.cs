@@ -2,7 +2,7 @@
 //using System;
 //using System.Collections.Generic;
 
-//namespace ConsoleApp.Internal
+//namespace KrTrade.NtCode.Internal
 //{
 //    internal class SessionFactory
 //    {

@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Logging.File
+﻿namespace KrTrade.NtCode.Logging.File
 {
     public class FileFormatterOptions : BaseFileFormatterOptions
     {

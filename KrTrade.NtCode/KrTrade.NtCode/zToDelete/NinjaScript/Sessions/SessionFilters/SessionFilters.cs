@@ -3,7 +3,7 @@ using NinjaTrader.NinjaScript;
 using Nt.Core.Events;
 using System;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
     /// <summary>
     /// Represents the filters for any session object.

@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Options
+﻿namespace KrTrade.NtCode.Options
 {
     /// <summary>
     /// Implementation of <see cref="IOptions{TOptions}"/> and <see cref="IOptionsSnapshot{TOptions}"/>.

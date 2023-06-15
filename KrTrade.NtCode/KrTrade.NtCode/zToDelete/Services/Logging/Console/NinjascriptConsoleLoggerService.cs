@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
 
     public sealed class NinjascriptConsoleLoggerService : ILogger

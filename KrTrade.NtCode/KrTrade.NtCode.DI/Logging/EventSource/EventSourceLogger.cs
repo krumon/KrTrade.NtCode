@@ -1,4 +1,4 @@
-﻿using Nt.Core.Logging.Internal;
+﻿using KrTrade.NtCode.Logging.Internal;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 
-namespace Nt.Core.Logging.EventSource
+namespace KrTrade.NtCode.Logging.EventSource
 {
     /// <summary>
     /// A logger that writes messages to EventSource instance.

@@ -4,7 +4,7 @@ using System;
 using Nt.Core.Data;
 using Nt.Core.Events;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
     internal class SessionsManagerTests : BaseConsoleTests
     {

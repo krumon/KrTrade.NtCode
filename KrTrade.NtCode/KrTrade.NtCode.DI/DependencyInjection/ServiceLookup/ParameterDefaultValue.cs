@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace Nt.Core.DependencyInjection.ServiceLookup
+namespace KrTrade.NtCode.DependencyInjection.ServiceLookup
 {
     internal static class ParameterDefaultValue
     {

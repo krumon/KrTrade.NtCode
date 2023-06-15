@@ -1,7 +1,7 @@
-﻿using Nt.Core.Services;
+﻿using KrTrade.NtCode.Services;
 using System;
 
-namespace Nt.Core.Data
+namespace KrTrade.NtCode.Data
 {
     public class DataSerie
     {

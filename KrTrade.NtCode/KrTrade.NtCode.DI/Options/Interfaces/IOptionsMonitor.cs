@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nt.Core.Options
+namespace KrTrade.NtCode.Options
 {
     /// <summary>
     /// Used for notifications when TOptions instances change.

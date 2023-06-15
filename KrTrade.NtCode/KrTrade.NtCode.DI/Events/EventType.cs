@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Events
+﻿namespace KrTrade.NtCode.Events
 {
     /// <summary>
     /// The type of the bar.

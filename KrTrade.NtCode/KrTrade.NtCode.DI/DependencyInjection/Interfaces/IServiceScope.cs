@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nt.Core.DependencyInjection
+namespace KrTrade.NtCode.DependencyInjection
 {
     /// <summary>
     /// The System.IDisposable.Dispose method ends the scope lifetime. Once Dispose is called, any scoped services 

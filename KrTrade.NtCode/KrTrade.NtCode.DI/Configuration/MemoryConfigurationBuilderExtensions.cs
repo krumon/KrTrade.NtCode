@@ -1,8 +1,8 @@
-﻿using Nt.Core.Configuration.Memory;
+﻿using KrTrade.NtCode.Configuration.Memory;
 using System;
 using System.Collections.Generic;
 
-namespace Nt.Core.Configuration
+namespace KrTrade.NtCode.Configuration
 {
     /// <summary>
     /// IConfigurationBuilder extension methods for the MemoryConfigurationProvider.

@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Data
+﻿namespace KrTrade.NtCode.Data
 {
     /// <summary>
     /// The type of result when compare trading sessions.

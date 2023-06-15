@@ -5,7 +5,7 @@ using Nt.Core.Logging;
 using Nt.Core.Options;
 using System;
 
-namespace Nt.Scripts.Hosting.Internal
+namespace KrTrade.NtCode.Hosting.Internal
 {
     /// <summary>
     /// Represents the Ninjatrader host.

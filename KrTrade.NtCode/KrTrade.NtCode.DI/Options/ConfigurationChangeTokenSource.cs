@@ -1,8 +1,8 @@
-﻿using Nt.Core.Configuration;
-using Nt.Core.Primitives;
+﻿using KrTrade.NtCode.Configuration;
+using KrTrade.NtCode.Primitives;
 using System;
 
-namespace Nt.Core.Options
+namespace KrTrade.NtCode.Options
 {
     /// <summary>
     /// Creates <see cref="IChangeToken"/>s so that <see cref="IOptionsMonitor{TOptions}"/> gets

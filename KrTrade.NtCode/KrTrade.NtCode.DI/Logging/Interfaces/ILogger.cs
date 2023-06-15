@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nt.Core.Logging
+namespace KrTrade.NtCode.Logging
 {
     /// <summary>
     /// Represents a type used to perform logging.

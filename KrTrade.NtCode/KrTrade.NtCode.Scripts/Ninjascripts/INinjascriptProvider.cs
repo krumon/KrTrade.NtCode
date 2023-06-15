@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nt.Scripts.Ninjascripts
+namespace KrTrade.NtCode.Ninjascripts
 {
     /// <summary>
     /// Represents a type that can create instances of <see cref="INinjascript"/>.

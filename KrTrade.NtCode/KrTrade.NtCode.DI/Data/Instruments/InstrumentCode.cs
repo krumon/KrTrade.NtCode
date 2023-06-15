@@ -1,5 +1,5 @@
 ﻿
-namespace Nt.Core.Data
+namespace KrTrade.NtCode.Data
 {
     /// <summary>
     /// The unique code of financial instruments.

@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Options
+﻿namespace KrTrade.NtCode.Options
 {
     /// <summary>
     /// Used to retrieve configured TOptions instances.

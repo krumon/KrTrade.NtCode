@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nt.Core.Helpers
+namespace KrTrade.NtCode.Helpers
 {
     internal static class StringComparisonHelper
     {

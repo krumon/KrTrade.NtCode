@@ -1,7 +1,7 @@
-﻿using Nt.Core.Configuration;
+﻿using KrTrade.NtCode.Configuration;
 using System;
 
-namespace Nt.Core.Logging.Configuration
+namespace KrTrade.NtCode.Logging.Configuration
 {
     /// <summary>
     /// Allows access to configuration section associated with logger provider

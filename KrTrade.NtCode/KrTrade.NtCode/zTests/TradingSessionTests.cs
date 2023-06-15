@@ -1,11 +1,11 @@
 ﻿using Kr.Core.Helpers;
 using Kr.Core.Tests;
-using ConsoleApp;
-using ConsoleApp.Internal;
+using KrTrade.NtCode;
+using KrTrade.NtCode.Internal;
 using System;
 using Nt.Core.Data;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
     public class TradingSessionTests : BaseConsoleTests
     {

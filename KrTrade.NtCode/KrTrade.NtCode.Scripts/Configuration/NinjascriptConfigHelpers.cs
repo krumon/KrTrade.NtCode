@@ -1,4 +1,4 @@
-﻿namespace Nt.Scripts.Configuration
+﻿namespace KrTrade.NtCode.Configuration
 {
     /// <summary>
     /// Helpers methods to configure ninjascript services.

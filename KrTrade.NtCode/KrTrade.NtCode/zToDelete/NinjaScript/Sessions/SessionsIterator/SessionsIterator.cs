@@ -5,7 +5,7 @@ using Nt.Core.Events;
 using System;
 using System.Collections.Generic;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
 
     /// <summary>

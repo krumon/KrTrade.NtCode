@@ -3,7 +3,7 @@ using Nt.Core.Data;
 using Nt.Core.Events;
 using System;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
     /// <summary>
     /// Represents a trading time information.

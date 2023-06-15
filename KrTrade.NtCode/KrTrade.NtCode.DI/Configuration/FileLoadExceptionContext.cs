@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nt.Core.Configuration
+namespace KrTrade.NtCode.Configuration
 {
     /// <summary>
     /// Contains information about a file load exception.

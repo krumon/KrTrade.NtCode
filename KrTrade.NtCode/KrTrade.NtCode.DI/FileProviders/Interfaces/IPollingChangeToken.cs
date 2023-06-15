@@ -1,7 +1,7 @@
-﻿using Nt.Core.Primitives;
+﻿using KrTrade.NtCode.Primitives;
 using System.Threading;
 
-namespace Nt.Core.FileProviders
+namespace KrTrade.NtCode.FileProviders
 {
     internal interface IPollingChangeToken : IChangeToken
     {

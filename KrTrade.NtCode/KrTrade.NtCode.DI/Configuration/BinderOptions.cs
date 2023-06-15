@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Configuration
+﻿namespace KrTrade.NtCode.Configuration
 {
     /// <summary>
     /// Options class used by the <see cref="ConfigurationBinder"/>.

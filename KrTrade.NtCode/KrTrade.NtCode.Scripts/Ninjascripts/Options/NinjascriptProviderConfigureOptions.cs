@@ -1,9 +1,9 @@
 ﻿using Nt.Core.Attributes;
 using Nt.Core.DependencyInjection;
 using Nt.Core.Options;
-using Nt.Scripts.Ninjascripts.Configuration;
+using KrTrade.NtCode.Ninjascripts.Configuration;
 
-namespace Nt.Scripts.Ninjascripts.Options
+namespace KrTrade.NtCode.Ninjascripts.Options
 {
     /// <summary>
     /// Loads settings for <typeparamref name="TProvider"/> into <typeparamref name="TOptions"/> type.

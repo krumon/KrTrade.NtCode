@@ -1,4 +1,4 @@
-﻿namespace Nt.Core
+﻿namespace KrTrade.NtCode
 {
     /// <summary>
     /// The interfece for any ninjascript element.

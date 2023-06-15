@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Nt.Core.Logging.Console
+namespace KrTrade.NtCode.Logging.Console
 {
     public static class TextWriterExtensions
     {

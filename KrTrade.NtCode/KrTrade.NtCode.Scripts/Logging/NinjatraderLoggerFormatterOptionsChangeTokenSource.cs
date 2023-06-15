@@ -2,7 +2,7 @@
 using Nt.Core.Logging.Configuration;
 using Nt.Core.Options;
 
-namespace Nt.Scripts.Logging
+namespace KrTrade.NtCode.Logging
 {
     [UnsupportedOSPlatform("browser")]
     internal sealed class NinjatraderLoggerFormatterOptionsChangeTokenSource<TFormatter, TOptions> : ConfigurationChangeTokenSource<TOptions>

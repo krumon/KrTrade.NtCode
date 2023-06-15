@@ -1,8 +1,8 @@
-﻿using Nt.Core.FileSystemGlobbing.Abstractions;
+﻿using KrTrade.NtCode.FileSystemGlobbing.Abstractions;
 using System;
 using System.Collections.Generic;
 
-namespace Nt.Core.FileSystemGlobbing.Internal.PatternContexts
+namespace KrTrade.NtCode.FileSystemGlobbing.Internal.PatternContexts
 {
     public abstract class PatternContextRagged : PatternContext<PatternContextRagged.FrameData>
     {

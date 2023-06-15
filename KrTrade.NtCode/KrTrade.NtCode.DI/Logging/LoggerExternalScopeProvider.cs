@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Nt.Core.Logging
+namespace KrTrade.NtCode.Logging
 {
     /// <summary>
     /// Default implementation of <see cref="IExternalScopeProvider"/>

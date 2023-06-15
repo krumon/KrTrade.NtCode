@@ -1,10 +1,10 @@
-﻿using Nt.Core.DependencyInjection.ServiceLookup;
+﻿using KrTrade.NtCode.DependencyInjection.ServiceLookup;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Nt.Core.DependencyInjection
+namespace KrTrade.NtCode.DependencyInjection
 {
     /// <summary>
     /// Default <see cref="IServiceProvider"/>.

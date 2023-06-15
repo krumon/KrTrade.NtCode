@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Files
+﻿namespace KrTrade.NtCode.Files
 {
     /// <summary>
     /// The type price of the bar.

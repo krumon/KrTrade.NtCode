@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nt.Core.Options
+namespace KrTrade.NtCode.Options
 {
     /// <summary>
     /// Implementation of <see cref="IValidateOptions{TOptions}"/>

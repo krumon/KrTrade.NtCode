@@ -1,8 +1,8 @@
 ﻿using Nt.Core.Hosting;
-using Nt.Scripts.Ninjascripts;
+using KrTrade.NtCode.Ninjascripts;
 using System;
 
-namespace Nt.Scripts.NinjatraderObjects
+namespace KrTrade.NtCode.NinjatraderObjects
 {
     /// <summary>
     /// Represents the properties and methods to create a default implementation of <see cref="GlobalsDataService"/>.

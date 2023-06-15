@@ -1,9 +1,9 @@
 ﻿using NinjaTrader.Client;
-using Nt.Core.Data;
+using KrTrade.NtCode.Core.Data;
 using System;
 using System.Timers;
 
-namespace Nt.Connect
+namespace KrTrade.NtCode.Connect
 {
     /// <summary>
     /// Use to connect to Ninjatrader platafform by the API.

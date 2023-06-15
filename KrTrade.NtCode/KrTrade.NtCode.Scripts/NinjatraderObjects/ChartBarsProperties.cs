@@ -4,7 +4,7 @@ using System;
 using System.Text;
 using BarsPeriod = Nt.Core.Data.BarsPeriod;
 
-namespace Nt.Scripts.NinjatraderObjects
+namespace KrTrade.NtCode.NinjatraderObjects
 {
     public class ChartBarsProperties : IChartBarsProperties
     {

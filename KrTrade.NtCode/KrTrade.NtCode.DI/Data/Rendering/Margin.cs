@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Data
+﻿namespace KrTrade.NtCode.Data
 {
     /// <summary>
     /// Represents the four margin of an object

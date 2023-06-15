@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nt.Core.Data
+namespace KrTrade.NtCode.Data
 {
     public class TradingBar : BaseElement
     {

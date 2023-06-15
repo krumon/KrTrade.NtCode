@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp.Internal
+﻿namespace KrTrade.NtCode.Internal
 {
     internal class TradingSessionConfiguration
     {

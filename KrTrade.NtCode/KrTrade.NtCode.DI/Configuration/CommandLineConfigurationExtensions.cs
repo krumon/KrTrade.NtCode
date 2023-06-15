@@ -1,8 +1,8 @@
-﻿using Nt.Core.Configuration.CommandLine;
+﻿using KrTrade.NtCode.Configuration.CommandLine;
 using System;
 using System.Collections.Generic;
 
-namespace Nt.Core.Configuration
+namespace KrTrade.NtCode.Configuration
 {
     /// <summary>
     /// Extension methods for registering <see cref="CommandLineConfigurationProvider"/> with <see cref="IConfigurationBuilder"/>.

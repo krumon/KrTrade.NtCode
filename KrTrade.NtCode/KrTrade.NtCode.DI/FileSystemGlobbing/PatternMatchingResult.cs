@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Nt.Core.FileSystemGlobbing
+namespace KrTrade.NtCode.FileSystemGlobbing
 {
     /// <summary>
     /// Represents a collection of <see cref="FilePatternMatch" />

@@ -1,7 +1,7 @@
-﻿using Nt.Core.Logging.Internal;
+﻿using KrTrade.NtCode.Logging.Internal;
 using System;
 
-namespace Nt.Core.Logging.Abstractions
+namespace KrTrade.NtCode.Logging.Abstractions
 {
     /// <summary>
     /// Minimalistic logger that does nothing.

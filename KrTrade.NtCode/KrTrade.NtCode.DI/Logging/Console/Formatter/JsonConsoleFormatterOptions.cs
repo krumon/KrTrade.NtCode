@@ -1,6 +1,6 @@
 ﻿//using System.Text.Json;
 
-namespace Nt.Core.Logging.Console
+namespace KrTrade.NtCode.Logging.Console
 {
     ///// <summary>
     ///// Options for the built-in json console log formatter.

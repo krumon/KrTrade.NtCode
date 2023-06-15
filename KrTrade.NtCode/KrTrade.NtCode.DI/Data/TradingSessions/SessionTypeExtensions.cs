@@ -1,8 +1,8 @@
-﻿using Nt.Core.Data.Internal;
+﻿using KrTrade.NtCode.Data.Internal;
 using System;
 using System.Linq;
 
-namespace Nt.Core.Data
+namespace KrTrade.NtCode.Data
 {
 
     /// <summary>

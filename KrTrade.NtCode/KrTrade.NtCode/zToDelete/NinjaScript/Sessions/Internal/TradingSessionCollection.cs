@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace ConsoleApp.Internal
+namespace KrTrade.NtCode.Internal
 {
     internal class TradingSessionCollection : ITradingSessionCollection
     {

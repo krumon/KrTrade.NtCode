@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Nt.Core.Logging.EventLog
+namespace KrTrade.NtCode.Logging.EventLog
 {
     internal interface IEventLog
     {

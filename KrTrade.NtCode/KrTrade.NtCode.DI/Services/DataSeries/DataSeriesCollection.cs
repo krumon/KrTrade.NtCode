@@ -1,7 +1,7 @@
-﻿using Nt.Core.Data;
-using Nt.Core.DependencyInjection;
+﻿using KrTrade.NtCode.Data;
+using KrTrade.NtCode.DependencyInjection;
 
-namespace Nt.Core.Services
+namespace KrTrade.NtCode.Services
 {
     /// <summary>
     /// Represents a default implementation of data series descriptor collection.

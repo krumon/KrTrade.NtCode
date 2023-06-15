@@ -1,7 +1,7 @@
 ﻿using Nt.Core.Data;
-using Nt.Scripts.Ninjascripts;
+using KrTrade.NtCode.Ninjascripts;
 
-namespace Nt.Scripts.NinjatraderObjects
+namespace KrTrade.NtCode.NinjatraderObjects
 {
     /// <summary>
     /// Represents the properties and methods to create a default implementation of <see cref="ChartBarsProperties"/>.

@@ -1,4 +1,4 @@
-﻿namespace Nt.Scripts.Ninjascripts
+﻿namespace KrTrade.NtCode.Ninjascripts
 {
 
     /// <summary>

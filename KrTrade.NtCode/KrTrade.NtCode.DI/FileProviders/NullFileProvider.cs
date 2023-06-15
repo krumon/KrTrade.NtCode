@@ -1,6 +1,6 @@
-﻿using Nt.Core.Primitives;
+﻿using KrTrade.NtCode.Primitives;
 
-namespace Nt.Core.FileProviders
+namespace KrTrade.NtCode.FileProviders
 {
     /// <summary>
     /// An empty file provider with no contents.

@@ -1,11 +1,11 @@
 ﻿using Nt.Core.Configuration;
 using Nt.Core.DependencyInjection;
 using Nt.Core.Options;
-using Nt.Scripts.Ninjascripts.Configuration;
-using Nt.Scripts.Ninjascripts.Internal;
+using KrTrade.NtCode.Ninjascripts.Configuration;
+using KrTrade.NtCode.Ninjascripts.Internal;
 using System;
 
-namespace Nt.Scripts.Ninjascripts
+namespace KrTrade.NtCode.Ninjascripts
 {
     /// <summary>
     /// Extension methods for setting up ninjascript services in an <see cref="INinjascriptBuilder" />.

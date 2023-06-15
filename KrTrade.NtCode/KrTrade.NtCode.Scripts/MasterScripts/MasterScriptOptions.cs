@@ -1,7 +1,7 @@
-﻿using Nt.Scripts.Ninjascripts;
+﻿using KrTrade.NtCode.Ninjascripts;
 using System.Collections.Generic;
 
-namespace Nt.Scripts.MasterScripts
+namespace KrTrade.NtCode.MasterScripts
 {
     public class MasterScriptOptions
     {

@@ -2,13 +2,13 @@
 using Nt.Core.Logging.Console;
 using Nt.Core.Logging.File;
 using Nt.Core.Options;
-using Nt.Scripts.NinjatraderObjects;
-using Nt.Scripts.Services;
+using KrTrade.NtCode.NinjatraderObjects;
+using KrTrade.NtCode.Services;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace Nt.Scripts.Logging
+namespace KrTrade.NtCode.Logging
 {
     /// <summary>
     /// Provides the ability to log to ninjatrader output windows.

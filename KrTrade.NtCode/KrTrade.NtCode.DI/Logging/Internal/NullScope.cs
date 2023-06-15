@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nt.Core.Logging.Internal
+namespace KrTrade.NtCode.Logging.Internal
 {
     /// <summary>
     /// An empty scope without any logic

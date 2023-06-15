@@ -1,15 +1,15 @@
-﻿using Nt.Core.Configuration;
-using Nt.Core.DependencyInjection;
-using Nt.Core.FileProviders;
-using Nt.Core.Hosting.Internal;
-using Nt.Core.Logging;
+﻿using KrTrade.NtCode.Configuration;
+using KrTrade.NtCode.DependencyInjection;
+using KrTrade.NtCode.FileProviders;
+using KrTrade.NtCode.Hosting.Internal;
+using KrTrade.NtCode.Logging;
 using System;
 using System.Collections.Generic;
 //using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
-namespace Nt.Core.Hosting
+namespace KrTrade.NtCode.Hosting
 {
     /// <summary>
     /// Default services host builder.
@@ -132,7 +132,7 @@ namespace Nt.Core.Hosting
             // TODO: DiagnosticListener Implementation
             //     REVIEW: If we want to raise more events outside of these calls then we will need to
             //     stash this in a field.
-            //using (var diagnosticListener = new DiagnosticListener("Nt.Core.Hosting"))
+            //using (var diagnosticListener = new DiagnosticListener("KrTrade.NtCode.Hosting"))
             //{
             //    const string hostBuildingEventName = "HostBuilding";
             //    const string hostBuiltEventName = "HostBuilt";

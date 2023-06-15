@@ -1,4 +1,4 @@
-﻿namespace Nt.Connect
+﻿namespace KrTrade.NtCode.Connect
 {
 
     /// <summary>

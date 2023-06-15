@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp
+﻿namespace KrTrade.NtCode
 {
     /// <summary>
     /// Represents the <see cref="SessionHours"/> configuration.

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Nt.Scripts.Ninjascripts.Internal
+namespace KrTrade.NtCode.Ninjascripts.Internal
 {
     internal sealed class NinjascriptFilterConfigureOptions : IConfigureOptions<NinjascriptFilterOptions>
     {

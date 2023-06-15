@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Options
+﻿namespace KrTrade.NtCode.Options
 {
     /// <summary>
     /// Represents something that configures the TOptions type. Note: These are run after

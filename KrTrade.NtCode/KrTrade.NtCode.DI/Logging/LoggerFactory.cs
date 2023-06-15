@@ -1,10 +1,10 @@
-﻿using Nt.Core.DependencyInjection;
-using Nt.Core.Logging.Internal;
-using Nt.Core.Options;
+﻿using KrTrade.NtCode.DependencyInjection;
+using KrTrade.NtCode.Logging.Internal;
+using KrTrade.NtCode.Options;
 using System;
 using System.Collections.Generic;
 
-namespace Nt.Core.Logging
+namespace KrTrade.NtCode.Logging
 {
     /// <summary>
     /// Produces instances of <see cref="ILogger"/> classes based on the given providers.

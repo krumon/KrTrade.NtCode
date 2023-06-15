@@ -3,7 +3,7 @@ using Nt.Core.Logging;
 using System;
 using System.IO;
 
-namespace Nt.Scripts.NinjatraderObjects
+namespace KrTrade.NtCode.NinjatraderObjects
 {
     public class GlobalsData : IGlobalsData
     {

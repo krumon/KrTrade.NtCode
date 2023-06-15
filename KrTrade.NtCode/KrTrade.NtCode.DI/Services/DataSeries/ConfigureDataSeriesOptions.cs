@@ -1,7 +1,7 @@
-﻿using Nt.Core.Options;
+﻿using KrTrade.NtCode.Options;
 using System;
 
-namespace Nt.Core.Services
+namespace KrTrade.NtCode.Services
 {
     public class ConfigureDataSeriesOptions : ConfigureOptions<DataSeriesOptions>
     {

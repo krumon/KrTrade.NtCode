@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
     /// <summary>
     /// The base class to session scripts builders

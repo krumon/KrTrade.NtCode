@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Nt.Core.Configuration.UserSecrets
+namespace KrTrade.NtCode.Configuration.UserSecrets
 {
     /// <summary>
     /// Provides paths for user secrets configuration files.

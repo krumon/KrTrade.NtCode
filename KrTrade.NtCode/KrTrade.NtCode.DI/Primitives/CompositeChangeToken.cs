@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 
-namespace Nt.Core.Primitives
+namespace KrTrade.NtCode.Primitives
 {
     /// <summary>
     /// An <see cref="IChangeToken"/> which represents one or more <see cref="IChangeToken"/> instances.

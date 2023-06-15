@@ -1,9 +1,9 @@
-﻿using Nt.Core.Attributes;
-using Nt.Core.Configuration;
-using Nt.Core.DependencyInjection;
-using Nt.Core.Hosting.Internal;
-using Nt.Core.Logging;
-using Nt.Core.Logging.EventLog;
+﻿using KrTrade.NtCode.Attributes;
+using KrTrade.NtCode.Configuration;
+using KrTrade.NtCode.DependencyInjection;
+using KrTrade.NtCode.Hosting.Internal;
+using KrTrade.NtCode.Logging;
+using KrTrade.NtCode.Logging.EventLog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Nt.Core.Hosting
+namespace KrTrade.NtCode.Hosting
 {
     public static class HostingHostBuilderExtensions
     {

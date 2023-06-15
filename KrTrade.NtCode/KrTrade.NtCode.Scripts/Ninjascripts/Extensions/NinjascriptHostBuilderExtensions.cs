@@ -1,7 +1,7 @@
 ﻿using Nt.Core.Hosting;
 using System;
 
-namespace Nt.Scripts.Ninjascripts
+namespace KrTrade.NtCode.Ninjascripts
 {
     public static class NinjascriptHostBuilderExtensions
     {

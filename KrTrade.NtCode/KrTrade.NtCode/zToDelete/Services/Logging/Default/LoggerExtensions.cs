@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
     /// <summary>
     /// Extensions for <see cref="ILogger"/> loggers

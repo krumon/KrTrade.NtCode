@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Nt.Scripts.Ninjascripts.Configuration
+namespace KrTrade.NtCode.Ninjascripts.Configuration
 {
     internal sealed class NinjascriptProviderConfigurationFactory : INinjascriptProviderConfigurationFactory
     {

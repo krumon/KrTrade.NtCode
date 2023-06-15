@@ -1,8 +1,8 @@
-﻿using Nt.Core.Primitives;
+﻿using KrTrade.NtCode.Primitives;
 using System.IO;
 using System.Linq;
 
-namespace Nt.Core.FileProviders.Physical.Internal
+namespace KrTrade.NtCode.FileProviders.Physical.Internal
 {
     internal static class PathUtils
     {

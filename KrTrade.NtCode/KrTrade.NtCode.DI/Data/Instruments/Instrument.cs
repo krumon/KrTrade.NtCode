@@ -1,9 +1,9 @@
-﻿using Nt.Core.Services;
+﻿using KrTrade.NtCode.Services;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System;
 
-namespace Nt.Core.Data
+namespace KrTrade.NtCode.Data
 {
     public class Instrument
     {

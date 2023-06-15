@@ -1,7 +1,7 @@
-﻿using Nt.Core.Options;
+﻿using KrTrade.NtCode.Options;
 using System;
 
-namespace Nt.Core.DependencyInjection
+namespace KrTrade.NtCode.DependencyInjection
 {
     public interface IServiceProviderBuilder
     {

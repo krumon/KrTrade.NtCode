@@ -4,7 +4,7 @@ using Nt.Core.Options;
 using System;
 using System.IO;
 
-namespace Nt.Scripts.Logging
+namespace KrTrade.NtCode.Logging
 {
     public class OutputWindowFormatter: NinjatraderLoggerFormatter, IDisposable
     {

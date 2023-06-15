@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nt.Core.FileProviders.Physical
+namespace KrTrade.NtCode.FileProviders.Physical
 {
     /// <summary>
     /// Specifies filtering behavior for files or directories.

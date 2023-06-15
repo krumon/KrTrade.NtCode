@@ -350,7 +350,7 @@
       <Project>{d32c9296-c1c6-4e7c-8e9f-5139ba0a2334}</Project>
       <Name>KrTrade.NtCode.Connect</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KrTrade.NtCode.Core\KrTrade.NtCode.DI.csproj">
+    <ProjectReference Include="..\KrTrade.NtCode.DI\KrTrade.NtCode.DI.csproj">
       <Project>{3a644626-5b81-4ee5-9d67-6b77d5ba4940}</Project>
       <Name>KrTrade.NtCode.DI</Name>
     </ProjectReference>

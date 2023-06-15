@@ -1,6 +1,6 @@
-﻿using Nt.Core.FileSystemGlobbing;
-using Nt.Core.FileSystemGlobbing.Abstractions;
-using Nt.Core.Primitives;
+﻿using KrTrade.NtCode.FileSystemGlobbing;
+using KrTrade.NtCode.FileSystemGlobbing.Abstractions;
+using KrTrade.NtCode.Primitives;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -9,7 +9,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 
-namespace Nt.Core.FileProviders.Physical
+namespace KrTrade.NtCode.FileProviders.Physical
 {
     /// <summary>
     /// A polling based <see cref="IChangeToken"/> for wildcard patterns.

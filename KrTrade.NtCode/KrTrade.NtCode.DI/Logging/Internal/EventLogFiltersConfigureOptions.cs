@@ -1,7 +1,7 @@
-﻿using Nt.Core.Logging.EventSource;
-using Nt.Core.Options;
+﻿using KrTrade.NtCode.Logging.EventSource;
+using KrTrade.NtCode.Options;
 
-namespace Nt.Core.Logging.Internal
+namespace KrTrade.NtCode.Logging.Internal
 {
     internal sealed class EventLogFiltersConfigureOptions : IConfigureOptions<LoggerFilterOptions>
     {

@@ -3,7 +3,7 @@ using Nt.Core.DependencyInjection;
 using Nt.Core.Hosting;
 using System;
 
-namespace Nt.Scripts.MasterScripts
+namespace KrTrade.NtCode.MasterScripts
 {
     public static class MasterScriptHostBuilderExtensions
     {

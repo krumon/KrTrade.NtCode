@@ -1,12 +1,12 @@
-﻿using Nt.Core.Attributes;
-using Nt.Core.Logging;
-using Nt.Core.Logging.Abstractions;
-using Nt.Core.Options;
+﻿using KrTrade.NtCode.Attributes;
+using KrTrade.NtCode.Logging;
+using KrTrade.NtCode.Logging.Abstractions;
+using KrTrade.NtCode.Options;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Nt.Core.Hosting.Internal
+namespace KrTrade.NtCode.Hosting.Internal
 {
     /// <summary>
     /// Listens for Ctrl+C or SIGTERM and initiates shutdown.

@@ -1,9 +1,9 @@
-﻿using Nt.Core.Attributes;
-using Nt.Core.Options;
+﻿using KrTrade.NtCode.Attributes;
+using KrTrade.NtCode.Options;
 using System;
 using System.Collections.Concurrent;
 
-namespace Nt.Core.Logging.Console
+namespace KrTrade.NtCode.Logging.Console
 {
     [UnsupportedOSPlatform("browser")]
     [ProviderAlias("ColorConsole")]

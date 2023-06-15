@@ -1,6 +1,6 @@
 ﻿using Nt.Core.Data;
 
-namespace ConsoleApp.Internal
+namespace KrTrade.NtCode.Internal
 {
     /// <summary>
     /// Extension methods to create generic sessions.

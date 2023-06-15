@@ -1,7 +1,7 @@
 ﻿using System;
 using Nt.Core.Helpers;
 
-namespace Nt.Scripts.Ninjascripts
+namespace KrTrade.NtCode.Ninjascripts
 {
     /// <summary>
     /// Delegates to a new <see cref="INinjascript"/> instance using the full name of the given type, created by the

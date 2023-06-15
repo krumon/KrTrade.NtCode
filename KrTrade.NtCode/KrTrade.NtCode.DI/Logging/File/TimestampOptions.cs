@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 
-namespace Nt.Core.Logging.File
+namespace KrTrade.NtCode.Logging.File
 {
     public class TimestampOptions
     {

@@ -3,7 +3,7 @@ using Nt.Core.DependencyInjection;
 using Nt.Core.Logging.Configuration;
 using Nt.Core.Options;
 
-namespace Nt.Scripts.Logging
+namespace KrTrade.NtCode.Logging
 {
     [UnsupportedOSPlatform("browser")]
     internal sealed class NinjatraderLoggerFormatterConfigureOptions<TFormatter, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TOptions> : ConfigureFromConfigurationOptions<TOptions>

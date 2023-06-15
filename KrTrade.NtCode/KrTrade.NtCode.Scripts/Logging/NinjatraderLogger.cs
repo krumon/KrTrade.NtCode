@@ -1,11 +1,11 @@
 ﻿using Nt.Core.Logging;
 using Nt.Core.Logging.Abstractions;
-using Nt.Scripts.NinjatraderObjects;
-using Nt.Scripts.Services;
+using KrTrade.NtCode.NinjatraderObjects;
+using KrTrade.NtCode.Services;
 using System;
 using System.IO;
 
-namespace Nt.Scripts.Logging
+namespace KrTrade.NtCode.Logging
 {
     /// <summary>
     /// A logger that writes the logs to ninjatrader windows (Output or Log)

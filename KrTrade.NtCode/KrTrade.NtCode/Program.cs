@@ -11,7 +11,7 @@ using Nt.Scripts.Ninjascripts.Indicators;
 using Nt.Scripts.Services;
 using System;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
     internal class Program
     {

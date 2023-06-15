@@ -1,7 +1,7 @@
-﻿using Nt.Core.FileProviders;
+﻿using KrTrade.NtCode.FileProviders;
 using System;
 
-namespace Nt.Core.Configuration
+namespace KrTrade.NtCode.Configuration
 {
     /// <summary>
     /// Extension methods for <see cref="FileConfigurationProvider"/>.

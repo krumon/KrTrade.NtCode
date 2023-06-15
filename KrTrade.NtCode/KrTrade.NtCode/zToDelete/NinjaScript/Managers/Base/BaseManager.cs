@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
 
     /// <summary>

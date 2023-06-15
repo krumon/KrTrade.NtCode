@@ -1,10 +1,10 @@
-﻿using Nt.Core.DependencyInjection;
-using Nt.Core.Logging.Configuration;
-using Nt.Core.Logging.File;
-using Nt.Core.Logging.Options;
+﻿using KrTrade.NtCode.DependencyInjection;
+using KrTrade.NtCode.Logging.Configuration;
+using KrTrade.NtCode.Logging.File;
+using KrTrade.NtCode.Logging.Options;
 using System;
 
-namespace Nt.Core.Logging
+namespace KrTrade.NtCode.Logging
 {
     /// <summary>
     /// Extension methods for the <see cref="FileLogger"/>.

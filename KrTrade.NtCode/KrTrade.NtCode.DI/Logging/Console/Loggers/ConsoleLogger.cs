@@ -1,10 +1,10 @@
-﻿using Nt.Core.Attributes;
-using Nt.Core.Logging.Abstractions;
-using Nt.Core.Logging.Internal;
+﻿using KrTrade.NtCode.Attributes;
+using KrTrade.NtCode.Logging.Abstractions;
+using KrTrade.NtCode.Logging.Internal;
 using System;
 using System.IO;
 
-namespace Nt.Core.Logging.Console
+namespace KrTrade.NtCode.Logging.Console
 {
     [UnsupportedOSPlatform("browser")]
     internal sealed class ConsoleLogger : ILogger

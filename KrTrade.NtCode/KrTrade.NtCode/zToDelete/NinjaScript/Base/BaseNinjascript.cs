@@ -5,7 +5,7 @@ using Nt.Core.Exceptions;
 using System;
 using System.Reflection;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
 
     /// <summary>

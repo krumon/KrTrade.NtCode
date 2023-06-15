@@ -1,10 +1,10 @@
 ﻿using NinjaTrader.NinjaScript;
 using Nt.Core.Logging;
-using Nt.Scripts.NinjatraderObjects;
-using Nt.Scripts.Services;
+using KrTrade.NtCode.NinjatraderObjects;
+using KrTrade.NtCode.Services;
 using System;
 
-namespace Nt.Scripts.Ninjascripts.Indicators
+namespace KrTrade.NtCode.Ninjascripts.Indicators
 {
     /// <summary>
     /// Represents a <see cref="ISessions"/> service.

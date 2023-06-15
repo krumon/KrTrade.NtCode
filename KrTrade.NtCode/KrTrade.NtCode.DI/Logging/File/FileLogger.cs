@@ -1,10 +1,10 @@
-﻿using Nt.Core.Logging.Abstractions;
-using Nt.Core.Logging.Internal;
+﻿using KrTrade.NtCode.Logging.Abstractions;
+using KrTrade.NtCode.Logging.Internal;
 using System;
 using System.Collections.Concurrent;
 using System.IO;
 
-namespace Nt.Core.Logging.File
+namespace KrTrade.NtCode.Logging.File
 {
     /// <summary>
     /// A logger that writes the logs to file

@@ -1,7 +1,7 @@
-﻿using Nt.Core.Configuration;
+﻿using KrTrade.NtCode.Configuration;
 using System.Collections.Generic;
 
-namespace Nt.Core.Hosting
+namespace KrTrade.NtCode.Hosting
 {
     /// <summary>
     /// Context containing the common services on the <see cref="IHost" />. Some properties may be null until set by the <see cref="IHost" />.

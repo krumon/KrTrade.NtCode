@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nt.Core.Attributes
+namespace KrTrade.NtCode.Attributes
 {
     /// <summary>
     /// Suppresses reporting of a specific rule violation, allowing multiple suppressions on a

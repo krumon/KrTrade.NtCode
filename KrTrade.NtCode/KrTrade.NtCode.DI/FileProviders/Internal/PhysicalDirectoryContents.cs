@@ -1,11 +1,11 @@
-﻿using Nt.Core.FileProviders.Physical;
+﻿using KrTrade.NtCode.FileProviders.Physical;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Nt.Core.FileProviders.Internal
+namespace KrTrade.NtCode.FileProviders.Internal
 {
     /// <summary>
     /// Represents the contents of a physical file directory

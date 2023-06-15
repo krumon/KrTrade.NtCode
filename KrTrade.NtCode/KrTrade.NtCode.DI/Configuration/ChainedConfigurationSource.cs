@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Configuration
+﻿namespace KrTrade.NtCode.Configuration
 {
     /// <summary>
     /// Represents a chained <see cref="IConfiguration"/> as an <see cref="IConfigurationSource"/>.

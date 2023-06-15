@@ -1,9 +1,9 @@
-﻿using Nt.Core.Attributes;
-using Nt.Core.Configuration;
-using Nt.Core.DependencyInjection;
+﻿using KrTrade.NtCode.Attributes;
+using KrTrade.NtCode.Configuration;
+using KrTrade.NtCode.DependencyInjection;
 using System;
 
-namespace Nt.Core.Options
+namespace KrTrade.NtCode.Options
 {
     /// <summary>
     /// Configures an option instance by using <see cref="ConfigurationBinder.Bind(IConfiguration, object)"/> against an <see cref="IConfiguration"/>.

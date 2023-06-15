@@ -1,4 +1,4 @@
-﻿namespace Nt.Scripts.Configuration
+﻿namespace KrTrade.NtCode.Configuration
 {
     public static class MasterScriptSections
     {

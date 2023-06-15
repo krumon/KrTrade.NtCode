@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Logging.Debug
+﻿namespace KrTrade.NtCode.Logging.Debug
 {
     /// <summary>
     /// The provider for the <see cref="DebugLogger"/>.

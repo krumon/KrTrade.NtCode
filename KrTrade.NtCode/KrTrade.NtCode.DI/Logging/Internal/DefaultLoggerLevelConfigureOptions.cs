@@ -1,6 +1,6 @@
-﻿using Nt.Core.Options;
+﻿using KrTrade.NtCode.Options;
 
-namespace Nt.Core.Logging.Internal
+namespace KrTrade.NtCode.Logging.Internal
 {
     internal sealed class DefaultLoggerLevelConfigureOptions : ConfigureOptions<LoggerFilterOptions>
     {

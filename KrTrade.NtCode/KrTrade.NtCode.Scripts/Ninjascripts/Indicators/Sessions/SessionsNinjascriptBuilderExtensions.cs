@@ -1,12 +1,12 @@
 ﻿using Nt.Core.DependencyInjection;
-using Nt.Scripts.Ninjascripts;
-using Nt.Scripts.Ninjascripts.Configuration;
-using Nt.Scripts.Ninjascripts.Options;
-using Nt.Scripts.NinjatraderObjects;
-using Nt.Scripts.Services;
+using KrTrade.NtCode.Ninjascripts;
+using KrTrade.NtCode.Ninjascripts.Configuration;
+using KrTrade.NtCode.Ninjascripts.Options;
+using KrTrade.NtCode.NinjatraderObjects;
+using KrTrade.NtCode.Services;
 using System;
 
-namespace Nt.Scripts.Ninjascripts.Indicators
+namespace KrTrade.NtCode.Ninjascripts.Indicators
 {
     public static class SessionsNinjascriptBuilderExtensions
     {

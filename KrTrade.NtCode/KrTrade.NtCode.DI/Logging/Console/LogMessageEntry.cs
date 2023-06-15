@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Logging.Console
+﻿namespace KrTrade.NtCode.Logging.Console
 {
     internal readonly struct LogMessageEntry
     {

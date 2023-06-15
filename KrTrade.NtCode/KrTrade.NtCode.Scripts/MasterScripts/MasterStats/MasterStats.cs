@@ -1,6 +1,6 @@
-﻿using Nt.Scripts.Ninjascripts;
+﻿using KrTrade.NtCode.Ninjascripts;
 
-namespace Nt.Scripts.MasterScripts
+namespace KrTrade.NtCode.MasterScripts
 {
     [MasterScriptProviderAlias("MasterStats")]
     public class MasterStats

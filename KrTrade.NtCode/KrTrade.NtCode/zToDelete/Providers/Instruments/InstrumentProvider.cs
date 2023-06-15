@@ -1,11 +1,11 @@
-﻿using ConsoleApp;
+﻿using KrTrade.NtCode;
 using Nt.Core.Data;
 using Nt.Core.Services;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
     /// <summary>
     /// Represents any financial instrument.

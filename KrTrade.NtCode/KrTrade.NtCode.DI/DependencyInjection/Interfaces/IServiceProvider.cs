@@ -1,6 +1,6 @@
 ﻿//using System;
 
-//namespace Nt.Core.DependencyInjection
+//namespace KrTrade.NtCode.DependencyInjection
 //{
 
 //    /// <summary>

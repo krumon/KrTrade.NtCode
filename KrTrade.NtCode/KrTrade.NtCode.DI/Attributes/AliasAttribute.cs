@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Nt.Core.Attributes
+namespace KrTrade.NtCode.Attributes
 {
     /// <summary>
     /// Defines alias to be used in configure options.

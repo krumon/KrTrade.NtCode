@@ -1,5 +1,5 @@
-﻿using Nt.Core.FileProviders;
-using Nt.Core.Primitives;
+﻿using KrTrade.NtCode.FileProviders;
+using KrTrade.NtCode.Primitives;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading;
 
-namespace Nt.Core.Configuration
+namespace KrTrade.NtCode.Configuration
 {
     /// <summary>
     /// Base class for file based <see cref="ConfigurationProvider"/>.

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
     /// <summary>
     /// <see cref="SessionsManager"/> builder.

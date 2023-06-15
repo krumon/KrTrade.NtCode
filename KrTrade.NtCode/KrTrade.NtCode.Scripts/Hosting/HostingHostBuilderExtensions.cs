@@ -2,15 +2,15 @@
 using Nt.Core.Configuration;
 using Nt.Core.Hosting;
 using Nt.Core.Logging;
-using Nt.Scripts.Logging;
-using Nt.Scripts.MasterScripts;
-using Nt.Scripts.Ninjascripts;
-using Nt.Scripts.Ninjascripts.Indicators;
-using Nt.Scripts.NinjatraderObjects;
-using Nt.Scripts.Services;
+using KrTrade.NtCode.Logging;
+using KrTrade.NtCode.MasterScripts;
+using KrTrade.NtCode.Ninjascripts;
+using KrTrade.NtCode.Ninjascripts.Indicators;
+using KrTrade.NtCode.NinjatraderObjects;
+using KrTrade.NtCode.Services;
 using System.IO;
 
-namespace Nt.Scripts.Hosting
+namespace KrTrade.NtCode.Hosting
 {
     public static class HostingHostBuilderExtensions
     {

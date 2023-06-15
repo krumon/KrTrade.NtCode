@@ -1,9 +1,9 @@
-﻿using Nt.Core.Logging.Internal;
+﻿using KrTrade.NtCode.Logging.Internal;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Nt.Core.Logging
+namespace KrTrade.NtCode.Logging
 {
     /// <summary>
     /// Creates delegates which can be later cached to log messages in a performant way.

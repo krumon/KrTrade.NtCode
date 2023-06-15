@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Nt.Core.Data.Internal
+namespace KrTrade.NtCode.Data.Internal
 {
     /// <summary>
     /// Contents trading session information.
@@ -634,7 +634,7 @@ namespace Nt.Core.Data.Internal
                 if (value2 is TradingSession v2)
                     return v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
-            throw new ArgumentException("The arguments must be Nt.Core.Trading.TradingSession.");
+            throw new ArgumentException("The arguments must be KrTrade.NtCode.Trading.TradingSession.");
         }
 
         /// <summary>
