@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\KrTrade.WebApp.Relational\KrTrade.WebApp.Relational.csproj" />
+    <ProjectReference Include="..\KrTrade.WebApp.Relational\KrTrade.WebAPI.Relational.csproj" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
