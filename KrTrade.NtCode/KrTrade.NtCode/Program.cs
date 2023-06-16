@@ -1,15 +1,4 @@
-﻿using Kr.Core.Helpers;
-using Nt.Core.Configuration;
-using Nt.Core.DependencyInjection;
-using Nt.Core.Hosting;
-using Nt.Core.Logging;
-using Nt.Core.Logging.Configuration;
-using Nt.Scripts.Hosting;
-using Nt.Scripts.MasterScripts;
-using Nt.Scripts.Ninjascripts;
-using Nt.Scripts.Ninjascripts.Indicators;
-using Nt.Scripts.Services;
-using System;
+﻿using KrTrade.NtCode.Helpers;
 
 namespace KrTrade.NtCode
 {

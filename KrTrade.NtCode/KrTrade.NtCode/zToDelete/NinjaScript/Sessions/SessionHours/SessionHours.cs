@@ -2,10 +2,10 @@
 using NinjaTrader.NinjaScript;
 using KrTrade.NtCode;
 using KrTrade.NtCode.Internal;
-using Nt.Core.Events;
+using KrTrade.NtCode.Events;
 using System;
 using System.Collections.Generic;
-using Nt.Core.Data;
+using KrTrade.NtCode.Data;
 
 namespace KrTrade.NtCode
 {

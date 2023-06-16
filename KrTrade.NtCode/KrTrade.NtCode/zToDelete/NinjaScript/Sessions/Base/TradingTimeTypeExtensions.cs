@@ -1,4 +1,4 @@
-﻿using Nt.Core.Data;
+﻿using KrTrade.NtCode.Data;
 using System;
 
 namespace KrTrade.NtCode

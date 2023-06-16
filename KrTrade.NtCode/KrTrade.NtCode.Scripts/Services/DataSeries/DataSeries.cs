@@ -1,6 +1,6 @@
 ﻿using NinjaTrader.NinjaScript;
-using Nt.Core.Logging;
-using Nt.Core.Options;
+using KrTrade.NtCode.Logging;
+using KrTrade.NtCode.Options;
 using KrTrade.NtCode.NinjatraderObjects;
 using System;
 using System.Collections.Generic;
@@ -161,13 +161,14 @@ namespace KrTrade.NtCode.Services
             if (_ninjascript.State == State.Configure)
             {
                 if (_chartBarsProperties != null)
-                    Add(new DataSeriesDescriptor()
-                    {
-                        InstrumentName = _chartBarsProperties.InstrumentName,
-                        PeriodType = _chartBarsProperties.BarsPeriod.PeriodType,
-                        PeriodValue = _chartBarsProperties.BarsPeriod.PeriodValue,
-                        TradingHoursName = _chartBarsProperties.TradingHoursName
-                    }, isPrimaryDataSerie: true);
+                    //Add(new DataSeriesDescriptor()
+                    //{
+                    //    //InstrumentName = _chartBarsProperties.InstrumentName,
+                    //    PeriodType = _chartBarsProperties.BarsPeriod.PeriodType,
+                    //    PeriodValue = _chartBarsProperties.BarsPeriod.PeriodValue,
+                    //    //TradingHoursName = _chartBarsProperties.TradingHoursName
+                    //}, isPrimaryDataSerie: true);
+                    Add(null);
 
                 ReloadDataSeriesOptions(_currentOptions);
                 _optionsReloadToken = _optionsMonitor?.OnChange(ReloadDataSeriesOptions);

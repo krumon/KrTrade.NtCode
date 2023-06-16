@@ -1,4 +1,4 @@
-﻿using Nt.Core.Logging;
+﻿using KrTrade.NtCode.Logging;
 
 namespace KrTrade.NtCode.Logging
 {

@@ -1,7 +1,5 @@
-﻿using Kr.Core.Extensions;
-using KrTrade.NtCode.Logging.Internal;
+﻿using KrTrade.NtCode.Logging.Internal;
 using System;
-using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace KrTrade.NtCode.Logging

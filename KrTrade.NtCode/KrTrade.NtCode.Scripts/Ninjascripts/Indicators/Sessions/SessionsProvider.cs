@@ -1,5 +1,5 @@
-﻿using Nt.Core.Logging;
-using Nt.Core.Options;
+﻿using KrTrade.NtCode.Logging;
+using KrTrade.NtCode.Options;
 using KrTrade.NtCode.NinjatraderObjects;
 using KrTrade.NtCode.Services;
 

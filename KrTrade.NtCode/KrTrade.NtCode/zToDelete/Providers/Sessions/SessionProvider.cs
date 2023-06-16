@@ -1,5 +1,5 @@
 ﻿using KrTrade.NtCode;
-using Nt.Core.Data;
+using KrTrade.NtCode.Data;
 
 namespace KrTrade.NtCode
 {

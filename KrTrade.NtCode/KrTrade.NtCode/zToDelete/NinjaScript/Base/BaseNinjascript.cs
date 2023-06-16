@@ -1,7 +1,7 @@
 ﻿using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
-using Nt.Core.Events;
-using Nt.Core.Exceptions;
+using KrTrade.NtCode.Events;
+using KrTrade.NtCode.Exceptions;
 using System;
 using System.Reflection;
 

@@ -1,4 +1,4 @@
-﻿using Nt.Core.Configuration;
+﻿using KrTrade.NtCode.Configuration;
 using System;
 
 namespace KrTrade.NtCode.Ninjascripts.Configuration

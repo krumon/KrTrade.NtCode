@@ -1,4 +1,4 @@
-﻿using Nt.Core.DependencyInjection;
+﻿using KrTrade.NtCode.DependencyInjection;
 
 namespace KrTrade.NtCode.Services
 {

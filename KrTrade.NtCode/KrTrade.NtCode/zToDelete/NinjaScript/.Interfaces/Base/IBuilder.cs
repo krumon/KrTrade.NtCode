@@ -1,7 +1,7 @@
 ﻿using NinjaTrader.NinjaScript;
 using System;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
     /// <summary>
     /// The interface for any ninjascript builder.

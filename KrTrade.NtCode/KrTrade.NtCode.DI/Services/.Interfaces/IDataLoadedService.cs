@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Hosting
+﻿namespace KrTrade.NtCode.Hosting
 {
 
     /// <summary>

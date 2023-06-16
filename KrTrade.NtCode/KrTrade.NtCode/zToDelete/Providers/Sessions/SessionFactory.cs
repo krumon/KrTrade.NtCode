@@ -1,5 +1,5 @@
 ﻿using KrTrade.NtCode.Internal;
-using Nt.Core.Data;
+using KrTrade.NtCode.Data;
 using System;
 using System.Collections.Generic;
 

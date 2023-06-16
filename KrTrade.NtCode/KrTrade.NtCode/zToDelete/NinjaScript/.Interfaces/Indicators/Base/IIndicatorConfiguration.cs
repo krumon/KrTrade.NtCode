@@ -1,6 +1,6 @@
 ﻿using NinjaTrader.Gui.Chart;
 
-namespace ConsoleApp
+namespace KrTrade.NtCode
 {
 
     /// <summary>

@@ -1,6 +1,6 @@
-﻿using Nt.Core.Configuration;
-using Nt.Core.DependencyInjection;
-using Nt.Core.Hosting;
+﻿using KrTrade.NtCode.Configuration;
+using KrTrade.NtCode.DependencyInjection;
+using KrTrade.NtCode.Hosting;
 using System;
 
 namespace KrTrade.NtCode.MasterScripts

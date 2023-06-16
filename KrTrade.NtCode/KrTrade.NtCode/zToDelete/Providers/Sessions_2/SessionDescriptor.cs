@@ -1,5 +1,5 @@
-﻿using Nt.Core.Data;
-using Nt.Core.DependencyInjection;
+﻿using KrTrade.NtCode.Data;
+using KrTrade.NtCode.DependencyInjection;
 using System;
 using System.Diagnostics;
 

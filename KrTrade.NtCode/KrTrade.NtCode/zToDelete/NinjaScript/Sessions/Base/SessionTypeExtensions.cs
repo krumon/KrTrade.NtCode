@@ -1,5 +1,5 @@
-﻿using Nt.Core.Data;
-using Nt.Core.Data.Internal;
+﻿using KrTrade.NtCode.Data;
+using KrTrade.NtCode.Data.Internal;
 using System;
 using System.Linq;
 

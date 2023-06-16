@@ -1,8 +1,8 @@
-﻿using Kr.Core.Helpers;
+﻿using KrTrade.NtCode.Helpers;
 using KrTrade.NtCode.Internal;
 using System;
 using System.Collections.Generic;
-using Nt.Core.Data;
+using KrTrade.NtCode.Data;
 
 namespace KrTrade.NtCode
 {

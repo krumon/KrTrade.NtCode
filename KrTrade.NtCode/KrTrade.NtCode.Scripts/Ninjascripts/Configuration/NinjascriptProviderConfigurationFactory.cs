@@ -1,4 +1,4 @@
-﻿using Nt.Core.Configuration;
+﻿using KrTrade.NtCode.Configuration;
 using System;
 using System.Collections.Generic;
 

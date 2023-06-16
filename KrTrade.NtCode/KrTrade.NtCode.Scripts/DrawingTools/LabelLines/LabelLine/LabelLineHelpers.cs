@@ -2,7 +2,7 @@
 
 using NinjaTrader.Gui;
 using NinjaTrader.Gui.Chart;
-using Nt.Core.Data;
+using KrTrade.NtCode.Data;
 using System;
 using System.Windows;
 

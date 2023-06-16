@@ -1,4 +1,4 @@
-﻿using Nt.Core.DependencyInjection;
+﻿using KrTrade.NtCode.DependencyInjection;
 using KrTrade.NtCode.Ninjascripts;
 using KrTrade.NtCode.Ninjascripts.Configuration;
 using KrTrade.NtCode.Ninjascripts.Options;

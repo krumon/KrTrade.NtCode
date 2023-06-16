@@ -1,5 +1,5 @@
 ﻿using NinjaTrader.Client;
-using KrTrade.NtCode.Core.Data;
+using KrTrade.NtCode.Data;
 using System;
 using System.Timers;
 

@@ -1,4 +1,4 @@
-﻿//using Nt.Core.Logging;
+﻿//using KrTrade.NtCode.Logging;
 //using KrTrade.NtCode.Indicators;
 //using KrTrade.NtCode.Ninjascripts;
 //using System;

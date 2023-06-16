@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nt.Core.Services
+namespace KrTrade.NtCode.Services
 {
     /// <summary>
     /// Defines methods that are necesary to execute when the bar updated.

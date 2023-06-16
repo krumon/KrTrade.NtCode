@@ -1,5 +1,5 @@
 ﻿using NinjaTrader.Core;
-using Nt.Core.Logging;
+using KrTrade.NtCode.Logging;
 using System;
 using System.IO;
 

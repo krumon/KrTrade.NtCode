@@ -1,4 +1,4 @@
-﻿using Kr.Core.Tests;
+﻿using KrTrade.NtCode.Tests;
 using System;
 using System.Timers;
 

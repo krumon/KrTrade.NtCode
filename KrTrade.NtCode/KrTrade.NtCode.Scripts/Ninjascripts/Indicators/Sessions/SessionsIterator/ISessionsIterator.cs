@@ -1,4 +1,4 @@
-﻿using Nt.Core.Hosting;
+﻿using KrTrade.NtCode.Hosting;
 using KrTrade.NtCode.Ninjascripts;
 using System;
 

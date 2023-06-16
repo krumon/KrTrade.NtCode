@@ -1,7 +1,7 @@
 ﻿using NinjaTrader.Core.FloatingPoint;
 using NinjaTrader.NinjaScript;
 using System;
-using Nt.Core.Data;
+using KrTrade.NtCode.Data;
 
 namespace KrTrade.NtCode
 {

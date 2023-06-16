@@ -1,6 +1,6 @@
 ﻿using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
-using Nt.Core.Logging;
+using KrTrade.NtCode.Logging;
 using KrTrade.NtCode.NinjatraderObjects;
 using KrTrade.NtCode.Services;
 using System;

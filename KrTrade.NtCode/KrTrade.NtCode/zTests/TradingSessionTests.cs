@@ -1,9 +1,9 @@
-﻿using Kr.Core.Helpers;
-using Kr.Core.Tests;
+﻿using KrTrade.NtCode.Helpers;
+using KrTrade.NtCode.Tests;
 using KrTrade.NtCode;
 using KrTrade.NtCode.Internal;
 using System;
-using Nt.Core.Data;
+using KrTrade.NtCode.Data;
 
 namespace KrTrade.NtCode
 {

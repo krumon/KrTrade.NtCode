@@ -1,6 +1,5 @@
-﻿using Kr.Core.Tests;
-using KrTrade.NtCode;
-using Nt.Core.Data;
+﻿using KrTrade.NtCode.Data;
+using KrTrade.NtCode.Tests;
 
 namespace KrTrade.NtCode
 {

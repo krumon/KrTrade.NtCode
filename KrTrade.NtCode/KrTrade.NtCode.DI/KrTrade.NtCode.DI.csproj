@@ -193,6 +193,7 @@
     <Compile Include="DependencyInjection\ServiceLifetime.cs" />
     <Compile Include="DependencyInjection\ServiceLookup\ServiceProviderEngineScope.cs" />
     <Compile Include="DependencyInjection\ValidatorOptions.cs" />
+    <Compile Include="DependencyInjection\zEliminar\Base\BaseServiceCollection.cs" />
     <Compile Include="FileProviders\EmptyDisposable.cs" />
     <Compile Include="FileProviders\Interfaces\IFileInfo.cs" />
     <Compile Include="FileProviders\Interfaces\IDirectoryContents.cs" />
@@ -282,7 +283,6 @@
     <Compile Include="DependencyInjection\ServiceDescriptor.cs" />
     <Compile Include="DependencyInjection\Interfaces\IServiceProviderBuilder.cs" />
     <Compile Include="DependencyInjection\Interfaces\IServiceScope.cs" />
-    <Compile Include="DependencyInjection\zEliminar\Base\BaseServiceCollection.cs" />
     <Compile Include="Hosting\Interfaces\IHostEnvironment.cs" />
     <Compile Include="Hosting\Interfaces\IHostLifetime.cs" />
     <Compile Include="Hosting\Internal\ApplicationLifetime.cs" />
@@ -549,6 +549,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ExceptionMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KrTrade.NtCode.Core\KrTrade.NtCode.Core.csproj">
+      <Project>{8157925A-1AEA-4A2A-97F3-F92500DB8E9F}</Project>
+      <Name>KrTrade.NtCode.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

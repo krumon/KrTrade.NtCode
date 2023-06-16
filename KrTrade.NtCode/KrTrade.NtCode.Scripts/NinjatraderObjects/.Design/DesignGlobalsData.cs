@@ -1,8 +1,8 @@
-﻿using Nt.Core.Logging;
+﻿using KrTrade.NtCode.Logging;
 using System;
 using System.IO;
 
-namespace Nt.Scripts.NinjatraderObjects.Design
+namespace KrTrade.NtCode.NinjatraderObjects.Design
 {
     public class DesignGlobalsData : GlobalsData
     {

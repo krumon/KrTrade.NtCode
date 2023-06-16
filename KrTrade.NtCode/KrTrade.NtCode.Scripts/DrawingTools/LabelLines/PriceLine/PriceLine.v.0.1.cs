@@ -1,6 +1,6 @@
-﻿using Nt.Core;
+﻿using KrTrade.NtCode;
 using NinjaTrader.Gui;
-using Nt.Core.Data;
+using KrTrade.NtCode.Data;
 
 namespace NinjaTrader.NinjaScript.DrawingTools
 {
@@ -28,7 +28,7 @@ namespace NinjaTrader.NinjaScript.DrawingTools
 			{
 				LabelType = LabelLineType.Price;
 				Name = "PriceLineDisplayName"; // Implementar diccionario con cadenas
-				//Anchor.DisplayName = Nt.Core.Resources.Texts.AnchorYDisplayName;
+				//Anchor.DisplayName = KrTrade.NtCode.Resources.Texts.AnchorYDisplayName;
 				//Anchor.IsXPropertiesVisible = false;
 				DisplayOnChartsMenus = true;
                 //LabelTextMargin = new Margin

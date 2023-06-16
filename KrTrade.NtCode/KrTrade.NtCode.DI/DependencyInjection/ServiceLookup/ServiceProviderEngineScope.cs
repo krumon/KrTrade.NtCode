@@ -1,4 +1,4 @@
-﻿using Kr.Core.Exceptions;
+﻿using KrTrade.NtCode.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

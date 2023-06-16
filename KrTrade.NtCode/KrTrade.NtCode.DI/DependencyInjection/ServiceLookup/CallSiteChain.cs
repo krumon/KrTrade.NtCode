@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using System;
-using Kr.Core.Helpers;
+using KrTrade.NtCode.Helpers;
 
 namespace KrTrade.NtCode.DependencyInjection.ServiceLookup
 {

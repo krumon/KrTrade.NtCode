@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrTrade.NtCode.Scripts", "K
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrTrade.NtCode.Connect", "KrTrade.NtCode.Connect\KrTrade.NtCode.Connect.csproj", "{D32C9296-C1C6-4E7C-8E9F-5139BA0A2334}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrTrade.NtCode.Core___", "KrTrade.NtCode.Core___\KrTrade.NtCode.Core___.csproj", "{8157925A-1AEA-4A2A-97F3-F92500DB8E9F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrTrade.NtCode.Core", "KrTrade.NtCode.Core\KrTrade.NtCode.Core.csproj", "{8157925A-1AEA-4A2A-97F3-F92500DB8E9F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

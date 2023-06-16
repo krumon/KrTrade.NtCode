@@ -1,8 +1,8 @@
-﻿using Kr.Core.Tests;
+﻿using KrTrade.NtCode.Tests;
 using NinjaTrader.NinjaScript;
 using System;
-using Nt.Core.Data;
-using Nt.Core.Events;
+using KrTrade.NtCode.Data;
+using KrTrade.NtCode.Events;
 
 namespace KrTrade.NtCode
 {

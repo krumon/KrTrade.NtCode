@@ -1,5 +1,5 @@
-﻿using Kr.Core.Helpers;
-using KrTrade.NtCode.Events;
+﻿using KrTrade.NtCode.Events;
+using KrTrade.NtCode.Helpers;
 using System;
 
 namespace KrTrade.NtCode.Data

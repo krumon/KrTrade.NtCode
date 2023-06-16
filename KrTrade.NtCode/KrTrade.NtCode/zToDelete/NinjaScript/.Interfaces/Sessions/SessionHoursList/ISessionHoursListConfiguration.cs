@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp
+﻿namespace KrTrade.NtCode
 {
     /// <summary>
     /// Interface for any session hours list configuration.

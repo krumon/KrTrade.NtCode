@@ -14,7 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml.Serialization;
 using KrTrade.NtCode.DrawingTools;
-using Nt.Core.Data;
+using KrTrade.NtCode.Data;
 
 #endregion
 

@@ -1,5 +1,5 @@
-﻿using Nt.Scripts.Hosting;
-using Nt.Scripts.NinjatraderObjects;
+﻿using KrTrade.NtCode.Hosting;
+using KrTrade.NtCode.NinjatraderObjects;
 
 namespace KrTrade.NtCode
 {

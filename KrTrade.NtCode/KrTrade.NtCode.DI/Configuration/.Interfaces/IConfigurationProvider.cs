@@ -1,7 +1,7 @@
-﻿using Nt.Core.Primitives;
+﻿using KrTrade.NtCode.Primitives;
 using System.Collections.Generic;
 
-namespace Nt.Core.Configuration
+namespace KrTrade.NtCode.Configuration
 {
     /// <summary>
     ///  Provides configuration key/values for an application.

@@ -1,5 +1,5 @@
 ﻿using System;
-using Nt.Core.Helpers;
+using KrTrade.NtCode.Helpers;
 
 namespace KrTrade.NtCode.Ninjascripts
 {

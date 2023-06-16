@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Nt.Core.Configuration
+namespace KrTrade.NtCode.Configuration
 {
     /// <summary>
     /// Represents the root of an <see cref="IConfiguration"/> hierarchy.

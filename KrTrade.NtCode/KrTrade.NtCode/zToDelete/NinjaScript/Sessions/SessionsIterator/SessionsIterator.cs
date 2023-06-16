@@ -1,7 +1,7 @@
 ﻿using NinjaTrader.Core;
 using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
-using Nt.Core.Events;
+using KrTrade.NtCode.Events;
 using System;
 using System.Collections.Generic;
 

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Nt.Core.Configuration
+namespace KrTrade.NtCode.Configuration
 {
     /// <summary>
     /// Represents a type used to build application configuration.

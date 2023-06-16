@@ -1,6 +1,6 @@
 ﻿using KrTrade.NtCode;
-using Nt.Core.Data;
-using Nt.Core.Services;
+using KrTrade.NtCode.Data;
+using KrTrade.NtCode.Services;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -88,7 +88,7 @@ namespace KrTrade.NtCode
             if (descriptors.Count == 0)
                 throw new ArgumentException("Descriptors count cannot be 0");
 
-            _descriptors = new DataSeriesDescriptor[descriptors.Count];
+            _descriptors = new KrTrade.NtCode.Services.DataSeriesDescriptor[descriptors.Count];
             descriptors.CopyTo(_descriptors,0);
         }
 
@@ -98,7 +98,7 @@ namespace KrTrade.NtCode
         public InstrumentProvider(string stringKey)
         {
             if (string.IsNullOrEmpty(stringKey))
-                throw new ArgumentException($"the parameter {nameof(stringKey)} cannot be null or empty");
+                throw new Exception($"the parameter {nameof(stringKey)} cannot be null or empty");
 
             if (!stringKey.TryGetInstrumentKey(out _instrumentKey))
             {

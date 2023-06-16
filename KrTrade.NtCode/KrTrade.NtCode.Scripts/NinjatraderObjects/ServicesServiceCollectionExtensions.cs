@@ -1,7 +1,7 @@
 ﻿using NinjaTrader.Core;
 using NinjaTrader.Gui.Chart;
 using NinjaTrader.NinjaScript;
-using Nt.Core.DependencyInjection;
+using KrTrade.NtCode.DependencyInjection;
 using System;
 
 namespace KrTrade.NtCode.NinjatraderObjects

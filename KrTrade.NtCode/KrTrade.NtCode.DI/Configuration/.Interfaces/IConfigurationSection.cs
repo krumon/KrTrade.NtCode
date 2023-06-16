@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Configuration
+﻿namespace KrTrade.NtCode.Configuration
 {
     /// <summary>
     /// Represents a section of application configuration values.

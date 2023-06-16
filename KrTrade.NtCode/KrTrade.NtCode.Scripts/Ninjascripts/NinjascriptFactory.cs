@@ -1,5 +1,5 @@
-﻿using Nt.Core.DependencyInjection;
-using Nt.Core.Options;
+﻿using KrTrade.NtCode.DependencyInjection;
+using KrTrade.NtCode.Options;
 using KrTrade.NtCode.Ninjascripts.Internal;
 using System;
 using System.Collections.Generic;

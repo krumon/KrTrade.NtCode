@@ -1,4 +1,4 @@
-﻿namespace Nt.Core.Services
+﻿namespace KrTrade.NtCode.Services
 {
     /// <summary>
     /// Defines methods that are necesary to execute when the market data changed.

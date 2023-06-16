@@ -1,8 +1,8 @@
-﻿using Nt.Core.DependencyInjection;
-using Nt.Scripts.Ninjascripts.Indicators;
+﻿using KrTrade.NtCode.DependencyInjection;
+using KrTrade.NtCode.Ninjascripts.Indicators;
 using System;
 
-namespace Nt.Scripts.NinjatraderObjects.Design
+namespace KrTrade.NtCode.NinjatraderObjects.Design
 {
     public static class DesignServicesServiceCollectionExtensions
     {
