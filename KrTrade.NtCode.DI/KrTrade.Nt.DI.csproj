@@ -551,9 +551,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\KrTrade.NtCode.Core\KrTrade.NtCode.Core.csproj">
+    <ProjectReference Include="..\KrTrade.NtCode.Core\KrTrade.Nt.Core.csproj">
       <Project>{8157925A-1AEA-4A2A-97F3-F92500DB8E9F}</Project>
-      <Name>KrTrade.NtCode.Core</Name>
+      <Name>KrTrade.Nt.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
