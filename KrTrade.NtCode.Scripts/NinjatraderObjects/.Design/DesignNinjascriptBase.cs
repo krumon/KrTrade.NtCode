@@ -1,7 +1,4 @@
-﻿using NinjaTrader.NinjaScript;
-using System;
-
-namespace KrTrade.NtCode.NinjatraderObjects.Design
+﻿namespace KrTrade.Nt.Scripts.NinjatraderObjects.Design
 {
     public class DesignNinjascriptBase : NinjaScriptBase
     {

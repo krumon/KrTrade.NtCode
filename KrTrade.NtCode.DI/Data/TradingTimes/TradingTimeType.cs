@@ -1,5 +1,5 @@
 ﻿
-namespace KrTrade.NtCode.Data
+namespace KrTrade.Nt.DI.Data
 {
     /// <summary>
     /// The type price of the bar.

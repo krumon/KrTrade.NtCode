@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Extensions
+﻿namespace KrTrade.Nt.Core.Extensions
 {
     /// <summary>
     /// Extension methods for strings

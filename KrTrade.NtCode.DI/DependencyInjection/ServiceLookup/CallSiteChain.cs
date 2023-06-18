@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using System;
-using KrTrade.NtCode.Helpers;
+using KrTrade.Nt.DI.Helpers;
 
-namespace KrTrade.NtCode.DependencyInjection.ServiceLookup
+namespace KrTrade.Nt.DI.DependencyInjection.ServiceLookup
 {
     internal sealed class CallSiteChain
     {

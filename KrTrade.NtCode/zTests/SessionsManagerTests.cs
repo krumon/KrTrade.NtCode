@@ -1,10 +1,10 @@
-﻿using KrTrade.NtCode.Tests;
-using NinjaTrader.NinjaScript;
+﻿using NinjaTrader.NinjaScript;
 using System;
-using KrTrade.NtCode.Data;
-using KrTrade.NtCode.Events;
+using KrTrade.Nt.DI.Data;
+using KrTrade.Nt.DI.Events;
+using KrTrade.Nt.Core.Tests;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console.Tests
 {
     internal class SessionsManagerTests : BaseConsoleTests
     {

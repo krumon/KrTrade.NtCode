@@ -1,7 +1,7 @@
-﻿using KrTrade.NtCode.Exceptions;
+﻿using KrTrade.Nt.Core.Exceptions;
 using System;
 
-namespace KrTrade.NtCode.Primitives
+namespace KrTrade.Nt.DI.Primitives
 {
     /// <summary>
     /// An optimized representation of a substring.

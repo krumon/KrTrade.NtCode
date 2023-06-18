@@ -1,5 +1,5 @@
 ﻿
-namespace KrTrade.NtCode.DependencyInjection
+namespace KrTrade.Nt.DI.DependencyInjection
 {
     /// <summary>
     /// Options for configuring various behaviors of the default <see cref="IServiceProvider"/> implementation.

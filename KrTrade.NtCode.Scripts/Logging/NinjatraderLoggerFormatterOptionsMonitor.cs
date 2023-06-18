@@ -1,8 +1,8 @@
-﻿using KrTrade.NtCode.DependencyInjection;
-using KrTrade.NtCode.Options;
+﻿using KrTrade.Nt.DI.DependencyInjection;
+using KrTrade.Nt.DI.Options;
 using System;
 
-namespace KrTrade.NtCode.Logging
+namespace KrTrade.Nt.Scripts.Logging
 {
     internal sealed class NinjatraderLoggerFormatterOptionsMonitor<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] TOptions> : IOptionsMonitor<TOptions>
         where TOptions : NinjatraderLoggerFormatterOptions

@@ -1,9 +1,9 @@
-﻿using KrTrade.NtCode.FileProviders;
-using KrTrade.NtCode.Logging;
-using KrTrade.NtCode.Options;
+﻿using KrTrade.Nt.DI.FileProviders;
+using KrTrade.Nt.DI.Logging;
+using KrTrade.Nt.DI.Options;
 using System;
 
-namespace KrTrade.NtCode.Hosting.Internal
+namespace KrTrade.Nt.DI.Hosting.Internal
 {
     /// <summary>
     /// Represents the host.

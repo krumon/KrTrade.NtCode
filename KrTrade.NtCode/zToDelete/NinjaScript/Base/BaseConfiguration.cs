@@ -1,9 +1,9 @@
-﻿using KrTrade.NtCode.Helpers;
+﻿using KrTrade.Nt.Core.Helpers;
 using NinjaTrader.NinjaScript;
-using KrTrade.NtCode.Events;
 using System.Collections.Generic;
+using KrTrade.Nt.DI.Events;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
 
     /// <summary>

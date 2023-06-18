@@ -1,7 +1,7 @@
-﻿using KrTrade.NtCode.Hosting;
+﻿using KrTrade.Nt.DI.Hosting;
 using System;
 
-namespace KrTrade.NtCode.DependencyInjection
+namespace KrTrade.Nt.DI.DependencyInjection
 {
     public static class ServiceCollectionHostedServiceExtensions
     {

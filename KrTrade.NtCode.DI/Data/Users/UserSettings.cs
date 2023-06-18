@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Data
+namespace KrTrade.Nt.DI.Data
 {
     /// <summary>
     /// Represents consts, fields and properties of the Ninjatrader user configuration.

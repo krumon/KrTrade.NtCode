@@ -4,7 +4,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
     public class NinjascriptLifetimeHostedService : IHostedService
     {

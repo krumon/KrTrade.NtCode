@@ -1,7 +1,7 @@
-﻿using KrTrade.NtCode.Helpers;
+﻿using KrTrade.Nt.DI.Helpers;
 using System;
 
-namespace KrTrade.NtCode.FileSystemGlobbing.Internal.PathSegments
+namespace KrTrade.Nt.DI.FileSystemGlobbing.Internal.PathSegments
 {
     public class LiteralPathSegment : IPathSegment
     {

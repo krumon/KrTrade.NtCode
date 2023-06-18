@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.FileProviders.Physical
+namespace KrTrade.Nt.DI.FileProviders.Physical
 {
     internal sealed class Clock : IClock
     {

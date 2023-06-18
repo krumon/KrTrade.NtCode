@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Exceptions
+namespace KrTrade.Nt.DI.Exceptions
 {
     [Serializable]
     public class SetConfigurationException : Exception

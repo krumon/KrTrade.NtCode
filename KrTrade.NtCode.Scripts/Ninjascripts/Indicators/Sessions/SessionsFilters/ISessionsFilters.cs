@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Ninjascripts.Indicators
+﻿namespace KrTrade.Nt.Scripts.Ninjascripts.Indicators
 {
     /// <summary>
     /// Represents the properties and methods to create a default implementation of <see cref="SessionsFiltersService"/>.

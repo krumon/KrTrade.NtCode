@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Logging
+﻿namespace KrTrade.Nt.Scripts.Logging
 {
     /// <summary>
     /// Reserved formatter names for the built-in ninjascript formatters.

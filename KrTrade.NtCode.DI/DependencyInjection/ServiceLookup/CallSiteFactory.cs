@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace KrTrade.NtCode.DependencyInjection.ServiceLookup
+namespace KrTrade.Nt.DI.DependencyInjection.ServiceLookup
 {
     internal sealed class CallSiteFactory : IServiceProviderIsService
     {

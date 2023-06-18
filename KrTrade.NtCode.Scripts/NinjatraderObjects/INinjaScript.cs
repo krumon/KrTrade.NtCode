@@ -1,7 +1,7 @@
 ﻿using NinjaTrader.NinjaScript;
-using KrTrade.NtCode.Data;
+using KrTrade.Nt.DI.Data;
 
-namespace KrTrade.NtCode.NinjatraderObjects
+namespace KrTrade.Nt.Scripts.NinjatraderObjects
 {
     public interface INinjaScript
     {

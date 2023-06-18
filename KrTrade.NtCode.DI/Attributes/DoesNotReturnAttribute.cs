@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Attributes
+namespace KrTrade.Nt.DI.Attributes
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = false)]
     internal sealed class DoesNotReturnAttribute : Attribute

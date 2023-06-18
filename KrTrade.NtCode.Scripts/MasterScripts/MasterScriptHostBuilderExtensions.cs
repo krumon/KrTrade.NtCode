@@ -1,9 +1,9 @@
-﻿using KrTrade.NtCode.Configuration;
-using KrTrade.NtCode.DependencyInjection;
-using KrTrade.NtCode.Hosting;
+﻿using KrTrade.Nt.DI.Configuration;
+using KrTrade.Nt.DI.Hosting;
+using KrTrade.Nt.DI.DependencyInjection;
 using System;
 
-namespace KrTrade.NtCode.MasterScripts
+namespace KrTrade.Nt.Scripts.MasterScripts
 {
     public static class MasterScriptHostBuilderExtensions
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Configuration
+namespace KrTrade.Nt.DI.Configuration
 {
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class ConfigurationKeyNameAttribute : Attribute

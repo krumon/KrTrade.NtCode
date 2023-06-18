@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace KrTrade.NtCode.Logging.Internal
+namespace KrTrade.Nt.DI.Logging.Internal
 {
     internal static class ProviderAliasUtilities
     {
-        private const string AliasAttibuteTypeFullName = "KrTrade.NtCode.Logging.ProviderAliasAttribute";
+        private const string AliasAttibuteTypeFullName = "KrTrade.Nt.DI.Logging.ProviderAliasAttribute";
 
         internal static string GetAlias(Type providerType)
         {

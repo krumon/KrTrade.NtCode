@@ -1,6 +1,6 @@
-﻿using KrTrade.NtCode.Data;
+﻿using KrTrade.Nt.DI.Data;
 
-namespace KrTrade.NtCode.Services
+namespace KrTrade.Nt.Scripts.Services
 {
     /// <summary>
     /// Represents default implementation of <see cref="DataSeriesCollection"/>.

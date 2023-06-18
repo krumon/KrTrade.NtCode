@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace KrTrade.NtCode.FileProviders
+namespace KrTrade.Nt.DI.FileProviders
 {
     //
     // Resumen:

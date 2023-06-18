@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode
+﻿namespace KrTrade.Nt.Console
 {
     /// <summary>
     /// The type price of the bar.

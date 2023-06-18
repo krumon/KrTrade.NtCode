@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.DependencyInjection
+namespace KrTrade.Nt.DI.DependencyInjection
 {
     /// <summary>
     /// Optional service used to determine if the specified type is available from the

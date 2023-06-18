@@ -1,8 +1,8 @@
-﻿using KrTrade.NtCode.Logging;
+﻿using KrTrade.Nt.DI.Logging;
 using System;
 using System.Threading;
 
-namespace KrTrade.NtCode.Hosting.Internal
+namespace KrTrade.Nt.DI.Hosting.Internal
 {
     /// <summary>
     /// Allows consumers to perform cleanup during a graceful shutdown.

@@ -1,8 +1,8 @@
 ﻿using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
-using KrTrade.NtCode.Events;
+using KrTrade.Nt.DI.Events;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
     /// <summary>
     /// Represents consts, fields and properties of the Ninjatrader user configuration.

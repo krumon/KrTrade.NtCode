@@ -1,9 +1,9 @@
-﻿using KrTrade.NtCode.Logging;
-using KrTrade.NtCode.Logging.Internal;
-using KrTrade.NtCode.Options;
+﻿using KrTrade.Nt.DI.Logging;
+using KrTrade.Nt.DI.Logging.Internal;
+using KrTrade.Nt.DI.Options;
 using System;
 
-namespace KrTrade.NtCode.DependencyInjection
+namespace KrTrade.Nt.DI.DependencyInjection
 {
     /// <summary>
     /// Extension methods for setting up logging services in an <see cref="IServiceCollection" />.

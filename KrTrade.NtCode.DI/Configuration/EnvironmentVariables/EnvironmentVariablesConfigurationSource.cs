@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Configuration.EnvironmentVariables
+﻿namespace KrTrade.Nt.DI.Configuration.EnvironmentVariables
 {
     /// <summary>
     /// Represents environment variables as an <see cref="IConfigurationSource"/>.

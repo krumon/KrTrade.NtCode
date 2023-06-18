@@ -1,6 +1,6 @@
 ﻿using NinjaTrader.NinjaScript;
 
-namespace KrTrade.NtCode.Ninjascripts
+namespace KrTrade.Nt.Scripts.Ninjascripts
 {
     /// <summary>
     /// Extension methods for convert values 'from' or 'to' <see cref="NinjascriptState"/> enum.

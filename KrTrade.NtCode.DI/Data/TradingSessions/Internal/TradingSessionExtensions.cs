@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Data.Internal
+﻿namespace KrTrade.Nt.DI.Data.Internal
 {
     /// <summary>
     /// Extension methods to create generic sessions.

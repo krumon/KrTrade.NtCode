@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace KrTrade.NtCode.FileSystemGlobbing.Abstractions
+namespace KrTrade.Nt.DI.FileSystemGlobbing.Abstractions
 {
     /// <summary>
     /// Wraps an instance of <see cref="System.IO.FileInfo" /> to provide implementation of <see cref="FileInfoBase" />.

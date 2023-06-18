@@ -1,8 +1,8 @@
-﻿using KrTrade.NtCode.Events;
+﻿using KrTrade.Nt.DI.Events;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
     /// <summary>
     /// The interfece for any ninjascripts manager.

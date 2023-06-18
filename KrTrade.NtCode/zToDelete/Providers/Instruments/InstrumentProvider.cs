@@ -1,11 +1,11 @@
-﻿using KrTrade.NtCode;
-using KrTrade.NtCode.Data;
-using KrTrade.NtCode.Services;
+﻿using KrTrade.Nt.Console;
+using KrTrade.Nt.DI.Data;
+using KrTrade.Nt.DI.Services;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
     /// <summary>
     /// Represents any financial instrument.
@@ -88,7 +88,7 @@ namespace KrTrade.NtCode
             if (descriptors.Count == 0)
                 throw new ArgumentException("Descriptors count cannot be 0");
 
-            _descriptors = new KrTrade.NtCode.Services.DataSeriesDescriptor[descriptors.Count];
+            _descriptors = new KrTrade.Nt.DI.Services.DataSeriesDescriptor[descriptors.Count];
             descriptors.CopyTo(_descriptors,0);
         }
 

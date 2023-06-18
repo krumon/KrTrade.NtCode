@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode
+﻿namespace KrTrade.Nt.Console
 {
     /// <summary>
     /// Base class of any strategy.

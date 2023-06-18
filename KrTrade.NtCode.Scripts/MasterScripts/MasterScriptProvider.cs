@@ -1,6 +1,6 @@
-﻿using KrTrade.NtCode.Ninjascripts;
+﻿using KrTrade.Nt.Scripts.Ninjascripts;
 
-namespace KrTrade.NtCode.MasterScripts
+namespace KrTrade.Nt.Scripts.MasterScripts
 {
     internal class MasterScriptProvider : INinjascriptProvider
     {

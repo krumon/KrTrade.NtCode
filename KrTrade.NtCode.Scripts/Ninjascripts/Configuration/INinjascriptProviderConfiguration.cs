@@ -1,6 +1,6 @@
-﻿using KrTrade.NtCode.Configuration;
+﻿using KrTrade.Nt.DI.Configuration;
 
-namespace KrTrade.NtCode.Ninjascripts.Configuration
+namespace KrTrade.Nt.Scripts.Ninjascripts.Configuration
 {
     /// <summary>
     /// Allows access to configuration section associated with ninjascript provider

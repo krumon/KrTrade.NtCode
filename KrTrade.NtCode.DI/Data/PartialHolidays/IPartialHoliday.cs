@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 
-namespace KrTrade.NtCode.Data
+namespace KrTrade.Nt.DI.Data
 {
     /// <summary>
     /// An object containing a DateTime representing the date of the early close or late begin, 

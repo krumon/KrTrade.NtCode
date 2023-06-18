@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace KrTrade.NtCode.DependencyInjection
+namespace KrTrade.Nt.DI.DependencyInjection
 {
     /// <summary>
     /// Extension methods for getting services from an <see cref="IServiceProvider" />.

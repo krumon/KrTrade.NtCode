@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.FileSystemGlobbing.Abstractions
+﻿namespace KrTrade.Nt.DI.FileSystemGlobbing.Abstractions
 {
     //
     // Resumen:

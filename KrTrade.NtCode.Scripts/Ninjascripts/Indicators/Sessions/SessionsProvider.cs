@@ -1,9 +1,8 @@
-﻿using KrTrade.NtCode.Logging;
-using KrTrade.NtCode.Options;
-using KrTrade.NtCode.NinjatraderObjects;
-using KrTrade.NtCode.Services;
+﻿using KrTrade.Nt.DI.Logging;
+using KrTrade.Nt.DI.Options;
+using KrTrade.Nt.Scripts.NinjatraderObjects;
 
-namespace KrTrade.NtCode.Ninjascripts.Indicators
+namespace KrTrade.Nt.Scripts.Ninjascripts.Indicators
 {
     [NinjascriptProviderAlias("Sessions")]
     public class SessionsProvider : INinjascriptProvider

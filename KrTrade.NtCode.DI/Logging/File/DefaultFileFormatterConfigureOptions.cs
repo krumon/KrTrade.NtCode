@@ -1,6 +1,6 @@
-﻿using KrTrade.NtCode.Options;
+﻿using KrTrade.Nt.DI.Options;
 
-namespace KrTrade.NtCode.Logging.File
+namespace KrTrade.Nt.DI.Logging.File
 {
     internal sealed class DefaultFileFormatterConfigureOptions : ConfigureOptions<FileFormatterOptions>
     {

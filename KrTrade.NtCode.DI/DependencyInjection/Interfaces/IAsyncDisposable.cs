@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace KrTrade.NtCode.DependencyInjection
+namespace KrTrade.Nt.DI.DependencyInjection
 {
     /// <summary>
     /// Provides a mechanism for releasing unmanaged resources asynchronously.

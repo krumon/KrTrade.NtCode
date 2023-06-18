@@ -1,11 +1,11 @@
-﻿using KrTrade.NtCode.Attributes;
-using KrTrade.NtCode.DependencyInjection;
-using KrTrade.NtCode.Logging.Configuration;
-using KrTrade.NtCode.Logging.Console;
-using KrTrade.NtCode.Options;
+﻿using KrTrade.Nt.DI.Attributes;
+using KrTrade.Nt.DI.DependencyInjection;
+using KrTrade.Nt.DI.Logging.Configuration;
+using KrTrade.Nt.DI.Logging.Console;
+using KrTrade.Nt.DI.Options;
 using System;
 
-namespace KrTrade.NtCode.Logging
+namespace KrTrade.Nt.DI.Logging
 {
     [UnsupportedOSPlatform("browser")]
     public static class ConsoleLoggerFormatterExtensions

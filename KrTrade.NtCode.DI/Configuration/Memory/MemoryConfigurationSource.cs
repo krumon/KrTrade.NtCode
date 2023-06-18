@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace KrTrade.NtCode.Configuration.Memory
+namespace KrTrade.Nt.DI.Configuration.Memory
 {
     /// <summary>
     /// Represents in-memory data as an <see cref="IConfigurationSource"/>.

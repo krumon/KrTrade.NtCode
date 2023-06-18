@@ -1,7 +1,7 @@
-﻿using KrTrade.NtCode.FileSystemGlobbing.Abstractions;
+﻿using KrTrade.Nt.DI.FileSystemGlobbing.Abstractions;
 using System.IO;
 
-namespace KrTrade.NtCode.FileSystemGlobbing.Internal
+namespace KrTrade.Nt.DI.FileSystemGlobbing.Internal
 {
     internal sealed class InMemoryFileInfo : FileInfoBase
     {

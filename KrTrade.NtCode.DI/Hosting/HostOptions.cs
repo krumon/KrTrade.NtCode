@@ -1,8 +1,8 @@
-﻿using KrTrade.NtCode.Configuration;
+﻿using KrTrade.Nt.DI.Configuration;
 using System;
 using System.Globalization;
 
-namespace KrTrade.NtCode.Hosting
+namespace KrTrade.Nt.DI.Hosting
 {
 
     /// <summary>

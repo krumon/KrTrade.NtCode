@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace KrTrade.NtCode.Logging
+namespace KrTrade.Nt.DI.Logging
 {
     /// <summary>
     /// Defines alias for <see cref="ILoggerProvider"/> implementation to be used in filtering rules.

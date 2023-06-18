@@ -1,6 +1,6 @@
-﻿using KrTrade.NtCode.Options;
+﻿using KrTrade.Nt.DI.Options;
 
-namespace KrTrade.NtCode.Logging.EventLog
+namespace KrTrade.Nt.DI.Logging.EventLog
 {
     /// <summary>
     /// The provider for the <see cref="EventLogLogger"/>.

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
     /// <summary>
     /// Formats a message when the callers source information is provided first in the arguments

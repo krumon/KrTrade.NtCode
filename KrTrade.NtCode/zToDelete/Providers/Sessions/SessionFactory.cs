@@ -1,9 +1,9 @@
-﻿using KrTrade.NtCode.Internal;
-using KrTrade.NtCode.Data;
+﻿using KrTrade.Nt.Console.Internal;
+using KrTrade.Nt.DI.Data;
 using System;
 using System.Collections.Generic;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
     internal class SessionFactory
     {

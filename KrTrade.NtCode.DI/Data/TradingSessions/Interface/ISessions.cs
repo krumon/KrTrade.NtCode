@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace KrTrade.NtCode.Data
+namespace KrTrade.Nt.DI.Data
 {
     public interface ISessions :
         IComparable,

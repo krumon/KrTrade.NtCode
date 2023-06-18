@@ -1,7 +1,7 @@
 ﻿//using Microsoft.Extensions.DependencyInjection;
 //using Microsoft.Extensions.Logging;
 
-//namespace KrTrade.NtCode
+//namespace KrTrade.Nt.Console
 //{
 //    /// <summary>
 //    /// Extension methods for the <see cref="FileLogger"/>.

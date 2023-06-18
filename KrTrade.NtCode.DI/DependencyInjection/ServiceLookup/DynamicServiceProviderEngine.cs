@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 
-namespace KrTrade.NtCode.DependencyInjection.ServiceLookup
+namespace KrTrade.Nt.DI.DependencyInjection.ServiceLookup
 {
     internal sealed class DynamicServiceProviderEngine : CompiledServiceProviderEngine
     {

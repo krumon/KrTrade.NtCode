@@ -1,6 +1,6 @@
 ﻿using NinjaTrader.NinjaScript;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
     /// <summary>
     /// The base class for any indicator builder.

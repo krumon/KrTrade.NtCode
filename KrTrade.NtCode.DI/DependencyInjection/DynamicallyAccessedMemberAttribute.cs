@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.DependencyInjection
+namespace KrTrade.Nt.DI.DependencyInjection
 {
     /// <summary>
     /// Indicates that certain members on a specified <see cref="Type"/> are accessed dynamically,

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Concurrent;
 using System.IO;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
     /// <summary>
     /// A logger that writes the logs to file

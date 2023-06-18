@@ -7,8 +7,8 @@
     <ProjectGuid>{77C4DCF3-98A3-4C20-95F1-0806C30FE114}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nt.Scripts</RootNamespace>
-    <AssemblyName>Nt.Scripts</AssemblyName>
+    <RootNamespace>KrTrade.Nt.Scripts</RootNamespace>
+    <AssemblyName>KrTrade.Nt.Scripts</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

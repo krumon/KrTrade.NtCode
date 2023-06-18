@@ -1,14 +1,14 @@
-﻿using KrTrade.NtCode.DependencyInjection;
-using KrTrade.NtCode.FileProviders;
-using KrTrade.NtCode.Hosting.Internal;
-using KrTrade.NtCode.Logging;
-using KrTrade.NtCode.Options;
+﻿using KrTrade.Nt.DI.DependencyInjection;
+using KrTrade.Nt.DI.FileProviders;
+using KrTrade.Nt.DI.Hosting.Internal;
+using KrTrade.Nt.DI.Logging;
+using KrTrade.Nt.DI.Options;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace KrTrade.NtCode.Hosting
+namespace KrTrade.Nt.DI.Hosting
 {
     /// <summary>
     /// Represents the host.

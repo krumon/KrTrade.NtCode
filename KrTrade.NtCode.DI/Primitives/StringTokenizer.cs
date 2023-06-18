@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace KrTrade.NtCode.Primitives
+namespace KrTrade.Nt.DI.Primitives
 {
     /// <summary>
     /// Tokenizes a <see cref="string"/> into <see cref="StringSegment"/>s.

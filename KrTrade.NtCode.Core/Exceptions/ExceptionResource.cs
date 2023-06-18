@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Exceptions
+﻿namespace KrTrade.Nt.Core.Exceptions
 {
     public enum ExceptionResource
     {

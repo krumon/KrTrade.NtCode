@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Concurrent;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
     [ProviderAlias("ColorConsole")]
     public sealed class NinjascriptConsoleLoggerProvider : ILoggerProvider

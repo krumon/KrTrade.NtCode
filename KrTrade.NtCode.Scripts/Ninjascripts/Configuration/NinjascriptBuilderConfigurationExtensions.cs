@@ -1,6 +1,6 @@
-﻿using KrTrade.NtCode.DependencyInjection;
+﻿using KrTrade.Nt.DI.DependencyInjection;
 
-namespace KrTrade.NtCode.Ninjascripts.Configuration
+namespace KrTrade.Nt.Scripts.Ninjascripts.Configuration
 {
     /// <summary>
     /// Extension methods for setting up ninjascript services in an <see cref="INinjascriptBuilder" />.

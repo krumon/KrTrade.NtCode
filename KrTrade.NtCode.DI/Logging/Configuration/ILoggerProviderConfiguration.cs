@@ -1,6 +1,6 @@
-﻿using KrTrade.NtCode.Configuration;
+﻿using KrTrade.Nt.DI.Configuration;
 
-namespace KrTrade.NtCode.Logging.Configuration
+namespace KrTrade.Nt.DI.Logging.Configuration
 {
     /// <summary>
     /// Allows access to configuration section associated with logger provider

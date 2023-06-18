@@ -1,6 +1,6 @@
-﻿using KrTrade.NtCode.FileProviders;
+﻿using KrTrade.Nt.DI.FileProviders;
 
-namespace KrTrade.NtCode.Hosting.Internal
+namespace KrTrade.Nt.DI.Hosting.Internal
 {
 #pragma warning disable CS0618 // Type or member is obsolete
     /// <summary>

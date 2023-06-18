@@ -7,8 +7,8 @@
     <ProjectGuid>{3A644626-5B81-4EE5-9D67-6B77D5BA4940}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nt.Core</RootNamespace>
-    <AssemblyName>Nt.Core</AssemblyName>
+    <RootNamespace>KrTrade.Nt.DI</RootNamespace>
+    <AssemblyName>KrTrade.Nt.DI</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

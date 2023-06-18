@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Tests
+namespace KrTrade.Nt.Core.Tests
 {
     public abstract class BaseConsoleTests
     {

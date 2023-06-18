@@ -1,10 +1,10 @@
-﻿using KrTrade.NtCode.Primitives;
+﻿using KrTrade.Nt.DI.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 
-namespace KrTrade.NtCode.Configuration
+namespace KrTrade.Nt.DI.Configuration
 {
     /// <summary>
     /// Base helper class for implementing an <see cref="IConfigurationProvider"/>

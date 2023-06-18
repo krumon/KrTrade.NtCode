@@ -1,11 +1,11 @@
-﻿using KrTrade.NtCode.FileSystemGlobbing.Abstractions;
-using KrTrade.NtCode.FileSystemGlobbing.Internal.PathSegments;
-using KrTrade.NtCode.Helpers;
+﻿using KrTrade.Nt.DI.FileSystemGlobbing.Abstractions;
+using KrTrade.Nt.DI.FileSystemGlobbing.Internal.PathSegments;
+using KrTrade.Nt.DI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace KrTrade.NtCode.FileSystemGlobbing.Internal
+namespace KrTrade.Nt.DI.FileSystemGlobbing.Internal
 {
     /// <summary>
     /// This API supports infrastructure and is not intended to be used

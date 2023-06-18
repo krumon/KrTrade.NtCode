@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Logging.Internal
+namespace KrTrade.Nt.DI.Logging.Internal
 {
     internal static class LoggerRuleSelector
     {

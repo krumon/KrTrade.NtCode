@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Logging
+namespace KrTrade.Nt.DI.Logging
 {
     /// <summary>
     /// Defines a rule used to filter log messages

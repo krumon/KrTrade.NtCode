@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System;
 
-namespace KrTrade.NtCode.Reflection
+namespace KrTrade.Nt.Core.Reflection
 {
     /// <summary>
     /// Represents the helper methods to mapper objects.

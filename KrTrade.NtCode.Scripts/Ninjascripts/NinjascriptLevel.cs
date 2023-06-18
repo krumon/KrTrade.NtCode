@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Ninjascripts
+﻿namespace KrTrade.Nt.Scripts.Ninjascripts
 {
     /// <summary>
     /// The ninjascript object level states.

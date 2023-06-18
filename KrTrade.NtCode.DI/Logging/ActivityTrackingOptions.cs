@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Logging
+namespace KrTrade.Nt.DI.Logging
 {
     /// <summary>
     /// Flags to indicate which trace context parts should be included with the logging scopes.

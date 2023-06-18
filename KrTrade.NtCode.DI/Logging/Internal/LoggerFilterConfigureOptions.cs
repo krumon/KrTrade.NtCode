@@ -1,11 +1,11 @@
-﻿using KrTrade.NtCode.Attributes;
-using KrTrade.NtCode.Configuration;
-using KrTrade.NtCode.Options;
+﻿using KrTrade.Nt.DI.Attributes;
+using KrTrade.Nt.DI.Configuration;
+using KrTrade.Nt.DI.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace KrTrade.NtCode.Logging.Internal
+namespace KrTrade.Nt.DI.Logging.Internal
 {
     internal sealed class LoggerFilterConfigureOptions : IConfigureOptions<LoggerFilterOptions>
     {

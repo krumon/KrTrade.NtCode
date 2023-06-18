@@ -1,11 +1,11 @@
 ﻿using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
-using KrTrade.NtCode.Events;
-using KrTrade.NtCode.Exceptions;
+using KrTrade.Nt.DI.Events;
+using KrTrade.Nt.DI.Exceptions;
 using System;
 using System.Reflection;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
 
     /// <summary>
@@ -62,9 +62,9 @@ namespace KrTrade.NtCode
             catch (LoadException e)
             {
                 // TODO: ILogger implementation to register errors.
-                Console.WriteLine("Unhandler Exception on BaseNinjascript.Load method.");
-                Console.WriteLine(e);
-                Console.WriteLine(e.Message);
+                System.Console.WriteLine("Unhandler Exception on BaseNinjascript.Load method.");
+                System.Console.WriteLine(e);
+                System.Console.WriteLine(e.Message);
             }
         }
 
@@ -95,7 +95,7 @@ namespace KrTrade.NtCode
             catch 
             {
                 // TODO: ILogger implementation to register errors.
-                Console.WriteLine("Unhandler Exception on OnBarUpdate.Load method.");
+                System.Console.WriteLine("Unhandler Exception on OnBarUpdate.Load method.");
             }
         }
 
@@ -115,8 +115,8 @@ namespace KrTrade.NtCode
             catch(OnBarUpdateException e) 
             {
                 // TODO: ILogger implementation to register errors.
-                Console.WriteLine(e);
-                Console.WriteLine(e.Message);
+                System.Console.WriteLine(e);
+                System.Console.WriteLine(e.Message);
             }
         }
 
@@ -266,7 +266,7 @@ namespace KrTrade.NtCode
             catch(SetDefaultException e)
             {
                 // TODO: Implementar ILogger para registrar los errores.
-                Console.WriteLine(e.Message);
+                System.Console.WriteLine(e.Message);
                 // TODO: Controlar la excepción.
                 throw;
             }

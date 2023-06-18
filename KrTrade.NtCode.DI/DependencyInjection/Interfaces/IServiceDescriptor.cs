@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.DependencyInjection
+﻿namespace KrTrade.Nt.DI.DependencyInjection
 {
     /// <summary>
     /// Default implememntation of service descriptor.

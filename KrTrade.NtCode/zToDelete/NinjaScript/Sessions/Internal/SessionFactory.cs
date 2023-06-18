@@ -1,8 +1,8 @@
-﻿//using KrTrade.NtCode.Data;
+﻿//using KrTrade.Nt.Console.Data;
 //using System;
 //using System.Collections.Generic;
 
-//namespace KrTrade.NtCode.Internal
+//namespace KrTrade.Nt.Console.Internal
 //{
 //    internal class SessionFactory
 //    {

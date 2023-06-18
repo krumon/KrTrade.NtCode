@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Helpers
+﻿namespace KrTrade.Nt.DI.Helpers
 {
     internal static class HashHelpers
     {

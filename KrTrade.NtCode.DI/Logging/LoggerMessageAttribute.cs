@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Logging
+namespace KrTrade.Nt.DI.Logging
 {
     /// <summary>
     /// Provides information to guide the production of a strongly-typed logging method.

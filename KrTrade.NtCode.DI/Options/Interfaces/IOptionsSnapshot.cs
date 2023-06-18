@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Options
+﻿namespace KrTrade.Nt.DI.Options
 {
     /// <summary>
     /// Used to access the value of TOptions for the lifetime of a request.

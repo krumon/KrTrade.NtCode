@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Concurrent;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
     /// <summary>
     /// Provides the ability to log to file

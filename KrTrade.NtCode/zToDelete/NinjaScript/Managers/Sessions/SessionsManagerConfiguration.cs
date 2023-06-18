@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode
+﻿namespace KrTrade.Nt.Console
 {
     /// <summary>
     /// Options to create <see cref="SessionsManager"/> object.

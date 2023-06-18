@@ -1,9 +1,9 @@
-﻿using KrTrade.NtCode.Exceptions;
+﻿using KrTrade.Nt.Core.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace KrTrade.NtCode.DependencyInjection.ServiceLookup
+namespace KrTrade.Nt.DI.DependencyInjection.ServiceLookup
 {
     internal sealed class ServiceProviderEngineScope : IServiceScope, IServiceProvider, IAsyncDisposable, IServiceScopeFactory
     {

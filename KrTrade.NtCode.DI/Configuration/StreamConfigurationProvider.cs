@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace KrTrade.NtCode.Configuration
+namespace KrTrade.Nt.DI.Configuration
 {
     /// <summary>
     /// Stream based configuration provider

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Logging.Abstractions
+namespace KrTrade.Nt.DI.Logging.Abstractions
 {
     /// <summary>
     /// Holds the information for a single log entry.

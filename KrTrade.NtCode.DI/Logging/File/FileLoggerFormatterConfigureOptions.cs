@@ -1,9 +1,9 @@
-﻿using KrTrade.NtCode.Attributes;
-using KrTrade.NtCode.DependencyInjection;
-using KrTrade.NtCode.Logging.Configuration;
-using KrTrade.NtCode.Options;
+﻿using KrTrade.Nt.DI.Attributes;
+using KrTrade.Nt.DI.DependencyInjection;
+using KrTrade.Nt.DI.Logging.Configuration;
+using KrTrade.Nt.DI.Options;
 
-namespace KrTrade.NtCode.Logging.File
+namespace KrTrade.Nt.DI.Logging.File
 {
     [UnsupportedOSPlatform("browser")]
     internal sealed class FileLoggerFormatterConfigureOptions<TFormatter, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TOptions> : ConfigureFromConfigurationOptions<TOptions>

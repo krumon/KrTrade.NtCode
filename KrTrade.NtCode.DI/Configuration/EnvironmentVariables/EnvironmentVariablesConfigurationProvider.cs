@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace KrTrade.NtCode.Configuration.EnvironmentVariables
+namespace KrTrade.Nt.DI.Configuration.EnvironmentVariables
 {
     /// <summary>
     /// An environment variable based <see cref="ConfigurationProvider"/>.

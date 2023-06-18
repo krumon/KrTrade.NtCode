@@ -1,7 +1,7 @@
-﻿using KrTrade.NtCode.Options;
+﻿using KrTrade.Nt.DI.Options;
 using System;
 
-namespace KrTrade.NtCode.Logging.Internal
+namespace KrTrade.Nt.DI.Logging.Internal
 {
     internal sealed class StaticFilterOptionsMonitor : IOptionsMonitor<LoggerFilterOptions>
     {

@@ -1,13 +1,12 @@
 ﻿using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
-using KrTrade.NtCode;
-using KrTrade.NtCode.Internal;
-using KrTrade.NtCode.Events;
+using KrTrade.Nt.Console.Internal;
+using KrTrade.Nt.DI.Events;
 using System;
 using System.Collections.Generic;
-using KrTrade.NtCode.Data;
+using KrTrade.Nt.DI.Data;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
     /// <summary>
     /// Represents the trading hours for any session.

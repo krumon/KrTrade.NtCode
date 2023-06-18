@@ -1,9 +1,9 @@
-﻿using KrTrade.NtCode.Attributes;
-using KrTrade.NtCode.Configuration;
-using KrTrade.NtCode.DependencyInjection;
+﻿using KrTrade.Nt.DI.Attributes;
+using KrTrade.Nt.DI.Configuration;
+using KrTrade.Nt.DI.DependencyInjection;
 using System;
 
-namespace KrTrade.NtCode.Options
+namespace KrTrade.Nt.DI.Options
 {
     // REVIEW: consider deleting/obsoleting, not used by Configure anymore (in favor of name), left for breaking change)
 

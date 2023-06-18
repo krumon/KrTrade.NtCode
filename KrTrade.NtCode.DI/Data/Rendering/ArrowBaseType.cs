@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Data
+﻿namespace KrTrade.Nt.DI.Data
 {
     /// <summary>
     /// Length type of the arrow base.

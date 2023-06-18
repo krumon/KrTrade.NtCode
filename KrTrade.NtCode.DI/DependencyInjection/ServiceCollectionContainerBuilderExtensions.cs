@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.DependencyInjection
+namespace KrTrade.Nt.DI.DependencyInjection
 {
     /// <summary>
     /// Extension methods for building a <see cref="ServiceProvider"/> from an <see cref="IServiceCollection"/>.

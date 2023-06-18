@@ -1,9 +1,9 @@
-﻿using KrTrade.NtCode.Logging.Abstractions;
-using KrTrade.NtCode.Options;
+﻿using KrTrade.Nt.DI.Logging.Abstractions;
+using KrTrade.Nt.DI.Options;
 using System;
 using System.IO;
 
-namespace KrTrade.NtCode.Logging.File
+namespace KrTrade.Nt.DI.Logging.File
 {
     public class FileFormatter: BaseFileFormatter, IDisposable
     {

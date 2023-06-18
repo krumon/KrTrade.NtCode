@@ -2,10 +2,10 @@
 using NinjaTrader.Gui.Chart;
 using NinjaTrader.NinjaScript;
 using NinjaTrader.NinjaScript.DrawingTools;
-using KrTrade.NtCode.DependencyInjection;
+using KrTrade.Nt.DI.DependencyInjection;
 using System;
 
-namespace KrTrade.NtCode.NinjatraderObjects
+namespace KrTrade.Nt.Scripts.NinjatraderObjects
 {
     public static class NinjatraderObjectsServiceCollectionExtensions
     {

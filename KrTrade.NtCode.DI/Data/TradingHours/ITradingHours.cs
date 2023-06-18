@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace KrTrade.NtCode.Data
+namespace KrTrade.Nt.DI.Data
 {
     /// <summary>
     /// Represents the Trading Hours information returned from the current bars series. 

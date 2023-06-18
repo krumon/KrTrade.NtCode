@@ -1,11 +1,11 @@
-﻿using KrTrade.NtCode.Events;
+﻿using KrTrade.Nt.DI.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
 
     /// <summary>

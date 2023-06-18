@@ -1,9 +1,9 @@
 ﻿using NinjaTrader.Core.FloatingPoint;
 using NinjaTrader.NinjaScript;
 using System;
-using KrTrade.NtCode.Data;
+using KrTrade.Nt.DI.Data;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
     public class BarsCache : Cache<TradingBar>
     {

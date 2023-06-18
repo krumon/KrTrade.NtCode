@@ -1,9 +1,9 @@
 ﻿using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
-using KrTrade.NtCode.Events;
+using KrTrade.Nt.DI.Events;
 using System;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
     /// <summary>
     /// Represents the filters for any session object.

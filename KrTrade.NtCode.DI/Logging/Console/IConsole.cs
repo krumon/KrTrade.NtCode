@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Logging.Console
+﻿namespace KrTrade.Nt.DI.Logging.Console
 {
     internal interface IConsole
     {

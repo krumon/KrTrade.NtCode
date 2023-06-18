@@ -1,9 +1,8 @@
-﻿using KrTrade.NtCode.Tests;
-using KrTrade.NtCode;
+﻿using KrTrade.Nt.Core.Tests;
 using System;
 using System.Threading;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console.Tests
 {
     internal class SimulatorTests : BaseConsoleTests
     {
@@ -60,7 +59,7 @@ namespace KrTrade.NtCode
             KrSessionHoursIteratorTest();
 
             // Paro el hilo principal de la aplicación para poder ver las pruebas en la consola.
-            Console.ReadKey();
+            System.Console.ReadKey();
 
             // Libero la memoria.
             Dispose();

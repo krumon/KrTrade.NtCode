@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Options
+namespace KrTrade.Nt.DI.Options
 {
     /// <summary>
     ///  Used by <see cref="IOptionsMonitor{TOptions}"/> to cache TOptions instances.

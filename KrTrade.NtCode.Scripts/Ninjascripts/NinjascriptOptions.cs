@@ -1,6 +1,6 @@
 ﻿//using System.Collections.Generic;
 
-//namespace KrTrade.NtCode.Ninjascripts
+//namespace KrTrade.Nt.Scripts.Ninjascripts
 //{
 //    public class NinjascriptOptions
 //    {

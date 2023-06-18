@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace KrTrade.NtCode.Options
+namespace KrTrade.Nt.DI.Options
 {
     /// <summary>
     /// Implementation of <see cref="IOptionsFactory{TOptions}"/>.

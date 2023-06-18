@@ -1,10 +1,10 @@
-﻿using KrTrade.NtCode.DependencyInjection;
-using KrTrade.NtCode.Logging;
-using KrTrade.NtCode.Logging.Configuration;
-using KrTrade.NtCode.Logging.Options;
+﻿using KrTrade.Nt.DI.DependencyInjection;
+using KrTrade.Nt.DI.Logging.Configuration;
+using KrTrade.Nt.DI.Logging.Options;
 using System;
+using KrTrade.Nt.DI.Logging;
 
-namespace KrTrade.NtCode.Logging
+namespace KrTrade.Nt.Scripts.Logging
 {
     /// <summary>
     /// Extension methods for the <see cref="NinjatraderLogger"/>.

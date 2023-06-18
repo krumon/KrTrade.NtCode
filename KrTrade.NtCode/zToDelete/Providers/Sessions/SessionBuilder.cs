@@ -1,10 +1,10 @@
-﻿using KrTrade.NtCode.Helpers;
-using KrTrade.NtCode.Internal;
+﻿using KrTrade.Nt.Core.Helpers;
+using KrTrade.Nt.Console.Internal;
 using System;
 using System.Collections.Generic;
-using KrTrade.NtCode.Data;
+using KrTrade.Nt.DI.Data;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
     public class SessionBuilder : ISessionsBuilder
     {

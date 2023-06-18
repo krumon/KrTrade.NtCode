@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Helpers
+namespace KrTrade.Nt.Core.Helpers
 {
     public static class ConsoleHelpers
     {

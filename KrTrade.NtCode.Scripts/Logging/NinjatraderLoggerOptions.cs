@@ -1,6 +1,6 @@
-﻿using KrTrade.NtCode.Logging;
+﻿using KrTrade.Nt.DI.Logging;
 
-namespace KrTrade.NtCode.Logging
+namespace KrTrade.Nt.Scripts.Logging
 {
     public class NinjatraderLoggerOptions
     {

@@ -13,8 +13,8 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml.Serialization;
-using KrTrade.NtCode.DrawingTools;
-using KrTrade.NtCode.Data;
+using KrTrade.Nt.Scripts.DrawingTools;
+using KrTrade.Nt.DI.Data;
 
 #endregion
 

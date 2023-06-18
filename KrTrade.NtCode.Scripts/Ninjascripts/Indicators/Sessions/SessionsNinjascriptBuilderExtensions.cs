@@ -1,12 +1,11 @@
-﻿using KrTrade.NtCode.DependencyInjection;
-using KrTrade.NtCode.Ninjascripts;
-using KrTrade.NtCode.Ninjascripts.Configuration;
-using KrTrade.NtCode.Ninjascripts.Options;
-using KrTrade.NtCode.NinjatraderObjects;
-using KrTrade.NtCode.Services;
+﻿using KrTrade.Nt.DI.DependencyInjection;
+using KrTrade.Nt.Scripts.Ninjascripts;
+using KrTrade.Nt.Scripts.Ninjascripts.Configuration;
+using KrTrade.Nt.Scripts.Ninjascripts.Options;
+using KrTrade.Nt.Scripts.NinjatraderObjects;
 using System;
 
-namespace KrTrade.NtCode.Ninjascripts.Indicators
+namespace KrTrade.Nt.Scripts.Ninjascripts.Indicators
 {
     public static class SessionsNinjascriptBuilderExtensions
     {

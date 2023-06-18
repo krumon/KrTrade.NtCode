@@ -2,7 +2,7 @@
 using NinjaTrader.NinjaScript;
 using System.Collections.Generic;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
 
     /// <summary>

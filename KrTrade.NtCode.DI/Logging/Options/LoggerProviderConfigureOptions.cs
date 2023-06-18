@@ -1,9 +1,9 @@
-﻿using KrTrade.NtCode.Attributes;
-using KrTrade.NtCode.DependencyInjection;
-using KrTrade.NtCode.Logging.Configuration;
-using KrTrade.NtCode.Options;
+﻿using KrTrade.Nt.DI.Attributes;
+using KrTrade.Nt.DI.DependencyInjection;
+using KrTrade.Nt.DI.Logging.Configuration;
+using KrTrade.Nt.DI.Options;
 
-namespace KrTrade.NtCode.Logging.Options
+namespace KrTrade.Nt.DI.Logging.Options
 {
     /// <summary>
     /// Loads settings for <typeparamref name="TProvider"/> into <typeparamref name="TOptions"/> type.

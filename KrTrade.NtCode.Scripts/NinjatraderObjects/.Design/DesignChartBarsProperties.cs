@@ -1,6 +1,6 @@
-﻿using KrTrade.NtCode.Data;
+﻿using KrTrade.Nt.DI.Data;
 
-namespace KrTrade.NtCode.NinjatraderObjects.Design
+namespace KrTrade.Nt.Scripts.NinjatraderObjects.Design
 {
     public class DesignChartBarsProperties : ChartBarsProperties
     {

@@ -1,11 +1,11 @@
-﻿using KrTrade.NtCode.FileSystemGlobbing.Abstractions;
-using KrTrade.NtCode.FileSystemGlobbing.Internal;
+﻿using KrTrade.Nt.DI.FileSystemGlobbing.Abstractions;
+using KrTrade.Nt.DI.FileSystemGlobbing.Internal;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace KrTrade.NtCode.FileSystemGlobbing
+namespace KrTrade.Nt.DI.FileSystemGlobbing
 {
     /// <summary>
     /// Avoids using disk for uses like Pattern Matching.

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System;
 using NinjaTrader.NinjaScript;
-using KrTrade.NtCode.Services;
-using KrTrade.NtCode.NinjatraderObjects;
+using KrTrade.Nt.Scripts.Services;
+using KrTrade.Nt.Scripts.NinjatraderObjects;
 
-namespace KrTrade.NtCode.Ninjascripts.Internal
+namespace KrTrade.Nt.Scripts.Ninjascripts.Internal
 {
     internal class Ninjascript : INinjascript
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 
-namespace KrTrade.NtCode.Configuration.CommandLine
+namespace KrTrade.Nt.DI.Configuration.CommandLine
 {
     /// <summary>
     /// A command line based <see cref="ConfigurationProvider"/>.

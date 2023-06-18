@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace KrTrade.NtCode.Exceptions
+namespace KrTrade.Nt.Core.Exceptions
 {
     public static class ThrowHelper
     {

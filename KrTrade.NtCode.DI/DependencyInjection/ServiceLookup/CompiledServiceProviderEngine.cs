@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.DependencyInjection.ServiceLookup
+namespace KrTrade.Nt.DI.DependencyInjection.ServiceLookup
 {
     internal abstract class CompiledServiceProviderEngine : ServiceProviderEngine
     {

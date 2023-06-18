@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using KrTrade.NtCode.Logging.Console;
-using KrTrade.NtCode.Logging.Internal;
-using KrTrade.NtCode.Options;
+using KrTrade.Nt.DI.Logging.Console;
+using KrTrade.Nt.DI.Logging.Internal;
+using KrTrade.Nt.DI.Options;
 
-namespace KrTrade.NtCode.Logging.File
+namespace KrTrade.Nt.DI.Logging.File
 {
     /// <summary>
     /// Provides the ability to log to file

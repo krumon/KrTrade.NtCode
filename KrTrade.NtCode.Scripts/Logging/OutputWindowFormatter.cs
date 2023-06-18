@@ -1,10 +1,10 @@
-﻿using KrTrade.NtCode.Logging;
-using KrTrade.NtCode.Logging.Abstractions;
-using KrTrade.NtCode.Options;
+﻿using KrTrade.Nt.DI.Logging;
+using KrTrade.Nt.DI.Logging.Abstractions;
+using KrTrade.Nt.DI.Options;
 using System;
 using System.IO;
 
-namespace KrTrade.NtCode.Logging
+namespace KrTrade.Nt.Scripts.Logging
 {
     public class OutputWindowFormatter: NinjatraderLoggerFormatter, IDisposable
     {

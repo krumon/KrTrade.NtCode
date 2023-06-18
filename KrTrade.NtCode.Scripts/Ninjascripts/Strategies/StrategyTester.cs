@@ -1,9 +1,9 @@
-﻿//using KrTrade.NtCode.Logging;
-//using KrTrade.NtCode.Indicators;
-//using KrTrade.NtCode.Ninjascripts;
+﻿//using KrTrade.Nt.Scripts.Logging;
+//using KrTrade.Nt.Scripts.Indicators;
+//using KrTrade.Nt.Scripts.Ninjascripts;
 //using System;
 
-//namespace KrTrade.NtCode.Strategies
+//namespace KrTrade.Nt.Scripts.Strategies
 //{
 //    public class StrategyTester : IConfigurable, IRecalculableOnBarUpdate, IRecalculableOnSessionChanged
 //    {

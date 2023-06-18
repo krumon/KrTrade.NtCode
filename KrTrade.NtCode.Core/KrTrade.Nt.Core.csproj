@@ -7,8 +7,8 @@
     <ProjectGuid>{8157925A-1AEA-4A2A-97F3-F92500DB8E9F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KrTrade.NtCode.Core___</RootNamespace>
-    <AssemblyName>KrTrade.NtCode.Core___</AssemblyName>
+    <RootNamespace>KrTrade.Nt.Core</RootNamespace>
+    <AssemblyName>KrTrade.Nt.Core</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -55,4 +55,8 @@
     <Compile Include="Tests\BaseConsoleTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(ProjectDir)bin\Debug\$(TargetFileName)" "$(registry:HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders@Personal)\NinjaTrader 8\bin\Custom" /E /Y
+xcopy "$(ProjectDir)bin\Debug\$(TargetName).pdb" "$(registry:HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders@Personal)\NinjaTrader 8\bin\Custom" /E /Y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

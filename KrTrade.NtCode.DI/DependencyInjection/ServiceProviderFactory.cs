@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace KrTrade.NtCode.DependencyInjection
+namespace KrTrade.Nt.DI.DependencyInjection
 {
     /// <summary>
     /// Default implementation of <see cref="IServiceProviderFactory{TContainerBuilder}"/>.

@@ -1,8 +1,8 @@
-﻿using KrTrade.NtCode.DependencyInjection;
-using KrTrade.NtCode.Options;
+﻿using KrTrade.Nt.DI.DependencyInjection;
+using KrTrade.Nt.DI.Options;
 using System;
 
-namespace KrTrade.NtCode.Logging.File
+namespace KrTrade.Nt.DI.Logging.File
 {
     internal sealed class FileFormatterOptionsMonitor<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] TOptions> :
         IOptionsMonitor<TOptions>

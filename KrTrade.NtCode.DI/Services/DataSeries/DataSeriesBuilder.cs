@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace KrTrade.NtCode.Services
+namespace KrTrade.Nt.DI.Services
 {
     /// <summary>
     /// Builds data series service objects.

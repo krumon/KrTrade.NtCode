@@ -4,7 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace KrTrade.NtCode.Logging.Internal
+namespace KrTrade.Nt.DI.Logging.Internal
 {
     /// <summary>
     /// LogValues to enable formatting options supported by <see cref="string.Format(IFormatProvider, string, object?)"/>.

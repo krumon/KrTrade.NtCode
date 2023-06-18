@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Hosting.Internal
+namespace KrTrade.Nt.DI.Hosting.Internal
 {
     public sealed class ConfigureContainerAdapter<TContainerBuilder> : IConfigureContainerAdapter
     {

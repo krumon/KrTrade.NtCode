@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Configuration
+namespace KrTrade.Nt.DI.Configuration
 {
     /// <summary>
     /// Extension methods for adding <see cref="IConfiguration"/> to an <see cref="IConfigurationBuilder"/>.

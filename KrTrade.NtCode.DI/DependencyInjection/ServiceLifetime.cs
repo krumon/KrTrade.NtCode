@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.DependencyInjection
+﻿namespace KrTrade.Nt.DI.DependencyInjection
 {
     /// <summary>
     /// Specifies the lifetime of a service in an <see cref="IServiceCollection"/>.

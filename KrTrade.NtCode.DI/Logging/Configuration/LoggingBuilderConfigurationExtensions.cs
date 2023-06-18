@@ -1,6 +1,6 @@
-﻿using KrTrade.NtCode.DependencyInjection;
+﻿using KrTrade.Nt.DI.DependencyInjection;
 
-namespace KrTrade.NtCode.Logging.Configuration
+namespace KrTrade.Nt.DI.Logging.Configuration
 {
     /// <summary>
     /// Extension methods for setting up logging services in an <see cref="ILoggingBuilder" />.

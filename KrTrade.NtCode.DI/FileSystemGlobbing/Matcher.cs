@@ -1,10 +1,10 @@
-﻿using KrTrade.NtCode.FileSystemGlobbing.Abstractions;
-using KrTrade.NtCode.FileSystemGlobbing.Internal;
-using KrTrade.NtCode.FileSystemGlobbing.Internal.Patterns;
+﻿using KrTrade.Nt.DI.FileSystemGlobbing.Abstractions;
+using KrTrade.Nt.DI.FileSystemGlobbing.Internal;
+using KrTrade.Nt.DI.FileSystemGlobbing.Internal.Patterns;
 using System;
 using System.Collections.Generic;
 
-namespace KrTrade.NtCode.FileSystemGlobbing
+namespace KrTrade.Nt.DI.FileSystemGlobbing
 {
     /// <summary>
     /// Searches the file system for files with names that match specified patterns.

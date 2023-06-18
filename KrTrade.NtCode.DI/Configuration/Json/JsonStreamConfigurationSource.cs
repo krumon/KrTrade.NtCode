@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Configuration.Json
+﻿namespace KrTrade.Nt.DI.Configuration.Json
 {
     /// <summary>
     /// Represents a JSON file as an <see cref="IConfigurationSource"/>.

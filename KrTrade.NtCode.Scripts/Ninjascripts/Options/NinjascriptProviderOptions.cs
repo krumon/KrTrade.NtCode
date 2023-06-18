@@ -1,8 +1,8 @@
-﻿using KrTrade.NtCode.Attributes;
-using KrTrade.NtCode.DependencyInjection;
-using KrTrade.NtCode.Options;
+﻿using KrTrade.Nt.DI.Attributes;
+using KrTrade.Nt.DI.DependencyInjection;
+using KrTrade.Nt.DI.Options;
 
-namespace KrTrade.NtCode.Ninjascripts.Options
+namespace KrTrade.Nt.Scripts.Ninjascripts.Options
 {
     /// <summary>
     /// Provides a set of helpers to initialize options objects from logger provider configuration.

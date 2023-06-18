@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace KrTrade.NtCode.Services
+namespace KrTrade.Nt.DI.Services
 {
     public class DataSeriesProvider : IServiceProvider
     {

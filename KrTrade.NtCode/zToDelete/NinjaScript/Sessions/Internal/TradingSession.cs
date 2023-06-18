@@ -1,10 +1,10 @@
-﻿using KrTrade.NtCode.Data;
+﻿using KrTrade.Nt.DI.Data;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace KrTrade.NtCode.Internal
+namespace KrTrade.Nt.Console.Internal
 {
     /// <summary>
     /// Contents trading session information.
@@ -635,7 +635,7 @@ namespace KrTrade.NtCode.Internal
                 if (value2 is TradingSession v2)
                     return v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
-            throw new ArgumentException("The arguments must be KrTrade.NtCode.Trading.TradingSession.");
+            throw new ArgumentException("The arguments must be KrTrade.Nt.Console.Trading.TradingSession.");
         }
 
         /// <summary>

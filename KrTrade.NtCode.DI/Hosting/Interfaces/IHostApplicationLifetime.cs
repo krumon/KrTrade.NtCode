@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-namespace KrTrade.NtCode.Hosting
+namespace KrTrade.Nt.DI.Hosting
 {
     //
     // Resumen:

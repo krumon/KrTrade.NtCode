@@ -1,8 +1,8 @@
-﻿using KrTrade.NtCode.Logging.Abstractions;
+﻿using KrTrade.Nt.DI.Logging.Abstractions;
 using System;
 using System.IO;
 
-namespace KrTrade.NtCode.Logging.Console
+namespace KrTrade.Nt.DI.Logging.Console
 {
     /// <summary>
     /// Allows custom log messages formatting

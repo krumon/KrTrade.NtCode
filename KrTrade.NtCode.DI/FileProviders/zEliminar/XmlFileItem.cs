@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace KrTrade.NtCode.Files
+namespace KrTrade.Nt.DI.Files
 {
     public class XmlFileItem
     {

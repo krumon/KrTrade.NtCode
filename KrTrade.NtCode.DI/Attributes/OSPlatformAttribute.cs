@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Attributes
+namespace KrTrade.Nt.DI.Attributes
 {
     /// <summary>
     /// Base type for all platform-specific API attributes.

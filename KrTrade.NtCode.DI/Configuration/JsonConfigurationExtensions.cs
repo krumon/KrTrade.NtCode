@@ -1,9 +1,9 @@
-﻿using KrTrade.NtCode.Configuration.Json;
-using KrTrade.NtCode.FileProviders;
+﻿using KrTrade.Nt.DI.Configuration.Json;
+using KrTrade.Nt.DI.FileProviders;
 using System;
 using System.IO;
 
-namespace KrTrade.NtCode.Configuration
+namespace KrTrade.Nt.DI.Configuration
 {
     /// <summary>
     /// Extension methods for adding <see cref="JsonConfigurationProvider"/>.

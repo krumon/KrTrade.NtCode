@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Options
+namespace KrTrade.Nt.DI.Options
 {
     /// <summary>
     /// Extension methods for <see cref="IOptionsMonitor{TOptions}"/>.

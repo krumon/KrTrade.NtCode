@@ -1,6 +1,6 @@
-﻿using KrTrade.NtCode.DependencyInjection;
+﻿using KrTrade.Nt.DI.DependencyInjection;
 
-namespace KrTrade.NtCode.Ninjascripts.Internal
+namespace KrTrade.Nt.Scripts.Ninjascripts.Internal
 {
     internal class NinjascriptBuilder : INinjascriptBuilder
     {

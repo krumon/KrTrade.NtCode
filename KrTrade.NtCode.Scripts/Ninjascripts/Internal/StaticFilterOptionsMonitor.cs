@@ -1,7 +1,7 @@
-﻿using KrTrade.NtCode.Options;
+﻿using KrTrade.Nt.DI.Options;
 using System;
 
-namespace KrTrade.NtCode.Ninjascripts.Internal
+namespace KrTrade.Nt.Scripts.Ninjascripts.Internal
 {
     internal sealed class StaticFilterOptionsMonitor : IOptionsMonitor<NinjascriptFilterOptions>
     {

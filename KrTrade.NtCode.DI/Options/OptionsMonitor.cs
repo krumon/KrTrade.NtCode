@@ -1,8 +1,8 @@
-﻿using KrTrade.NtCode.Primitives;
+﻿using KrTrade.Nt.DI.Primitives;
 using System;
 using System.Collections.Generic;
 
-namespace KrTrade.NtCode.Options
+namespace KrTrade.Nt.DI.Options
 {
     /// <summary>
     /// Implementation of <see cref="IOptionsMonitor{TOptions}"/>.

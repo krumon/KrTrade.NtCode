@@ -1,8 +1,7 @@
-﻿using NinjaTrader.Gui.Chart;
-using KrTrade.NtCode.DependencyInjection;
-using System;
+﻿using System;
+using KrTrade.Nt.DI.DependencyInjection;
 
-namespace KrTrade.NtCode.NinjatraderObjects.Design
+namespace KrTrade.Nt.Scripts.NinjatraderObjects.Design
 {
     public static class DesignNinjatraderServiceCollectionExtensions
     {

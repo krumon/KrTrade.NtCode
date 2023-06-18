@@ -1,7 +1,7 @@
-﻿using KrTrade.NtCode.Ninjascripts;
+﻿using KrTrade.Nt.Scripts.Ninjascripts;
 using System;
 
-namespace KrTrade.NtCode.Services
+namespace KrTrade.Nt.Scripts.Services
 {
     /// <summary>
     /// Represents properties and methods of ninjascript instance in ninjatrader plattform.

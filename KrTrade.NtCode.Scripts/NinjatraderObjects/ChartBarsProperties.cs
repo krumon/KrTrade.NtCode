@@ -1,10 +1,10 @@
 ﻿using NinjaTrader.Gui.Chart;
-using KrTrade.NtCode.Data;
+using KrTrade.Nt.DI.Data;
 using System;
 using System.Text;
-using BarsPeriod = KrTrade.NtCode.Data.BarsPeriod;
+using BarsPeriod = KrTrade.Nt.DI.Data.BarsPeriod;
 
-namespace KrTrade.NtCode.NinjatraderObjects
+namespace KrTrade.Nt.Scripts.NinjatraderObjects
 {
     public class ChartBarsProperties : IChartBarsProperties
     {

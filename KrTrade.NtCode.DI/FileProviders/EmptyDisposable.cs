@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.FileProviders
+namespace KrTrade.Nt.DI.FileProviders
 {
     internal sealed class EmptyDisposable : IDisposable
     {

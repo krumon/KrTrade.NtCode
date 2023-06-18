@@ -1,9 +1,9 @@
-﻿using KrTrade.NtCode.Data;
-using KrTrade.NtCode.Data.Internal;
+﻿using KrTrade.Nt.DI.Data;
+using KrTrade.Nt.DI.Data.Internal;
 using System;
 using System.Linq;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
 
     /// <summary>

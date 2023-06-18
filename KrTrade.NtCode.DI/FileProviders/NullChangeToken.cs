@@ -1,7 +1,7 @@
-﻿using KrTrade.NtCode.Primitives;
+﻿using KrTrade.Nt.DI.Primitives;
 using System;
 
-namespace KrTrade.NtCode.FileProviders
+namespace KrTrade.Nt.DI.FileProviders
 {
     /// <summary>
     /// An empty change token that doesn't raise any change callbacks.

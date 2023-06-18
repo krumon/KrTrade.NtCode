@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Data
+namespace KrTrade.Nt.DI.Data
 {
     /// <summary>
     /// Definitions of specific session.

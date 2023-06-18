@@ -1,9 +1,9 @@
 ﻿using NinjaTrader.Core;
-using KrTrade.NtCode.Logging;
 using System;
 using System.IO;
+using KrTrade.Nt.DI.Logging;
 
-namespace KrTrade.NtCode.NinjatraderObjects
+namespace KrTrade.Nt.Scripts.NinjatraderObjects
 {
     public class GlobalsData : IGlobalsData
     {

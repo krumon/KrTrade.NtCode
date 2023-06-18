@@ -1,6 +1,6 @@
-﻿using KrTrade.NtCode.Logging.Internal;
+﻿using KrTrade.Nt.DI.Logging.Internal;
 
-namespace KrTrade.NtCode.Logging
+namespace KrTrade.Nt.DI.Logging
 {
     public class SourceLogValues
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Ninjascripts.Indicators
+namespace KrTrade.Nt.Scripts.Ninjascripts.Indicators
 {
 
     /// <summary>

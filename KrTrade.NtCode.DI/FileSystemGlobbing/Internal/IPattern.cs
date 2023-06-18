@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KrTrade.NtCode.FileSystemGlobbing.Internal
+namespace KrTrade.Nt.DI.FileSystemGlobbing.Internal
 {
     //
     // Resumen:

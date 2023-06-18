@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Data
+﻿namespace KrTrade.Nt.DI.Data
 {
     /// <summary>
     /// Trading hours type enumeration.

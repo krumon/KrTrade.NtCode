@@ -1,7 +1,7 @@
-﻿using KrTrade.NtCode.Data;
-using KrTrade.NtCode.Tests;
+﻿using KrTrade.Nt.DI.Data;
+using KrTrade.Nt.Core.Tests;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console.Tests
 {
     internal class NinjascriptHostingTests : BaseConsoleTests
     {

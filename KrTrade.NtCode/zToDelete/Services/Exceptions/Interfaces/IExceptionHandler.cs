@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
     /// <summary>
     /// Handles exceptions when they are caught and passed to the exception. handler

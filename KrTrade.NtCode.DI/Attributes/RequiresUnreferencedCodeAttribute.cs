@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Attributes
+namespace KrTrade.Nt.DI.Attributes
 {
     /// <summary>
     /// Indicates that the specified method requires dynamic access to code that is not referenced

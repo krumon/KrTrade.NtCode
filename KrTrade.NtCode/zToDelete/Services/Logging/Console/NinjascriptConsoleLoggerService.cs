@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
 
     public sealed class NinjascriptConsoleLoggerService : ILogger
@@ -57,19 +57,19 @@ namespace KrTrade.NtCode
             NinjascriptConsoleLoggerConfiguration config = _getCurrentConfig();
             if (config.EventId == 0 || config.EventId == eventId.Id)
             {
-                ConsoleColor originalColor = Console.ForegroundColor;
+                ConsoleColor originalColor = System.Console.ForegroundColor;
 
-                Console.ForegroundColor = config.LogLevelToColorMap[logLevel];
-                Console.WriteLine($"[{eventId.Id,2}: {logLevel,-12}]");
+                System.Console.ForegroundColor = config.LogLevelToColorMap[logLevel];
+                System.Console.WriteLine($"[{eventId.Id,2}: {logLevel,-12}]");
 
-                Console.ForegroundColor = originalColor;
-                Console.Write($"     {_name} - ");
+                System.Console.ForegroundColor = originalColor;
+                System.Console.Write($"     {_name} - ");
 
-                Console.ForegroundColor = config.LogLevelToColorMap[logLevel];
-                Console.Write($"{formatter(state, exception)}");
+                System.Console.ForegroundColor = config.LogLevelToColorMap[logLevel];
+                System.Console.Write($"{formatter(state, exception)}");
 
-                Console.ForegroundColor = originalColor;
-                Console.WriteLine();
+                System.Console.ForegroundColor = originalColor;
+                System.Console.WriteLine();
             }
         }
 

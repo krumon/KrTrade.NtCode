@@ -1,12 +1,12 @@
-﻿using KrTrade.NtCode.Attributes;
-using KrTrade.NtCode.Primitives;
+﻿using KrTrade.Nt.DI.Attributes;
+using KrTrade.Nt.DI.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Runtime.CompilerServices;
 using System.Threading;
 
-namespace KrTrade.NtCode.Logging.EventSource
+namespace KrTrade.Nt.DI.Logging.EventSource
 {
     /// <summary>
     /// The LoggingEventSource is the bridge from all ILogger based logging to EventSource/EventListener logging.

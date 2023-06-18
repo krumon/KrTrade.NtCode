@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.FileSystemGlobbing.Internal.PathSegments
+﻿namespace KrTrade.Nt.DI.FileSystemGlobbing.Internal.PathSegments
 {
     public class CurrentPathSegment : IPathSegment
     {

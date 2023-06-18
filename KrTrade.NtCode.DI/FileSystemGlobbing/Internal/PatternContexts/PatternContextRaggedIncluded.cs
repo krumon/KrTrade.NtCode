@@ -1,8 +1,8 @@
-﻿using KrTrade.NtCode.FileSystemGlobbing.Abstractions;
-using KrTrade.NtCode.FileSystemGlobbing.Internal.PathSegments;
+﻿using KrTrade.Nt.DI.FileSystemGlobbing.Abstractions;
+using KrTrade.Nt.DI.FileSystemGlobbing.Internal.PathSegments;
 using System;
 
-namespace KrTrade.NtCode.FileSystemGlobbing.Internal.PatternContexts
+namespace KrTrade.Nt.DI.FileSystemGlobbing.Internal.PatternContexts
 {
     public class PatternContextRaggedInclude : PatternContextRagged
     {

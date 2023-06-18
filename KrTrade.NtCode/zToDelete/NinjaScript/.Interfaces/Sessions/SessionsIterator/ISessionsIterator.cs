@@ -1,7 +1,7 @@
-﻿using KrTrade.NtCode.Events;
+﻿using KrTrade.Nt.DI.Events;
 using System;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
 
     /// <summary>

@@ -1,6 +1,6 @@
-﻿using KrTrade.NtCode.Helpers;
+﻿using KrTrade.Nt.DI.Helpers;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console.Console
 {
     internal class Program
     {

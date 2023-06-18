@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode
+﻿namespace KrTrade.Nt.Console
 {
     /// <summary>
     /// The base class to ninjascripts manager options.

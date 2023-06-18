@@ -1,8 +1,8 @@
-﻿using KrTrade.NtCode.Hosting;
-using KrTrade.NtCode.Ninjascripts;
+﻿using KrTrade.Nt.Scripts.Hosting;
+using KrTrade.Nt.Scripts.Ninjascripts;
 using System;
 
-namespace KrTrade.NtCode.Ninjascripts.Indicators
+namespace KrTrade.Nt.Scripts.Ninjascripts.Indicators
 {
     /// <summary>
     /// Represents the properties and methods to create a default implementation of <see cref="SessionsIterator"/>.

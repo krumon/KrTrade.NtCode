@@ -1,9 +1,9 @@
-﻿using KrTrade.NtCode.Configuration;
-using KrTrade.NtCode.DependencyInjection;
+﻿using KrTrade.Nt.DI.Configuration;
+using KrTrade.Nt.DI.DependencyInjection;
 using System;
 using System.Collections.Generic;
 
-namespace KrTrade.NtCode.Hosting
+namespace KrTrade.Nt.DI.Hosting
 {
     public interface IHostBuilder<T> : IHostBuilder
         where T : IHost

@@ -1,8 +1,7 @@
-﻿using KrTrade.NtCode.Tests;
-using KrTrade.NtCode;
-using KrTrade.NtCode.Data;
+﻿using KrTrade.Nt.Core.Tests;
+using KrTrade.Nt.DI.Data;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console.Tests
 {
     public class TradingTimeTests : BaseConsoleTests
     {

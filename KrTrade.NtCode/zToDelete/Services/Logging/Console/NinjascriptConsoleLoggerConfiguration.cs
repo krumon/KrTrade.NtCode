@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
     /// <summary>
     /// Represents properties for any ninjascript logger.

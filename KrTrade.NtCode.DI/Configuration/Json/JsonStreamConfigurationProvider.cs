@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace KrTrade.NtCode.Configuration.Json
+namespace KrTrade.Nt.DI.Configuration.Json
 {
     /// <summary>
     /// Loads configuration key/values from a json stream into a provider.

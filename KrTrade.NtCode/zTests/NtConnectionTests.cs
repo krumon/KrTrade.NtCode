@@ -1,8 +1,8 @@
-﻿using KrTrade.NtCode.Tests;
+﻿using KrTrade.Nt.Core.Tests;
 using System;
 using System.Timers;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console.Tests
 {
     internal class NtConnectionTests : BaseConsoleTests
     {
@@ -61,7 +61,7 @@ namespace KrTrade.NtCode
             timer.Elapsed += ATI_Timer_Elapsed;
             timer.Enabled = true;
 
-            Console.ReadKey();
+            System.Console.ReadKey();
 
             //client.UnsubscribeMarketData("MES");
             timer.Elapsed -= ATI_Timer_Elapsed;
@@ -71,7 +71,7 @@ namespace KrTrade.NtCode
 
             //int disconnect = client.TearDown();
             //Console.WriteLine(String.Format("{0} | Disconnected to NT8: {1}", DateTime.Now, disconnect.ToString()));
-            Console.ReadKey();
+            System.Console.ReadKey();
 
         }
 

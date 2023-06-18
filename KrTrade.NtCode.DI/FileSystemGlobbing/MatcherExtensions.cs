@@ -1,10 +1,10 @@
-﻿using KrTrade.NtCode.FileSystemGlobbing.Abstractions;
+﻿using KrTrade.Nt.DI.FileSystemGlobbing.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace KrTrade.NtCode.FileSystemGlobbing
+namespace KrTrade.Nt.DI.FileSystemGlobbing
 {
     public static class MatcherExtensions
     {

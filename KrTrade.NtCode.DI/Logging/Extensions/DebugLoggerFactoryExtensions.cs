@@ -1,7 +1,7 @@
-﻿using KrTrade.NtCode.DependencyInjection;
-using KrTrade.NtCode.Logging.Debug;
+﻿using KrTrade.Nt.DI.DependencyInjection;
+using KrTrade.Nt.DI.Logging.Debug;
 
-namespace KrTrade.NtCode.Logging
+namespace KrTrade.Nt.DI.Logging
 {
     /// <summary>
     /// Extension methods for the <see cref="ILoggerFactory"/> class.

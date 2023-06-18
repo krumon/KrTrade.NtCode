@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Ninjascripts.Internal
+namespace KrTrade.Nt.Scripts.Ninjascripts.Internal
 {
     internal struct NinjascriptInfo
     {

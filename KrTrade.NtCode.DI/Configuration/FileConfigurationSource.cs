@@ -1,8 +1,8 @@
-﻿using KrTrade.NtCode.FileProviders;
+﻿using KrTrade.Nt.DI.FileProviders;
 using System;
 using System.IO;
 
-namespace KrTrade.NtCode.Configuration
+namespace KrTrade.Nt.DI.Configuration
 {
     /// <summary>
     /// Represents a base class for file based <see cref="IConfigurationSource"/>.

@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Options
+﻿namespace KrTrade.Nt.DI.Options
 {
     /// <summary>
     /// <see cref="IOptions{TOptions}"/> wrapper that returns the options instance.

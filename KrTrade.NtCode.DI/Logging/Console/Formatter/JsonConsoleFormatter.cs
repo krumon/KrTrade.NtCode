@@ -1,5 +1,5 @@
-﻿//using KrTrade.NtCode.Logging.Abstractions;
-//using KrTrade.NtCode.Options;
+﻿//using KrTrade.Nt.DI.Logging.Abstractions;
+//using KrTrade.Nt.DI.Options;
 //using System;
 //using System.Collections.Generic;
 //using System.Globalization;
@@ -7,7 +7,7 @@
 //using System.Text;
 //using System.Text.Json;
 
-namespace KrTrade.NtCode.Logging.Console
+namespace KrTrade.Nt.DI.Logging.Console
 {
 //    internal sealed class JsonConsoleFormatter : ConsoleFormatter, IDisposable
 //    {

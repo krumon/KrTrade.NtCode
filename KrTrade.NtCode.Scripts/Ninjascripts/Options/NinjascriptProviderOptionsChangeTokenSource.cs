@@ -1,7 +1,7 @@
-﻿using KrTrade.NtCode.Options;
-using KrTrade.NtCode.Ninjascripts.Configuration;
+﻿using KrTrade.Nt.Scripts.Ninjascripts.Configuration;
+using KrTrade.Nt.DI.Options;
 
-namespace KrTrade.NtCode.Ninjascripts.Options
+namespace KrTrade.Nt.Scripts.Ninjascripts.Options
 {
     /// <inheritdoc />
     public class NinjascriptProviderOptionsChangeTokenSource<TOptions, TProvider> : ConfigurationChangeTokenSource<TOptions>

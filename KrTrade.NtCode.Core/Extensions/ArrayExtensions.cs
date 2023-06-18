@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace KrTrade.NtCode.Extensions
+namespace KrTrade.Nt.Core.Extensions
 {
     /// <summary>
     /// Extension methods for arrays

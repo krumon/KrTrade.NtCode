@@ -1,8 +1,8 @@
-﻿using KrTrade.NtCode.Attributes;
-using KrTrade.NtCode.Logging.Configuration;
-using KrTrade.NtCode.Options;
+﻿using KrTrade.Nt.DI.Attributes;
+using KrTrade.Nt.DI.Logging.Configuration;
+using KrTrade.Nt.DI.Options;
 
-namespace KrTrade.NtCode.Logging
+namespace KrTrade.Nt.Scripts.Logging
 {
     [UnsupportedOSPlatform("browser")]
     internal sealed class NinjatraderLoggerFormatterOptionsChangeTokenSource<TFormatter, TOptions> : ConfigurationChangeTokenSource<TOptions>

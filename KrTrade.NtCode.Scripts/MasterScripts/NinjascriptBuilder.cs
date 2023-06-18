@@ -1,7 +1,7 @@
-﻿using KrTrade.NtCode.DependencyInjection;
-using KrTrade.NtCode.Services;
+﻿using KrTrade.Nt.DI.DependencyInjection;
+using KrTrade.Nt.Scripts.Services;
 
-namespace KrTrade.NtCode.MasterScripts
+namespace KrTrade.Nt.Scripts.MasterScripts
 {
     internal class MasterScriptBuilder : IScriptBuilder
     {

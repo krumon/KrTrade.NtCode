@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace KrTrade.NtCode.Logging.EventLog
+namespace KrTrade.Nt.DI.Logging.EventLog
 {
     /// <summary>
     /// A logger that writes messages to Windows Event Log.

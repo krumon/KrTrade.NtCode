@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Logging.Abstractions
+﻿namespace KrTrade.Nt.DI.Logging.Abstractions
 {
     /// <summary>
     /// An <see cref="ILoggerFactory"/> used to create instance of

@@ -1,7 +1,7 @@
-﻿using KrTrade.NtCode.Options;
+﻿using KrTrade.Nt.DI.Options;
 using System.IO;
 
-namespace KrTrade.NtCode.Logging.File
+namespace KrTrade.Nt.DI.Logging.File
 {
     internal sealed class DefaultFileLoggerConfigureOptions : ConfigureOptions<FileLoggerOptions>
     {

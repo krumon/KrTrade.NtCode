@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Options
+﻿namespace KrTrade.Nt.DI.Options
 {
     /// <summary>
     /// Interface used to validate options.

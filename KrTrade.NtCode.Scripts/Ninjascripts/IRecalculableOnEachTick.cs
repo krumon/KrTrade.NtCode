@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Ninjascripts
+﻿namespace KrTrade.Nt.Scripts.Ninjascripts
 {
     /// <summary>
     /// Represents the services that are recalculable on each tick.

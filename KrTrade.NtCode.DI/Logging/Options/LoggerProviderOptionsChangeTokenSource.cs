@@ -1,7 +1,7 @@
-﻿using KrTrade.NtCode.Logging.Configuration;
-using KrTrade.NtCode.Options;
+﻿using KrTrade.Nt.DI.Logging.Configuration;
+using KrTrade.Nt.DI.Options;
 
-namespace KrTrade.NtCode.Logging.Options
+namespace KrTrade.Nt.DI.Logging.Options
 {
     /// <inheritdoc />
     public class LoggerProviderOptionsChangeTokenSource<TOptions, TProvider> : ConfigurationChangeTokenSource<TOptions>

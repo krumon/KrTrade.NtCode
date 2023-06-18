@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Configuration
+﻿namespace KrTrade.Nt.Scripts.Configuration
 {
     internal class SectionNames
     {

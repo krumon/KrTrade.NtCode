@@ -1,6 +1,6 @@
-﻿using KrTrade.NtCode.Options;
+﻿using KrTrade.Nt.DI.Options;
 
-namespace KrTrade.NtCode.Logging.Console
+namespace KrTrade.Nt.DI.Logging.Console
 {
     internal sealed class DefaultConsoleFormatterConfigureOptions : ConfigureOptions<SimpleConsoleFormatterOptions>
     {

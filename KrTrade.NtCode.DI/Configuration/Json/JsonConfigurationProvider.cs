@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text.Json;
 
-namespace KrTrade.NtCode.Configuration.Json
+namespace KrTrade.Nt.DI.Configuration.Json
 {
     /// <summary>
     /// A JSON file based <see cref="FileConfigurationProvider"/>.

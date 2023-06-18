@@ -1,10 +1,10 @@
-﻿using KrTrade.NtCode.Extensions;
+﻿using KrTrade.Nt.Core.Extensions;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
     /// <summary>
     /// Extensions for <see cref="ILogger"/> loggers

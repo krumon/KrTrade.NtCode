@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.DependencyInjection.ServiceLookup
+﻿namespace KrTrade.Nt.DI.DependencyInjection.ServiceLookup
 {
     internal enum CallSiteResultCacheLocation
     {

@@ -1,8 +1,8 @@
-﻿using KrTrade.NtCode.Logging.Internal;
+﻿using KrTrade.Nt.DI.Logging.Internal;
 using System;
 using System.Runtime.CompilerServices;
 
-namespace KrTrade.NtCode.Logging
+namespace KrTrade.Nt.DI.Logging
 {
     /// <summary>
     /// Extensions for <see cref="ILogger"/> loggers

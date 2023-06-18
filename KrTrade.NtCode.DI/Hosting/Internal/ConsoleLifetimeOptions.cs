@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Hosting.Internal
+﻿namespace KrTrade.Nt.DI.Hosting.Internal
 {
     public class ConsoleLifetimeOptions
     {

@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Services
+﻿namespace KrTrade.Nt.DI.Services
 {
     public class DataSeriesOptions
     {

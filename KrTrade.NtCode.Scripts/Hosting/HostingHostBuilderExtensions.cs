@@ -1,14 +1,15 @@
-﻿using KrTrade.NtCode.Attributes;
-using KrTrade.NtCode.Configuration;
-using KrTrade.NtCode.Hosting;
-using KrTrade.NtCode.Logging;
-using KrTrade.NtCode.MasterScripts;
-using KrTrade.NtCode.Ninjascripts;
-using KrTrade.NtCode.Ninjascripts.Indicators;
-using KrTrade.NtCode.NinjatraderObjects;
+﻿using KrTrade.Nt.DI.Attributes;
+using KrTrade.Nt.DI.Hosting;
+using KrTrade.Nt.DI.Configuration;
+using KrTrade.Nt.DI.Logging;
+using KrTrade.Nt.Scripts.MasterScripts;
+using KrTrade.Nt.Scripts.Ninjascripts;
+using KrTrade.Nt.Scripts.Ninjascripts.Indicators;
+using KrTrade.Nt.Scripts.NinjatraderObjects;
 using System.IO;
+using KrTrade.Nt.Scripts.Logging;
 
-namespace KrTrade.NtCode.Hosting
+namespace KrTrade.Nt.Scripts.Hosting
 {
     public static class HostingHostBuilderExtensions
     {

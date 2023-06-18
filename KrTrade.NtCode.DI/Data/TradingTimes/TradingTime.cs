@@ -1,8 +1,8 @@
-﻿using KrTrade.NtCode.Events;
-using KrTrade.NtCode.Helpers;
+﻿using KrTrade.Nt.Core.Helpers;
+using KrTrade.Nt.DI.Events;
 using System;
 
-namespace KrTrade.NtCode.Data
+namespace KrTrade.Nt.DI.Data
 {
     /// <summary>
     /// Represents a trading time information.
@@ -136,7 +136,7 @@ namespace KrTrade.NtCode.Data
         #region Instance methods
 
         /// <summary>
-        /// Create a default instance of <see cref="Core.TradingTime"/> by specific <see cref="KrTrade.NtCode.TradingTimeKind"/>.
+        /// Create a default instance of <see cref="Core.TradingTime"/> by specific <see cref="KrTrade.Nt.DI.TradingTimeKind"/>.
         /// </summary>
         /// <param name="tradingTimeType">The specific session time to create the instance.</param>
         /// <param name="e">The snew session args.</param>
@@ -154,7 +154,7 @@ namespace KrTrade.NtCode.Data
         }
 
         /// <summary>
-        /// Create a default instance of <see cref="Core.TradingTime"/> by specific <see cref="KrTrade.NtCode.TradingTimeKind"/>.
+        /// Create a default instance of <see cref="Core.TradingTime"/> by specific <see cref="KrTrade.Nt.DI.TradingTimeKind"/>.
         /// </summary>
         /// <param name="tradingTimeType">The specific session time to create the instance.</param>
         /// <param name="e">The snew session args.</param>

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Logging.EventSource
+namespace KrTrade.Nt.DI.Logging.EventSource
 {
     /// <summary>
     /// Represents information about exceptions that is captured by EventSourceLogger

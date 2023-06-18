@@ -1,6 +1,6 @@
-﻿using KrTrade.NtCode.Hosting;
+﻿using KrTrade.Nt.DI.Hosting;
 
-namespace KrTrade.NtCode.Hosting
+namespace KrTrade.Nt.Scripts.Hosting
 {
     public static class NinjaHost
     {

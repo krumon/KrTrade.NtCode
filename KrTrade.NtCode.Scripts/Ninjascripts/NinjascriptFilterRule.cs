@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Ninjascripts
+namespace KrTrade.Nt.Scripts.Ninjascripts
 {
     /// <summary>
     /// Defines a rule used to filter ninjascript services

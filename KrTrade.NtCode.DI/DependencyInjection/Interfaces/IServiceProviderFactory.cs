@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace KrTrade.NtCode.DependencyInjection
+namespace KrTrade.Nt.DI.DependencyInjection
 {
     /// <summary>
     /// Provides an extension point for creating a container specific builder and an <see cref="IServiceProvider"/>.

@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 
-namespace KrTrade.NtCode.Configuration.Json
+namespace KrTrade.Nt.DI.Configuration.Json
 {
     internal sealed class JsonConfigurationFileParser
     {

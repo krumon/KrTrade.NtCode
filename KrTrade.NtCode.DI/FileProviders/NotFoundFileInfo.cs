@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace KrTrade.NtCode.FileProviders
+namespace KrTrade.Nt.DI.FileProviders
 {
     /// <summary>
     /// Represents a non-existing file.

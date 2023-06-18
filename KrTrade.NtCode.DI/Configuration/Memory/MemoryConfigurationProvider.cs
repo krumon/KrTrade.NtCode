@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace KrTrade.NtCode.Configuration.Memory
+namespace KrTrade.Nt.DI.Configuration.Memory
 {
     /// <summary>
     /// In-memory implementation of <see cref="IConfigurationProvider"/>

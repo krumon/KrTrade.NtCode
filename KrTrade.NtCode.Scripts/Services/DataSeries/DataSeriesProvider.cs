@@ -1,9 +1,9 @@
-﻿using KrTrade.NtCode.Data;
+﻿using KrTrade.Nt.DI.Services;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace KrTrade.NtCode.Services
+namespace KrTrade.Nt.Scripts.Services
 {
     public class DataSeriesProvider : IServiceProvider
     {

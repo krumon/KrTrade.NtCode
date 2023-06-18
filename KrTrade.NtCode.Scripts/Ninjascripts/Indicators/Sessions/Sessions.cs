@@ -1,10 +1,9 @@
 ﻿using NinjaTrader.NinjaScript;
-using KrTrade.NtCode.Logging;
-using KrTrade.NtCode.NinjatraderObjects;
-using KrTrade.NtCode.Services;
+using KrTrade.Nt.Scripts.NinjatraderObjects;
 using System;
+using KrTrade.Nt.DI.Logging;
 
-namespace KrTrade.NtCode.Ninjascripts.Indicators
+namespace KrTrade.Nt.Scripts.Ninjascripts.Indicators
 {
     /// <summary>
     /// Represents a <see cref="ISessions"/> service.

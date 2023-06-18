@@ -1,9 +1,9 @@
-﻿using KrTrade.NtCode.DependencyInjection;
+﻿using KrTrade.Nt.DI.DependencyInjection;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace KrTrade.NtCode.Hosting
+namespace KrTrade.Nt.DI.Hosting
 {
     public static class HostingAbstractionsHostExtensions
     {

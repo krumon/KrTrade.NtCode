@@ -1,12 +1,13 @@
 ﻿using NinjaTrader.NinjaScript;
-using KrTrade.NtCode.Logging;
-using KrTrade.NtCode.Options;
-using KrTrade.NtCode.NinjatraderObjects;
+using KrTrade.Nt.Scripts.NinjatraderObjects;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using KrTrade.Nt.DI.Services;
+using KrTrade.Nt.DI.Options;
+using KrTrade.Nt.DI.Logging;
 
-namespace KrTrade.NtCode.Services
+namespace KrTrade.Nt.Scripts.Services
 {
     /// <summary>
     /// Represents any ninjascript data series.

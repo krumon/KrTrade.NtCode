@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
     /// <summary>
     /// Represents the <see cref="SessionHoursList"/> builder.

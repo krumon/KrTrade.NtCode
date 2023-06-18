@@ -1,7 +1,7 @@
-﻿using KrTrade.NtCode.Helpers;
+﻿using KrTrade.Nt.DI.Helpers;
 using System;
 
-namespace KrTrade.NtCode.FileSystemGlobbing
+namespace KrTrade.Nt.DI.FileSystemGlobbing
 {
     /// <summary>
     /// Represents a file that was matched by searching using a globbing pattern

@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Ninjascripts.Indicators
+﻿namespace KrTrade.Nt.Scripts.Ninjascripts.Indicators
 {
     /// <summary>
     /// <see cref="SessionsFilters"/> services options.

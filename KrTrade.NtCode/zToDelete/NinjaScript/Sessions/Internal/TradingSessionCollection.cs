@@ -1,9 +1,9 @@
-﻿using KrTrade.NtCode.Data;
+﻿using KrTrade.Nt.DI.Data;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace KrTrade.NtCode.Internal
+namespace KrTrade.Nt.Console.Internal
 {
     internal class TradingSessionCollection : ITradingSessionCollection
     {

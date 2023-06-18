@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace KrTrade.NtCode.FileSystemGlobbing.Internal.PathSegments
+namespace KrTrade.Nt.DI.FileSystemGlobbing.Internal.PathSegments
 {
     public class WildcardPathSegment : IPathSegment
     {

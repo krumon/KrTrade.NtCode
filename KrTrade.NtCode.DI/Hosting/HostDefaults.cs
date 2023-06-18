@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Hosting
+﻿namespace KrTrade.Nt.DI.Hosting
 {
     /// <summary>
     /// Constants for HostBuilder configuration keys.

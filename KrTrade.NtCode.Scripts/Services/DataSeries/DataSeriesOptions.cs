@@ -1,7 +1,8 @@
-﻿using System;
+﻿using KrTrade.Nt.DI.Services;
+using System;
 using System.Collections.Generic;
 
-namespace KrTrade.NtCode.Services
+namespace KrTrade.Nt.Scripts.Services
 {
     public class DataSeriesOptions
     {

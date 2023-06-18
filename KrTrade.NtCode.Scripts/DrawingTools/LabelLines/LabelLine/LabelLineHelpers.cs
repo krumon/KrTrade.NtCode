@@ -2,13 +2,13 @@
 
 using NinjaTrader.Gui;
 using NinjaTrader.Gui.Chart;
-using KrTrade.NtCode.Data;
 using System;
 using System.Windows;
+using KrTrade.Nt.DI.Data;
 
 #endregion
 
-namespace KrTrade.NtCode.DrawingTools
+namespace KrTrade.Nt.Scripts.DrawingTools
 {
     
     /// <summary>

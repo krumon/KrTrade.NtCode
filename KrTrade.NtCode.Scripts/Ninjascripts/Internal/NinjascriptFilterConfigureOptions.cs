@@ -1,10 +1,10 @@
-﻿using KrTrade.NtCode.Configuration;
-using KrTrade.NtCode.Options;
+﻿using KrTrade.Nt.DI.Configuration;
+using KrTrade.Nt.DI.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace KrTrade.NtCode.Ninjascripts.Internal
+namespace KrTrade.Nt.Scripts.Ninjascripts.Internal
 {
     internal sealed class NinjascriptFilterConfigureOptions : IConfigureOptions<NinjascriptFilterOptions>
     {

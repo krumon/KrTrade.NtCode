@@ -1,6 +1,6 @@
-﻿using KrTrade.NtCode.Primitives;
+﻿using KrTrade.Nt.DI.Primitives;
 
-namespace KrTrade.NtCode.Options
+namespace KrTrade.Nt.DI.Options
 {
     /// <summary>
     /// Used to fetch Microsoft.Extensions.Primitives.IChangeToken used for tracking

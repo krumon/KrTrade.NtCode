@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace KrTrade.NtCode.Configuration.CommandLine
+namespace KrTrade.Nt.DI.Configuration.CommandLine
 {
     /// <summary>
     /// Represents command line arguments as an <see cref="IConfigurationSource"/>.

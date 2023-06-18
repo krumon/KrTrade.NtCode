@@ -1,9 +1,9 @@
-﻿using KrTrade.NtCode.Configuration;
-using KrTrade.NtCode.Logging.Internal;
+﻿using KrTrade.Nt.DI.Configuration;
+using KrTrade.Nt.DI.Logging.Internal;
 using System;
 using System.Collections.Generic;
 
-namespace KrTrade.NtCode.Logging.Configuration
+namespace KrTrade.Nt.DI.Logging.Configuration
 {
     internal sealed class LoggerProviderConfigurationFactory : ILoggerProviderConfigurationFactory
     {

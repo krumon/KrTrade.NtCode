@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Logging
+﻿namespace KrTrade.Nt.DI.Logging
 {
     /// <summary>
     /// The options for a LoggerFactory.

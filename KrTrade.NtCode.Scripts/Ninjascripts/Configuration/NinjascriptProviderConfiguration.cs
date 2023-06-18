@@ -1,6 +1,6 @@
-﻿using KrTrade.NtCode.Configuration;
+﻿using KrTrade.Nt.DI.Configuration;
 
-namespace KrTrade.NtCode.Ninjascripts.Configuration
+namespace KrTrade.Nt.Scripts.Ninjascripts.Configuration
 {
     internal sealed class NinjascriptProviderConfiguration<T> : INinjascriptProviderConfiguration<T>
     {

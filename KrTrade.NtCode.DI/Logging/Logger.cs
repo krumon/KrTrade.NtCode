@@ -1,7 +1,7 @@
-﻿using KrTrade.NtCode.Helpers;
+﻿using KrTrade.Nt.DI.Helpers;
 using System;
 
-namespace KrTrade.NtCode.Logging
+namespace KrTrade.Nt.DI.Logging
 {
     /// <summary>
     /// Delegates to a new <see cref="ILogger"/> instance using the full name of the given type, created by the

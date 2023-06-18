@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Data.Internal
+namespace KrTrade.Nt.DI.Data.Internal
 {
     //internal class SessionFactory
     //{

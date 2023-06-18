@@ -1,11 +1,11 @@
-﻿using KrTrade.NtCode.Logging.Internal;
-using KrTrade.NtCode.Options;
+﻿using KrTrade.Nt.DI.Logging.Internal;
+using KrTrade.Nt.DI.Options;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace KrTrade.NtCode.Logging.Console
+namespace KrTrade.Nt.DI.Logging.Console
 {
     /// <summary>
     /// A provider of <see cref="ConsoleLogger"/> instances.

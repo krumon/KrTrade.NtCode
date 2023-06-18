@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Logging
+﻿namespace KrTrade.Nt.DI.Logging
 {
     /// <summary>
     /// Represents a <see cref="ILoggerProvider"/> that is able to consume external scope information.

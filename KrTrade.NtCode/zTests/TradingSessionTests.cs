@@ -1,11 +1,10 @@
-﻿using KrTrade.NtCode.Helpers;
-using KrTrade.NtCode.Tests;
-using KrTrade.NtCode;
-using KrTrade.NtCode.Internal;
+﻿using KrTrade.Nt.Console.Internal;
 using System;
-using KrTrade.NtCode.Data;
+using KrTrade.Nt.DI.Data;
+using KrTrade.Nt.Core.Tests;
+using KrTrade.Nt.Core.Helpers;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console.Tests
 {
     public class TradingSessionTests : BaseConsoleTests
     {
@@ -92,11 +91,11 @@ namespace KrTrade.NtCode
             TradingSession ts = TradingSession.CreateTradingSessionByType(type, InstrumentCode.MES);
 
             Title("Test of To String methods");
-            Console.WriteLine($"Method ToString() => {ts}");
-            Console.WriteLine($"Method ToShortString('u') => {ts.ToShortString("u")}");
-            Console.WriteLine($"Method ToLongString('l') => {ts.ToLongString("l")}");
-            Console.WriteLine($"Method ToShortString('UTC') => {ts.ToShortString("UTC")}");
-            Console.WriteLine($"Method ToLongString('LOCAL') => {ts.ToLongString("LOCAL")}");
+            System.Console.WriteLine($"Method ToString() => {ts}");
+            System.Console.WriteLine($"Method ToShortString('u') => {ts.ToShortString("u")}");
+            System.Console.WriteLine($"Method ToLongString('l') => {ts.ToLongString("l")}");
+            System.Console.WriteLine($"Method ToShortString('UTC') => {ts.ToShortString("UTC")}");
+            System.Console.WriteLine($"Method ToLongString('LOCAL') => {ts.ToLongString("LOCAL")}");
         }
 
         private void TradingSessionEnumTest()
@@ -108,7 +107,7 @@ namespace KrTrade.NtCode
             EnumHelpers.ForEach<SessionType>((t) =>
             {
                 if (t != SessionType.Custom)
-                    Console.WriteLine(t.ToSessionHours(InstrumentCode.MES).ToString());
+                    System.Console.WriteLine(t.ToSessionHours(InstrumentCode.MES).ToString());
             });
 
             NewLine();
@@ -137,8 +136,8 @@ namespace KrTrade.NtCode
             string method = string.Empty;
 
             NewLine();
-            Console.WriteLine($"{nameof(sh1)} = {sh1.ToString()}");
-            Console.WriteLine($"{nameof(sh2)} = {sh2.ToString()}");
+            System.Console.WriteLine($"{nameof(sh1)} = {sh1.ToString()}");
+            System.Console.WriteLine($"{nameof(sh2)} = {sh2.ToString()}");
 
             #region Compare tests
 
@@ -212,9 +211,9 @@ namespace KrTrade.NtCode
             if (sh1 > sh2)
                 s += $"{sh1.Code} is greater than {sh2.Code}.{Environment.NewLine}";
 
-            Console.WriteLine(s);
-            Console.WriteLine($"{nameof(sh1)} + {nameof(sh2)} = {(sh1 + sh2).ToString()}");
-            Console.WriteLine($"{nameof(sh1)} - {nameof(sh2)} = {(sh1 - sh2).ToString()}");
+            System.Console.WriteLine(s);
+            System.Console.WriteLine($"{nameof(sh1)} + {nameof(sh2)} = {(sh1 + sh2).ToString()}");
+            System.Console.WriteLine($"{nameof(sh1)} - {nameof(sh2)} = {(sh1 - sh2).ToString()}");
 
             #endregion
 
@@ -224,19 +223,19 @@ namespace KrTrade.NtCode
         {
             while (true)
             {
-                Console.WriteLine("TEST PARA IMPRIMIR POR CONSOLA UNA HORA ESPECÍFICA DE UNA SESIÓN.");
-                Console.WriteLine("-----------------------------------------------------------------");
+                System.Console.WriteLine("TEST PARA IMPRIMIR POR CONSOLA UNA HORA ESPECÍFICA DE UNA SESIÓN.");
+                System.Console.WriteLine("-----------------------------------------------------------------");
 
-                Console.Write("- Introduzca el código de la session( AM | EU | AE | AS | EL | RG | OVN): ");
-                string session = Console.ReadLine().ToUpper().Trim();
+                System.Console.Write("- Introduzca el código de la session( AM | EU | AE | AS | EL | RG | OVN): ");
+                string session = System.Console.ReadLine().ToUpper().Trim();
 
                 if (string.IsNullOrEmpty(session) || string.IsNullOrWhiteSpace(session))
                     return;
 
                 if (session == "AM" || session == "AS")
                 {
-                    Console.Write("- Es una sesión residual (Y/TNinjaScript): ");
-                    string isResidual = Console.ReadLine().ToUpper().Trim();
+                    System.Console.Write("- Es una sesión residual (Y/TNinjaScript): ");
+                    string isResidual = System.Console.ReadLine().ToUpper().Trim();
 
                     if (isResidual == "Y")
                     {
@@ -244,8 +243,8 @@ namespace KrTrade.NtCode
 
                         if (session == "AM-RS")
                         {
-                            Console.Write("- Introduce el código de la sesión residual: ( EXT | EOD | NWD ): ");
-                            string specificSession = Console.ReadLine().ToUpper().Trim();
+                            System.Console.Write("- Introduce el código de la sesión residual: ( EXT | EOD | NWD ): ");
+                            string specificSession = System.Console.ReadLine().ToUpper().Trim();
 
                             if (specificSession == "EXT" || specificSession == "EOD" || specificSession == "NWD")
                                 session += "-" + specificSession;
@@ -253,18 +252,18 @@ namespace KrTrade.NtCode
                     }
                 }
 
-                Console.Write("- Introduzca el momento temporal de la sesión: ( O | C ): ");
-                string price = Console.ReadLine().ToUpper();
+                System.Console.Write("- Introduzca el momento temporal de la sesión: ( O | C ): ");
+                string price = System.Console.ReadLine().ToUpper();
 
                 if (price == "O" || price == "C")
                     session += "-" + price;
                 else
                     return;
 
-                Console.WriteLine();
-                Console.WriteLine(String.Format("Código: {0} | {1} | {2}", session, session.ToTradingTime().ToSessionTime(InstrumentCode.MES).LocalTime.ToString(), session.ToTradingTime().ToDescription()));
-                Console.ReadKey();
-                Console.Clear();
+                System.Console.WriteLine();
+                System.Console.WriteLine(String.Format("Código: {0} | {1} | {2}", session, session.ToTradingTime().ToSessionTime(InstrumentCode.MES).LocalTime.ToString(), session.ToTradingTime().ToDescription()));
+                System.Console.ReadKey();
+                System.Console.Clear();
 
             }
 

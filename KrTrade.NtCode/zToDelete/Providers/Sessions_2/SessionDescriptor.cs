@@ -1,9 +1,9 @@
-﻿using KrTrade.NtCode.Data;
-using KrTrade.NtCode.DependencyInjection;
+﻿using KrTrade.Nt.DI.Data;
+using KrTrade.Nt.DI.DependencyInjection;
 using System;
 using System.Diagnostics;
 
-namespace KrTrade.NtCode
+namespace KrTrade.Nt.Console
 {
     public class SessionDescriptor : IServiceDescriptor
     {

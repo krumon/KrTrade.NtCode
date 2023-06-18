@@ -1,4 +1,4 @@
-﻿namespace KrTrade.NtCode.Logging
+﻿namespace KrTrade.Nt.DI.Logging
 {
     /// <summary>
     /// Options for <see cref="LoggerMessage.Define(LogLevel, EventId, string)"/> and its overloads

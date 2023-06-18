@@ -1,7 +1,4 @@
-﻿using KrTrade.NtCode;
-using KrTrade.NtCode.Data;
-
-namespace KrTrade.NtCode
+﻿namespace KrTrade.Nt.Console
 {
     public class SessionProvider : ISessionProvider
     {

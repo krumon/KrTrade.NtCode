@@ -1,8 +1,9 @@
-﻿using KrTrade.NtCode.DependencyInjection;
-using KrTrade.NtCode.Ninjascripts.Indicators;
+﻿using KrTrade.Nt.DI.DependencyInjection;
+using KrTrade.Nt.Scripts.Ninjascripts.Indicators;
 using System;
+using ISessions = KrTrade.Nt.Scripts.Ninjascripts.Indicators.ISessions;
 
-namespace KrTrade.NtCode.NinjatraderObjects.Design
+namespace KrTrade.Nt.Scripts.NinjatraderObjects.Design
 {
     public static class DesignServicesServiceCollectionExtensions
     {

@@ -1,10 +1,10 @@
-﻿using KrTrade.NtCode.DependencyInjection;
-using KrTrade.NtCode.Logging.Configuration;
-using KrTrade.NtCode.Logging.Console;
-using KrTrade.NtCode.Logging.Options;
+﻿using KrTrade.Nt.DI.DependencyInjection;
+using KrTrade.Nt.DI.Logging.Configuration;
+using KrTrade.Nt.DI.Logging.Console;
+using KrTrade.Nt.DI.Logging.Options;
 using System;
 
-namespace KrTrade.NtCode.Logging
+namespace KrTrade.Nt.DI.Logging
 {
     /// <summary>
     /// Builder extensions methods for <see cref="Console.Internal.ColorConsoleLogger"/>.

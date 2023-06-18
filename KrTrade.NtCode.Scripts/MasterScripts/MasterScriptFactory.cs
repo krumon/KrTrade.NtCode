@@ -1,9 +1,9 @@
-﻿using KrTrade.NtCode.Options;
-using KrTrade.NtCode.Configuration;
-using KrTrade.NtCode.Ninjascripts;
+﻿using KrTrade.Nt.DI.Options;
+using KrTrade.Nt.Scripts.Configuration;
+using KrTrade.Nt.Scripts.Ninjascripts;
 using System;
 
-namespace KrTrade.NtCode.MasterScripts
+namespace KrTrade.Nt.Scripts.MasterScripts
 {
     public class MasterScriptFactory: INinjascriptFactory
     {

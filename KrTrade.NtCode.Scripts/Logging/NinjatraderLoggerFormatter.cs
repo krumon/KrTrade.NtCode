@@ -1,8 +1,8 @@
-﻿using KrTrade.NtCode.Logging.Abstractions;
+﻿using KrTrade.Nt.DI.Logging.Abstractions;
 using System;
 using System.IO;
 
-namespace KrTrade.NtCode.Logging
+namespace KrTrade.Nt.Scripts.Logging
 {
     public abstract class NinjatraderLoggerFormatter
     {

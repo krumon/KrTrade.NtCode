@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.NtCode.Extensions
+namespace KrTrade.Nt.Core.Extensions
 {
 
     /// <summary>
