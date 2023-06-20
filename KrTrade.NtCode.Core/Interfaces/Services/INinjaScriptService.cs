@@ -6,7 +6,7 @@ namespace KrTrade.Nt.Core.Interfaces
     {
         NinjaScriptBase Ninjascript { get; }
 
-        INinjaScriptService Configure(NinjaScriptBase ninjascript);
+        //INinjaScriptService Configure(NinjaScriptBase ninjascript);
         void Configure();
 
         bool IsBarClosed { get; }

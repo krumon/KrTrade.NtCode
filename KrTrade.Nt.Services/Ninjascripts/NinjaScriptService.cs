@@ -17,7 +17,7 @@ namespace KrTrade.Nt.Services
             _ninjascript = ninjascript ?? throw new Exception("The ninjascript argument cannot be null. The argument is necesary to configure the service.");
         }
 
-        public INinjaScriptService Configure(NinjaScriptBase ninjascript)
+        public static INinjaScriptService Configure(NinjaScriptBase ninjascript)
         {
             INinjaScriptService service = new NinjaScriptService(ninjascript);
             service.Configure();
