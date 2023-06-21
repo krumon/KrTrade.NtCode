@@ -2,7 +2,7 @@
 {
     public interface IKrBaseIndicator
     {
-        INinjaScriptService Ninjascript { get; }
+        IBarService Bar { get; }
         void SetDefaults();
         void Configure();
         void DataLoaded();
@@ -12,5 +12,6 @@
         void OnBarClosed();
         void OnEachTick();
         void OnPriceChanged();
+        void OnGap();
     }
 }
