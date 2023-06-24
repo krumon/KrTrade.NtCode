@@ -39,6 +39,7 @@ namespace KrTrade.Nt.Services
         public bool Removed => Ninjascript.BarsArray[0].BarsType.IsRemoveLastBarSupported && Ninjascript.CurrentBar < _saveCurrentBar;
         public bool PriceChanged => _lastPrice != _currentPrice;
         public bool Gap => PriceChanged && _currentPrice - _lastPrice >= _minGapValue;
+        public bool FirstTick => Ninjascript.Calculate == Calculate.OnEachTick && Tick;
 
         public void Update() 
         {

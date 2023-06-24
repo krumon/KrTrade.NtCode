@@ -54,6 +54,7 @@
     <Compile Include="Helpers\EnumHelpers.cs" />
     <Compile Include="Helpers\TypeNameHelper.cs" />
     <Compile Include="Interfaces\Indicators\IKrBaseIndicator.cs" />
+    <Compile Include="Interfaces\Services\IPrintService.cs" />
     <Compile Include="Interfaces\Services\IBarService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\Mapper.cs" />

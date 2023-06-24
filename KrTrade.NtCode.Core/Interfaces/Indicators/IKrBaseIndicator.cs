@@ -13,5 +13,7 @@
         void OnEachTick();
         void OnPriceChanged();
         void OnGap();
+        void OnLastBarRemoved();
+
     }
 }

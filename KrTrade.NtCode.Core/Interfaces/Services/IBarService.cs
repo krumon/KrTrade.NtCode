@@ -13,6 +13,7 @@ namespace KrTrade.Nt.Core.Interfaces
         bool Removed { get; }
         bool PriceChanged { get; }
         bool Gap { get; }
+        bool FirstTick { get; }
 
         void Update();
         void Update(int currentBar, double currentPrice);
