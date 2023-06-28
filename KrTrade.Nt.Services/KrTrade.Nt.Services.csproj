@@ -44,14 +44,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ninjascripts\PrintService.cs" />
-    <Compile Include="Ninjascripts\BarService.cs" />
+    <Compile Include="Logging\PrintLoggerOptions.cs" />
+    <Compile Include="Logging\PrintLoggerFormatter.cs" />
+    <Compile Include="NinjaScript\NinjaScriptService.cs" />
+    <Compile Include="Logging\LoggerHelpers.cs" />
+    <Compile Include="Logging\LoggerFormatter.cs" />
+    <Compile Include="Logging\PrintLoggerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KrTrade.NtCode.Core\KrTrade.Nt.Core.csproj">
       <Project>{8157925a-1aea-4a2a-97f3-f92500db8e9f}</Project>
       <Name>KrTrade.Nt.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KrTrade.NtCode.DI\KrTrade.Nt.DI.csproj">
+      <Project>{3A644626-5B81-4EE5-9D67-6B77D5BA4940}</Project>
+      <Name>KrTrade.Nt.DI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

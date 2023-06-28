@@ -1,13 +1,14 @@
-﻿using NinjaTrader.NinjaScript;
+﻿using KrTrade.Nt.Core.Data;
+using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Core.Interfaces
 {
-    public interface IPrintService
+    public interface IPrintLoggerService
     {
-        NinjaScriptBase Ninjascript { get; }
+        INinjaScriptService Ninjascript { get; }
 
         void Configure();
-        bool IsEnabled { get; }
+        bool IsEnabled(LogLevel logLevel);
 
         void Open(int barsAgo = 0);
         void High(int barsAgo = 0);
