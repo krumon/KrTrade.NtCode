@@ -1,6 +1,6 @@
 ﻿namespace KrTrade.Nt.Core.Data
 {
-    public enum NsLogLevel
+    public enum NinjaScriptState
     {
         /// <summary>
         /// Represents all ninjascript levels, from configuration to terminated state.

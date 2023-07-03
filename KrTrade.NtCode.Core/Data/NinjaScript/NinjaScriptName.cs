@@ -1,11 +1,21 @@
 ﻿namespace KrTrade.Nt.Core.Data
 {
-    public enum NsName
+    public enum NinjaScriptName
     {
+        /// <summary>
+        /// Represents unknown NinjaScript. 
+        /// </summary>
+        Unknown,
+
         /// <summary>
         /// Represents the NinjaScript service. 
         /// </summary>
         Ninjascript,
+
+        /// <summary>
+        /// Represents the DataSeries service. 
+        /// </summary>
+        DataSeries,
 
         /// <summary>
         /// Represents the high price cache service

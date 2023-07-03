@@ -45,15 +45,15 @@ namespace KrTrade.Nt.Services
 
         public INinjaScriptService Ninjascript => _nscript;
         public LogLevel LogLevel => Options.LogLevel;
-        public NsLogLevel NsLogLevel => Options.NsLogLevel;
-        public PriceLogLevel PriceLogLevel => Options.PriceLogLevel;
+        public NinjaScriptState NsLogLevel => Options.NsLogLevel;
+        public PriceState PriceLogLevel => Options.PriceLogLevel;
 
         public bool IsEnabled(LogLevel logLevel)
         {
             if (logLevel < LogLevel) return false;
-            if (_nscript.Ninjascript.State == State.Historical && NsLogLevel > NsLogLevel.Historical) return false;
-            if (_nscript.Ninjascript.State == State.Realtime && NsLogLevel > NsLogLevel.Realtime) return false;
-            if (NsLogLevel == NsLogLevel.None) return false;
+            if (_nscript.NinjaScript.State == State.Historical && NsLogLevel > NinjaScriptState.Historical) return false;
+            if (_nscript.NinjaScript.State == State.Realtime && NsLogLevel > NinjaScriptState.Realtime) return false;
+            if (NsLogLevel == NinjaScriptState.None) return false;
 
             //if ((_nscript.Event == NsEvent.Tick || _nscript.Event == NsEvent.Tick) && PriceLogLevel > PriceLogLevel.EachTick) return false;
             //if (_nscript.Event == NsEvent.PriceChanged && PriceLogLevel > PriceLogLevel.PriceChanged) return false;
@@ -78,7 +78,7 @@ namespace KrTrade.Nt.Services
         {
             //if (!IsEnabled)
             //    return;
-            _nscript.Ninjascript.Print(o);
+            _nscript.NinjaScript.Print(o);
             _count++;
         }
 
@@ -86,8 +86,8 @@ namespace KrTrade.Nt.Services
         private static StringWriter stringWriter;
 
         public void Log<T>(
-            LogLevel logLevel,NsLogLevel nsLevel, PriceLogLevel prLevel, 
-            NsName name, NsType nsType, 
+            LogLevel logLevel,NinjaScriptState nsLevel, PriceState prLevel, 
+            NinjaScriptName name, NinjaScriptType nsType, 
             T message, Exception exception, object data)
         {
             if (!IsEnabled(logLevel))
@@ -112,11 +112,11 @@ namespace KrTrade.Nt.Services
             //Write(Formatter.Name, computedAnsiString);
         }
 
-        private string OpenText(int barsAgo) => "Open: " + _nscript.Ninjascript.Open[barsAgo];
-        private string HighText(int barsAgo) => "High: " + _nscript.Ninjascript.High[barsAgo];
-        private string LowText(int barsAgo) => "Low: " + _nscript.Ninjascript.Low[barsAgo];
-        private string CloseText(int barsAgo) => "Close: " + _nscript.Ninjascript.Close[barsAgo];
-        private string InputText(int barsAgo) => "Input: " + _nscript.Ninjascript.Input[barsAgo];
+        private string OpenText(int barsAgo) => "Open: " + _nscript.NinjaScript.Open[barsAgo];
+        private string HighText(int barsAgo) => "High: " + _nscript.NinjaScript.High[barsAgo];
+        private string LowText(int barsAgo) => "Low: " + _nscript.NinjaScript.Low[barsAgo];
+        private string CloseText(int barsAgo) => "Close: " + _nscript.NinjaScript.Close[barsAgo];
+        private string InputText(int barsAgo) => "Input: " + _nscript.NinjaScript.Input[barsAgo];
         private string OhlcText(char separator = '-', int barsAgo = 0)
         {
             return

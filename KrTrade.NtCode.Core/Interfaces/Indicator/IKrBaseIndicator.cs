@@ -2,7 +2,7 @@
 {
     public interface IKrBaseIndicator
     {
-        IBarService Bar { get; }
+        INinjaScriptService Bar { get; }
         void SetDefaults();
         void Configure();
         void DataLoaded();

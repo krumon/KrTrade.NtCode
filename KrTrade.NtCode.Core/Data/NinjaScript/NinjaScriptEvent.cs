@@ -1,7 +1,12 @@
 ﻿namespace KrTrade.Nt.Core.Data
 {
-    public enum NsEvent
+    public enum NinjaScriptEvent
     {
+        /// <summary>
+        /// Represents unknown events.
+        /// </summary>
+        Unknown,
+
         /// <summary>
         /// Indicates when displaying objects in a UI list such as the Indicators dialogue window since temporary objects are created for the purpose of UI display.
         /// </summary>
@@ -70,12 +75,17 @@
         /// <summary>
         /// Indicates the ninjascript tick has been produced.
         /// </summary>
-        Tick,
+        EachTick,
 
         /// <summary>
         /// Indicates the ninjascript first tick has been produced.
         /// </summary>
         FirstTick,
+
+        /// <summary>
+        /// Indicates the lasr bar is removed.
+        /// </summary>
+        LastBarRemoved,
 
         /// <summary>
         /// Indicates the ninjascript render is proccesing.
