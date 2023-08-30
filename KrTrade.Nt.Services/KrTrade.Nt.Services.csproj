@@ -44,13 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\BaseNinjaScript.cs" />
     <Compile Include="DataSeries\DataSeriesService.cs" />
     <Compile Include="Logging\PrintLoggerOptions.cs" />
     <Compile Include="Logging\PrintLoggerFormatter.cs" />
-    <Compile Include="NinjaScript\NinjaScriptEventArgs.cs" />
     <Compile Include="NinjaScript\NinjaScriptService.cs" />
-    <Compile Include="Logging\LoggerHelpers.cs" />
     <Compile Include="Logging\LoggerFormatter.cs" />
     <Compile Include="Logging\PrintLoggerService.cs" />
     <Compile Include="NinjaScript\NinjaScriptServiceOptions.cs" />

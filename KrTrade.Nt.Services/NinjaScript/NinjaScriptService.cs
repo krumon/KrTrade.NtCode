@@ -15,12 +15,10 @@ namespace KrTrade.Nt.Services
         private NinjaScriptEvent[] _nsEvents;
         private readonly NinjaScriptServiceOptions _options;
 
-        public bool BarClosed => IsBarClosed(NinjaScript.BarsInProgress);
-        public bool BarTick => !BarClosed;
-        public bool LastBarRemoved => IsLastBarRemoved(NinjaScript.BarsInProgress);
-        public bool PriceChanged => IsPriceChanged(NinjaScript.BarsInProgress);
-        public bool Gap => IsGap(NinjaScript.BarsInProgress);
-        public bool FirstTick => IsFirstTick(NinjaScript.BarsInProgress);
+        public event Action BarClosed;
+        public event Action<PriceChangedEventArgs> PriceChanged;
+        public event Action<TickEventArgs> Tick;
+        public event Action LastBarRemoved;
 
         private NinjaScriptService(NinjaScriptBase ninjascript) : this(ninjascript, null) { }
         private NinjaScriptService(NinjaScriptBase ninjascript, NinjaScriptServiceOptions options) : base(ninjascript,NinjaScriptName.Ninjascript, NinjaScriptType.Service)
@@ -69,36 +67,35 @@ namespace KrTrade.Nt.Services
 
             if (NinjaScript.CurrentBars[idx] < _saveCurrentBars[idx])
             {
-                OnLastBarRemoved();
+                LastBarRemovedHandler();
                 return;
             }
             else if (NinjaScript.CurrentBars[idx] != _saveCurrentBars[idx])
             {
-                OnBarClosed();
+                BarClosedHandler();
                 if (NinjaScript.Calculate != Calculate.OnBarClose)
                 {
                     if (NinjaScript.Calculate == Calculate.OnPriceChange && _currentPrices[idx] != currentPrice)
                     {
                         SetState(PriceState.Price);
-                        OnPriceChanged();
+                        PriceChangedHandler(new PriceChangedEventArgs(_currentPrices[idx], currentPrice));
                     }
                     else if (NinjaScript.Calculate == Calculate.OnEachTick)
                     {
                         SetState(PriceState.Tick);
-                        OnFirstTick();
-                        OnEachTick();
+                        TickHandler(new TickEventArgs(true));
                     }
                 }
             }
             if (NinjaScript.Calculate == Calculate.OnPriceChange && _currentPrices[idx] != currentPrice)
             {
                 SetState(PriceState.Price);
-                OnPriceChanged();
+                PriceChangedHandler(new PriceChangedEventArgs(_currentPrices[idx], currentPrice));
             }
             else
             {
                 SetState(PriceState.Tick);
-                OnEachTick();
+                TickHandler(new TickEventArgs(false));
             }
             _saveCurrentBars[idx] = NinjaScript.CurrentBar;
             _currentPrices[idx] = currentPrice;
@@ -107,16 +104,54 @@ namespace KrTrade.Nt.Services
 
         public virtual void OnLastBarRemoved(){}
         public virtual void OnBarClosed(){}
-        public virtual void OnPriceChanged(){}
+        public virtual void OnPriceChanged(PriceChangedEventArgs args){}
         public virtual void OnEachTick(){}
         public virtual void OnFirstTick(){}
 
-        public bool IsBarClosed(int barsInProgress = 0) => _saveCurrentBars[barsInProgress] != NinjaScript.CurrentBars[barsInProgress];
-        public bool IsBarTick(int barsInProgress = 0) => !IsBarClosed(barsInProgress);
-        public bool IsLastBarRemoved(int barsInProgress = 0) => NinjaScript.BarsArray[0].BarsType.IsRemoveLastBarSupported && NinjaScript.CurrentBars[barsInProgress] < _saveCurrentBars[barsInProgress];
-        public bool IsPriceChanged(int barsInProgress = 0) => _lastPrices[barsInProgress] != _currentPrices[barsInProgress];
-        public bool IsGap(int barsInProgress = 0) => IsPriceChanged(barsInProgress) && _currentPrices[barsInProgress] - _lastPrices[barsInProgress] >= _minGapValue;
-        public bool IsFirstTick(int barsInProgress = 0) => NinjaScript.Calculate == Calculate.OnEachTick && IsBarTick(barsInProgress);
+        private void LastBarRemovedHandler() 
+        {
+            // Call to parent
+            OnLastBarRemoved();
+
+            //Call to listeners
+            LastBarRemoved?.Invoke();
+        }
+        private void BarClosedHandler() 
+        {
+            // Call to parent
+            OnBarClosed();
+
+            //Call to listeners
+            BarClosed?.Invoke();
+        }
+        private void PriceChangedHandler(PriceChangedEventArgs args) 
+        { 
+            // Make sure the arguments is not null.
+            if (args ==  null)
+                throw new ArgumentNullException("args");
+
+            // Call to parent
+            OnPriceChanged(args);
+
+            //Call to listeners
+            PriceChanged?.Invoke(args);
+        }
+        private void TickHandler(TickEventArgs args) 
+        {
+            // Make sure the arguments is not null.
+            if (args == null)
+                throw new ArgumentNullException("args");
+
+            // Call to parents
+            if (args.IsFirstTick)
+                OnFirstTick();
+
+            OnEachTick();
+
+            //Call to listeners
+            Tick?.Invoke(args);
+
+        }
 
         private void InitializeArray(int[] array, int value)
         {

@@ -1,10 +1,8 @@
-﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core.Interfaces;
-using KrTrade.Nt.DI.Data;
+﻿using KrTrade.Nt.Core.Interfaces;
 using NinjaTrader.NinjaScript;
 using System;
 
-namespace KrTrade.Nt.Services
+namespace KrTrade.Nt.Core.Data
 {
     public abstract class BaseNinjaScript : IBaseNinjaScript
     {

@@ -1,19 +1,21 @@
-﻿namespace KrTrade.Nt.Core.Interfaces
+﻿using KrTrade.Nt.Core.Data;
+
+namespace KrTrade.Nt.Core.Interfaces
 {
     public interface INinjaScriptService : IBaseNinjaScript
     {
 
-        bool BarClosed { get; }
-        bool BarTick { get; }
-        bool LastBarRemoved { get; }
-        bool PriceChanged { get; }
-        bool Gap { get; }
-        bool FirstTick { get; }
+        //bool BarClosed { get; }
+        //bool BarTick { get; }
+        //bool LastBarRemoved { get; }
+        //bool PriceChanged { get; }
+        //bool Gap { get; }
+        //bool FirstTick { get; }
 
         void OnBarUpdate();
         void OnLastBarRemoved();
         void OnBarClosed();
-        void OnPriceChanged();
+        void OnPriceChanged(PriceChangedEventArgs args);
         void OnEachTick();
         void OnFirstTick();
 
