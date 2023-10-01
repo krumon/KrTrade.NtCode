@@ -34,6 +34,9 @@
     <Reference Include="NinjaTrader.Core">
       <HintPath>..\References\NinjaTrader.Core.dll</HintPath>
     </Reference>
+    <Reference Include="NinjaTrader.Gui">
+      <HintPath>..\References\NinjaTrader.Gui.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,8 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\Bars\Bar.cs" />
-    <Compile Include="Data\DataSeries\DataSeriesInfo.cs" />
+    <Compile Include="DataSeries\TimeFrame.cs" />
+    <Compile Include="DataSeries\TimeFrameHelpers.cs" />
+    <Compile Include="Bars\Bar.cs" />
+    <Compile Include="DataSeries\DataSeriesInfo.cs" />
     <Compile Include="Data\Logging\LogEntry.cs" />
     <Compile Include="Data\Logging\LoggingHelpers.cs" />
     <Compile Include="Data\Logging\LogLevel.cs" />
@@ -73,6 +78,7 @@
     <Compile Include="Interfaces\Services\IBarUpdateService.cs" />
     <Compile Include="Interfaces\Services\INinjaScriptService.cs" />
     <Compile Include="Interfaces\Services\IPrintLoggerService.cs" />
+    <Compile Include="Plots\PlotStyle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\Mapper.cs" />
     <Compile Include="Tests\BaseConsoleTests.cs" />
