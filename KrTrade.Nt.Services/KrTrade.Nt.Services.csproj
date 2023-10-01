@@ -47,9 +47,13 @@
     <Compile Include="DataSeries\DataSeriesService.cs" />
     <Compile Include="Logging\PrintLoggerOptions.cs" />
     <Compile Include="Logging\PrintLoggerFormatter.cs" />
+    <Compile Include="NinjaScript\BarUpdateService.cs" />
+    <Compile Include="NinjaScript\BaseNinjaScriptService.cs" />
+    <Compile Include="NinjaScript\BarUpdateServiceOptions.cs" />
     <Compile Include="NinjaScript\NinjaScriptService.cs" />
     <Compile Include="Logging\LoggerFormatter.cs" />
     <Compile Include="Logging\PrintLoggerService.cs" />
+    <Compile Include="NinjaScript\BaseNinjaScriptServiceOptions.cs" />
     <Compile Include="NinjaScript\NinjaScriptServiceOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

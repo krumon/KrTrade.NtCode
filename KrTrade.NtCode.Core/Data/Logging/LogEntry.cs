@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NinjaTrader.NinjaScript;
+using System;
 
 namespace KrTrade.Nt.Core.Data
 {
@@ -25,7 +26,7 @@ namespace KrTrade.Nt.Core.Data
             Data = data;
             Exception = exception;
         }
-
+        IndicatorBase
         /// <summary>
         /// Gets the LogLevel
         /// </summary>
