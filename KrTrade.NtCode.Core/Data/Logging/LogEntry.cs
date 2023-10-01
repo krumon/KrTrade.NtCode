@@ -26,7 +26,7 @@ namespace KrTrade.Nt.Core.Data
             Data = data;
             Exception = exception;
         }
-        IndicatorBase
+        //IndicatorBase
         /// <summary>
         /// Gets the LogLevel
         /// </summary>
