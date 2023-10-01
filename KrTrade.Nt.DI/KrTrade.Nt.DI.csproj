@@ -551,7 +551,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\KrTrade.NtCode.Core\KrTrade.Nt.Core.csproj">
+    <ProjectReference Include="..\KrTrade.Nt.Core\KrTrade.Nt.Core.csproj">
       <Project>{8157925A-1AEA-4A2A-97F3-F92500DB8E9F}</Project>
       <Name>KrTrade.Nt.Core</Name>
     </ProjectReference>

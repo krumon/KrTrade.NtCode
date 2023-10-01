@@ -51,7 +51,7 @@
     <Compile Include="Simulator\NtSimulator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\KrTrade.NtCode.DI\KrTrade.Nt.DI.csproj">
+    <ProjectReference Include="..\KrTrade.Nt.DI\KrTrade.Nt.DI.csproj">
       <Project>{3a644626-5b81-4ee5-9d67-6b77d5ba4940}</Project>
       <Name>KrTrade.Nt.DI</Name>
     </ProjectReference>

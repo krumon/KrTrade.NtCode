@@ -58,11 +58,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\KrTrade.NtCode.Core\KrTrade.Nt.Core.csproj">
+    <ProjectReference Include="..\KrTrade.Nt.Core\KrTrade.Nt.Core.csproj">
       <Project>{8157925a-1aea-4a2a-97f3-f92500db8e9f}</Project>
       <Name>KrTrade.Nt.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KrTrade.NtCode.DI\KrTrade.Nt.DI.csproj">
+    <ProjectReference Include="..\KrTrade.Nt.DI\KrTrade.Nt.DI.csproj">
       <Project>{3A644626-5B81-4EE5-9D67-6B77D5BA4940}</Project>
       <Name>KrTrade.Nt.DI</Name>
     </ProjectReference>

@@ -346,19 +346,19 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\KrTrade.NtCode.Connect\KrTrade.Nt.Connect.csproj">
+    <ProjectReference Include="..\KrTrade.Nt.Connect\KrTrade.Nt.Connect.csproj">
       <Project>{d32c9296-c1c6-4e7c-8e9f-5139ba0a2334}</Project>
       <Name>KrTrade.Nt.Connect</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KrTrade.NtCode.Core\KrTrade.Nt.Core.csproj">
+    <ProjectReference Include="..\KrTrade.Nt.Core\KrTrade.Nt.Core.csproj">
       <Project>{8157925A-1AEA-4A2A-97F3-F92500DB8E9F}</Project>
       <Name>KrTrade.Nt.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KrTrade.NtCode.DI\KrTrade.Nt.DI.csproj">
+    <ProjectReference Include="..\KrTrade.Nt.DI\KrTrade.Nt.DI.csproj">
       <Project>{3a644626-5b81-4ee5-9d67-6b77d5ba4940}</Project>
       <Name>KrTrade.Nt.DI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KrTrade.NtCode.Scripts\KrTrade.Nt.Scripts.csproj">
+    <ProjectReference Include="..\KrTrade.Nt.Scripts\KrTrade.Nt.Scripts.csproj">
       <Project>{77C4DCF3-98A3-4C20-95F1-0806C30FE114}</Project>
       <Name>KrTrade.Nt.Scripts</Name>
     </ProjectReference>
