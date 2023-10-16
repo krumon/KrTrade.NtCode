@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Core.Data;
+﻿using KrTrade.Nt.Core.Logging;
 using NinjaTrader.Data;
 
 namespace KrTrade.Nt.Core

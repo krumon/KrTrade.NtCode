@@ -1,5 +1,4 @@
 ﻿using KrTrade.Nt.DI.Data;
-using KrTrade.Nt.Core.Tests;
 
 namespace KrTrade.Nt.Console.Tests
 {

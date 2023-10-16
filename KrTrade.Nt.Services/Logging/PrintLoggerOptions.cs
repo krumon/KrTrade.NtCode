@@ -1,4 +1,5 @@
-﻿using KrTrade.Nt.Core.Data;
+﻿using KrTrade.Nt.Core;
+using KrTrade.Nt.Core.Logging;
 
 namespace KrTrade.Nt.Services
 {

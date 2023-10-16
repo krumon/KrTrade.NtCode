@@ -47,43 +47,60 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Formats\TimeFormat.cs" />
+    <Compile Include="DataSeries\BarsPeriodExtensions.cs" />
+    <Compile Include="State\StateExtensions.cs" />
+    <Compile Include="Core\Extensions\NumericExtensions.cs" />
+    <Compile Include="Core\Formats\DoubleFormat.cs" />
+    <Compile Include="Core\Formats\FormatType.cs" />
+    <Compile Include="DataSeries\DataFormat.cs" />
     <Compile Include="DataSeries\TimeFrame.cs" />
     <Compile Include="DataSeries\TimeFrameHelpers.cs" />
     <Compile Include="Bars\Bar.cs" />
     <Compile Include="DataSeries\DataSeriesInfo.cs" />
-    <Compile Include="Data\Logging\LogEntry.cs" />
-    <Compile Include="Data\Logging\LoggingHelpers.cs" />
-    <Compile Include="Data\Logging\LogLevel.cs" />
-    <Compile Include="Data\NinjaScript\BaseNinjaScript.cs" />
-    <Compile Include="Data\NinjaScript\NinjaScriptEvent.cs" />
-    <Compile Include="Data\NinjaScript\NinjaScriptState.cs" />
-    <Compile Include="Data\NinjaScript\NinjaScriptType.cs" />
-    <Compile Include="Data\NinjaScript\NinjaScriptName.cs" />
-    <Compile Include="Data\Price\TickEventArgs.cs" />
-    <Compile Include="Data\Price\PriceChangedEventArgs.cs" />
-    <Compile Include="Data\Price\PriceState.cs" />
-    <Compile Include="Data\Price\PriceSerieType.cs" />
-    <Compile Include="Exceptions\ExceptionArgument.cs" />
-    <Compile Include="Exceptions\ExceptionResource.cs" />
-    <Compile Include="Exceptions\ThrowHelper.cs" />
-    <Compile Include="Extensions\ArrayExtensions.cs" />
-    <Compile Include="Extensions\DateTimeExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Helpers\ConsoleHelpers.cs" />
-    <Compile Include="Helpers\EnumHelpers.cs" />
-    <Compile Include="Helpers\TypeNameHelper.cs" />
+    <Compile Include="Logging\LogEntry.cs" />
+    <Compile Include="Logging\LoggingHelpers.cs" />
+    <Compile Include="Logging\LogLevel.cs" />
+    <Compile Include="NinjaScript\BaseNinjaScript.cs" />
+    <Compile Include="NinjaScript\NinjaScriptEvent.cs" />
+    <Compile Include="NinjaScript\NinjaScriptState.cs" />
+    <Compile Include="NinjaScript\NinjaScriptType.cs" />
+    <Compile Include="NinjaScript\NinjaScriptName.cs" />
+    <Compile Include="Price\TickEventArgs.cs" />
+    <Compile Include="Price\PriceChangedEventArgs.cs" />
+    <Compile Include="Price\PriceState.cs" />
+    <Compile Include="Price\PriceSerieType.cs" />
+    <Compile Include="Core\Exceptions\ExceptionArgument.cs" />
+    <Compile Include="Core\Exceptions\ExceptionResource.cs" />
+    <Compile Include="Core\Exceptions\ThrowHelper.cs" />
+    <Compile Include="Core\Extensions\ArrayExtensions.cs" />
+    <Compile Include="Core\Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Core\Extensions\StringExtensions.cs" />
+    <Compile Include="Core\Helpers\ConsoleHelpers.cs" />
+    <Compile Include="Core\Helpers\EnumHelpers.cs" />
+    <Compile Include="Core\Helpers\TypeNameHelper.cs" />
     <Compile Include="Interfaces\Services\IBaseNinjaScriptService.cs" />
     <Compile Include="Interfaces\Services\IBaseNinjaScript.cs" />
     <Compile Include="Interfaces\Indicators\IKrBaseIndicator.cs" />
     <Compile Include="Interfaces\Services\IBarUpdateService.cs" />
     <Compile Include="Interfaces\Services\INinjaScriptService.cs" />
     <Compile Include="Interfaces\Services\IPrintLoggerService.cs" />
-    <Compile Include="Plots\PlotStyle.cs" />
+    <Compile Include="Plot\PlotStyle.cs" />
+    <Compile Include="Print\BasePrint.cs" />
+    <Compile Include="Print\PrintIdExtensions.cs" />
+    <Compile Include="Print\PrintId.cs" />
+    <Compile Include="Print\PrintLabel.cs" />
+    <Compile Include="Print\PrintLevel.cs" />
+    <Compile Include="Core\Formats\FormatLength.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reflection\Mapper.cs" />
-    <Compile Include="Tests\BaseConsoleTests.cs" />
+    <Compile Include="Core\Reflection\Mapper.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Files\" />
+    <Folder Include="Time\" />
+    <Folder Include="TradingArea\" />
+    <Folder Include="TradingZones\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(ProjectDir)bin\Debug\$(TargetFileName)" "$(registry:HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders@Personal)\NinjaTrader 8\bin\Custom" /E /Y

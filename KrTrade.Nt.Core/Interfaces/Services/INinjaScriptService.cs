@@ -1,6 +1,4 @@
-﻿using KrTrade.Nt.Core.Data;
-
-namespace KrTrade.Nt.Core.Interfaces
+﻿namespace KrTrade.Nt.Core.Interfaces
 {
     public interface INinjaScriptService : IBaseNinjaScript
     {

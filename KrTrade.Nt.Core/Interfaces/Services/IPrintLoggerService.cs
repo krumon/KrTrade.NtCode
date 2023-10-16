@@ -1,5 +1,4 @@
-﻿using KrTrade.Nt.Core.Data;
-using NinjaTrader.NinjaScript;
+﻿using KrTrade.Nt.Core.Logging;
 
 namespace KrTrade.Nt.Core.Interfaces
 {

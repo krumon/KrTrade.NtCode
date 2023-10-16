@@ -55,6 +55,7 @@
     <Compile Include="Logging\PrintLoggerService.cs" />
     <Compile Include="NinjaScript\BaseNinjaScriptServiceOptions.cs" />
     <Compile Include="NinjaScript\NinjaScriptServiceOptions.cs" />
+    <Compile Include="Print\PrintService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

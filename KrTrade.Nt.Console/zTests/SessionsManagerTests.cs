@@ -2,7 +2,6 @@
 using System;
 using KrTrade.Nt.DI.Data;
 using KrTrade.Nt.DI.Events;
-using KrTrade.Nt.Core.Tests;
 
 namespace KrTrade.Nt.Console.Tests
 {

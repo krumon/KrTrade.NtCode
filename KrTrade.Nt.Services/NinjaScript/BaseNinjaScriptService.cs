@@ -1,5 +1,4 @@
-﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core.Interfaces;
+﻿using KrTrade.Nt.Core.Interfaces;
 using NinjaTrader.NinjaScript;
 using System;
 

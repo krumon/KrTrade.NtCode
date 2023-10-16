@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Core.Data;
+﻿using KrTrade.Nt.Core;
 using KrTrade.Nt.Core.Interfaces;
 using NinjaTrader.Core.FloatingPoint;
 using NinjaTrader.NinjaScript;

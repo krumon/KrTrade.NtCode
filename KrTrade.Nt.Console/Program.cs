@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.DI.Helpers;
+﻿using KrTrade.Nt.Core.Print;
 
 namespace KrTrade.Nt.Console.Console
 {
@@ -22,37 +22,14 @@ namespace KrTrade.Nt.Console.Console
 
         public static void Main(string[] args)
         {
-            var ninjascript = new KrTradeStats();
-
-            ninjascript.Configure();
-
-            for (int i = 0; i < 100; i++)
-            {
-                ninjascript.OnBarUpdate();
-                if (i > 0 && i%10 == 0)
-                    ninjascript.OnSessionUpdate();
-                    
-            }
-
-            string name = TypeNameHelper.GetTypeDisplayName(typeof(KrTradeStats),fullName:false, includeGenericParameterNames: false,nestedTypeDelimiter:'.');
-
-
-            //UseDesignNinjascriptHostingServices();
-
-            //if (DesignNinjaHost.Host == null)
-            //    throw new ArgumentNullException(nameof(DesignNinjaHost.Host));
-
-            //_logger = DesignNinjaHost.Logger<Program>();
-            //_logger.LogInformation("Hello World!");
-            ////_logger.LogInformation(DesignNinjaHost.SessionsIterator.ToString());
-            ////_logger.LogInformation(DesignNinjaHost.SessionsFilters.IsEnabled.ToString());
-            ////_logger.LogInformation(DesignNinjaHost.Ninjascript.ToString());
-            //IConfigurationRoot config = (IConfigurationRoot)(DesignNinjaHost.Host?.Services.GetService<HostBuilderContext>().Configuration);
-            //IConfiguration configure = DesignNinjaHost.Host?.Services.GetService<IConfiguration>();
-            //IDataSeries dataSeries = DesignNinjaHost.Host?.Services.GetService<IDataSeries>();
-            //INinjascript<Program> ninjascripts = DesignNinjaHost.Host?.Services.GetService<INinjascript<Program>>();
-            //INinjascript<Sessions> ninjascripts2 = DesignNinjaHost.Host?.Services.GetService<INinjascript<Sessions>>();
-            //MasterScriptFactory master = DesignNinjaHost.Host?.Services.GetService<MasterScriptFactory>();
+            //BasePrint printSvc = new BasePrint(System.Console.WriteLine, System.Console.Clear);
+            //printSvc.WriteTitle("Este es el encabezado de prueba");
+            //printSvc.WriteLine(lineChar: '*');
+            //printSvc.WriteBlankLine();
+            //printSvc.Write("High", 1525);
+            //printSvc.Write("Open, High, Low, Close ", 3215.25,3217.75,3213,3214.5);
+            //System.Console.ReadKey();
+            
         }
 
         private static void UseDesignNinjascriptHostingServices()

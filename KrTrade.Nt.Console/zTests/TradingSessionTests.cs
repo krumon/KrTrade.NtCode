@@ -1,8 +1,7 @@
 ﻿using KrTrade.Nt.Console.Internal;
 using System;
 using KrTrade.Nt.DI.Data;
-using KrTrade.Nt.Core.Tests;
-using KrTrade.Nt.Core.Helpers;
+using KrTrade.Nt.Core.Core;
 
 namespace KrTrade.Nt.Console.Tests
 {

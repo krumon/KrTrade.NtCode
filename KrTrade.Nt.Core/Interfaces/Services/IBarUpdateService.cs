@@ -1,7 +1,4 @@
-﻿using KrTrade.Nt.Core.Data;
-using NinjaTrader.NinjaScript;
-
-namespace KrTrade.Nt.Core.Interfaces
+﻿namespace KrTrade.Nt.Core.Interfaces
 {
     public interface IBarUpdateService : IBaseNinjaScriptService
     {

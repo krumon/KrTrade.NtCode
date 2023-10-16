@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Core.Exceptions;
+﻿using KrTrade.Nt.Core.Core;
 using System;
 
 namespace KrTrade.Nt.DI.Primitives

@@ -1,4 +1,4 @@
-﻿namespace KrTrade.Nt.Core.DataSeries
+﻿namespace KrTrade.Nt.Core
 {
     /// <summary>
     /// The time frame of the data series.

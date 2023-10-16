@@ -1,5 +1,4 @@
-﻿using KrTrade.Nt.Core.Tests;
-using System;
+﻿using System;
 using System.Timers;
 
 namespace KrTrade.Nt.Console.Tests
