@@ -44,9 +44,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bars\BarsLogOptions.cs" />
+    <Compile Include="Bars\BarsService.cs" />
+    <Compile Include="Caches\CacheService.cs" />
+    <Compile Include="Caches\LastCacheService.cs" />
+    <Compile Include="Caches\DoubleCacheService.cs" />
+    <Compile Include="Caches\CloseCacheService.cs" />
+    <Compile Include="Caches\LowCacheService.cs" />
+    <Compile Include="Caches\HighCacheService.cs" />
     <Compile Include="DataSeries\DataSeriesService.cs" />
     <Compile Include="Logging\PrintLoggerOptions.cs" />
     <Compile Include="Logging\PrintLoggerFormatter.cs" />
+    <Compile Include="Logging\ServicesLogOptions.cs" />
     <Compile Include="NinjaScript\BarUpdateService.cs" />
     <Compile Include="NinjaScript\BaseNinjaScriptService.cs" />
     <Compile Include="NinjaScript\BarUpdateServiceOptions.cs" />
@@ -55,6 +64,7 @@
     <Compile Include="Logging\PrintLoggerService.cs" />
     <Compile Include="NinjaScript\BaseNinjaScriptServiceOptions.cs" />
     <Compile Include="NinjaScript\NinjaScriptServiceOptions.cs" />
+    <Compile Include="Plot\PlotService.cs" />
     <Compile Include="Print\PrintService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

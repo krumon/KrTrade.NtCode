@@ -51,7 +51,8 @@ namespace KrTrade.Nt.Core
                 case BarsPeriodType.Tick: periodType = "t"; break;
                 default: return string.Empty;
             }
-            return "(" + periodType + barsPeriod.Value + ")";
+            //return "(" + periodType + barsPeriod.Value + ")";
+            return periodType + barsPeriod.Value;
         }
 
         /// <summary> 

@@ -3,7 +3,7 @@
     /// <summary>
     /// The id of the print object.
     /// </summary>
-    public enum PrintId
+    public enum PrintIdType
     {
         /// <summary>
         /// Time id.

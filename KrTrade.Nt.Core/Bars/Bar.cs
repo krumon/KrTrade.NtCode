@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.Nt.Core
+namespace KrTrade.Nt.Core.Bars
 {
     public class Bar
     {

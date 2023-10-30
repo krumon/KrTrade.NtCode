@@ -1,7 +1,8 @@
 ﻿namespace KrTrade.Nt.Core.Interfaces
 {
-    public interface IBarUpdateService : IBaseNinjaScriptService
+    public interface IBarUpdateService //: IBaseNinjaScriptService
     {
+        void OnBarUpdate();
 
         bool BarClosed { get; }
         bool LastBarRemoved { get; }
@@ -20,12 +21,12 @@
         bool IsBarTick(int barsInProgress = 0);
         bool IsLastBarRemoved(int barsInProgress = 0);
         bool IsPriceChanged(int barsInProgress = 0);
-        bool IsGap(int barsInProgress = 0, int ticks=2);
+        bool IsGap(int barsInProgress = 0, int ticks = 2);
         bool IsFirstTick(int barsInProgress = 0);
         double GapValue(int barsInProgress);
 
-        //void Update();
-        //void Update(int currentBar, double currentPrice);
+        void Update();
+        void Update(int currentBar, double currentPrice);
 
     }
 }

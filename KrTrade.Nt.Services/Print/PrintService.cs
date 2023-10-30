@@ -31,6 +31,8 @@ namespace KrTrade.Nt.Services
         /// <inheritdoc/>
         public override int CurrentBar => _ninjascript.CurrentBars[BarsInProgress];
         /// <inheritdoc/>
+        public override DateTime CurrentTime => _ninjascript.Times[BarsInProgress][0];
+        /// <inheritdoc/>
         public override Instrument Instrument => _ninjascript.BarsArray[BarsInProgress].Instrument;
         /// <inheritdoc/>
         public override BarsPeriod BarsPeriod => _ninjascript.BarsPeriods[BarsInProgress];

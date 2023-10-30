@@ -362,6 +362,10 @@
       <Project>{77C4DCF3-98A3-4C20-95F1-0806C30FE114}</Project>
       <Name>KrTrade.Nt.Scripts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\KrTrade.Nt.Services\KrTrade.Nt.Services.csproj">
+      <Project>{89e9209b-e41b-4353-8163-886130758021}</Project>
+      <Name>KrTrade.Nt.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Debug\" />

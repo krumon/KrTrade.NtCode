@@ -1,6 +1,6 @@
-﻿namespace KrTrade.Nt.Services
-{
-    public class BarUpdateServiceOptions
-    {
-    }
-}
+﻿//namespace KrTrade.Nt.Services
+//{
+//    public class BarUpdateServiceOptions
+//    {
+//    }
+//}

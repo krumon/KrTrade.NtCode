@@ -1,6 +1,9 @@
 ﻿namespace KrTrade.Nt.Core
 {
-    public enum PriceSerieType
+    /// <summary>
+    /// The type of the <see cref="PriceSeries"/>
+    /// </summary>
+    public enum PriceSeriesType
     {
         Input,
         Open,

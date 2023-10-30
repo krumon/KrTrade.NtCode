@@ -11,19 +11,19 @@ namespace KrTrade.Nt.Core.Print
     {
         private readonly Action<object> _writeDelegate;
         private readonly Action _clearDelegate;
-        private readonly FormatType _formatType = FormatType.Log;
         private int _lastLength = 0;
 
         private PrintLabel _label;
 
         public abstract State State { get; }
         public abstract int CurrentBar { get; }
+        public abstract DateTime CurrentTime { get; }
         public abstract int BarsInProgress { get; }
         public abstract Instrument Instrument { get; }
         public abstract BarsPeriod BarsPeriod { get; }
 
         public PrintLevel MinLevel { get; set; }
-        public PrintId PrintId { get; set; }
+        public PrintIdType PrintId { get; set; }
 
         public bool ShowState { get; set; } = true;
         public bool ShowBarsInProgress { get; set; } = true;
@@ -109,18 +109,13 @@ namespace KrTrade.Nt.Core.Print
             if (printLabelOrId)
             {
                 if (_label == null) 
-                    _label = new PrintLabel(this, isBeforeContent: PrintId == PrintId.None);
+                    _label = new PrintLabel(this, isBeforeContent: PrintId == PrintIdType.None);
 
                 // Label
                 str.Append(_label.ToString(State, BarsInProgress, Instrument, BarsPeriod, CurrentBar));
-                //if (FormatLength == FormatLength.Long) str.Append(_label.ToLongString(State, BarsInProgress, Instrument, BarsPeriod, CurrentBar));
-                //else str.Append(_label.ToString(State, BarsInProgress, Instrument, BarsPeriod, CurrentBar));
-
-                if (PrintId != PrintId.None)
+                if (PrintId != PrintIdType.None)
                 {
-                    //str.Append(" ");
-                    // TODO: Cambiar los argumentos una vez que la clase pase a ser abstracta.
-                    str.Append(PrintId.ToString(DateTime.Now, BarsPeriodType.Tick.ToTimeFormat() , _formatType, FormatLength));
+                    str.Append(PrintId.ToString(CurrentTime, BarsPeriod.ToTimeFormat() , FormatType, FormatLength));
                 }
                 str.Append(ContentSeparator);
             }

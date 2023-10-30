@@ -5,6 +5,8 @@ using System;
 
 namespace KrTrade.Nt.Core
 {
+
+
     public abstract class BaseNinjaScript : IBaseNinjaScript
     {
         private readonly NinjaScriptBase _ninjaScriptBase;

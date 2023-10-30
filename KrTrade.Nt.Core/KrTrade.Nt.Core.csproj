@@ -47,8 +47,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bars\BarsState.cs" />
+    <Compile Include="Bars\BarsLogLevel.cs" />
+    <Compile Include="Bars\BaseBars.cs" />
+    <Compile Include="Bars\BarsStateExtensions.cs" />
+    <Compile Include="Caches\BaseCache.cs" />
+    <Compile Include="Caches\DoubleCache.cs" />
     <Compile Include="Core\Formats\TimeFormat.cs" />
     <Compile Include="DataSeries\BarsPeriodExtensions.cs" />
+    <Compile Include="Interfaces\ConfigureServiceInterfaces.cs" />
+    <Compile Include="Interfaces\BarsEventsInterfaces.cs" />
     <Compile Include="State\StateExtensions.cs" />
     <Compile Include="Core\Extensions\NumericExtensions.cs" />
     <Compile Include="Core\Formats\DoubleFormat.cs" />
@@ -69,7 +77,7 @@
     <Compile Include="Price\TickEventArgs.cs" />
     <Compile Include="Price\PriceChangedEventArgs.cs" />
     <Compile Include="Price\PriceState.cs" />
-    <Compile Include="Price\PriceSerieType.cs" />
+    <Compile Include="Price\PriceSeriesType.cs" />
     <Compile Include="Core\Exceptions\ExceptionArgument.cs" />
     <Compile Include="Core\Exceptions\ExceptionResource.cs" />
     <Compile Include="Core\Exceptions\ThrowHelper.cs" />
@@ -88,7 +96,7 @@
     <Compile Include="Plot\PlotStyle.cs" />
     <Compile Include="Print\BasePrint.cs" />
     <Compile Include="Print\PrintIdExtensions.cs" />
-    <Compile Include="Print\PrintId.cs" />
+    <Compile Include="Print\PrintIdType.cs" />
     <Compile Include="Print\PrintLabel.cs" />
     <Compile Include="Print\PrintLevel.cs" />
     <Compile Include="Core\Formats\FormatLength.cs" />

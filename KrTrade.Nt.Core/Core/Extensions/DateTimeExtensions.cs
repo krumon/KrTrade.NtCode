@@ -155,7 +155,7 @@ namespace KrTrade.Nt.Core.Core
             if (time == null) throw new ArgumentNullException("time");
             string format = string.Empty;
             if (formatLength == FormatLength.Long)
-                format = "dd'-'MMM'('ddd')' HH'h:'mm'm:'ss'.'fff's'";
+                format = "dd'-'MMM'('ddd')' HH'h:'mm'm:'ss's 'fff'ms'";
             else if (formatLength == FormatLength.Short)
                 format = "dd'-'MMM HH':'mm':'ss'.'fff";
             return time.ToString(format, CultureInfo.CreateSpecificCulture("en-US"));

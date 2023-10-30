@@ -1,4 +1,8 @@
-﻿using KrTrade.Nt.Core.Print;
+﻿using KrTrade.Nt.Core.Caches;
+using KrTrade.Nt.Core.Print;
+using KrTrade.Nt.Scripts.NinjatraderObjects;
+using KrTrade.Nt.Services;
+using System;
 
 namespace KrTrade.Nt.Console.Console
 {
@@ -22,14 +26,35 @@ namespace KrTrade.Nt.Console.Console
 
         public static void Main(string[] args)
         {
-            //BasePrint printSvc = new BasePrint(System.Console.WriteLine, System.Console.Clear);
-            //printSvc.WriteTitle("Este es el encabezado de prueba");
-            //printSvc.WriteLine(lineChar: '*');
-            //printSvc.WriteBlankLine();
-            //printSvc.Write("High", 1525);
-            //printSvc.Write("Open, High, Low, Close ", 3215.25,3217.75,3213,3214.5);
-            //System.Console.ReadKey();
-            
+            //NinjaScriptBase ninjascript = null;
+            //PrintService printService;
+            //BarsService barsSvc = new BarsService(ninjascript, printService);
+            //barsSvc.LogOptions.BarsLogLevel = Core.Bars.BarsLogLevel.PriceChanged;
+
+            //int capacity = 10;
+            //DoubleCache cache = new DoubleCache(capacity);
+            //Random random = new Random();
+
+            //for (int i = 0; i < capacity*2; i++)
+            //{
+            //    cache.Add(random.Next(0,1000));
+            //}
+
+            //for (int i = 0; i < capacity; i++)
+            //    System.Console.WriteLine(string.Format("Cache[{0}]: {1}", i, cache[i]));
+
+            //System.Console.WriteLine();
+
+            //System.Console.WriteLine(string.Format("Last: {0}", cache.Last));
+            //System.Console.WriteLine(string.Format("High: {0}", cache.High));
+            //System.Console.WriteLine(string.Format("Low: {0}", cache.Low));
+
+            //cache.Replace(69, 0);
+            //for (int i = 0; i < capacity; i++)
+            //    System.Console.WriteLine(string.Format("Cache[{0}]: {1}", i, cache[i]));
+
+            System.Console.ReadKey();
+
         }
 
         private static void UseDesignNinjascriptHostingServices()

@@ -1,105 +1,58 @@
 ﻿using KrTrade.Nt.Core;
-using KrTrade.Nt.Core.Interfaces;
+using KrTrade.Nt.Services.Bars;
 using NinjaTrader.NinjaScript;
 using System;
 
 namespace KrTrade.Nt.Services
 {
-    public class NinjaScriptService : BaseNinjaScript, INinjaScriptService
+    public class NinjaScriptService //: INinjaScriptService
     {
-        private double _minGapValue;
-        private double _maxGapValue;
-        private int[] _saveCurrentBars;
-        private double[] _lastPrices;
-        private double[] _currentPrices;
-        private NinjaScriptEvent[] _nsEvents;
+        private readonly NinjaScriptBase _ninjascript;
         private readonly NinjaScriptServiceOptions _options;
-
-        public event Action BarClosed;
-        public event Action<PriceChangedEventArgs> PriceChanged;
-        public event Action<TickEventArgs> Tick;
-        public event Action LastBarRemoved;
+        private PrintService _printService;
+        private BarsService _barService;
 
         private NinjaScriptService(NinjaScriptBase ninjascript) : this(ninjascript, null) { }
-        private NinjaScriptService(NinjaScriptBase ninjascript, NinjaScriptServiceOptions options) : base(ninjascript,NinjaScriptName.Ninjascript, NinjaScriptType.Service)
+        private NinjaScriptService(NinjaScriptBase ninjascript, NinjaScriptServiceOptions options)
         {
-            _options = options ?? new NinjaScriptServiceOptions(); 
+            _ninjascript = ninjascript ?? throw new ArgumentNullException(nameof(ninjascript));
+            _options = options ?? new NinjaScriptServiceOptions();
+
+            if (_ninjascript.State != State.Configure)
+                throw new Exception("The 'NinjaScriptService' instance must be created in 'NinjaScript.OnStateChanged' method when 'State = State.Configure'");
+
+            _printService = new PrintService(_ninjascript);
+            _barService = new BarsService(_ninjascript, _printService);
+
+            Configure();
         }
 
-        public static INinjaScriptService Configure(NinjaScriptBase ninjascript)
-        {
-            INinjaScriptService service = new NinjaScriptService(ninjascript);
-            service.Configure();
-            return service;
-        }
-        public static INinjaScriptService Configure(NinjaScriptBase ninjascript, Action<NinjaScriptServiceOptions> delegateOptions)
-        {
-            NinjaScriptServiceOptions options = new NinjaScriptServiceOptions();
-            delegateOptions?.Invoke(options);
-            INinjaScriptService service = new NinjaScriptService(ninjascript,options);
-            service.Configure();
-            return service;
-        }
+        //public static INinjaScriptService Configure(NinjaScriptBase ninjascript)
+        //{
+        //    INinjaScriptService service = new NinjaScriptService(ninjascript);
+        //    service.Configure();
+        //    return service;
+        //}
+        //public static INinjaScriptService Configure(NinjaScriptBase ninjascript, Action<NinjaScriptServiceOptions> delegateOptions)
+        //{
+        //    NinjaScriptServiceOptions options = new NinjaScriptServiceOptions();
+        //    delegateOptions?.Invoke(options);
+        //    INinjaScriptService service = new NinjaScriptService(ninjascript,options);
+        //    service.Configure();
+        //    return service;
+        //}
         
-        public override void Configure()
+        public void Configure()
         {
-            _options.NormalizeOptions();
-            _minGapValue = GetMinGapValue();
-            _maxGapValue = GetMaxGapValue();
+            //_options.NormalizeOptions();
         }
-        public override void DataLoaded()
+        public void DataLoaded()
         {
-            _saveCurrentBars = new int[NinjaScript.BarsArray.Length];
-            _lastPrices = new double[NinjaScript.BarsArray.Length];
-            _currentPrices = new double[NinjaScript.BarsArray.Length];
-            _nsEvents = new NinjaScriptEvent[NinjaScript.BarsArray.Length];
-            InitializeArray(_saveCurrentBars, -1);
-            InitializeArray(_lastPrices, 0);
-            InitializeArray(_currentPrices, 0);
-            InitializeArray(_nsEvents, 0);
         }
 
         public void OnBarUpdate()
         {
-            SetState(PriceState.Bar);
-            double currentPrice = NinjaScript.Inputs[NinjaScript.BarsInProgress][0];
-            int idx = NinjaScript.BarsInProgress;
 
-            if (NinjaScript.CurrentBars[idx] < _saveCurrentBars[idx])
-            {
-                LastBarRemovedHandler();
-                return;
-            }
-            else if (NinjaScript.CurrentBars[idx] != _saveCurrentBars[idx])
-            {
-                BarClosedHandler();
-                if (NinjaScript.Calculate != Calculate.OnBarClose)
-                {
-                    if (NinjaScript.Calculate == Calculate.OnPriceChange && _currentPrices[idx] != currentPrice)
-                    {
-                        SetState(PriceState.Price);
-                        PriceChangedHandler(new PriceChangedEventArgs(_currentPrices[idx], currentPrice));
-                    }
-                    else if (NinjaScript.Calculate == Calculate.OnEachTick)
-                    {
-                        SetState(PriceState.Tick);
-                        TickHandler(new TickEventArgs(true));
-                    }
-                }
-            }
-            if (NinjaScript.Calculate == Calculate.OnPriceChange && _currentPrices[idx] != currentPrice)
-            {
-                SetState(PriceState.Price);
-                PriceChangedHandler(new PriceChangedEventArgs(_currentPrices[idx], currentPrice));
-            }
-            else
-            {
-                SetState(PriceState.Tick);
-                TickHandler(new TickEventArgs(false));
-            }
-            _saveCurrentBars[idx] = NinjaScript.CurrentBar;
-            _currentPrices[idx] = currentPrice;
-            SetState(PriceState.None);
         }
 
         public virtual void OnLastBarRemoved(){}
@@ -113,16 +66,16 @@ namespace KrTrade.Nt.Services
             // Call to parent
             OnLastBarRemoved();
 
-            //Call to listeners
-            LastBarRemoved?.Invoke();
+            ////Call to listeners
+            //LastBarRemoved?.Invoke();
         }
         private void BarClosedHandler() 
         {
             // Call to parent
             OnBarClosed();
 
-            //Call to listeners
-            BarClosed?.Invoke();
+            ////Call to listeners
+            //BarClosed?.Invoke();
         }
         private void PriceChangedHandler(PriceChangedEventArgs args) 
         { 
@@ -133,8 +86,8 @@ namespace KrTrade.Nt.Services
             // Call to parent
             OnPriceChanged(args);
 
-            //Call to listeners
-            PriceChanged?.Invoke(args);
+            ////Call to listeners
+            //PriceChanged?.Invoke(args);
         }
         private void TickHandler(TickEventArgs args) 
         {
@@ -148,28 +101,9 @@ namespace KrTrade.Nt.Services
 
             OnEachTick();
 
-            //Call to listeners
-            Tick?.Invoke(args);
+            ////Call to listeners
+            //Tick?.Invoke(args);
 
         }
-
-        private void InitializeArray(int[] array, int value)
-        {
-            for (int i = 0; i < array.Length; i++)
-                array[i] = value;
-        }
-        private void InitializeArray(double[] array, double value)
-        {
-            for (int i = 0; i < array.Length; i++)
-                array[i] = value;
-        }
-        private void InitializeArray(NinjaScriptEvent[] array, NinjaScriptEvent value)
-        {
-            for (int i = 0; i < array.Length; i++)
-                array[i] = value;
-        }
-        private double GetMinGapValue() => NinjaScript.TickSize * (double)_options.MinGapSize;
-        private double GetMaxGapValue() => NinjaScript.TickSize * (double)_options.MaxGapSize;
-
     }
 }

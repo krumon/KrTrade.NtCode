@@ -13,7 +13,7 @@ namespace KrTrade.Nt.Core
         public BarsPeriod BarsPeriod { get; set; }
         public string TradingHoursName { get;set; }
 
-        public void Load(Bars bars)
+        public void Load(NinjaTrader.Data.Bars bars)
         {
             string[] name = bars.Instrument.MasterInstrument.Name.Split(' ');
             Instrument = name[0];
