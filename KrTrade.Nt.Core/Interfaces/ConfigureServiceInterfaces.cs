@@ -2,7 +2,7 @@
 {
     public interface IConfigureOrDataLoadedService 
     {
-        bool IsServiceConfigured { get; }
+        bool IsConfigured { get; }
     }
 
     public interface IConfigureService : IConfigureOrDataLoadedService

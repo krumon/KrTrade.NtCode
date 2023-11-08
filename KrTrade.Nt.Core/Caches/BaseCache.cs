@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace KrTrade.Nt.Core.Caches
 {
@@ -86,10 +85,23 @@ namespace KrTrade.Nt.Core.Caches
         #region Public methods
 
         /// <summary>
+        /// Dispose the service.
+        /// </summary>
+        public virtual void Dispose()
+        {
+            _cache.Clear();
+            _cache = null;
+        }
+
+        #endregion
+
+        #region protected methods
+
+        /// <summary>
         /// Adds a new element to the end of the cache.
         /// </summary>
         /// <param name="element">The element to add.</param>
-        public void Add(T element)
+        protected void Add(T element)
         {
             _cache.Add(element);
             if (_cache.Count > _capacity)
@@ -101,7 +113,7 @@ namespace KrTrade.Nt.Core.Caches
         /// </summary>
         /// <param name="idx">The specified index.</param>
         /// <param name="element">The element to add.</param>
-        public void Insert(int idx, T element)
+        protected void Insert(int idx, T element)
         {
             _cache.Insert(idx, element);
         }
@@ -111,7 +123,7 @@ namespace KrTrade.Nt.Core.Caches
         /// </summary>
         /// <param name="element">The element to replace.</param>
         /// <param name="barsAgo">The bars ago of the element to replace.</param>
-        public void Replace(T element, int barsAgo = 0)
+        protected void Replace(T element, int barsAgo = 0)
         {
             int idx = _cache.Count - 1 - barsAgo;
             _cache[idx] = element;
@@ -122,7 +134,7 @@ namespace KrTrade.Nt.Core.Caches
         /// </summary>
         /// <param name="element">The element to find.</param>
         /// <returns>True, if the element is in cache.</returns>
-        public bool Contains(T element)
+        protected bool Contains(T element)
         {
             return _cache.Contains(element);
         }
@@ -133,7 +145,7 @@ namespace KrTrade.Nt.Core.Caches
         /// <param name="startIdx">The start index.</param>
         /// <param name="count">Nmber of elements to gets.</param>
         /// <returns></returns>
-        public List<T> GetRange(int startIdx, int count)
+        protected List<T> GetList(int startIdx, int count)
         {
             return _cache.GetRange(startIdx, count);
         }
@@ -142,7 +154,7 @@ namespace KrTrade.Nt.Core.Caches
         /// Adds the elements of a collection to the end of the cache.
         /// </summary>
         /// <param name="elements">The collection to add.</param>
-        public void AddRange(IEnumerable<T> elements)
+        protected void AddRange(IEnumerable<T> elements)
         {
             _cache.AddRange(elements);
         }
@@ -152,7 +164,7 @@ namespace KrTrade.Nt.Core.Caches
         /// </summary>
         /// <param name="startIdx">The start index of the elements.</param>
         /// <param name="count">The number of elements to remove.</param>
-        public void RemoveRange(int startIdx, int count)
+        protected void RemoveRange(int startIdx, int count)
         {
             _cache.RemoveRange(startIdx, count);
         }
@@ -161,7 +173,7 @@ namespace KrTrade.Nt.Core.Caches
         /// Removes a specific element from the cache.
         /// </summary>
         /// <param name="item"></param>
-        public void Remove(T item)
+        protected void Remove(T item)
         {
             _cache.Remove(item);
         }
@@ -170,7 +182,7 @@ namespace KrTrade.Nt.Core.Caches
         /// Remove an element at the specified cache index.
         /// </summary>
         /// <param name="index">The specified index.</param>
-        public void RemoveAt(int index)
+        protected void RemoveAt(int index)
         {
             _cache.RemoveAt(index);
         }
@@ -178,7 +190,7 @@ namespace KrTrade.Nt.Core.Caches
         /// <summary>
         /// Removes all elements from the cache.
         /// </summary>
-        public void RemoveAll()
+        protected void RemoveAll()
         {
             _cache.RemoveAll((t) => true);
         }
@@ -186,18 +198,9 @@ namespace KrTrade.Nt.Core.Caches
         /// <summary>
         /// Clear the cache.
         /// </summary>
-        public void Clear()
+        protected void Clear()
         {
             _cache.Clear();
-        }
-
-        /// <summary>
-        /// Dispose the service.
-        /// </summary>
-        public virtual void Dispose()
-        {
-            _cache.Clear();
-            _cache = null;
         }
 
         #endregion

@@ -12,7 +12,7 @@ namespace KrTrade.Nt.Services.Bars
         /// <summary>
         /// the minimum level to be logged.
         /// </summary>
-        public BarsLogLevel BarsLogLevel { get; set; } = BarsLogLevel.BarClosed;
+        public BarsLogLevel LogLevel { get; set; } = BarsLogLevel.BarClosed;
 
         /// <summary>
         /// Create <see cref="BarsLogOptions"/> instance with specified values.
@@ -47,7 +47,7 @@ namespace KrTrade.Nt.Services.Bars
         /// <param name="statesSeparator">The string separator between states.</param>
         public BarsLogOptions(bool isEnable, BarsLogLevel barsLogLevel, bool isLabelVisible, string label, string statesSeparator)
         {
-            BarsLogLevel = barsLogLevel;
+            LogLevel = barsLogLevel;
             IsEnable = isEnable;
             IsLabelVisible = isLabelVisible;
             Label = label;
