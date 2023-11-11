@@ -1,4 +1,6 @@
-﻿using KrTrade.Nt.DI.Data;
+﻿using KrTrade.Nt.Core.TradingAreas;
+using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Sessions;
 using KrTrade.Nt.DI.DependencyInjection;
 using System;
 using System.Diagnostics;

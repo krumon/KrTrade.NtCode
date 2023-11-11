@@ -2,6 +2,7 @@
 using NinjaTrader.NinjaScript;
 using System;
 using KrTrade.Nt.DI.Data;
+using KrTrade.Nt.Core.Bars;
 
 namespace KrTrade.Nt.Console
 {
@@ -42,17 +43,17 @@ namespace KrTrade.Nt.Console
 
         #region Public global methods
 
-        public bool HasPattern(ChartPattern pattern, int strength = 0, int instance = 1, int barsAgo = 0, CacheSearchMode searchMode = CacheSearchMode.Current)
+        public bool HasPattern(BarsPattern pattern, int strength = 0, int instance = 1, int barsAgo = 0, CacheSearchMode searchMode = CacheSearchMode.Current)
         {
             return GetCacheIdx(pattern, strength, instance, barsAgo, searchMode) != -1;
         }
 
-        public BaseElement GetPattern(ChartPattern pattern, int strength = 0, int instance = 1, int barsAgo = 0, CacheSearchMode searchMode = CacheSearchMode.Current)
+        public BaseElement GetPattern(BarsPattern pattern, int strength = 0, int instance = 1, int barsAgo = 0, CacheSearchMode searchMode = CacheSearchMode.Current)
         {
             return GetCachePattern(pattern, strength, instance, barsAgo, searchMode);
         }
 
-        public int GetPatternBarsAgo(ChartPattern pattern, int strength = 0, int instance = 1, int barsAgo = 0, CacheSearchMode searchMode = CacheSearchMode.Current)
+        public int GetPatternBarsAgo(BarsPattern pattern, int strength = 0, int instance = 1, int barsAgo = 0, CacheSearchMode searchMode = CacheSearchMode.Current)
         {
             return (CurrentBar - GetPattern(pattern, strength, instance, barsAgo, searchMode)?.Idx) ?? -1;
         }
@@ -66,30 +67,30 @@ namespace KrTrade.Nt.Console
             return text;
         }
 
-        public string ToString(BaseBar priceType)
-        {
-            string text = "Bars Cache = [ ";
-            for (int i = 0; i < Count; i++)
-            {
-                switch (priceType)
-                {
-                    case (BaseBar.Open):
-                        text += (this[i].Close).ToString("N2") + " ";
-                        break;
-                    case (BaseBar.High):
-                        text += (this[i].High).ToString("N2") + " ";
-                        break;
-                    case (BaseBar.Low):
-                        text += (this[i].Low).ToString("N2") + " ";
-                        break;
-                    default:
-                        text += (this[i].Close).ToString("N2") + " ";
-                        break;
-                }
-            }
-            text += "]";
-            return text;
-        }
+        //public string ToString(BaseBar priceType)
+        //{
+        //    string text = "Bars Cache = [ ";
+        //    for (int i = 0; i < Count; i++)
+        //    {
+        //        switch (priceType)
+        //        {
+        //            case (BaseBar.Open):
+        //                text += (this[i].Close).ToString("N2") + " ";
+        //                break;
+        //            case (BaseBar.High):
+        //                text += (this[i].High).ToString("N2") + " ";
+        //                break;
+        //            case (BaseBar.Low):
+        //                text += (this[i].Low).ToString("N2") + " ";
+        //                break;
+        //            default:
+        //                text += (this[i].Close).ToString("N2") + " ";
+        //                break;
+        //        }
+        //    }
+        //    text += "]";
+        //    return text;
+        //}
 
         #endregion
 
@@ -144,7 +145,7 @@ namespace KrTrade.Nt.Console
 
         #region Private methods
 
-        private int GetCacheIdx(ChartPattern pattern, int strength = 0, int instance = 1, int barsAgo = 0, CacheSearchMode searchMode = CacheSearchMode.Current)
+        private int GetCacheIdx(BarsPattern pattern, int strength = 0, int instance = 1, int barsAgo = 0, CacheSearchMode searchMode = CacheSearchMode.Current)
         {
             if (instance < 1)
                 throw new Exception(string.Format("Instance should be greater or equal than one.", GetType().Name, instance));
@@ -155,18 +156,18 @@ namespace KrTrade.Nt.Console
 
             switch (pattern)
             {
-                case (ChartPattern.SwingHigh):
+                case (BarsPattern.SwingHigh):
                     return GetCacheIdxOfSwingPattern(SwingType.High, strength, instance, barsAgo, searchMode);
-                case (ChartPattern.SwingLow):
+                case (BarsPattern.SwingLow):
                     return GetCacheIdxOfSwingPattern(SwingType.Low, strength, instance, barsAgo, searchMode);
-                case (ChartPattern.Swing):
+                case (BarsPattern.Swing):
                     return GetCacheIdxOfSwingPattern(SwingType.Indifferent, strength, instance, barsAgo, searchMode);
                 default:
                     return -1;
             }
         }
 
-        private BaseElement GetCachePattern(ChartPattern pattern, int strength = 0, int instance = 1, int barsAgo = 0, CacheSearchMode searchMode = CacheSearchMode.Current)
+        private BaseElement GetCachePattern(BarsPattern pattern, int strength = 0, int instance = 1, int barsAgo = 0, CacheSearchMode searchMode = CacheSearchMode.Current)
         {
             if (instance < 1)
                 throw new Exception(string.Format("Instance should be greater or equal than one.", GetType().Name, instance));
@@ -177,11 +178,11 @@ namespace KrTrade.Nt.Console
 
             switch (pattern)
             {
-                case (ChartPattern.SwingHigh):
+                case (BarsPattern.SwingHigh):
                     return GetSwing(SwingType.High, strength, instance, barsAgo, searchMode);
-                case (ChartPattern.SwingLow):
+                case (BarsPattern.SwingLow):
                     return GetSwing(SwingType.Low, strength, instance, barsAgo, searchMode);
-                case (ChartPattern.Swing):
+                case (BarsPattern.Swing):
                     return GetSwing(strength, instance, barsAgo, searchMode);
                 default:
                     return null;

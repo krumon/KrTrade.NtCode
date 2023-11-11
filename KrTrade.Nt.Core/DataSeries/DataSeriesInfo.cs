@@ -1,7 +1,7 @@
 ﻿using KrTrade.Nt.Core.Logging;
 using NinjaTrader.Data;
 
-namespace KrTrade.Nt.Core
+namespace KrTrade.Nt.Core.DataSeries
 {
     public class DataSeriesInfo
     {

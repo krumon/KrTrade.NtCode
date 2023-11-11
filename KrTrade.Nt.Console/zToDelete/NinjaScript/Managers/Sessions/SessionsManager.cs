@@ -1,6 +1,7 @@
-﻿using NinjaTrader.Data;
+﻿using KrTrade.Nt.Core.NinjaScript;
+using KrTrade.Nt.Core.Sessions;
+using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
-using KrTrade.Nt.DI.Events;
 
 namespace KrTrade.Nt.Console
 {
@@ -79,6 +80,76 @@ namespace KrTrade.Nt.Console
         }
 
         #endregion
+
+        //#region Private members
+
+        ///// <summary>
+        ///// Gets the <see cref="SessionsIterator"/> funcionality.
+        ///// </summary>
+        //private SessionsIterator sessionsIterator;
+
+        //#endregion
+
+        //#region Constructors
+
+        ///// <summary>
+        ///// Creates <see cref="SessionsManager"/> default instance.
+        ///// </summary>
+        //protected SessionsManager() : base()
+        //{
+        //}
+
+        //#endregion
+
+        //#region StateChanged methods
+
+        ///// <summary>
+        ///// Loaded <see cref="SessionsManager"/> in "OnStateChanged" method.
+        ///// </summary>
+        ///// <param name="ninjascript">The ninjascript.</param>
+        ///// <param name="bars">The bars.</param>
+        //public override void Load(NinjaScriptBase ninjascript, Bars bars)
+        //{
+        //    // Call the parent method to load.
+        //    base.Load(ninjascript, bars);
+
+        //    // If we need the session iterator...create him.
+        //    // TODO: Make Sure we need the session iterator object.
+        //    if (Get<SessionsIterator>() == null)
+        //        sessionsIterator =
+        //            (SessionsIterator)CreateManagerBuilderInstance()
+        //            .Add<SessionsIterator, SessionsIteratorConfiguration, SessionsIteratorBuilder>(op => op.AddOrder(EventType.Configure, 0)).Build();
+
+        //    // TODO: Configure the order.
+        //    ExecuteHandlerMethod(EventType.DataLoaded);
+
+        //    // Aggregate the delegates
+        //    ((ISessionsIterator)Get<SessionsIterator>()).SessionChanged += OnSessionChanged;
+
+        //}
+
+        ///// <summary>
+        ///// Method used to free memory when the script is terminate.
+        ///// </summary>
+        //public override void Terminated()
+        //{
+        //    // Disaggregate the delegates.
+        //    sessionsIterator.SessionChanged -= OnSessionChanged;
+
+        //    // Terminated the elements
+        //    // TODO: Configure the order.
+        //    ExecuteHandlerMethod(EventType.Terminated);
+
+        //    //if (HasSessionFilters)
+        //    //    sessionFilters.Terminated();
+        //    //if (HasSessionHours)
+        //    //    sessionHoursList.Terminated();
+        //    //if (HasSessionStats)
+        //    //    sessionStats.Terminated();
+
+        //}
+
+        //#endregion
 
         #region Market Data methods
 

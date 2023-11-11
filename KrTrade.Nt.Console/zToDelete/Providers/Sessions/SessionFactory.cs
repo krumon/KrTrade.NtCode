@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Console.Internal;
+using KrTrade.Nt.Core.Sessions;
 using KrTrade.Nt.DI.Data;
 using System;
 using System.Collections.Generic;

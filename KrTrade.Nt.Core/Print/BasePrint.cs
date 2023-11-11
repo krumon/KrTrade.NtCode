@@ -1,5 +1,6 @@
-﻿using KrTrade.Nt.Core.Core;
-using NinjaTrader.Cbi;
+﻿using KrTrade.Nt.Core.Extensions;
+using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.DataSeries;
 using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
 using System;
@@ -19,7 +20,7 @@ namespace KrTrade.Nt.Core.Print
         public abstract int CurrentBar { get; }
         public abstract DateTime CurrentTime { get; }
         public abstract int BarsInProgress { get; }
-        public abstract Instrument Instrument { get; }
+        public abstract NinjaTrader.Cbi.Instrument Instrument { get; }
         public abstract BarsPeriod BarsPeriod { get; }
 
         public PrintLevel MinLevel { get; set; }

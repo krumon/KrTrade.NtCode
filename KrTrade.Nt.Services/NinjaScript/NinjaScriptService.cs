@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Core;
+﻿using KrTrade.Nt.Core.Events;
 using KrTrade.Nt.Services.Bars;
 using NinjaTrader.NinjaScript;
 using System;

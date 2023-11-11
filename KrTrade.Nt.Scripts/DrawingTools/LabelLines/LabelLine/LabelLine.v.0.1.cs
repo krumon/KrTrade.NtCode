@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Xml.Serialization;
 using KrTrade.Nt.Scripts.DrawingTools;
 using KrTrade.Nt.DI.Data;
+using KrTrade.Nt.Core.Drawing;
 
 #endregion
 

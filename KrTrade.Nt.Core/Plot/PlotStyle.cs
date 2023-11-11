@@ -1,4 +1,4 @@
-﻿namespace KrTrade.Nt.Core.Plots
+﻿namespace KrTrade.Nt.Core.Plot
 {
     public enum PlotStyle
     {

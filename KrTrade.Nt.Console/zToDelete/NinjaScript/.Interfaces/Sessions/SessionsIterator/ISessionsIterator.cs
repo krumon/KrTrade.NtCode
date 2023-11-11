@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.DI.Events;
+﻿using KrTrade.Nt.Core.Sessions;
 using System;
 
 namespace KrTrade.Nt.Console

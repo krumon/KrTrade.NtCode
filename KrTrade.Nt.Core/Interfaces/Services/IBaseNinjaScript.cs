@@ -1,4 +1,6 @@
-﻿using NinjaTrader.NinjaScript;
+﻿using KrTrade.Nt.Core.NinjaScript;
+using KrTrade.Nt.Core.Data;
+using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Core.Interfaces
 {

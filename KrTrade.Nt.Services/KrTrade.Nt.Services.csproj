@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bars\BarService.cs" />
     <Compile Include="Bars\BarsLogOptions.cs" />
     <Compile Include="Bars\BarsService.cs" />
     <Compile Include="Caches\CacheService.cs" />

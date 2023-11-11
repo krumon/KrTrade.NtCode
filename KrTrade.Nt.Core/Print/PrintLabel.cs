@@ -1,5 +1,6 @@
-﻿using KrTrade.Nt.Core.Core;
-using NinjaTrader.Cbi;
+﻿using KrTrade.Nt.Core.Extensions;
+using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.DataSeries;
 using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
 using System;
@@ -82,7 +83,7 @@ namespace KrTrade.Nt.Core.Print
 
             return sb.ToString();
         }
-        public string ToString(State state, int barsInProgress, Instrument instrument, BarsPeriod barsPeriod, int currentBar)
+        public string ToString(State state, int barsInProgress, NinjaTrader.Cbi.Instrument instrument, BarsPeriod barsPeriod, int currentBar)
         {
             StringBuilder sb = new StringBuilder(_label);
 

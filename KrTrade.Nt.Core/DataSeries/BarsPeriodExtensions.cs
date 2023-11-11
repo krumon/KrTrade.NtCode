@@ -1,8 +1,8 @@
-﻿using KrTrade.Nt.Core.Core;
+﻿using KrTrade.Nt.Core.Data;
 using NinjaTrader.Data;
 using System;
 
-namespace KrTrade.Nt.Core
+namespace KrTrade.Nt.Core.DataSeries
 {
 
     /// <summary>
@@ -16,7 +16,8 @@ namespace KrTrade.Nt.Core
         /// </summary>
         /// <param name="barsPeriod"><see cref="BarsPeriod"/> object to convert.</param>
         /// <returns>The <see cref="BarsPeriod"/> long string.</returns>
-        public static string ToString(this BarsPeriod barsPeriod, FormatType formatType)
+        public static string ToString(this BarsPeriod barsPeriod, FormatType
+            formatType)
         {
             if (barsPeriod == null) throw new ArgumentNullException(nameof(barsPeriod));
             switch (formatType)

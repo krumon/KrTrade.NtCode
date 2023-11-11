@@ -16,6 +16,7 @@ using System.Windows;
 using System.ComponentModel.DataAnnotations;
 using KrTrade.Nt.Scripts.DrawingTools;
 using KrTrade.Nt.DI.Data;
+using KrTrade.Nt.Core.Drawing;
 
 #endregion
 

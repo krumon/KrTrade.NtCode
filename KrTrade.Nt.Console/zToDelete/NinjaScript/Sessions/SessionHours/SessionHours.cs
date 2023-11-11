@@ -1,10 +1,10 @@
 ﻿using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
 using KrTrade.Nt.Console.Internal;
-using KrTrade.Nt.DI.Events;
 using System;
 using System.Collections.Generic;
-using KrTrade.Nt.DI.Data;
+using KrTrade.Nt.Core.Sessions;
+using KrTrade.Nt.Core.Data;
 
 namespace KrTrade.Nt.Console
 {

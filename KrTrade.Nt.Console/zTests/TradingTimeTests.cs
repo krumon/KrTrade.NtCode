@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.DI.Data;
+﻿using KrTrade.Nt.Core.TradingAreas;
 
 namespace KrTrade.Nt.Console.Tests
 {

@@ -1,5 +1,7 @@
-﻿using KrTrade.Nt.DI.Data;
-using KrTrade.Nt.DI.Data.Internal;
+﻿using KrTrade.Nt.Console.Internal;
+using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Sessions;
+using KrTrade.Nt.Core.TradingAreas;
 using System;
 using System.Linq;
 

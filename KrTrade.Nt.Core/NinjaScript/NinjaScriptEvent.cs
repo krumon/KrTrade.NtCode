@@ -1,4 +1,4 @@
-﻿namespace KrTrade.Nt.Core
+﻿namespace KrTrade.Nt.Core.NinjaScript
 {
     public enum NinjaScriptEvent
     {

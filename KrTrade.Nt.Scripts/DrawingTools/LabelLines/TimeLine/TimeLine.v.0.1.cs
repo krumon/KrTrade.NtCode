@@ -1,4 +1,5 @@
-﻿using KrTrade.Nt.DI.Data;
+﻿using KrTrade.Nt.Core.Drawing;
+using KrTrade.Nt.DI.Data;
 
 namespace NinjaTrader.NinjaScript.DrawingTools
 {

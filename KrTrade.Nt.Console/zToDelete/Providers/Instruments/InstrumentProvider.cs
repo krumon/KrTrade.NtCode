@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Console;
+using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.DI.Data;
 using KrTrade.Nt.DI.Services;
 using System;

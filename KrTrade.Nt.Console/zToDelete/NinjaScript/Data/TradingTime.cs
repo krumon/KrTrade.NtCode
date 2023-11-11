@@ -1,6 +1,7 @@
-﻿using KrTrade.Nt.Core.Core;
-using KrTrade.Nt.DI.Data;
-using KrTrade.Nt.DI.Events;
+﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Helpers;
+using KrTrade.Nt.Core.Sessions;
+using KrTrade.Nt.Core.TradingAreas;
 using System;
 
 namespace KrTrade.Nt.Console

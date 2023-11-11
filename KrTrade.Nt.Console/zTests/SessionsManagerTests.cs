@@ -1,7 +1,7 @@
 ﻿using NinjaTrader.NinjaScript;
 using System;
-using KrTrade.Nt.DI.Data;
-using KrTrade.Nt.DI.Events;
+using KrTrade.Nt.Core.Sessions;
+using KrTrade.Nt.Core.NinjaScript;
 
 namespace KrTrade.Nt.Console.Tests
 {

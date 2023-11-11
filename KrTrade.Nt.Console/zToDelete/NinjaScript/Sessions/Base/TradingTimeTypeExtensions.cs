@@ -1,4 +1,5 @@
-﻿using KrTrade.Nt.DI.Data;
+﻿using KrTrade.Nt.Core.TradingAreas;
+using KrTrade.Nt.Core.Data;
 using System;
 
 namespace KrTrade.Nt.Console

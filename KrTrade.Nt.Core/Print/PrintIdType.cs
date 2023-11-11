@@ -1,4 +1,4 @@
-﻿namespace KrTrade.Nt.Core
+﻿namespace KrTrade.Nt.Core.Print
 {
     /// <summary>
     /// The id of the print object.

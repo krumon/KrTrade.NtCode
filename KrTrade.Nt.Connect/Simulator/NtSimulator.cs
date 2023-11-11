@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.DI.Data;
+﻿using KrTrade.Nt.Core.Bars;
 using System;
 using System.Timers;
 
@@ -9,7 +9,7 @@ namespace KrTrade.Nt.Connect
 
         #region Events
 
-        public event Action<TradingBar> BarUpdated = (currentBar) => { };
+        public event Action<Bar> BarUpdated = (currentBar) => { };
 
         #endregion
 
@@ -19,7 +19,7 @@ namespace KrTrade.Nt.Connect
         private int speedFactor=0;
         
         protected Timer timer;
-        protected TradingBar bar;
+        protected Bar bar;
 
         #endregion
 
@@ -111,7 +111,7 @@ namespace KrTrade.Nt.Connect
 
         #region Virtual methods
 
-        public virtual void OnBarUpdate(TradingBar currentBar)
+        public virtual void OnBarUpdate(Bar currentBar)
         {
         }
 
@@ -122,12 +122,12 @@ namespace KrTrade.Nt.Connect
         private void BarUpdate()
         {
             if (bar == null)
-                bar = new TradingBar(0, 0, 0, 0, 0, 0, DateTime.Now);
+                bar = new Bar(0, 0, 0, 0, 0, 0, DateTime.Now);
             else
             {
-                bar.Idx++;
-                bar.Time += TimeSpan.FromMilliseconds(Speed);
-                bar.Open += 1;
+                //bar.Idx++;
+                //bar.Time += TimeSpan.FromMilliseconds(Speed);
+                //bar.Open += 1;
             }
         }
 

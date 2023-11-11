@@ -1,4 +1,6 @@
-﻿using KrTrade.Nt.DI.Data;
+﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Sessions;
+using KrTrade.Nt.Core.TradingAreas;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,7 +11,8 @@ namespace KrTrade.Nt.Console.Internal
     /// <summary>
     /// Contents trading session information.
     /// </summary>
-    internal class TradingSession : BaseElement, ISessions
+    //internal class TradingSession : BaseElement, ISessions
+    public class TradingSession : BaseElement, ISessions
     {
 
         #region Consts

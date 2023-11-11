@@ -1,4 +1,5 @@
-﻿using KrTrade.Nt.DI.Events;
+﻿using KrTrade.Nt.Core.NinjaScript;
+using KrTrade.Nt.Core.Sessions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

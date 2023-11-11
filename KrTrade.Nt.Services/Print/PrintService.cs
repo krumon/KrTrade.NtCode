@@ -1,6 +1,6 @@
-﻿using KrTrade.Nt.Core.Core;
+﻿using KrTrade.Nt.Core.Extensions;
+using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.Print;
-using NinjaTrader.Cbi;
 using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
 using System;
@@ -33,7 +33,7 @@ namespace KrTrade.Nt.Services
         /// <inheritdoc/>
         public override DateTime CurrentTime => _ninjascript.Times[BarsInProgress][0];
         /// <inheritdoc/>
-        public override Instrument Instrument => _ninjascript.BarsArray[BarsInProgress].Instrument;
+        public override NinjaTrader.Cbi.Instrument Instrument => _ninjascript.BarsArray[BarsInProgress].Instrument;
         /// <inheritdoc/>
         public override BarsPeriod BarsPeriod => _ninjascript.BarsPeriods[BarsInProgress];
 

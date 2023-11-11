@@ -1,4 +1,6 @@
-﻿using KrTrade.Nt.DI.Data;
+﻿using KrTrade.Nt.Core.Bars;
+using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.DataSeries;
 
 namespace KrTrade.Nt.Scripts.NinjatraderObjects.Design
 {

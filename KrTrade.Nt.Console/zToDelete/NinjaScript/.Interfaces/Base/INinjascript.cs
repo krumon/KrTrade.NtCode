@@ -1,6 +1,7 @@
-﻿using NinjaTrader.Data;
+﻿using KrTrade.Nt.Core.NinjaScript;
+using KrTrade.Nt.Core.Sessions;
+using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
-using KrTrade.Nt.DI.Events;
 
 namespace KrTrade.Nt.Console
 {

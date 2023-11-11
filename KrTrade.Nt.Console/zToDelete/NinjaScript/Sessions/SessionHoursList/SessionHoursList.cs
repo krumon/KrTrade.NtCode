@@ -2,7 +2,7 @@
 using NinjaTrader.NinjaScript;
 using System;
 using System.Collections.Generic;
-using KrTrade.Nt.DI.Events;
+using KrTrade.Nt.Core.Sessions;
 
 namespace KrTrade.Nt.Console
 {

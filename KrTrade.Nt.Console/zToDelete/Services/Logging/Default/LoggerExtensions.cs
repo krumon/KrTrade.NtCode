@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Core.Core;
+﻿using KrTrade.Nt.Core.Extensions;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;

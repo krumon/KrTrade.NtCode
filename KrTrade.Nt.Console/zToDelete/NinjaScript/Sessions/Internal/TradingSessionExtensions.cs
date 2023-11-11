@@ -1,4 +1,6 @@
-﻿using KrTrade.Nt.DI.Data;
+﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Sessions;
+using KrTrade.Nt.DI.Data;
 
 namespace KrTrade.Nt.Console.Internal
 {

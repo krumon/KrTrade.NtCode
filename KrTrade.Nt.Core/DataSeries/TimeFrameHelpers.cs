@@ -1,7 +1,7 @@
 ﻿using NinjaTrader.Data;
 using System;
 
-namespace KrTrade.Nt.Core
+namespace KrTrade.Nt.Core.DataSeries
 {
     /// <summary>
     /// Helper methods to converts from <see cref="TimeFrame"/> to other objects or converts any object to <see cref="TimeFrame"/>.

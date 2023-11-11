@@ -1,8 +1,9 @@
-﻿using NinjaTrader.Gui.Chart;
-using KrTrade.Nt.DI.Data;
+﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.DataSeries;
+using NinjaTrader.Gui.Chart;
 using System;
 using System.Text;
-using BarsPeriod = KrTrade.Nt.DI.Data.BarsPeriod;
+using BarsPeriod = KrTrade.Nt.Core.Bars.BarsPeriod;
 
 namespace KrTrade.Nt.Scripts.NinjatraderObjects
 {

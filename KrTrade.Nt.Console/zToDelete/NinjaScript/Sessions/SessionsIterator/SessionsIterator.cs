@@ -1,7 +1,7 @@
-﻿using NinjaTrader.Core;
+﻿using KrTrade.Nt.Core.Sessions;
+using NinjaTrader.Core;
 using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
-using KrTrade.Nt.DI.Events;
 using System;
 using System.Collections.Generic;
 

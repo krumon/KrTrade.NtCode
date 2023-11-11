@@ -1,4 +1,6 @@
-﻿namespace KrTrade.Nt.Core.Interfaces
+﻿using KrTrade.Nt.Core.Events;
+
+namespace KrTrade.Nt.Core.Interfaces
 {
     public interface IBarUpdateService //: IBaseNinjaScriptService
     {

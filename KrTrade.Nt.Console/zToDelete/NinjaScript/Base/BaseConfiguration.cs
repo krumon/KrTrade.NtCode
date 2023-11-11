@@ -1,7 +1,7 @@
-﻿using KrTrade.Nt.Core.Core;
+﻿using KrTrade.Nt.Core.Helpers;
+using KrTrade.Nt.Core.NinjaScript;
 using NinjaTrader.NinjaScript;
 using System.Collections.Generic;
-using KrTrade.Nt.DI.Events;
 
 namespace KrTrade.Nt.Console
 {

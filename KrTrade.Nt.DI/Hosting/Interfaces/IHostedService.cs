@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using KrTrade.Nt.Core.Interfaces;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace KrTrade.Nt.DI.Hosting

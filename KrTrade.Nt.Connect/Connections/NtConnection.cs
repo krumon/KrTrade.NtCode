@@ -1,7 +1,7 @@
 ﻿using NinjaTrader.Client;
-using KrTrade.Nt.DI.Data;
 using System;
 using System.Timers;
+using KrTrade.Nt.Core.Data;
 
 namespace KrTrade.Nt.Connect
 {

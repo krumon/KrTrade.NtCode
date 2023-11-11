@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.DI.Events;
+﻿using KrTrade.Nt.Core.NinjaScript;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
