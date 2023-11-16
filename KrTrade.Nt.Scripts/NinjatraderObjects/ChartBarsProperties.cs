@@ -3,7 +3,7 @@ using KrTrade.Nt.Core.DataSeries;
 using NinjaTrader.Gui.Chart;
 using System;
 using System.Text;
-using BarsPeriod = KrTrade.Nt.Core.Bars.BarsPeriod;
+//using BarsPeriod = KrTrade.Nt.Core.Bars.BarsPeriod;
 
 namespace KrTrade.Nt.Scripts.NinjatraderObjects
 {
@@ -11,7 +11,7 @@ namespace KrTrade.Nt.Scripts.NinjatraderObjects
     {
         private readonly ChartBars _chartBars;
 
-        public BarsPeriod BarsPeriod { get; set; }
+        //public BarsPeriod BarsPeriod { get; set; }
         public string InstrumentName { get; set; }
         public string TradingHoursName { get; set; }
         public bool IsConfigured { get; protected set; }
@@ -33,12 +33,12 @@ namespace KrTrade.Nt.Scripts.NinjatraderObjects
         {
             TradingHoursName = _chartBars.Properties.TradingHoursInstance.Name;
             InstrumentName = _chartBars.Properties.Instrument.Split(' ')[0];
-            BarsPeriod = new BarsPeriod
-            {
-                PeriodType = (PeriodType)(int)_chartBars.Properties.BarsPeriod.BarsPeriodType,
-                PeriodValue = _chartBars.Properties.BarsPeriod.Value,
-                MarketDataType = (MarketDataType)_chartBars.Properties.BarsPeriod.MarketDataType
-            };
+            //BarsPeriod = new BarsPeriod
+            //{
+            //    PeriodType = (PeriodType)(int)_chartBars.Properties.BarsPeriod.BarsPeriodType,
+            //    PeriodValue = _chartBars.Properties.BarsPeriod.Value,
+            //    MarketDataType = (MarketDataType)_chartBars.Properties.BarsPeriod.MarketDataType
+            //};
             IsConfigured = true;
         }
 
@@ -46,12 +46,12 @@ namespace KrTrade.Nt.Scripts.NinjatraderObjects
         {
             TradingHoursName = "DesignTradingHoursName";
             InstrumentName = "DesignInstrumentName";
-            BarsPeriod = new BarsPeriod
-            {
-                PeriodType = PeriodType.Minute,
-                PeriodValue = 1,
-                MarketDataType = MarketDataType.Last
-            };
+            //BarsPeriod = new BarsPeriod
+            //{
+            //    PeriodType = PeriodType.Minute,
+            //    PeriodValue = 1,
+            //    MarketDataType = MarketDataType.Last
+            //};
             IsConfigured = true;
         }
 
@@ -66,9 +66,9 @@ namespace KrTrade.Nt.Scripts.NinjatraderObjects
             StringBuilder builder = new StringBuilder();
             builder.Append($"Instrument: {InstrumentName} ");
             builder.Append($"| TradingHours: {TradingHoursName} ");
-            builder.Append($"| Price: {BarsPeriod.MarketDataType} ");
-            builder.Append($"| Interval: {BarsPeriod.PeriodType} ");
-            builder.Append($"| Value: {BarsPeriod.PeriodValue} ");
+            //builder.Append($"| Price: {BarsPeriod.MarketDataType} ");
+            //builder.Append($"| Interval: {BarsPeriod.PeriodType} ");
+            //builder.Append($"| Value: {BarsPeriod.PeriodValue} ");
             return builder.ToString();
         }
     }

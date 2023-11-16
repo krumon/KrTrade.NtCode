@@ -14,12 +14,12 @@ namespace KrTrade.Nt.Scripts.NinjatraderObjects.Design
         {
             TradingHoursName = "DesignTradingHoursName";
             InstrumentName = "DesignInstrumentName";
-            BarsPeriod = new BarsPeriod
-            {
-                PeriodType = PeriodType.Minute,
-                PeriodValue = 1,
-                MarketDataType = MarketDataType.Last
-            };
+            //BarsPeriod = new BarsPeriod
+            //{
+            //    PeriodType = PeriodType.Minute,
+            //    PeriodValue = 1,
+            //    MarketDataType = MarketDataType.Last
+            //};
             IsConfigured = true;
         }
     }

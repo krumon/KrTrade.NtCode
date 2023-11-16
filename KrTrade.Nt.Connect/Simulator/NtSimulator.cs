@@ -122,7 +122,7 @@ namespace KrTrade.Nt.Connect
         private void BarUpdate()
         {
             if (bar == null)
-                bar = new Bar(0, 0, 0, 0, 0, 0, DateTime.Now);
+                bar = new Bar();
             else
             {
                 //bar.Idx++;

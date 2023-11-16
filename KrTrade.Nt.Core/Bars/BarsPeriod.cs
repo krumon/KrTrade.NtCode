@@ -1,68 +1,68 @@
-﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core.DataSeries;
+﻿//using KrTrade.Nt.Core.Data;
+//using KrTrade.Nt.Core.DataSeries;
 
-namespace KrTrade.Nt.Core.Bars
-{
-    public class BarsPeriod
-    {
-        #region Private members
+//namespace KrTrade.Nt.Core.Bars
+//{
+//    public class BarsPeriod
+//    {
+//        #region Private members
 
-        private int _periodValue;
+//        private int _periodValue;
 
-        #endregion
+//        #endregion
 
-        #region Public properties
+//        #region Public properties
 
-        /// <summary>
-        /// Gets or sets bars period type.
-        /// </summary>
-        public PeriodType PeriodType { get; set; }
+//        /// <summary>
+//        /// Gets or sets bars period type.
+//        /// </summary>
+//        public PeriodType PeriodType { get; set; }
 
-        /// <summary>
-        /// Gets or sets the bars period value.
-        /// </summary>
-        public int PeriodValue
-        {
-            get => _periodValue;
-            set
-            {
-                if (_periodValue != value)
-                {
-                    if (value < 1)
-                        return;
+//        /// <summary>
+//        /// Gets or sets the bars period value.
+//        /// </summary>
+//        public int PeriodValue
+//        {
+//            get => _periodValue;
+//            set
+//            {
+//                if (_periodValue != value)
+//                {
+//                    if (value < 1)
+//                        return;
 
-                    _periodValue = value;
-                }
-            }
-        }
+//                    _periodValue = value;
+//                }
+//            }
+//        }
 
-        /// <summary>
-        /// Gets or sets the bars market data type.
-        /// </summary>
-        public MarketDataType MarketDataType { get; set; }
+//        /// <summary>
+//        /// Gets or sets the bars market data type.
+//        /// </summary>
+//        public MarketDataType MarketDataType { get; set; }
 
-        #endregion
+//        #endregion
 
-        #region Constructors
+//        #region Constructors
 
-        public BarsPeriod() : this(PeriodType.Minute, 1)
-        {
-        }
+//        public BarsPeriod() : this(PeriodType.Minute, 1)
+//        {
+//        }
 
-        public BarsPeriod(PeriodType type) : this(type, 1)
-        {
-        }
+//        public BarsPeriod(PeriodType type) : this(type, 1)
+//        {
+//        }
 
-        public BarsPeriod(int period) : this(PeriodType.Minute, period)
-        {
-        }
+//        public BarsPeriod(int period) : this(PeriodType.Minute, period)
+//        {
+//        }
 
-        public BarsPeriod(PeriodType type, int period)
-        {
-            PeriodType = type;
-            PeriodValue = period;
-        }
+//        public BarsPeriod(PeriodType type, int period)
+//        {
+//            PeriodType = type;
+//            PeriodValue = period;
+//        }
 
-        #endregion
-    }
-}
+//        #endregion
+//    }
+//}

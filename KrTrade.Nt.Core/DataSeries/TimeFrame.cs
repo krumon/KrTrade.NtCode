@@ -6,6 +6,10 @@
     public enum TimeFrame
     {
         /// <summary>
+        /// The same time frame of the primary bars.
+        /// </summary>
+        Default,
+        /// <summary>
         /// 1 tick data frame.
         /// </summary>
         t1,

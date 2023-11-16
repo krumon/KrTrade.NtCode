@@ -54,7 +54,7 @@
     <Compile Include="Bars\BarsStateExtensions.cs" />
     <Compile Include="Bars\BarPattern.cs" />
     <Compile Include="Bars\BarType.cs" />
-    <Compile Include="Caches\BaseCache.cs" />
+    <Compile Include="Caches\Cache.cs" />
     <Compile Include="Data\Formats\TimeFormat.cs" />
     <Compile Include="DataSeries\BarsPeriodExtensions.cs" />
     <Compile Include="DataSeries\DataSerie.cs" />

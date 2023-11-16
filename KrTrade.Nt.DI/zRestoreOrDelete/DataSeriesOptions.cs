@@ -1,6 +1,6 @@
-﻿namespace KrTrade.Nt.DI.Services
-{
-    public class DataSeriesOptions
-    {
-    }
-}
+﻿//namespace KrTrade.Nt.DI.Services
+//{
+//    public class DataSeriesOptions
+//    {
+//    }
+//}

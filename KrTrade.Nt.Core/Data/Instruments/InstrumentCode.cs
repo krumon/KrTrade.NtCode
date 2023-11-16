@@ -5,11 +5,29 @@
     /// </summary>
     public enum InstrumentCode
     {
+        /// <summary>
+        /// the same instrument code of the primary bars.
+        /// </summary>
         Default,
+        /// <summary>
+        /// Mrico Standard and Poor future index.
+        /// </summary>
         MES,
+        /// <summary>
+        /// Mini Standard and Poor future index.
+        /// </summary>
         ES,
+        /// <summary>
+        /// ??????
+        /// </summary>
         EMD,
+        /// <summary>
+        /// Micro Nasdaq future index.
+        /// </summary>
         MNQ,
+        /// <summary>
+        /// Nasdaq index
+        /// </summary>
         NQ,
         RTY,
         M2K,

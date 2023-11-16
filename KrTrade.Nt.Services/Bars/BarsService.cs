@@ -1,15 +1,19 @@
 ﻿using KrTrade.Nt.Core.Bars;
+using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.DataSeries;
 using KrTrade.Nt.Core.Events;
 using KrTrade.Nt.Core.Interfaces;
-using KrTrade.Nt.Core.Print;
+using KrTrade.Nt.Services.Bars;
 using NinjaTrader.Core.FloatingPoint;
+using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
 using System;
 using System.Collections.Generic;
 
-namespace KrTrade.Nt.Services.Bars
+namespace KrTrade.Nt.Services
 {
-    public class BarsService : 
+    public class BarsService : BaseBarsService,
+        INeedConfiguration,
         IConfigureService,
         IDataLoadedService,
         IOnBarUpdateService
@@ -17,200 +21,238 @@ namespace KrTrade.Nt.Services.Bars
 
         #region Private members
 
-        private readonly NinjaScriptBase _ninjascript;
-        private readonly PrintService _printSvc;
-
+        // Configuration
         private bool _isInitialized;
         private bool _isConfigured;
-        //private int[] _saveCurrentBars;
-        //private double[] _saveCurrentPrices;
-
-        private BarService[] _lastBars;
-        private BarService[] _currentBars;
-
-        private List<Dictionary<BarsState, bool>> _states;
+        // Last and current Bar
+        private LastBarService _lastBar;
+        private LastBarService _currentBar;
+        // State
+        private Dictionary<BarsState, bool> _states;
+        // Logging
         private List<string> _logLines;
-        private readonly BarsLogOptions _logOptions;
-
+        private BarsLogOptions _logOptions;
+        // Execute methods
         private List<Action> _onBarUpdateMethods;
         private List<Action> _onLastBarRemovedMethods;
         private List<Action> _onBarClosedMethods;
         private List<Action> _onPriceChangedMethods;
         private List<Action> _onEachTickMethods;
         private List<Action> _onFirstTickMethods;
+        // Fields
+        private BarsPeriod _barsPeriod;
 
         #endregion
 
         #region Public properties
 
         /// <summary>
-        /// True, if service is configured, otherwise false.
-        /// For the service to be configured, the 'Configure' and 'DataLoaded' methods must be executed.
+        /// Indicates the service is configured.
         /// </summary>
         public bool IsConfigured => _isConfigured;
 
         /// <summary>
-        /// Gets the last bar of the bars in progress.
+        /// Gets the bars index in the 'NinjaScript.BarsArray'.
         /// </summary>
-        public BarService LastBar => GetLastBar(_ninjascript.BarsInProgress);
+        public int Idx { get; private set; }
 
         /// <summary>
         /// Gets the last bar of the bars in progress.
         /// </summary>
-        public BarService CurrentBar => GetLastBar(_ninjascript.BarsInProgress);
+        public LastBarService LastBar => _lastBar;
+
+        /// <summary>
+        /// Gets the last bar of the bars in progress.
+        /// </summary>
+        public LastBarService CurrentBar => _currentBar;
+
+        /// <summary>
+        /// Gets or sets the instrument point value.
+        /// </summary>
+        public double PointValue => IsInActiveStates() ? _ninjascript.BarsArray[Idx].Instrument.MasterInstrument.PointValue : -1;
+
+        /// <summary>
+        /// Gets or sets the instrument tick size.
+        /// </summary>
+        public double TickSize => IsInActiveStates() ? _ninjascript.BarsArray[Idx].Instrument.MasterInstrument.TickSize : -1;
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Create <see cref="BaseBars"/> new instance.
+        /// Create <see cref="BarsService"/> instance.
         /// </summary>
-        /// <param name="printSvc">The <see cref="BasePrint"/> service injected.</param>
-        public BarsService(NinjaScriptBase ninjascript, PrintService printSvc) : this(ninjascript, printSvc, null)
+        /// <param name="ninjascript">The NinjaScript to inject in the service.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="ninjascript"/> argument cannot be null.</exception>
+        public BarsService(NinjaScriptBase ninjascript) : this(ninjascript, InstrumentCode.Default, TimeFrame.Default)
         {
         }
 
         /// <summary>
-        /// Create <see cref="BaseBars"/> new instance.
+        /// Create <see cref="BarsService"/> instance.
         /// </summary>
-        /// <param name="printSvc">The <see cref="BasePrint"/> service injected.</param>
-        /// <param name="options">the bars logging options.</param>
-        public BarsService(NinjaScriptBase ninjascript, PrintService printSvc, BarsLogOptions options)
+        /// <param name="ninjascript">The NinjaScript to inject in the service.</param>
+        /// <param name="timeFrame">The time frame of the DataSeries.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="ninjascript"/> argument cannot be null.</exception>
+        public BarsService(NinjaScriptBase ninjascript, TimeFrame timeFrame) : this(ninjascript,InstrumentCode.Default, timeFrame)
+        { 
+        }
+
+        /// <summary>
+        /// Create <see cref="BarsService"/> instance.
+        /// </summary>
+        /// <param name="ninjascript">The NinjaScript to inject in the service.</param>
+        /// <param name="instrumentCode">The instrument of the DataSeries.</param>
+        /// <param name="timeFrame">The time frame of the DataSeries.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="ninjascript"/> argument cannot be null.</exception>
+        public BarsService(NinjaScriptBase ninjascript, InstrumentCode instrumentCode, TimeFrame timeFrame) : base(ninjascript, instrumentCode, timeFrame)
         {
-            _ninjascript = ninjascript ?? throw new System.NotImplementedException();
+        }
 
-            if (_ninjascript.State != State.Configure)
-                throw new Exception("The services instance must be created in 'NinjaScript.OnStateChanged' method when 'State = State.Configure'");
+        /// <summary>
+        /// Create <see cref="BarsService"/> instance.
+        /// </summary>
+        /// <param name="ninjascript">The NinjaScript to inject in the service.</param>
+        /// <param name="printService">The print service to write in the NinjaScript output window.</param>
+        /// <param name="instrumentCode">The instrument of the DataSeries.</param>
+        /// <param name="timeFrame">The time frame of the DataSeries.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="ninjascript"/> argument cannot be null.</exception>
+        public BarsService(NinjaScriptBase ninjascript, PrintService printService, InstrumentCode instrumentCode, TimeFrame timeFrame) : base(ninjascript, printService, instrumentCode, timeFrame)
+        {
+        }
 
-            _printSvc = printSvc;
-            _logOptions = options ?? new BarsLogOptions();
+        /// <summary>
+        /// Create <see cref="BarsService"/> instance.
+        /// </summary>
+        /// <param name="ninjascript">The NinjaScript to inject in the service.</param>
+        /// <param name="printService">The print service to write in the NinjaScript output window.</param>
+        /// <param name="instrumentCode">The instrument of the DataSeries.</param>
+        /// <param name="timeFrame">The time frame of the DataSeries.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="ninjascript"/> argument cannot be null.</exception>
+        public BarsService(MultiTimeFrameService multiTimeFrameService, InstrumentCode instrumentCode, TimeFrame timeFrame) : base(multiTimeFrameService?._ninjascript, multiTimeFrameService?._printService, instrumentCode, timeFrame)
+        {
+            multiTimeFrameService.AddDataSeries(this);
         }
 
         #endregion
 
-        #region Public methods
+        #region Implementation methods
 
         /// <summary>
-        /// A method which is called we want configure the service.
+        /// <inheritdoc/>
         /// </summary>
+        /// <exception cref="Exception">The 'NinjaScript.State' must be 'State.Configure' or 'State.DataLoaded'.</exception>
         public void Configure()
         {
             if (_isConfigured || _isInitialized)
                 return;
 
-            _states = new List<Dictionary<BarsState, bool>>();
+            if (!IsInConfigurationStates())
+                throw new Exception($"The configuration methods of {Name}, must be executed when 'NinjaScript.State' is 'Configure' or 'DataLoaded'.");
+
+            _states = new Dictionary<BarsState, bool>()
+            {
+                [BarsState.None] = false,
+                [BarsState.LastBarRemoved] = false,
+                [BarsState.BarClosed] = false,
+                [BarsState.FirstTick] = false,
+                [BarsState.PriceChanged] = false,
+                [BarsState.Tick] = false
+            };
+
             _logLines = new List<string>();
 
-            for (int i = 0; i < _ninjascript.BarsArray.Length; i++)
-            {
-                _states.Add(new Dictionary<BarsState, bool>()
-                {
-                    [BarsState.None] = false,
-                    [BarsState.LastBarRemoved] = false,
-                    [BarsState.BarClosed] = false,
-                    [BarsState.FirstTick] = false,
-                    [BarsState.PriceChanged] = false,
-                    [BarsState.Tick] = false
-                });
-            }
-
             _isInitialized = true;
-
         }
 
         /// <summary>
-        /// A method which is called we want configure the service when ninjascript data is loaded.
+        /// <inheritdoc/>
         /// </summary>
+        /// <exception cref="Exception">The 'NinjaScript.State' must be 'State.DataLoaded'.</exception>
         public void DataLoaded()
         {
             if (_isConfigured)
                 return;
 
+            if (_ninjascript.State != State.DataLoaded)
+                throw new Exception("The service must be configured when ninjascript data is loaded in 'OnStateChanged.State.DataLoaded'.");
+
             if (!_isInitialized)
-                throw new Exception("The 'Configure' method must be executed before 'DataLoaded' method.");
+                Configure();
 
-            //_saveCurrentBars = new int[_ninjascript.BarsArray.Length];
-            //_saveCurrentPrices = new double[_ninjascript.BarsArray.Length];
-            //InitializeArray(_saveCurrentBars, -1);
-            //InitializeArray(_saveCurrentPrices, 0);
+            for (int i = 0; i<_ninjascript.BarsArray.Length; i++)
+                if (_ninjascript.BarsArray[i].Instrument.MasterInstrument.Name == InstrumentName)
+                    if (_ninjascript.BarsPeriods[i] == BarsPeriod)
+                    {
+                        Idx = i;
+                        break;
+                    }
 
-            _lastBars = new BarService[_ninjascript.BarsArray.Length];
-            _currentBars = new BarService[_ninjascript.BarsArray.Length];
-            InitializeArray(_lastBars);
-            InitializeArray(_currentBars);
+            if (Idx == -1)
+                return;
+
+            _lastBar = new LastBarService(_ninjascript,this,_printService);
+            _currentBar = new LastBarService(_ninjascript, this,_printService);
 
             _isConfigured = true;
+
+            OnInit();
         }
 
         /// <summary>
-        /// An event driven method which is called whenever a bar is updated.
+        /// <inheritdoc/>
         /// </summary>
+        /// <exception cref="Exception">The 'NinjaScript.State' must be 'State.Historical' or 'State.Realtime'.</exception>
         public void OnBarUpdate()
         {
-            if (_ninjascript.State != State.Historical && _ninjascript.State != State.Realtime)
+            if (_ninjascript.BarsInProgress < 0 || _ninjascript.BarsInProgress != Idx)
                 return;
+
+            if (_ninjascript.State != State.Historical && _ninjascript.State != State.Realtime )
+                throw new Exception("The Bars service must be executed in 'NinjaScript.OnBarUpdate' method.");
 
             if (!_isConfigured)
-            {
-                _printSvc.Write("The services must be configure in the 'NinjaScript.OnStateChanged' method, when the 'State==State.Configure' and 'State==State.DataLoaded'.");
-                _printSvc.Write("We try configure it.");
+                throw new Exception("The Bars service must be configured before being executed in 'OnBarUpdate' method.");
 
-                Init();
-                //return;
-            }
+            //int barsInProgress = _ninjascript.BarsInProgress;
 
-            if (_ninjascript.BarsInProgress < 0 || _ninjascript.CurrentBar < 0)
-                return;
-
-            int barsInProgress = _ninjascript.BarsInProgress;
-            
-            _currentBars[barsInProgress].OnBarUpdate();
-            
-            //int currentBar = CurrentBar;
-            //double currentPrice = CurrentPrice;
-
-            BarService currentBar = GetCurrentBar(barsInProgress);
-            BarService lastBar = GetLastBar(barsInProgress);
-
-            ResetStates(barsInProgress);
+            _currentBar.OnBarUpdate();
+            ResetStates();
             ExecuteMethods(_onBarUpdateMethods);
 
             // LasBarRemoved
-            //if (IsRemoveLastBarSupported && currentBar < _saveCurrentBars[barsInProgress])
-            if (_ninjascript.BarsArray[_ninjascript.BarsInProgress].BarsType.IsRemoveLastBarSupported && currentBar.Idx < lastBar.Idx)
+            if (_ninjascript.BarsArray[Idx].BarsType.IsRemoveLastBarSupported && _currentBar.Idx < _lastBar.Idx)
             {
-                SetStateValue(barsInProgress, BarsState.LastBarRemoved, true);
+                SetStateValue(BarsState.LastBarRemoved, true);
                 OnLastBarRemoved();
                 ExecuteMethods(_onLastBarRemovedMethods);
-                //PrintState();
             }
             else
             {
                 // BarClosed Or First tick success
-                //if (currentBar != _saveCurrentBars[barsInProgress])
-                if (currentBar.Idx != lastBar.Idx)
+                if (_currentBar.Idx != _lastBar.Idx)
                 {
-                    SetStateValue(barsInProgress, BarsState.BarClosed, true);
+                    SetStateValue(BarsState.BarClosed, true);
                     OnBarClosed();
                     ExecuteMethods(_onBarClosedMethods);
 
                     if (_ninjascript.Calculate != Calculate.OnBarClose)
                     {
-                        SetStateValue(barsInProgress, BarsState.FirstTick, true);
+                        SetStateValue(BarsState.FirstTick, true);
                         OnFirstTick();
                         ExecuteMethods(_onFirstTickMethods);
 
-                        if (lastBar.Close.ApproxCompare(currentBar.Close) != 0)
+                        if (_lastBar.Close.ApproxCompare(_currentBar.Close) != 0)
                         {
-                            SetStateValue(barsInProgress, BarsState.PriceChanged, true);
-                            OnPriceChanged(new PriceChangedEventArgs(lastBar.Close, currentBar.Close));
+                            SetStateValue(BarsState.PriceChanged, true);
+                            OnPriceChanged(new PriceChangedEventArgs(_lastBar.Close, _currentBar.Close));
                             ExecuteMethods(_onPriceChangedMethods);
                         }
 
                         if (_ninjascript.Calculate == Calculate.OnEachTick)
                         {
-                            SetStateValue(barsInProgress, BarsState.Tick, true);
+                            SetStateValue(BarsState.Tick, true);
                             OnEachTick(new TickEventArgs(true));
                             ExecuteMethods(_onEachTickMethods);
                         }
@@ -220,45 +262,26 @@ namespace KrTrade.Nt.Services.Bars
                 // Tick Success
                 else
                 {
-                    if (lastBar.Close.ApproxCompare(currentBar.Close) != 0)
+                    if (_lastBar.Close.ApproxCompare(_currentBar.Close) != 0)
                     {
-                        SetStateValue(barsInProgress, BarsState.PriceChanged, true);
-                        OnPriceChanged(new PriceChangedEventArgs(lastBar.Close, currentBar.Close));
+                        SetStateValue(BarsState.PriceChanged, true);
+                        OnPriceChanged(new PriceChangedEventArgs(_lastBar.Close, _currentBar.Close));
                     }
                     if (_ninjascript.Calculate == Calculate.OnEachTick)
                     {
-                        SetStateValue(barsInProgress, BarsState.Tick, true);
+                        SetStateValue(BarsState.Tick, true);
                         OnEachTick(new TickEventArgs(false));
                     }
                 }
             }
 
-            currentBar.CopyTo(lastBar);
-            //_saveCurrentBars[barsInProgress] = currentBar;
-            //_saveCurrentPrices[barsInProgress] = currentPrice;
-            //PrintState();
-        }
-
-        /// <summary>
-        /// Prints the states of the bars.
-        /// </summary>
-        public void PrintState()
-        {
-            if (_logLines == null || _logLines.Count == 0)
-                return;
-            string stateText = _logOptions.Label;
-            for (int i = 0; i < _logLines.Count; i++)
-            {
-                stateText += _logLines[i];
-                if (i != _logLines.Count - 1)
-                    stateText += _logOptions.StatesSeparator;
-            }
-            _printSvc?.Write(stateText);
+            _currentBar.CopyTo(_lastBar);
+            PrintState();
         }
 
         #endregion
 
-        #region Internal and Protected methods
+        #region Public methods
 
         /// <summary>
         /// Add the <see cref="INeedBarsService"/> methods to execute when any changed is produced in the bars.
@@ -318,41 +341,45 @@ namespace KrTrade.Nt.Services.Bars
         }
 
         /// <summary>
-        /// Initialize the service.
+        /// Add the print service for print in the NinjScript output window.
         /// </summary>
-        /// <exception cref="Exception"></exception>
-        protected void Init()
+        /// <param name="printSvc">The print service.</param>
+        public void AddPrintService(PrintService printSvc) => AddPrintService(printSvc, null);
+
+        /// <summary>
+        /// Add the print service for print in the NinjScript output window.
+        /// </summary>
+        /// <param name="printSvc">The print service.</param>
+        /// <param name="options">The bars log options.</param>
+        public void AddPrintService(PrintService printSvc, BarsLogOptions options)
         {
-            if (_isInitialized) return;
-
-            if (_ninjascript.State != State.DataLoaded)
-                throw new Exception("The service must be initialized when ninjascript data is loaded.");
-
-            //_saveCurrentBars = new int[_ninjascript.BarsArray.Length];
-            //_saveCurrentPrices = new double[_ninjascript.BarsArray.Length];
-            //InitializeArray(_saveCurrentBars, -1);
-            //InitializeArray(_saveCurrentPrices, 0);
-
-            _states = new List<Dictionary<BarsState, bool>>();
-            _logLines = new List<string>();
-
-            for (int i = 0; i < _ninjascript.BarsArray.Length; i++)
-            {
-                _states.Add(new Dictionary<BarsState, bool>()
-                {
-                    [BarsState.None] = false,
-                    [BarsState.LastBarRemoved] = false,
-                    [BarsState.BarClosed] = false,
-                    [BarsState.FirstTick] = false,
-                    [BarsState.PriceChanged] = false,
-                    [BarsState.Tick] = false
-                });
-            }
-
-            _isInitialized = true;
-
-            OnInit();
+            _printService = printSvc;
+            _logOptions = options ?? new BarsLogOptions();
         }
+
+        /// <summary>
+        /// Prints the states of the bars.
+        /// </summary>
+        public void PrintState()
+        {
+            if (_printService == null)
+                return;
+
+            if (_logLines == null || _logLines.Count == 0)
+                return;
+            string stateText = _logOptions.Label;
+            for (int i = 0; i < _logLines.Count; i++)
+            {
+                stateText += _logLines[i];
+                if (i != _logLines.Count - 1)
+                    stateText += _logOptions.StatesSeparator;
+            }
+            _printService?.Write(stateText);
+        }
+
+        #endregion
+
+        #region virtual methods
 
         /// <summary>
         /// An event driven method which is called whenever a bar service is initialized.
@@ -390,72 +417,27 @@ namespace KrTrade.Nt.Services.Bars
 
         #region Private methods
 
-        internal bool GetIsClosed(int barsInProgress) => !IsOutOfRange(barsInProgress) && barsInProgress == _ninjascript.BarsInProgress &&  _states[barsInProgress][BarsState.BarClosed];
-        internal bool GetHasNewTick(int barsInProgress) => !IsOutOfRange(barsInProgress) && barsInProgress == _ninjascript.BarsInProgress && _ninjascript.Calculate == Calculate.OnEachTick && _states[barsInProgress][BarsState.Tick];
-        internal bool GetIsRemoved(int barsInProgress) => !IsOutOfRange(barsInProgress) && barsInProgress == _ninjascript.BarsInProgress && _states[barsInProgress][BarsState.LastBarRemoved];
-        internal bool GetHasNewPrice(int barsInProgress) => _ninjascript.Calculate != Calculate.OnBarClose && barsInProgress == _ninjascript.BarsInProgress && _states[barsInProgress][BarsState.PriceChanged];
-        internal bool GetIsFirstTick(int barsInProgress) => _ninjascript.Calculate != Calculate.OnBarClose && barsInProgress == _ninjascript.BarsInProgress && _states[barsInProgress][BarsState.FirstTick];
+        internal bool GetIsClosed(int barsInProgress) => !IsOutOfRange(barsInProgress) && IsBarsInProgress(barsInProgress) && _states[BarsState.BarClosed];
+        internal bool GetHasNewTick(int barsInProgress) => !IsOutOfRange(barsInProgress) && IsBarsInProgress(barsInProgress) && _ninjascript.Calculate == Calculate.OnEachTick && _states[BarsState.Tick];
+        internal bool GetIsRemoved(int barsInProgress) => !IsOutOfRange(barsInProgress) && IsBarsInProgress(barsInProgress) && _states[BarsState.LastBarRemoved];
+        internal bool GetHasNewPrice(int barsInProgress) => _ninjascript.Calculate != Calculate.OnBarClose && IsBarsInProgress(barsInProgress) && _states[BarsState.PriceChanged];
+        internal bool GetIsFirstTick(int barsInProgress) => _ninjascript.Calculate != Calculate.OnBarClose && IsBarsInProgress(barsInProgress) && _states[BarsState.FirstTick];
 
-        private BarService GetCurrentBar(int barsInProgress)
-        {
-            if (IsOutOfRange(barsInProgress))
-                throw new ArgumentOutOfRangeException(nameof(barsInProgress));
+        private bool IsBarsInProgress(int barsInProgress) => barsInProgress == _ninjascript.BarsInProgress && barsInProgress == Idx;
+        private bool IsUpdated() => _lastBar.Idx == _currentBar.Idx;
 
-            return _currentBars[barsInProgress];
-        }
-        private BarService GetLastBar(int barsInProgress)
+        private void SetStateProperties(bool noneState, bool isLastBarRemoved, bool isBarClosed, bool isFirstTick, bool isPriceChanged, bool isNewTick)
         {
-            if (IsOutOfRange(barsInProgress))
-                throw new ArgumentOutOfRangeException(nameof(barsInProgress));
-
-            return _lastBars[barsInProgress];
+            _states[BarsState.None] = noneState;
+            _states[BarsState.LastBarRemoved] = isLastBarRemoved;
+            _states[BarsState.BarClosed] = isBarClosed;
+            _states[BarsState.FirstTick] = isFirstTick;
+            _states[BarsState.PriceChanged] = isPriceChanged;
+            _states[BarsState.Tick] = isNewTick;
         }
-        
-        private void ExecuteMethods(List<Action> methods)
-        {
-            if (methods == null || methods.Count == 0)
-                return;
-
-            for (int i = 0; i < methods.Count; i++)
-                methods[i]?.Invoke();
-        }
-
-        private void InitializeArray(int[] array, int value)
-        {
-            for (int i = 0; i < array.Length; i++)
-                array[i] = value;
-        }
-        private void InitializeArray(double[] array, double value)
-        {
-            for (int i = 0; i < array.Length; i++)
-                array[i] = value;
-        }
-        private void InitializeArray(BarService[] array)
-        {
-            for (int i = 0; i < array.Length; i++)
-                array[i] = new BarService(_ninjascript, this, i);
-        }
-
-        private bool IsOutOfRange(int barsInProgress)
-        {
-            if (barsInProgress < 0 || barsInProgress >= _ninjascript.BarsArray.Length)
-                throw new ArgumentOutOfRangeException(nameof(barsInProgress));
-            return false;
-        }
-
-        private void SetStateProperties(int barsInProgress, bool noneState, bool isLastBarRemoved, bool isBarClosed, bool isFirstTick, bool isPriceChanged, bool isNewTick)
-        {
-            _states[barsInProgress][BarsState.None] = noneState;
-            _states[barsInProgress][BarsState.LastBarRemoved] = isLastBarRemoved;
-            _states[barsInProgress][BarsState.BarClosed] = isBarClosed;
-            _states[barsInProgress][BarsState.FirstTick] = isFirstTick;
-            _states[barsInProgress][BarsState.PriceChanged] = isPriceChanged;
-            _states[barsInProgress][BarsState.Tick] = isNewTick;
-        }
-        private void ResetStates(int barsInProgress)
+        private void ResetStates()
         {
             SetStateProperties(
-                barsInProgress: barsInProgress,
                 noneState: false,
                 isLastBarRemoved: false,
                 isBarClosed: false,
@@ -465,135 +447,12 @@ namespace KrTrade.Nt.Services.Bars
                 );
             _logLines.Clear();
         }
-        private void SetStateValue(int barsInProgress, BarsState state, bool value)
+        private void SetStateValue(BarsState state, bool value)
         {
-            _states[barsInProgress][state] = value;
+            _states[state] = value;
             if (state.ToLogLevel() >= _logOptions.LogLevel)
                 _logLines.Add(state.ToString());
         }
-
-        #endregion
-
-        #region ToDelete
-
-        ///// <summary>
-        ///// Indicates if the last bar of the bars in progress is closed.
-        ///// </summary>
-        //public bool IsClosed => GetIsClosed(_ninjascript.BarsInProgress);
-
-        ///// <summary>
-        ///// Indicates if the last bar of the bars in progress is removed.
-        ///// </summary>
-        //public bool IsRemoved => GetIsRemoved(_ninjascript.BarsInProgress);
-
-        ///// <summary>
-        ///// Indicates if success the first tick in the current bar of the bars in progress.
-        ///// </summary>
-        //public bool IsFirstTick => GetIsFirstTick(_ninjascript.BarsInProgress);
-
-        ///// <summary>
-        ///// Indicates if success a new tick in the current bar of the bars in progress.
-        ///// </summary>
-        //public bool IsNewTick => GetHasNewTick(_ninjascript.BarsInProgress);
-
-        ///// <summary>
-        ///// Indicates if the price changed in the current bar of the bars in progress.
-        ///// </summary>
-        //public bool IsNewPrice => GetHasNewPrice(_ninjascript.BarsInProgress);
-
-        //protected State State => _ninjascript.State;
-        //protected int BarsInProgress => _ninjascript.BarsInProgress;
-        //protected Calculate Calculate => _ninjascript.Calculate;
-        //protected int Count => _ninjascript.BarsArray.Length;
-        //protected int CurrentBar => _ninjascript.CurrentBar;
-        //protected double CurrentPrice => _ninjascript.Inputs[BarsInProgress][0];
-        //protected bool IsRemoveLastBarSupported => _ninjascript.BarsArray[BarsInProgress].BarsType.IsRemoveLastBarSupported;
-        //protected double TickSize => _ninjascript.BarsArray[BarsInProgress].Instrument.MasterInstrument.TickSize;
-
-        ///// <summary>
-        ///// Method that must be executed in the ninjascript event handler method: 'OnBarUpdate', for the service to work correctly.
-        ///// This method must be executed first, in the 'OnBarUpdate' method and then use the bar service throughout it.
-        ///// </summary>
-        //public void Update()
-        //{
-        //    if (State != State.Historical && State != State.Realtime)
-        //        return;
-
-        //    if (!_isInitialized)
-        //        Init();
-
-        //    if (BarsInProgress < 0)
-        //        return;
-
-        //    int barsInProgress = BarsInProgress;
-        //    int currentBar = CurrentBar;
-        //    double currentPrice = CurrentPrice;
-
-        //    ResetStates(barsInProgress);
-        //    OnBarUpdate();
-        //    ExecuteMethods(_onBarUpdateMethods);
-
-        //    // LasBarRemoved
-        //    if (IsRemoveLastBarSupported && currentBar < _saveCurrentBars[barsInProgress])
-        //    {
-        //        SetStateValue(barsInProgress, BarsState.LastBarRemoved, true);
-        //        OnLastBarRemoved();
-        //        ExecuteMethods(_onLastBarRemovedMethods);
-        //        _saveCurrentBars[barsInProgress] = currentBar;
-        //        _saveCurrentPrices[barsInProgress] = currentPrice;
-        //        PrintState();
-        //        return;
-        //    }
-
-        //    // BarClosed
-        //    if (currentBar != _saveCurrentBars[barsInProgress])
-        //    {
-        //        SetStateValue(barsInProgress, BarsState.BarClosed, true);
-        //        OnBarClosed();
-        //        ExecuteMethods(_onBarClosedMethods);
-
-        //        if (Calculate != Calculate.OnBarClose)
-        //        {
-        //            SetStateValue(barsInProgress, BarsState.FirstTick, true);
-        //            OnFirstTick();
-        //            ExecuteMethods(_onFirstTickMethods);
-
-        //            if (_saveCurrentPrices[barsInProgress].ApproxCompare(currentPrice) != 0)
-        //            {
-        //                SetStateValue(barsInProgress, BarsState.PriceChanged, true);
-        //                OnPriceChanged(new PriceChangedEventArgs(_saveCurrentPrices[barsInProgress], currentPrice));
-        //                ExecuteMethods(_onPriceChangedMethods);
-        //            }
-
-        //            if (Calculate == Calculate.OnEachTick)
-        //            {
-        //                SetStateValue(barsInProgress, BarsState.Tick, true);
-        //                OnEachTick(new TickEventArgs(true));
-        //                ExecuteMethods(_onEachTickMethods);
-        //            }
-        //        }
-        //    }
-
-        //    // Tick Success
-        //    else
-        //    {
-        //        if (_saveCurrentPrices[barsInProgress].ApproxCompare(currentPrice) != 0)
-        //        {
-        //            SetStateValue(barsInProgress, BarsState.PriceChanged, true);
-        //            OnPriceChanged(new PriceChangedEventArgs(_saveCurrentPrices[barsInProgress], currentPrice));
-        //        }
-        //        if (Calculate == Calculate.OnEachTick)
-        //        {
-        //            SetStateValue(barsInProgress, BarsState.Tick, true);
-        //            OnEachTick(new TickEventArgs(false));
-        //        }
-        //    }
-
-        //    _saveCurrentBars[barsInProgress] = currentBar;
-        //    _saveCurrentPrices[barsInProgress] = currentPrice;
-        //    PrintState();
-
-        //}
 
         #endregion
     }

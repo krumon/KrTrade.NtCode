@@ -8,10 +8,10 @@ namespace KrTrade.Nt.Scripts.NinjatraderObjects
     public interface IChartBarsProperties
     {
         
-        /// <summary>
-        /// Gets or sets the period of the chart bars.
-        /// </summary>
-        BarsPeriod BarsPeriod { get; set; }
+        ///// <summary>
+        ///// Gets or sets the period of the chart bars.
+        ///// </summary>
+        //BarsPeriod BarsPeriod { get; set; }
 
         /// <summary>
         /// The chart instrument (primary instrument) name.

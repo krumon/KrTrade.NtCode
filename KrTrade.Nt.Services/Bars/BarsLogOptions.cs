@@ -4,7 +4,7 @@ using KrTrade.Nt.Services.Logging;
 namespace KrTrade.Nt.Services.Bars
 {
     /// <summary>
-    /// Define the <see cref="BarsService"/> options. 
+    /// Define the <see cref="MultiTimeFrameService"/> options. 
     /// </summary>
     public class BarsLogOptions : ServicesLogOptions
     {

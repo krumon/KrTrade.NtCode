@@ -10,7 +10,7 @@ namespace KrTrade.Nt.Services
         private readonly NinjaScriptBase _ninjascript;
         private readonly NinjaScriptServiceOptions _options;
         private PrintService _printService;
-        private BarsService _barService;
+        private MultiTimeFrameService _barService;
 
         private NinjaScriptService(NinjaScriptBase ninjascript) : this(ninjascript, null) { }
         private NinjaScriptService(NinjaScriptBase ninjascript, NinjaScriptServiceOptions options)
@@ -22,7 +22,7 @@ namespace KrTrade.Nt.Services
                 throw new Exception("The 'NinjaScriptService' instance must be created in 'NinjaScript.OnStateChanged' method when 'State = State.Configure'");
 
             _printService = new PrintService(_ninjascript);
-            _barService = new BarsService(_ninjascript, _printService);
+            _barService = new MultiTimeFrameService(_ninjascript, _printService);
 
             Configure();
         }
