@@ -58,20 +58,22 @@
     <Compile Include="Caches\LastLowCacheService.cs" />
     <Compile Include="Caches\LastHighCacheService.cs" />
     <Compile Include="Bars\BarsService.cs" />
-    <Compile Include="Logging\PrintLoggerOptions.cs" />
-    <Compile Include="Logging\PrintLoggerFormatter.cs" />
+    <Compile Include="Logging\BaseLogOptions.cs" />
+    <Compile Include="Logging\BaseLogService.cs" />
+    <Compile Include="Logging\LogEntry.cs" />
+    <Compile Include="Print\PrintFormatter.cs" />
     <Compile Include="Logging\ServicesLogOptions.cs" />
-    <Compile Include="NinjaScript\BarUpdateService.cs" />
     <Compile Include="NinjaScript\BaseNinjaScriptService.cs" />
-    <Compile Include="NinjaScript\BarUpdateServiceOptions.cs" />
-    <Compile Include="NinjaScript\NinjaScriptService.cs" />
-    <Compile Include="Logging\LoggerFormatter.cs" />
-    <Compile Include="Logging\PrintLoggerService.cs" />
-    <Compile Include="NinjaScript\BaseNinjaScriptServiceOptions.cs" />
+    <Compile Include="NinjaScript\NinjaScriptServicesConfiguration.cs" />
+    <Compile Include="NinjaScript\NinjaScriptServices.cs" />
+    <Compile Include="Logging\BaseLogFormatter.cs" />
     <Compile Include="NinjaScript\NinjaScriptServiceOptions.cs" />
     <Compile Include="Plot\PlotService.cs" />
+    <Compile Include="Plot\PlotServiceOptions.cs" />
     <Compile Include="Print\PrintService.cs" />
+    <Compile Include="Print\PrintOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="_Base\BaseServiceOptions.cs" />
     <Compile Include="_Base\BaseService.cs" />
   </ItemGroup>
   <ItemGroup>

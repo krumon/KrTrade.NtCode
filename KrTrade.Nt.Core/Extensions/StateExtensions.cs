@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Logging;
 using KrTrade.Nt.Core.Print;
 using NinjaTrader.NinjaScript;
 using System;
@@ -77,11 +78,11 @@ namespace KrTrade.Nt.Core.Extensions
         }
 
         /// <summary>
-        /// Converts from <see cref="State"/> object to <see cref="PrintLevel"/> object.
+        /// Converts from <see cref="State"/> object to <see cref="NinjascriptLogLevel"/> object.
         /// </summary>
         /// <param name="state"></param>
         /// <returns></returns>
-        public static PrintLevel ToPrintLevel(this State state)
+        public static NinjascriptLogLevel ToPrintLevel(this State state)
         {
             switch (state)
             {
@@ -90,13 +91,13 @@ namespace KrTrade.Nt.Core.Extensions
                 case State.Active:
                 case State.DataLoaded:
                 case State.Terminated:
-                    return PrintLevel.Configuration;
+                    return NinjascriptLogLevel.Configuration;
                 case State.Historical:
                 case State.Transition:
-                    return PrintLevel.Historical;
+                    return NinjascriptLogLevel.Historical;
                 case State.Realtime:
-                    return PrintLevel.Realtime;
-                default: return PrintLevel.None;
+                    return NinjascriptLogLevel.Realtime;
+                default: return NinjascriptLogLevel.None;
             }
         }
 

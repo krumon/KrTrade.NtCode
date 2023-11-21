@@ -6,93 +6,98 @@ namespace KrTrade.Nt.Services
 {
     public abstract class BaseService
     {
-        internal NinjaScriptBase _ninjascript;
-        internal PrintService _printService;
-
         /// <summary>
         /// Gets the name of the service.
         /// </summary>
-        public string Name { get; protected set; } = "Krumon_Service";
+        public abstract string Name { get; }
 
-        protected BaseService(NinjaScriptBase ninjascript) : this(ninjascript, null)
+        /// <summary>
+        /// Gets the Ninjatrader NinjaScript.
+        /// </summary>
+        public NinjaScriptBase Ninjascript { get; protected set; }
+
+        /// <summary>
+        /// Gets the <see cref="PrintService"/> to write in the NinjaScript output window.
+        /// </summary>
+        public PrintService Print { get; protected set; }
+
+        public BaseService(NinjaScriptBase ninjascript) : this(ninjascript, null)
         {
         }
-        protected BaseService(NinjaScriptBase ninjascript, PrintService printService) 
+        public BaseService(NinjaScriptBase ninjascript, PrintService printService) 
         {
-            _ninjascript = ninjascript ?? throw new ArgumentNullException($"Error in 'BaseService' constructor. The {nameof(ninjascript)} argument cannot be null.");
+            Ninjascript = ninjascript ?? throw new ArgumentNullException($"Error in 'BaseService' constructor. The {nameof(ninjascript)} argument cannot be null.");
 
-            if (!IsInConfigurationStates())
+            if (!IsInConfigurationState())
                 throw new Exception($"The {Name} instance must be executed when 'NinjaScript.State' is 'Configure' or 'DataLoaded'.");
 
-            _printService = printService;
+            Print = printService;
         }
 
         #region Protected methods
 
-        protected NinjaScriptBase Ninjascript { get { return _ninjascript; } }
-
         protected int GetCurrentBar(int barsInProgress, int barsAgo)
         {
-            if (barsInProgress < 0 || barsInProgress != _ninjascript.BarsInProgress)
+            if (barsInProgress < 0 || barsInProgress != Ninjascript.BarsInProgress)
                 return -1;
-            if (barsAgo < 0 || barsAgo >= _ninjascript.BarsArray[barsInProgress].Count)
+            if (barsAgo < 0 || barsAgo >= Ninjascript.BarsArray[barsInProgress].Count)
                 return -1;
 
-            return _ninjascript.CurrentBars[barsInProgress];
+            return Ninjascript.CurrentBars[barsInProgress];
         }
         protected double GetOpen(int barsInProgress, int barsAgo)
         {
-            if (barsInProgress < 0 || barsInProgress != _ninjascript.BarsInProgress)
+            if (barsInProgress < 0 || barsInProgress != Ninjascript.BarsInProgress)
                 return 0.0;
-            if (barsAgo < 0 || barsAgo >= _ninjascript.BarsArray[barsInProgress].Count)
+            if (barsAgo < 0 || barsAgo >= Ninjascript.BarsArray[barsInProgress].Count)
                 return 0.0;
 
-            return _ninjascript.Opens[barsInProgress][barsAgo];
+            return Ninjascript.Opens[barsInProgress][barsAgo];
         }
         protected double GetHigh(int barsInProgress, int barsAgo)
         {
-            if (barsInProgress < 0 || barsInProgress != _ninjascript.BarsInProgress)
+            if (barsInProgress < 0 || barsInProgress != Ninjascript.BarsInProgress)
                 return double.MinValue;
-            if (barsAgo < 0 || barsAgo >= _ninjascript.BarsArray[barsInProgress].Count)
+            if (barsAgo < 0 || barsAgo >= Ninjascript.BarsArray[barsInProgress].Count)
                 return double.MinValue;
 
-            return _ninjascript.Highs[barsInProgress][barsAgo];
+            return Ninjascript.Highs[barsInProgress][barsAgo];
         }
         protected double GetLow(int barsInProgress, int barsAgo)
         {
-            if (barsInProgress < 0 || barsInProgress != _ninjascript.BarsInProgress)
+            if (barsInProgress < 0 || barsInProgress != Ninjascript.BarsInProgress)
                 return double.MaxValue;
-            if (barsAgo < 0 || barsAgo >= _ninjascript.BarsArray[barsInProgress].Count)
+            if (barsAgo < 0 || barsAgo >= Ninjascript.BarsArray[barsInProgress].Count)
                 return double.MaxValue;
 
-            return _ninjascript.Lows[barsInProgress][barsAgo];
+            return Ninjascript.Lows[barsInProgress][barsAgo];
         }
         protected double GetClose(int barsInProgress, int barsAgo)
         {
-            if (barsInProgress < 0 || barsInProgress != _ninjascript.BarsInProgress)
+            if (barsInProgress < 0 || barsInProgress != Ninjascript.BarsInProgress)
                 return 0.0;
-            if (barsAgo < 0 || barsAgo >= _ninjascript.BarsArray[barsInProgress].Count)
+            if (barsAgo < 0 || barsAgo >= Ninjascript.BarsArray[barsInProgress].Count)
                 return 0.0;
 
-            return _ninjascript.Closes[barsInProgress][barsAgo];
+            return Ninjascript.Closes[barsInProgress][barsAgo];
         }
         protected double GetVolume(int barsInProgress, int barsAgo)
         {
-            if (barsInProgress < 0 || barsInProgress != _ninjascript.BarsInProgress)
+            if (barsInProgress < 0 || barsInProgress != Ninjascript.BarsInProgress)
                 return -1.0;
-            if (barsAgo < 0 || barsAgo >= _ninjascript.BarsArray[barsInProgress].Count)
+            if (barsAgo < 0 || barsAgo >= Ninjascript.BarsArray[barsInProgress].Count)
                 return -1.0;
 
-            return _ninjascript.Volumes[barsInProgress][barsAgo];
+            return Ninjascript.Volumes[barsInProgress][barsAgo];
         }
         protected DateTime GetTime(int barsInProgress, int barsAgo)
         {
-            if (barsInProgress < 0 || barsInProgress != _ninjascript.BarsInProgress)
+            if (barsInProgress < 0 || barsInProgress != Ninjascript.BarsInProgress)
                 return new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Local);
-            if (barsAgo < 0 || barsAgo >= _ninjascript.BarsArray[barsInProgress].Count)
+            if (barsAgo < 0 || barsAgo >= Ninjascript.BarsArray[barsInProgress].Count)
                 return new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Local);
 
-            return _ninjascript.Times[barsInProgress][barsAgo];
+            return Ninjascript.Times[barsInProgress][barsAgo];
         }
 
         protected void ExecuteMethods(List<Action> methods)
@@ -103,33 +108,29 @@ namespace KrTrade.Nt.Services
             for (int i = 0; i < methods.Count; i++)
                 methods[i]?.Invoke();
         }
-
         protected bool IsOutOfRange(int barsInProgress)
         {
-            if (barsInProgress < 0 || barsInProgress >= _ninjascript.BarsArray.Length)
+            if (barsInProgress < 0 || barsInProgress >= Ninjascript.BarsArray.Length)
                 throw new ArgumentOutOfRangeException(nameof(barsInProgress));
             return false;
         }
-
-        protected bool IsInActiveStates()
+        protected bool IsInActiveState()
         {
-            if (_ninjascript.State == State.SetDefaults || _ninjascript.State == State.Configure || _ninjascript.State == State.Terminated)
+            if (Ninjascript.State == State.SetDefaults || Ninjascript.State == State.Configure || Ninjascript.State == State.Terminated)
                 return false;
             else 
                 return true;
         }
-
-        protected bool IsInConfigurationStates()
+        protected bool IsInConfigurationState()
         {
-            if (_ninjascript.State == State.Configure || _ninjascript.State == State.DataLoaded)
+            if (Ninjascript.State == State.Configure || Ninjascript.State == State.DataLoaded)
                 return true;
             else 
                 return false;
         }
-
-        protected bool IsInRunningStates()
+        protected bool IsInRunningState()
         {
-            if (_ninjascript.State == State.Historical || _ninjascript.State == State.Realtime)
+            if (Ninjascript.State == State.Historical || Ninjascript.State == State.Realtime)
                 return true;
             else 
                 return false;
@@ -137,4 +138,85 @@ namespace KrTrade.Nt.Services
 
         #endregion
     }
+
+    public abstract class BaseService<T> : BaseService
+    where T : BaseServiceOptions, new()
+    {
+        /// <summary>
+        /// Gets the service options.
+        /// </summary>
+        protected internal T Options { get; protected set; }
+
+        /// <summary>
+        /// Create <see cref="NinjaScriptBase"/> instance and configure it.
+        /// This instance must be created in the 'Ninjascript.State == Configure'.
+        /// </summary>
+        /// <param name="ninjascript">The ninjatrader ninjascript.</param>
+        /// <exception cref="Exception"><paramref name="ninjascript"/> cannot be null.</exception>
+        public BaseService(NinjaScriptBase ninjascript) : this(ninjascript, new T()) { }
+
+        /// <summary>
+        /// Create <see cref="NinjaScriptBase"/> instance and configure it.
+        /// This instance must be created in the 'Ninjascript.State == Configure'.
+        /// </summary>
+        /// <param name="ninjascript">The ninjatrader ninjascript.</param>
+        /// <param name="options">The ninjascript service options.</param>
+        /// <exception cref="Exception"><paramref name="ninjascript"/> cannot be null.</exception>
+        public BaseService(NinjaScriptBase ninjascript, T options) : base(ninjascript)
+        {
+            Options = options ?? new T();
+        }
+
+        /// <summary>
+        /// Create <see cref="NinjaScriptBase"/> instance and configure it.
+        /// This instance must be created in the 'Ninjascript.State == Configure'.
+        /// </summary>
+        /// <param name="ninjascript">The ninjatrader ninjascript.</param>
+        /// <param name="printService">The service to print in the Ninjatrader output window.</param>
+        /// <exception cref="Exception"><paramref name="ninjascript"/> cannot be null.</exception>
+        public BaseService(NinjaScriptBase ninjascript, PrintService printService) : this(ninjascript, printService, new T()) { }
+
+        /// <summary>
+        /// Create <see cref="NinjaScriptBase"/> instance and configure it.
+        /// This instance must be created in the 'Ninjascript.State == Configure'.
+        /// </summary>
+        /// <param name="ninjascript">The ninjatrader ninjascript.</param>
+        /// <param name="printService">The service to print in the Ninjatrader output window.</param>
+        /// <param name="options">The ninjascript service options.</param>
+        /// <exception cref="Exception"><paramref name="ninjascript"/> cannot be null.</exception>
+        public BaseService(NinjaScriptBase ninjascript, PrintService printService, T options) : base(ninjascript, printService)
+        {
+            Options = options ?? new T();
+        }
+
+        /// <summary>
+        /// Create <see cref="NinjaScriptBase"/> instance and configure it.
+        /// This method must be executed in the 'Ninjascript.State == Configure'.
+        /// </summary>
+        /// <param name="ninjascript">The ninjatrader injascript.</param>
+        /// <param name="delegateOptions">The delegate options to configure the service options.</param>
+        /// <exception cref="Exception"><paramref name="ninjascript"/> cannot be null.</exception>
+        public BaseService(NinjaScriptBase ninjascript, Action<T> delegateOptions) : base(ninjascript)
+        {
+            T options = new T();
+            delegateOptions?.Invoke(options);
+            Options = options;
+        }
+
+        /// <summary>
+        /// Create <see cref="NinjaScriptBase"/> instance and configure it.
+        /// This method must be executed in the 'Ninjascript.State == Configure'.
+        /// </summary>
+        /// <param name="ninjascript">The ninjatrader injascript.</param>
+        /// <param name="printService">The service to print in the Ninjatrader output window.</param>
+        /// <param name="delegateOptions">The delegate options to configure the service options.</param>
+        /// <exception cref="Exception"><paramref name="ninjascript"/> cannot be null.</exception>
+        public BaseService(NinjaScriptBase ninjascript, PrintService printService, Action<T> delegateOptions) : base(ninjascript, printService)
+        {
+            T options = new T();
+            delegateOptions?.Invoke(options);
+            Options = options;
+        }
+    }
+
 }

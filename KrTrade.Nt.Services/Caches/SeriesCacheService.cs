@@ -2,7 +2,7 @@
 using NinjaTrader.NinjaScript;
 using System;
 
-namespace KrTrade.Nt.Services.Caches
+namespace KrTrade.Nt.Services
 {
     /// <summary>
     /// Represents a cache with double values.
@@ -77,7 +77,7 @@ namespace KrTrade.Nt.Services.Caches
         /// <returns>The value of the next element we want to add to the cache.</returns>
         public override double GetNextCandidateValue(int seriesDisplacement)
         {
-            if (_ninjascript.BarsInProgress != _barsService.Idx || _ninjascript.CurrentBars[_barsService.Idx] < seriesDisplacement)
+            if (Ninjascript.BarsInProgress != _barsService.Idx || Ninjascript.CurrentBars[_barsService.Idx] < seriesDisplacement)
                 return double.NaN;
             return Series[seriesDisplacement];
         }

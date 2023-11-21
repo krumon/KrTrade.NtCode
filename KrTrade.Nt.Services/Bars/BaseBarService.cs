@@ -2,7 +2,7 @@
 using NinjaTrader.NinjaScript;
 using System;
 
-namespace KrTrade.Nt.Services.Bars
+namespace KrTrade.Nt.Services
 {
     /// <summary>
     /// Represents the service of only one bar.
@@ -109,10 +109,10 @@ namespace KrTrade.Nt.Services.Bars
         /// </summary>
         public void PrintHigh()
         {
-            if (_printService == null)
+            if (Print == null)
                 return;
 
-            _printService.Write("High", High);
+            Print.LogValue("High", High);
         }
 
         /// <summary>
@@ -120,10 +120,10 @@ namespace KrTrade.Nt.Services.Bars
         /// </summary>
         public void PrintLast()
         {
-            if (_printService == null)
+            if (Print == null)
                 return;
 
-            _printService.Write("Last", Close);
+            Print.LogValue("Last", Close);
         }
 
         /// <summary>

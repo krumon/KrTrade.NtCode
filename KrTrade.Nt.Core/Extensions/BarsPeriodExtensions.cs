@@ -2,7 +2,7 @@
 using NinjaTrader.Data;
 using System;
 
-namespace KrTrade.Nt.Core.DataSeries
+namespace KrTrade.Nt.Core.Extensions
 {
 
     /// <summary>

@@ -2,7 +2,7 @@
 using KrTrade.Nt.Core.DataSeries;
 using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
-using System;
+using KrTrade.Nt.Core.Extensions;
 
 namespace KrTrade.Nt.Services
 {
@@ -56,8 +56,8 @@ namespace KrTrade.Nt.Services
         {
             _instrumentCode = instrumentCode;
             _timeFrame = timeFrame;
-            InstrumentName = _instrumentCode == InstrumentCode.Default ? _ninjascript.BarsArray[0].Instrument.MasterInstrument.Name : _instrumentCode.ToString();
-            BarsPeriod = _timeFrame == TimeFrame.Default ? _ninjascript.BarsPeriods[0] : _timeFrame.ToBarsPeriod();
+            InstrumentName = _instrumentCode == InstrumentCode.Default ? Ninjascript.BarsArray[0].Instrument.MasterInstrument.Name : _instrumentCode.ToString();
+            BarsPeriod = _timeFrame == TimeFrame.Default ? Ninjascript.BarsPeriods[0] : _timeFrame.ToBarsPeriod();
         }
 
         #endregion

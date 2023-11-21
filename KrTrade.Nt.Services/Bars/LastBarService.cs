@@ -1,7 +1,7 @@
 ﻿using NinjaTrader.NinjaScript;
 using System;
 
-namespace KrTrade.Nt.Services.Bars
+namespace KrTrade.Nt.Services
 {
     /// <summary>
     /// Represents the service of only one bar.

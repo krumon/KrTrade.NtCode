@@ -3,7 +3,7 @@ using KrTrade.Nt.Core.Interfaces;
 using NinjaTrader.NinjaScript;
 using System;
 
-namespace KrTrade.Nt.Services.Caches
+namespace KrTrade.Nt.Services
 {
     /// <summary>
     /// Base class for all caches.
@@ -67,12 +67,12 @@ namespace KrTrade.Nt.Services.Caches
         /// <exception cref="ArgumentNullException">The bars service cannot be null.</exception>
         public BaseCacheService(NinjaScriptBase ninjascript, BarsService barsService, int capacity) : base(ninjascript)
         {
-            _ninjascript = ninjascript ?? throw new ArgumentNullException(nameof(ninjascript));
+            Ninjascript = ninjascript ?? throw new ArgumentNullException(nameof(ninjascript));
 
             if (capacity < 0) 
                 throw new ArgumentOutOfRangeException("The cache capacity must be greater or equal than 0 and minor than 'MaximumBarsLookUp'(256)");
 
-            if (_ninjascript.MaximumBarsLookBack == MaximumBarsLookBack.TwoHundredFiftySix && capacity > 255 ) 
+            if (Ninjascript.MaximumBarsLookBack == MaximumBarsLookBack.TwoHundredFiftySix && capacity > 255 ) 
                 throw new ArgumentOutOfRangeException("The cache capacity must be greater or equal than 0 and minor than 'MaximumBarsLookUp'(256)");
 
             Cache = new Cache<T>(capacity);
@@ -122,7 +122,7 @@ namespace KrTrade.Nt.Services.Caches
                 return;
 
             Cache.Clear();
-            for (int barsBack = Math.Min(_ninjascript.CurrentBars[_barsService.Idx], Capacity) - 1; barsBack >= 0; barsBack--)
+            for (int barsBack = Math.Min(Ninjascript.CurrentBars[_barsService.Idx], Capacity) - 1; barsBack >= 0; barsBack--)
                 Cache.Add(GetNextCandidateValue(Displacement + barsBack));
         }
         public void OnPriceChanged()

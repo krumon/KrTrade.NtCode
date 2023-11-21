@@ -1,12 +1,13 @@
-﻿using NinjaTrader.Data;
+﻿using KrTrade.Nt.Core.DataSeries;
+using NinjaTrader.Data;
 using System;
 
-namespace KrTrade.Nt.Core.DataSeries
+namespace KrTrade.Nt.Core.Extensions
 {
     /// <summary>
     /// Helper methods to converts from <see cref="TimeFrame"/> to other objects or converts any object to <see cref="TimeFrame"/>.
     /// </summary>
-    public static class TimeFrameHelpers
+    public static class TimeFrameExtensions
     {
         /// <summary>
         /// Converts from <see cref="TimeFrame"/> to <see cref="BarsPeriodType"/>.

@@ -1,12 +1,11 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using KrTrade.Nt.Services.Logging;
 
-namespace KrTrade.Nt.Services.Bars
+namespace KrTrade.Nt.Services
 {
     /// <summary>
     /// Define the <see cref="MultiTimeFrameService"/> options. 
     /// </summary>
-    public class BarsLogOptions : ServicesLogOptions
+    public class BarsLogOptions //: ServicesLogOptions
     {
 
         /// <summary>
@@ -48,10 +47,10 @@ namespace KrTrade.Nt.Services.Bars
         public BarsLogOptions(bool isEnable, BarsLogLevel barsLogLevel, bool isLabelVisible, string label, string statesSeparator)
         {
             LogLevel = barsLogLevel;
-            IsEnable = isEnable;
-            IsLabelVisible = isLabelVisible;
-            Label = label;
-            StatesSeparator = statesSeparator;
+            //IsEnable = isEnable;
+            //IsLabelVisible = isLabelVisible;
+            //Label = label;
+            //StatesSeparator = statesSeparator;
         }
 
     }

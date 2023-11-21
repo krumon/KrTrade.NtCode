@@ -1,9 +1,9 @@
-﻿namespace KrTrade.Nt.Core.Print
+﻿namespace KrTrade.Nt.Core.Logging
 {
     /// <summary>
     /// Represents states to logger in the ninjascript output window or other site.
     /// </summary>
-    public enum PrintLevel
+    public enum NinjascriptLogLevel
     {
         /// <summary>
         /// Represents historical level. Prints all ninjascript states.

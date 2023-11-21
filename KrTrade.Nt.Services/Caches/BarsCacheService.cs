@@ -3,7 +3,7 @@ using KrTrade.Nt.Core.Interfaces;
 using NinjaTrader.NinjaScript;
 using System;
 
-namespace KrTrade.Nt.Services.Caches
+namespace KrTrade.Nt.Services
 {
     /// <summary>
     /// Represents a cache with bar values.
@@ -57,6 +57,11 @@ namespace KrTrade.Nt.Services.Caches
         #region Implementation
 
         /// <summary>
+        /// Gets the name of the service.
+        /// </summary>
+        public override string Name => nameof(BarsCacheService);
+
+        /// <summary>
         /// Gets the value of the next element we want to add to the cache.
         /// </summary>
         /// <param name="seriesDisplacement">The value of the index that corresponds to the value we want to obtain. 
@@ -64,17 +69,17 @@ namespace KrTrade.Nt.Services.Caches
         /// <returns>The value of the next element we want to add to the cache.</returns>
         public override Bar GetNextCandidateValue(int seriesDisplacement)
         {
-            if (_ninjascript.BarsInProgress != _barsService.Idx || _ninjascript.CurrentBars[_barsService.Idx] < seriesDisplacement)
+            if (Ninjascript.BarsInProgress != _barsService.Idx || Ninjascript.CurrentBars[_barsService.Idx] < seriesDisplacement)
                 return null;
             return new Bar()
             {
-                Idx = _ninjascript.CurrentBars[_barsService.Idx] - Displacement,
-                Time = _ninjascript.Times[_barsService.Idx][Displacement],
-                Open = _ninjascript.Opens[_barsService.Idx][Displacement],
-                High = _ninjascript.Opens[_barsService.Idx][Displacement],
-                Low = _ninjascript.Opens[_barsService.Idx][Displacement],
-                Close = _ninjascript.Opens[_barsService.Idx][Displacement],
-                Volume = _ninjascript.Opens[_barsService.Idx][Displacement]
+                Idx = Ninjascript.CurrentBars[_barsService.Idx] - Displacement,
+                Time = Ninjascript.Times[_barsService.Idx][Displacement],
+                Open = Ninjascript.Opens[_barsService.Idx][Displacement],
+                High = Ninjascript.Opens[_barsService.Idx][Displacement],
+                Low = Ninjascript.Opens[_barsService.Idx][Displacement],
+                Close = Ninjascript.Opens[_barsService.Idx][Displacement],
+                Volume = Ninjascript.Opens[_barsService.Idx][Displacement]
             };
         }
         public override bool IsValidCandidateValue() => CandidateValue != null;
@@ -93,7 +98,7 @@ namespace KrTrade.Nt.Services.Caches
         /// <returns>The value of the next element we want to add to the cache.</returns>
         public double GetNextCandidateValue(ISeries<double> series, int seriesDisplacement)
         {
-            if (_ninjascript.BarsInProgress != _barsService.Idx || _ninjascript.CurrentBars[_barsService.Idx] < seriesDisplacement)
+            if (Ninjascript.BarsInProgress != _barsService.Idx || Ninjascript.CurrentBars[_barsService.Idx] < seriesDisplacement)
                 return double.NaN;
             return series[seriesDisplacement];
         }

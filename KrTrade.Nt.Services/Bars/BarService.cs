@@ -1,11 +1,10 @@
-﻿using KrTrade.Nt.Core.Bars;
-using KrTrade.Nt.Core.Extensions;
+﻿using KrTrade.Nt.Core.Extensions;
 using KrTrade.Nt.Core.Helpers;
 using KrTrade.Nt.Core.Interfaces;
 using NinjaTrader.NinjaScript;
 using System;
 
-namespace KrTrade.Nt.Services.Bars
+namespace KrTrade.Nt.Services
 {
     /// <summary>
     /// Represents the service of only one bar.
@@ -35,14 +34,19 @@ namespace KrTrade.Nt.Services.Bars
         #endregion
 
         #region Implementation methods
-        
+
+        /// <summary>
+        /// Gets the name of the service.
+        /// </summary>
+        public override string Name => nameof(BarService);
+
         /// <inheritdoc/>
         public void OnBarUpdate()
         {
-            if (!_ninjascript.State.IsInProgress())
-                ThrowHelper.ThrowOnBarUpdateInvalidStateException(_ninjascript.State);
+            if (!Ninjascript.State.IsInProgress())
+                ThrowHelper.ThrowOnBarUpdateInvalidStateException(Ninjascript.State);
 
-            if (_ninjascript.BarsInProgress < 0 || _ninjascript.CurrentBars[_ninjascript.BarsInProgress] < 0)
+            if (Ninjascript.BarsInProgress < 0 || Ninjascript.CurrentBars[Ninjascript.BarsInProgress] < 0)
                 return;
 
             UpdateValues();

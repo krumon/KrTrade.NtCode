@@ -1,11 +1,10 @@
 ﻿using KrTrade.Nt.Core.Interfaces;
-using KrTrade.Nt.Core.Print;
 using NinjaTrader.NinjaScript;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace KrTrade.Nt.Services.Bars
+namespace KrTrade.Nt.Services
 {
     public class MultiTimeFrameService : BaseService,
         IConfigureService,
@@ -25,6 +24,11 @@ namespace KrTrade.Nt.Services.Bars
         #region Public properties
 
         /// <summary>
+        /// Gets the name of the service.
+        /// </summary>
+        public override string Name => nameof(MultiTimeFrameService);
+
+        /// <summary>
         /// True, if service is configured, otherwise false.
         /// For the service to be configured, the 'Configure' and 'DataLoaded' methods must be executed.
         /// </summary>
@@ -33,12 +37,12 @@ namespace KrTrade.Nt.Services.Bars
         /// <summary>
         /// Gets the last bar of the bars in progress.
         /// </summary>
-        public LastBarService LastBar => GetLastBar(_ninjascript.BarsInProgress);
+        public LastBarService LastBar => GetLastBar(Ninjascript.BarsInProgress);
 
         /// <summary>
         /// Gets the last bar of the bars in progress.
         /// </summary>
-        public LastBarService CurrentBar => GetLastBar(_ninjascript.BarsInProgress);
+        public LastBarService CurrentBar => GetLastBar(Ninjascript.BarsInProgress);
 
         /// <summary>
         /// Gets the BarsService of a sepecific index.
@@ -71,7 +75,7 @@ namespace KrTrade.Nt.Services.Bars
         /// Create <see cref="BaseBars"/> new instance.
         /// </summary>
         /// <param name="ninjascript">The NinjaScript to inject in the service.</param>
-        /// <param name="printSvc">The <see cref="BasePrint"/> service injected.</param>
+        /// <param name="printSvc">The <see cref="BasePrintService"/> service injected.</param>
         public MultiTimeFrameService(NinjaScriptBase ninjascript, PrintService printService) : base(ninjascript, printService)
         {
             _barsServices = new List<BarsService>();
@@ -89,14 +93,14 @@ namespace KrTrade.Nt.Services.Bars
             if (_isConfigured || _isInitialized)
                 return;
 
-            if (!IsInConfigurationStates())
+            if (!IsInConfigurationState())
                 throw new Exception($"The configuration methods of {Name}, must be executed when 'NinjaScript.State' is 'Configure' or 'DataLoaded'.");
 
             if (_barsServices == null)
                 _barsServices = new List<BarsService>();
 
             if (_barsServices.Count == 0)
-                _barsServices.Add(new BarsService(_ninjascript));
+                _barsServices.Add(new BarsService(Ninjascript));
 
             for (int i=0; i< _barsServices.Count; i++)
                 _barsServices[i].Configure();
@@ -113,7 +117,7 @@ namespace KrTrade.Nt.Services.Bars
             if (_isConfigured)
                 return;
 
-            if (_ninjascript.State != State.DataLoaded)
+            if (Ninjascript.State != State.DataLoaded)
                 throw new Exception($"The configuration methods of {Name}, must be executed when 'NinjaScript.State' is 'Configure' or 'DataLoaded'.");
 
             if (!_isInitialized)
@@ -130,16 +134,16 @@ namespace KrTrade.Nt.Services.Bars
         /// </summary>
         public void OnBarUpdate()
         {
-            if (!IsInRunningStates())
+            if (!IsInRunningState())
                 return;
 
             if (!_isConfigured)
             {
-                _printService.Write("The services must be configured in the 'NinjaScript.OnStateChanged' method, when the 'State==State.Configure' and 'State==State.DataLoaded'.");
+                Print.LogInformation("The services must be configured in the 'NinjaScript.OnStateChanged' method, when the 'State==State.Configure' and 'State==State.DataLoaded'.");
                 return;
             }
 
-            if (_ninjascript.BarsInProgress < 0 || _ninjascript.CurrentBar < 0)
+            if (Ninjascript.BarsInProgress < 0 || Ninjascript.CurrentBar < 0)
                 return;
 
             if (_barsServices != null && _barsServices.Count > 0)
@@ -152,7 +156,7 @@ namespace KrTrade.Nt.Services.Bars
         /// </summary>
         public void PrintState()
         {
-            _barsServices[_ninjascript.BarsInProgress].PrintState();
+            _barsServices[Ninjascript.BarsInProgress].PrintState();
         }
 
         ///// <summary>
@@ -196,18 +200,18 @@ namespace KrTrade.Nt.Services.Bars
 
         #region Private methods
 
-        internal bool GetIsClosed() => GetIsClosed(_ninjascript.BarsInProgress);
+        internal bool GetIsClosed() => GetIsClosed(Ninjascript.BarsInProgress);
         internal bool GetIsClosed(int barsInProgress) => GetCurrentBar(barsInProgress).IsClosed;
-        internal bool GetHasNewTick() => GetHasNewTick(_ninjascript.BarsInProgress);
+        internal bool GetHasNewTick() => GetHasNewTick(Ninjascript.BarsInProgress);
         internal bool GetHasNewTick(int barsInProgress) => GetCurrentBar(barsInProgress).IsNewTick;
-        internal bool GetIsRemoved() => GetIsRemoved(_ninjascript.BarsInProgress);
+        internal bool GetIsRemoved() => GetIsRemoved(Ninjascript.BarsInProgress);
         internal bool GetIsRemoved(int barsInProgress) => GetCurrentBar(barsInProgress).IsRemoved;
-        internal bool GetHasNewPrice() => GetHasNewPrice(_ninjascript.BarsInProgress);
+        internal bool GetHasNewPrice() => GetHasNewPrice(Ninjascript.BarsInProgress);
         internal bool GetHasNewPrice(int barsInProgress) => GetCurrentBar(barsInProgress).IsNewPrice;
-        internal bool GetIsFirstTick() => GetIsFirstTick(_ninjascript.BarsInProgress);
+        internal bool GetIsFirstTick() => GetIsFirstTick(Ninjascript.BarsInProgress);
         internal bool GetIsFirstTick(int barsInProgress) => GetCurrentBar(barsInProgress).IsFirstTick;
 
-        internal LastBarService GetCurrentBar() => GetCurrentBar(_ninjascript.BarsInProgress);
+        internal LastBarService GetCurrentBar() => GetCurrentBar(Ninjascript.BarsInProgress);
         internal LastBarService GetCurrentBar(int barsInProgress)
         {
             if (IsOutOfRange(_barsServices, barsInProgress))
@@ -215,7 +219,7 @@ namespace KrTrade.Nt.Services.Bars
 
             return _barsServices[barsInProgress].CurrentBar;
         }
-        internal LastBarService GetLastBar() => GetLastBar(_ninjascript.BarsInProgress);
+        internal LastBarService GetLastBar() => GetLastBar(Ninjascript.BarsInProgress);
         internal LastBarService GetLastBar(int barsInProgress)
         {
             if (IsOutOfRange(_barsServices, barsInProgress))
