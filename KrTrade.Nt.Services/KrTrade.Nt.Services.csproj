@@ -36,6 +36,12 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,37 +50,126 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bars\BaseBarsService.cs" />
-    <Compile Include="Bars\BaseBarService.cs" />
-    <Compile Include="Bars\LastBarService.cs" />
-    <Compile Include="Bars\BarService.cs" />
-    <Compile Include="Bars\BarsLogOptions.cs" />
-    <Compile Include="Bars\MultiTimeFrameService.cs" />
-    <Compile Include="Caches\BaseCacheService.cs" />
-    <Compile Include="Caches\LastPriceCacheService.cs" />
-    <Compile Include="Caches\BarsCacheService.cs" />
-    <Compile Include="Caches\SeriesCacheService.cs" />
-    <Compile Include="Caches\LastCloseCacheService.cs" />
-    <Compile Include="Caches\LastLowCacheService.cs" />
-    <Compile Include="Caches\LastHighCacheService.cs" />
-    <Compile Include="Bars\BarsService.cs" />
-    <Compile Include="Logging\BaseLogOptions.cs" />
-    <Compile Include="Logging\BaseLogService.cs" />
-    <Compile Include="Logging\LogEntry.cs" />
-    <Compile Include="Print\PrintFormatter.cs" />
-    <Compile Include="Logging\ServicesLogOptions.cs" />
-    <Compile Include="NinjaScript\BaseNinjaScriptService.cs" />
-    <Compile Include="NinjaScript\NinjaScriptServicesConfiguration.cs" />
-    <Compile Include="NinjaScript\NinjaScriptServices.cs" />
-    <Compile Include="Logging\BaseLogFormatter.cs" />
-    <Compile Include="NinjaScript\NinjaScriptServiceOptions.cs" />
-    <Compile Include="Plot\PlotService.cs" />
-    <Compile Include="Plot\PlotServiceOptions.cs" />
-    <Compile Include="Print\PrintService.cs" />
-    <Compile Include="Print\PrintOptions.cs" />
+    <Compile Include="Services\BarUpdateServices\Caches\CacheOptions.cs" />
+    <Compile Include="Services\BarUpdateServices\Bars\IBarsService.cs" />
+    <Compile Include="Services\BarUpdateServices\IBarUpdateService.cs" />
+    <Compile Include="Interfaces\ITerminated.cs" />
+    <Compile Include="Services\IService.cs" />
+    <Compile Include="Services\LoggingServices\IFormatter.cs" />
+    <Compile Include="Services\LoggingServices\ILogger.cs" />
+    <Compile Include="Services\LoggingServices\Print\IPrintFormatter.cs" />
+    <Compile Include="Services\LoggingServices\Print\IPrintService.cs" />
+    <Compile Include="Ninjascripts\IHasPrintService.cs" />
+    <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\ServiceOptions.cs" />
+    <Compile Include="Services\NinjascriptServiceOptions.cs" />
+    <Compile Include="Services\INinjascriptService.cs" />
+    <Compile Include="Ninjascripts\INinjascript.cs" />
+    <Compile Include="Ninjascripts\Ninjascript.cs" />
+    <Compile Include="DI\ServiceOptions\ChangeToken.cs" />
+    <Compile Include="DI\ServiceOptions\ConfigureNamedOptions.cs" />
+    <Compile Include="DI\ServiceOptions\ConfigureOptions.cs" />
+    <Compile Include="DI\ServiceOptions\IChangeToken.cs" />
+    <Compile Include="DI\ServiceOptions\IConfigureNamedOptions.cs" />
+    <Compile Include="DI\ServiceOptions\IConfigureOptions.cs" />
+    <Compile Include="DI\ServiceOptions\IOptions.cs" />
+    <Compile Include="DI\ServiceOptions\IOptionsChangeTokenSource.cs" />
+    <Compile Include="DI\ServiceOptions\IOptionsFactory.cs" />
+    <Compile Include="DI\ServiceOptions\IOptionsMonitor.cs" />
+    <Compile Include="DI\ServiceOptions\IOptionsMonitorCache.cs" />
+    <Compile Include="DI\ServiceOptions\IOptionsSnapshot.cs" />
+    <Compile Include="DI\ServiceOptions\IPostConfigureOptions.cs" />
+    <Compile Include="DI\ServiceOptions\IValidateOptions.cs" />
+    <Compile Include="DI\ServiceOptions\Options.cs" />
+    <Compile Include="DI\ServiceOptions\OptionsBuilder.cs" />
+    <Compile Include="DI\ServiceOptions\OptionsCache.cs" />
+    <Compile Include="DI\ServiceOptions\OptionsFactory.cs" />
+    <Compile Include="DI\ServiceOptions\OptionsManager.cs" />
+    <Compile Include="DI\ServiceOptions\OptionsMonitor.cs" />
+    <Compile Include="DI\ServiceOptions\OptionsWrapper.cs" />
+    <Compile Include="DI\ServiceOptions\PostConfigureOptions.cs" />
+    <Compile Include="DI\ServiceOptions\UnconditionalSuppressMessageAttribute.cs" />
+    <Compile Include="DI\ServiceOptions\UnnamedOptionsManager.cs" />
+    <Compile Include="DI\ServiceOptions\ValidateOptions.cs" />
+    <Compile Include="DI\ServiceOptions\ValidateOptionsResult.cs" />
+    <Compile Include="DI\ServiceProvider\CallSiteChain.cs" />
+    <Compile Include="DI\ServiceProvider\CallSiteFactory.cs" />
+    <Compile Include="DI\ServiceProvider\CallSiteKind.cs" />
+    <Compile Include="DI\ServiceProvider\CallSiteResultCacheLocation.cs" />
+    <Compile Include="DI\ServiceProvider\CallSiteRuntimeResolver.cs" />
+    <Compile Include="DI\ServiceProvider\CallSiteValidator.cs" />
+    <Compile Include="DI\ServiceProvider\CallSiteVisitor.cs" />
+    <Compile Include="DI\ServiceProvider\CompiledServiceProviderEngine.cs" />
+    <Compile Include="DI\ServiceProvider\DefaultServiceProviderFactory.cs" />
+    <Compile Include="DI\ServiceProvider\DynamicallyAccessedMemberAttribute.cs" />
+    <Compile Include="DI\ServiceProvider\DynamicallyAccessedMemberTypes.cs" />
+    <Compile Include="DI\ServicesHost\INinjaHostBuilder.cs" />
+    <Compile Include="DI\ServicesHost\INinjaHost.cs" />
+    <Compile Include="DI\ServicesHost\NinjaHostBuilder.cs" />
+    <Compile Include="DI\ServiceCollection\IServiceCollection.cs" />
+    <Compile Include="DI\ServiceCollection\ServiceCollection.cs" />
+    <Compile Include="DI\ServiceCollection\ServiceDescriptor.cs" />
+    <Compile Include="DI\ServiceProvider\DynamicServiceProviderEngine.cs" />
+    <Compile Include="DI\ServiceProvider\IAsyncDisposable.cs" />
+    <Compile Include="DI\ServiceProvider\IServiceProviderFactory.cs" />
+    <Compile Include="DI\ServiceProvider\IServiceProviderIsService.cs" />
+    <Compile Include="DI\ServiceProvider\IServiceScope.cs" />
+    <Compile Include="DI\ServiceProvider\IServiceScopeFactory.cs" />
+    <Compile Include="DI\ServiceProvider\ISupportRequiredService.cs" />
+    <Compile Include="DI\ServiceProvider\ParameterDefaultValue.cs" />
+    <Compile Include="DI\ServiceProvider\ResultCache.cs" />
+    <Compile Include="DI\ServiceProvider\ServiceCacheKey.cs" />
+    <Compile Include="DI\ServiceProvider\ServiceCallSite.cs" />
+    <Compile Include="DI\ServiceProvider\ServiceLifetime.cs" />
+    <Compile Include="DI\ServiceProvider\ServiceProvider.cs" />
+    <Compile Include="DI\ServiceProvider\ServiceProviderEngine.cs" />
+    <Compile Include="DI\ServiceProvider\ServiceProviderEngineScope.cs" />
+    <Compile Include="DI\ServiceProvider\ServiceProviderFactory.cs" />
+    <Compile Include="DI\ServiceProvider\ServiceProviderOptions.cs" />
+    <Compile Include="DI\ServiceProvider\StackGuard.cs" />
+    <Compile Include="Ninjascripts\NinjascriptOptions.cs" />
+    <Compile Include="Interfaces\IConfigure.cs" />
+    <Compile Include="Interfaces\IDataLoaded.cs" />
+    <Compile Include="Interfaces\IGlobalService.cs" />
+    <Compile Include="Interfaces\INeedBarsService.cs" />
+    <Compile Include="Interfaces\INeedConfiguration.cs" />
+    <Compile Include="Services\BarUpdateServices\IBarClosedService.cs" />
+    <Compile Include="Interfaces\IOnBarUpdateService.cs" />
+    <Compile Include="Services\BarUpdateServices\IEachTickService.cs" />
+    <Compile Include="Services\BarUpdateServices\IFirstTickService.cs" />
+    <Compile Include="Services\BarUpdateServices\ILastBarRemovedService.cs" />
+    <Compile Include="Services\MarketDataServices\IOnMarketDataService.cs" />
+    <Compile Include="Services\BarUpdateServices\IPriceChangedService.cs" />
+    <Compile Include="Services\SessionsServices\IOnSessionUpdateService.cs" />
+    <Compile Include="DI\ServicesHost\NinjaHostOptions.cs" />
+    <Compile Include="Services\BarUpdateServices\MultiBars\MultiBarsOptions.cs" />
+    <Compile Include="Services\BarUpdateServices\Bars\BarsService.cs" />
+    <Compile Include="Services\BarUpdateServices\Bar\BarOptions.cs" />
+    <Compile Include="Services\BarUpdateServices\Bar\BarService.cs" />
+    <Compile Include="Services\BarUpdateServices\Bar\LastBarService.cs" />
+    <Compile Include="Services\BarUpdateServices\Bars\BarsOptions.cs" />
+    <Compile Include="Services\BarUpdateServices\MultiBars\MultiBarsService.cs" />
+    <Compile Include="Services\BarUpdateServices\Caches\BaseCacheService.cs" />
+    <Compile Include="Services\BarUpdateServices\Caches\PriceCacheService.cs" />
+    <Compile Include="Services\BarUpdateServices\Caches\BarsCacheService.cs" />
+    <Compile Include="Services\BarUpdateServices\Caches\SeriesCacheService.cs" />
+    <Compile Include="Services\BarUpdateServices\Caches\CloseCacheService.cs" />
+    <Compile Include="Services\BarUpdateServices\Caches\LowCacheService.cs" />
+    <Compile Include="Services\BarUpdateServices\Caches\HighCacheService.cs" />
+    <Compile Include="Services\LoggingServices\BaseLoggerOptions.cs" />
+    <Compile Include="Services\LoggingServices\BaseLoggerService.cs" />
+    <Compile Include="Services\LoggingServices\LogEntry.cs" />
+    <Compile Include="Services\LoggingServices\LoggingHelpers.cs" />
+    <Compile Include="Services\LoggingServices\Print\PrintFormatter.cs" />
+    <Compile Include="Services\LoggingServices\BaseFormatter.cs" />
+    <Compile Include="Services\IndicatorServices\Plot\PlotService.cs" />
+    <Compile Include="Services\IndicatorServices\Plot\PlotOptions.cs" />
+    <Compile Include="Services\LoggingServices\Print\PrintService.cs" />
+    <Compile Include="Services\LoggingServices\Print\PrintOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="_Base\BaseServiceOptions.cs" />
-    <Compile Include="_Base\BaseService.cs" />
+    <Compile Include="DI\ServicesHost\NinjaHost.cs" />
+    <Compile Include="Services\NinjascriptService.cs" />
+    <Compile Include="Services\BarUpdateServices\BarUpdateService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KrTrade.Nt.Core\KrTrade.Nt.Core.csproj">
@@ -85,6 +180,10 @@
       <Project>{3A644626-5B81-4EE5-9D67-6B77D5BA4940}</Project>
       <Name>KrTrade.Nt.DI</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

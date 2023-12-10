@@ -1,7 +1,7 @@
-﻿namespace KrTrade.Nt.Core.Interfaces
-{
-    public interface IOnEachTickService : INeedBarsService
-    {
-        void OnTick();
-    }
-}
+﻿//namespace KrTrade.Nt.Core.Interfaces
+//{
+//    public interface IOnEachTickService : INeedBarsService
+//    {
+//        void OnTick();
+//    }
+//}

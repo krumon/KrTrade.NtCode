@@ -26,7 +26,7 @@ namespace KrTrade.Nt.Core.Data
         /// <summary>
         /// The trading hours key.
         /// </summary>
-        public TradingHoursCode TradingHoursKey { get; set; } = TradingHoursCode.Default;
+        public TradingHoursCode TradingHoursKey { get; set; } = Data.TradingHoursCode.Default;
 
         /// <summary>
         /// Gets the instument name.
@@ -45,7 +45,7 @@ namespace KrTrade.Nt.Core.Data
         {
             get
             {
-                if (TradingHoursKey == TradingHoursCode.Default)
+                if (TradingHoursKey == Data.TradingHoursCode.Default)
                     TradingHoursKey = _instrumentKey.ToDefaultTradingHoursKey();
 
                 return TradingHoursKey.ToName();

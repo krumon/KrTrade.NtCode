@@ -1,14 +1,10 @@
-﻿using KrTrade.Nt.Core.Interfaces;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace KrTrade.Nt.DI.Hosting
+﻿namespace KrTrade.Nt.DI.Hosting
 {
 
     /// <summary>
     /// Defines methods for objects that are managed by the host.
     /// </summary>
-    public interface IHostedService : IConfigureService, IDataLoadedService
+    public interface IHostedService //: IConfigureService, IDataLoadedService
     {
         #region Original properties and methods
 

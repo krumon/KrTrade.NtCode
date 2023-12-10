@@ -1,5 +1,5 @@
-﻿using KrTrade.Nt.DI.Exceptions;
-using KrTrade.Nt.DI.DependencyInjection.ServiceLookup;
+﻿using KrTrade.Nt.DI.DependencyInjection.ServiceLookup;
+using KrTrade.Nt.DI.Exceptions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

@@ -1,6 +1,5 @@
 ﻿using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.Logging;
-using KrTrade.Nt.Core.Print;
 using NinjaTrader.NinjaScript;
 using System;
 
@@ -41,7 +40,15 @@ namespace KrTrade.Nt.Core.Extensions
         /// <param name="state"><see cref="State"/> object to convert.</param>
         /// <param name="formatLength">The format length.</param>
         /// <returns>The state short or long string.</returns>
-        public static string ToLogString(this State state, FormatLength formatLength)
+        public static string ToLogString(this State state, FormatLength formatLength) => ToString(state, formatLength);
+
+        /// <summary> 
+        /// Converts from <see cref="State"/> enum to short string.
+        /// </summary>
+        /// <param name="state"><see cref="State"/> object to convert.</param>
+        /// <param name="formatLength">The format length.</param>
+        /// <returns>The state short or long string.</returns>
+        public static string ToString(this State state, FormatLength formatLength)
         {
             if (formatLength == FormatLength.Long)
             {
@@ -82,7 +89,7 @@ namespace KrTrade.Nt.Core.Extensions
         /// </summary>
         /// <param name="state"></param>
         /// <returns></returns>
-        public static NinjascriptLogLevel ToPrintLevel(this State state)
+        public static NinjascriptLogLevel ToNinjascriptLogLevel(this State state)
         {
             switch (state)
             {
@@ -106,7 +113,7 @@ namespace KrTrade.Nt.Core.Extensions
         /// </summary>
         /// <param name="state">The current state.</param>
         /// <returns>True, if the state is 'Historical', 'Transition' or 'Realtime'.</returns>
-        public static bool IsInProgress(this State state)
+        public static bool IsRunning(this State state)
         {
             switch (state)
             {

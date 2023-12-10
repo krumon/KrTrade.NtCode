@@ -1,7 +1,7 @@
-﻿namespace KrTrade.Nt.Core.Interfaces
-{
-    public interface IOnBarClosedService : INeedBarsService
-    {
-        void OnBarClosed();
-    }
-}
+﻿//namespace KrTrade.Nt.Core.Interfaces
+//{
+//    public interface IOnBarClosedService : INeedBarsService
+//    {
+//        void OnBarClosed();
+//    }
+//}

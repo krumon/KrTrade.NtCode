@@ -5,10 +5,12 @@
     /// </summary>
     public enum TradingHoursCode
     {
-        Default = 0,
-        CME_US_Index_Futures_ETH = 1,
-        CME_US_Index_Futures_RTH = 2,
-        CME_FX_Futures_ETH = 3,
-        CME_FX_Futures_RTH = 4
+        Default,
+        CME_US_Index_Futures_ETH,
+        CME_US_Index_Futures_RTH,
+        CME_FX_Futures_ETH,
+        CME_FX_Futures_RTH,
+        CBOE_US_Index_Futures_ETH,
+        CBOE_US_Index_Futures_RTH
     }
 }

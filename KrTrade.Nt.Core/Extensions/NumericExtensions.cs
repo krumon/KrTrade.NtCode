@@ -340,7 +340,7 @@ namespace KrTrade.Nt.Core.Extensions
             switch (formatLength)
             {
                 case FormatLength.Long:
-                    return value.ToString("#,0.00");
+                    return value.ToString("#,0.##");
                 case FormatLength.Short:
                     return value.ToString("#,0.##");
                 default: throw new NotImplementedException();

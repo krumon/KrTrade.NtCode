@@ -1,10 +1,4 @@
-﻿using KrTrade.Nt.Core.Caches;
-using KrTrade.Nt.Core.Print;
-using KrTrade.Nt.Scripts.NinjatraderObjects;
-using KrTrade.Nt.Services;
-using System;
-
-namespace KrTrade.Nt.Console.Console
+﻿namespace KrTrade.Nt.Console.Console
 {
     internal class Program
     {

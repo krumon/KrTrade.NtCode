@@ -48,14 +48,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bars\BarsPattern.cs" />
-    <Compile Include="Bars\BarsPeriod.cs" />
-    <Compile Include="Bars\BarsState.cs" />
+    <Compile Include="Bars\BarsEvent.cs" />
     <Compile Include="Bars\BarsLogLevel.cs" />
-    <Compile Include="Bars\BarsStateExtensions.cs" />
+    <Compile Include="Bars\BarsEventExtensions.cs" />
     <Compile Include="Bars\BarPattern.cs" />
     <Compile Include="Bars\BarType.cs" />
     <Compile Include="Caches\Cache.cs" />
     <Compile Include="Data\Formats\TimeFormat.cs" />
+    <Compile Include="Data\MarketData\MarketDataTypeExtensions.cs" />
     <Compile Include="Extensions\BarsPeriodExtensions.cs" />
     <Compile Include="DataSeries\DataSerie.cs" />
     <Compile Include="DataSeries\PeriodType.cs" />
@@ -88,6 +88,8 @@
     <Compile Include="Exceptions\SetConfigurationException.cs" />
     <Compile Include="Exceptions\SetDefaultException.cs" />
     <Compile Include="Helpers\ThrowHelper.cs" />
+    <Compile Include="Interfaces\IBarUpdateService.cs" />
+    <Compile Include="Interfaces\IGlobalService.cs" />
     <Compile Include="Interfaces\INeedConfiguration.cs" />
     <Compile Include="Interfaces\IConfigureService.cs" />
     <Compile Include="Interfaces\IOnBarUpdateService.cs" />
@@ -100,7 +102,13 @@
     <Compile Include="Interfaces\INeedBarsService.cs" />
     <Compile Include="Interfaces\IDataLoadedService.cs" />
     <Compile Include="Interfaces\IOnSessionUpdateService.cs" />
+    <Compile Include="Interfaces\IBaseService.cs" />
+    <Compile Include="Interfaces\IBaseOptions.cs" />
+    <Compile Include="Interfaces\IChildService.cs" />
+    <Compile Include="Interfaces\IPrimaryService.cs" />
     <Compile Include="NinjaScript\EventType.cs" />
+    <Compile Include="Services\BarUpdateServiceType.cs" />
+    <Compile Include="Services\GlobalServiceType.cs" />
     <Compile Include="Sessions\Internal\SessionFactory.cs" />
     <Compile Include="Sessions\Internal\TradingSession.cs" />
     <Compile Include="Sessions\Internal\TradingSessionCollection.cs" />
@@ -147,7 +155,7 @@
     <Compile Include="Interfaces\Services\IBaseNinjaScriptService.cs" />
     <Compile Include="Interfaces\Services\IBaseNinjaScript.cs" />
     <Compile Include="Interfaces\Indicators\IKrBaseIndicator.cs" />
-    <Compile Include="Interfaces\Services\IBarUpdateService.cs" />
+    <Compile Include="Interfaces\Services\IBarUpdateService_.cs" />
     <Compile Include="Interfaces\Services\INinjaScriptService.cs" />
     <Compile Include="Interfaces\Services\IPrintLoggerService.cs" />
     <Compile Include="Plot\PlotStyle.cs" />
