@@ -5,14 +5,14 @@ using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
-    public class MultiBarsService : NinjascriptService<MultiBarsOptions>
+    public class DataSeriesCollectionService : NinjascriptService<DataSeriesCollectionOptions>
     { 
         #region Private members
 
         //private bool _isInitialized;
         //private bool _isConfigured;
 
-        private List<IBarsService> _barsServices;
+        private List<IDataSeriesService> _barsServices;
 
         #endregion
 
@@ -34,7 +34,7 @@ namespace KrTrade.Nt.Services
         /// <param name="index">The specific index.</param>
         /// <returns><see cref="BarsService"/>.</returns>
         /// <exception cref="Exception"></exception>
-        public IBarsService this[int index]
+        public IDataSeriesService this[int index]
         {
             get
             {
@@ -97,9 +97,9 @@ namespace KrTrade.Nt.Services
         /// </summary>
         /// <param name="ninjascript">The NinjaScript to inject in the service.</param>
         /// <param name="printSvc">The <see cref="BasePrintService"/> service injected.</param>
-        public MultiBarsService(NinjaScriptBase ninjascript) : base(ninjascript)
+        public DataSeriesCollectionService(NinjaScriptBase ninjascript) : base(ninjascript)
         {
-            _barsServices = new List<IBarsService>();
+            _barsServices = new List<IDataSeriesService>();
         }
 
         #endregion
@@ -206,13 +206,13 @@ namespace KrTrade.Nt.Services
         /// </summary>
         /// <param name="barsService">The new data series.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        internal void AddDataSeries(IBarsService barsService)
+        internal void AddDataSeries(IDataSeriesService barsService)
         {
             if (barsService == null)
                 throw new ArgumentNullException("The BarsService to add, cannot be null.");
 
             if (_barsServices == null)
-                _barsServices = new List<IBarsService>();
+                _barsServices = new List<IDataSeriesService>();
 
             _barsServices.Add(barsService);
         }

@@ -1,7 +1,7 @@
 ﻿namespace KrTrade.Nt.Services
 {
     /// <summary>
-    /// Represents the service of only one bar.
+    /// Represents the options of <see cref="BarService"/>.
     /// </summary>
     public class BarOptions : NinjascriptServiceOptions
     {

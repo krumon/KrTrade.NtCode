@@ -1,33 +1,43 @@
-﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core.DataSeries;
-
-namespace KrTrade.Nt.Services
+﻿namespace KrTrade.Nt.Services
 {
     /// <summary>
-    /// Define the <see cref="MultiBarsService"/> options. 
+    /// Represents the options of <see cref="BarsService"/>.
     /// </summary>
     public class BarsOptions : NinjascriptServiceOptions
     {
+        private int _displacement = 0;
+        private int _period = 0;
+
+        #region Public properties
 
         /// <summary>
-        /// Gets or sets the time frama of the data serie.
+        /// Gets the bars ago of the bar in the bars collection. 
+        /// This bars ago 0 is the last bar of the bars collection.
         /// </summary>
-        public TimeFrame TimeFrame {  get; set; }
+        public int Displacement 
+        {
+            get => _displacement;
+            set
+            {
+                if (_displacement != value && _displacement >= 0)
+                    _displacement = value;
+            }
+        } 
 
         /// <summary>
-        /// Gets or sets the trading hours name of the bars series.
+        /// Gets the number of the bars. 
         /// </summary>
-        public TradingHoursCode TradingHours { get; set; }
+        public int Period
+        {
+            get => _period;
+            set
+            {
+                if (_period != value && _period >= 0)
+                    _period = value;
+            }
+        }
 
-        /// <summary>
-        /// Gets or sets the market data type of the bars series.
-        /// </summary>
-        public MarketDataType MarketDataType { get; set; }
-
-        /// <summary>
-        /// Gets the instument name.
-        /// </summary>
-        public InstrumentCode InstrumentName { get; set; }
+        #endregion
 
     }
 }

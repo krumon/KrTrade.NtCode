@@ -6,7 +6,7 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Defines properties and methods to be executed in 'Ninjatrader.NinjaScript' primary data series.
     /// </summary>
-    public interface IBarsService : INinjascriptService<BarsOptions>
+    public interface IDataSeriesService : INinjascriptService<DataSeriesOptions>
     {
         /// <summary>
         /// Method to be executed when 'Ninjatrader.CurrentBar' is updated.        
@@ -14,29 +14,9 @@ namespace KrTrade.Nt.Services
         void OnBarUpdate();
 
         /// <summary>
-        /// Method to be executed when 'Ninjatrader.CurrentBar' is closed.
+        /// Method to be executed when 'Ninjatrader.CurrentBar' is updated and is not necesary pass previous filters.        
         /// </summary>
-        void OnBarClosed();
-
-        /// <summary>
-        /// Method to be executed when new tick success in 'Ninjatrader.CurrentBar'.
-        /// </summary>
-        void OnTick();
-
-        /// <summary>
-        /// Method to be executed when first tick success in 'Ninjatrader.CurrentBar'.
-        /// </summary>
-        void OnFirstTick();
-
-        /// <summary>
-        /// Method to be executed when 'Ninjatrader.LastBar' is removed.
-        /// </summary>
-        void OnLastBarRemoved();
-
-        /// <summary>
-        /// Method to be executed when <see cref="IBarsService"/> current bar price changed.
-        /// </summary>
-        void OnPriceChanged();
+        void Update();
 
         /// <summary>
         /// <see cref="IBarUpdateService"/> collection to be executed when 'Ninjatrader.CurrentBar' is updated.

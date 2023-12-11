@@ -15,30 +15,30 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Create <see cref="BarsCacheService"/> instance and configure it.
         /// </summary>
-        /// <see cref="IBarsService"/> necesary for the <see cref="BarsCacheService"/>.
-        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        protected BarsCacheService(IBarsService barsService) : base(barsService)
+        /// <param name="dataSeriesService">The <see cref="IDataSeriesService"/> necesary for the <see cref="BarsCacheService"/>.</param>
+        /// <exception cref="ArgumentNullException">The <see cref="IDataSeriesService"/> cannot be null.</exception>
+        protected BarsCacheService(IDataSeriesService dataSeriesService) : base(dataSeriesService)
         {
         }
 
         /// <summary>
         /// Create <see cref="BarsCacheService"/> instance and configure it.
         /// </summary>
-        /// <see cref="IBarsService"/> necesary for the <see cref="BarsCacheService"/>.
+        /// <param name="dataSeriesService">The <see cref="IDataSeriesService"/> necesary for the <see cref="BarsCacheService"/>.</param>
         /// <param name="capacity">The cache capacity.</param>
         /// <param name="displacement">The <see cref="BaseCacheService"/> displacement respect the bars collection.</param>
-        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        protected BarsCacheService(IBarsService barsService, int capacity, int displacement) : base(barsService, capacity, displacement)
+        /// <exception cref="ArgumentNullException">The <see cref="IDataSeriesService"/> cannot be null.</exception>
+        protected BarsCacheService(IDataSeriesService dataSeriesService, int capacity, int displacement) : base(dataSeriesService, capacity, displacement)
         {
         }
 
         /// <summary>
         /// Create <see cref="BarsCacheService"/> instance and configure it.
         /// </summary>
-        /// <see cref="IBarsService"/> necesary for the <see cref="BarsCacheService"/>.
+        /// <param name="dataSeriesService">The <see cref="IDataSeriesService"/> necesary for the <see cref="BarsCacheService"/>.</param>
         /// <param name="configureOptions">The configure options of the service.</param>
-        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        protected BarsCacheService(IBarsService barsService, IConfigureOptions<CacheOptions> configureOptions) : base(barsService, configureOptions)
+        /// <exception cref="ArgumentNullException">The <see cref="IDataSeriesService"/> cannot be null.</exception>
+        protected BarsCacheService(IDataSeriesService dataSeriesService, IConfigureOptions<CacheOptions> configureOptions) : base(dataSeriesService, configureOptions)
         {
         }
 
@@ -83,17 +83,17 @@ namespace KrTrade.Nt.Services
         /// <returns>The value of the next element we want to add to the cache.</returns>
         public override Bar GetNextCandidateValue(int seriesDisplacement)
         {
-            if (Ninjascript.BarsInProgress != _barsService.Idx || Ninjascript.CurrentBars[_barsService.Idx] < seriesDisplacement)
+            if (Ninjascript.BarsInProgress != DataSeriesService.Idx || Ninjascript.CurrentBars[DataSeriesService.Idx] < seriesDisplacement)
                 return null;
             return new Bar()
             {
-                Idx = Ninjascript.CurrentBars[_barsService.Idx] - Displacement,
-                Time = Ninjascript.Times[_barsService.Idx][Displacement],
-                Open = Ninjascript.Opens[_barsService.Idx][Displacement],
-                High = Ninjascript.Opens[_barsService.Idx][Displacement],
-                Low = Ninjascript.Opens[_barsService.Idx][Displacement],
-                Close = Ninjascript.Opens[_barsService.Idx][Displacement],
-                Volume = Ninjascript.Opens[_barsService.Idx][Displacement]
+                Idx = Ninjascript.CurrentBars[DataSeriesService.Idx] - Displacement,
+                Time = Ninjascript.Times[DataSeriesService.Idx][Displacement],
+                Open = Ninjascript.Opens[DataSeriesService.Idx][Displacement],
+                High = Ninjascript.Opens[DataSeriesService.Idx][Displacement],
+                Low = Ninjascript.Opens[DataSeriesService.Idx][Displacement],
+                Close = Ninjascript.Opens[DataSeriesService.Idx][Displacement],
+                Volume = Ninjascript.Opens[DataSeriesService.Idx][Displacement]
             };
         }
         public override bool IsValidCandidateValue() => CandidateValue != null;
@@ -112,7 +112,7 @@ namespace KrTrade.Nt.Services
         /// <returns>The value of the next element we want to add to the cache.</returns>
         public double GetNextCandidateValue(ISeries<double> series, int seriesDisplacement)
         {
-            if (Ninjascript.BarsInProgress != _barsService.Idx || Ninjascript.CurrentBars[_barsService.Idx] < seriesDisplacement)
+            if (Ninjascript.BarsInProgress != DataSeriesService.Idx || Ninjascript.CurrentBars[DataSeriesService.Idx] < seriesDisplacement)
                 return double.NaN;
             return series[seriesDisplacement];
         }

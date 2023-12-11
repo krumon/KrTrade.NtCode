@@ -6,12 +6,11 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Represents the service of only one bar.
     /// </summary>
-    public class BarService : NinjascriptService<BarOptions>, IBarUpdateService
+    public class BarService : BarUpdateService<BarOptions>, IBarUpdateService
     {
 
         #region Private members
 
-        private readonly IBarsService _barsService;
         private Bar _bar;
 
         #endregion
@@ -87,20 +86,20 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Create <see cref="BarService"/> instance and configure it.
         /// </summary>
-        /// <see cref="IBarsService"/> necesary for the <see cref="BarService"/>.
-        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        public BarService(IBarsService barsService) : base(barsService?.Ninjascript, barsService?.PrintService)
+        /// <param name="dataSeriesService">The <see cref="IDataSeriesService"/> necesary for the <see cref="BarService"/>.</param>
+        /// <exception cref="ArgumentNullException">The <see cref="IDataSeriesService"/> cannot be null.</exception>
+        public BarService(IDataSeriesService dataSeriesService) : base(dataSeriesService)
         {
         }
 
         /// <summary>
         /// Create <see cref="BarService"/> instance and configure it.
         /// </summary>
-        /// <see cref="IBarsService"/> necesary for the <see cref="BarService"/>.
+        /// <param name="dataSeriesService">The <see cref="IDataSeriesService"/> necesary for the <see cref="BarService"/>.</param>
         /// <param name="displacement">The <see cref="BarService"/> displacement respect the bars collection.</param>
-        /// <param name="barsIdx">The index of the <see cref="IBarsService"/> to witch it belong.</param>
-        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        public BarService(IBarsService barsService, int displacement, int barsIdx) : base(barsService?.Ninjascript, barsService?.PrintService)
+        /// <param name="barsIdx">The index of the <see cref="IDataSeriesService"/> to witch it belong.</param>
+        /// <exception cref="ArgumentNullException">The <see cref="IDataSeriesService"/> cannot be null.</exception>
+        public BarService(IDataSeriesService dataSeriesService, int displacement, int barsIdx) : base(dataSeriesService)
         {
             Options.Displacement = displacement;
             Options.BarsIdx = barsIdx;
@@ -108,10 +107,10 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Create <see cref="BarService"/> instance and configure it.
         /// </summary>
-        /// <see cref="IBarsService"/> necesary for the <see cref="BarService"/>.
+        /// <param name="dataSeriesService">The <see cref="IDataSeriesService"/> necesary for the <see cref="BarService"/>.</param>
         /// <param name="configureOptions">The configure options of the service.</param>
-        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        public BarService(IBarsService barsService, IConfigureOptions<BarOptions> configureOptions) : base(barsService?.Ninjascript, barsService?.PrintService, configureOptions)
+        /// <exception cref="ArgumentNullException">The <see cref="IDataSeriesService"/> cannot be null.</exception>
+        public BarService(IDataSeriesService dataSeriesService, IConfigureOptions<BarOptions> configureOptions) : base(dataSeriesService, configureOptions)
         {
         }
 
@@ -119,9 +118,7 @@ namespace KrTrade.Nt.Services
 
         #region Implementation methods
 
-        public IBarsService BarsService => _barsService;
-        
-        public void Update()
+        public override void Update()
         {
             UpdateValues();
         }
@@ -156,7 +153,7 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Log the values of the <see cref="BarService"/>.
         /// </summary>
-        public void LogUpdatedState()
+        public override void LogUpdatedState()
         {
             if (PrintService != null && Options.IsLogEnable)
                 PrintService.LogOHLCV(Name, Displacement, BarsIdx);

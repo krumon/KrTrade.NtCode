@@ -6,12 +6,12 @@
     public interface IBarUpdateService
     {
         /// <summary>
-        /// The <see cref="IBarsService"/> necesary to execute the <see cref="IBarUpdateService"/> services.
+        /// The <see cref="IDataSeriesService"/> necesary to execute the <see cref="IBarUpdateService"/> services.
         /// </summary>
-        IBarsService BarsService { get; }
+        IDataSeriesService DataSeriesService { get; }
 
         /// <summary>
-        /// Method to be executed when <see cref="IBarsService"/> current bar is closed.
+        /// Method to be executed when <see cref="IDataSeriesService"/> current bar is closed.
         /// </summary>
         void Update();
 

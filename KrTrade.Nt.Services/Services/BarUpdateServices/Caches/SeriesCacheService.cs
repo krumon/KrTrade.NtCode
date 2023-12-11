@@ -14,30 +14,30 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Create <see cref="SeriesCacheService"/> instance and configure it.
         /// </summary>
-        /// <see cref="IBarsService"/> necesary for the <see cref="SeriesCacheService"/>.
-        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        protected SeriesCacheService(IBarsService barsService) : base(barsService)
+        /// <param name="dataSeriesService">The <see cref="IDataSeriesService"/> necesary for the <see cref="SeriesCacheService"/>.</param>
+        /// <exception cref="ArgumentNullException">The <see cref="IDataSeriesService"/> cannot be null.</exception>
+        protected SeriesCacheService(IDataSeriesService dataSeriesService) : base(dataSeriesService)
         {
         }
 
         /// <summary>
         /// Create <see cref="SeriesCacheService"/> instance and configure it.
         /// </summary>
-        /// <see cref="IBarsService"/> necesary for the <see cref="SeriesCacheService"/>.
+        /// <param name="dataSeriesService">The <see cref="IDataSeriesService"/> necesary for the <see cref="SeriesCacheService"/>.</param>
         /// <param name="capacity">The cache capacity.</param>
         /// <param name="displacement">The <see cref="BaseCacheService"/> displacement respect the bars collection.</param>
-        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        protected SeriesCacheService(IBarsService barsService, int capacity, int displacement) : base(barsService, capacity, displacement)
+        /// <exception cref="ArgumentNullException">The <see cref="IDataSeriesService"/> cannot be null.</exception>
+        protected SeriesCacheService(IDataSeriesService dataSeriesService, int capacity, int displacement) : base(dataSeriesService, capacity, displacement)
         {
         }
 
         /// <summary>
         /// Create <see cref="SeriesCacheService"/> instance and configure it.
         /// </summary>
-        /// <see cref="IBarsService"/> necesary for the <see cref="SeriesCacheService"/>.
+        /// <param name="dataSeriesService">The <see cref="IDataSeriesService"/> necesary for the <see cref="SeriesCacheService"/>.</param>
         /// <param name="configureOptions">The configure options of the service.</param>
-        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        protected SeriesCacheService(IBarsService barsService, IConfigureOptions<CacheOptions> configureOptions) : base(barsService, configureOptions)
+        /// <exception cref="ArgumentNullException">The <see cref="IDataSeriesService"/> cannot be null.</exception>
+        protected SeriesCacheService(IDataSeriesService dataSeriesService, IConfigureOptions<CacheOptions> configureOptions) : base(dataSeriesService, configureOptions)
         {
         }
 
@@ -87,7 +87,7 @@ namespace KrTrade.Nt.Services
         /// <returns>The value of the next element we want to add to the cache.</returns>
         public override double GetNextCandidateValue(int displacement)
         {
-            if (Ninjascript.BarsInProgress != _barsService.Idx || Ninjascript.CurrentBars[_barsService.Idx] < displacement)
+            if (Ninjascript.BarsInProgress != DataSeriesService.Idx || Ninjascript.CurrentBars[DataSeriesService.Idx] < displacement)
                 return double.NaN;
             return Series[displacement];
         }

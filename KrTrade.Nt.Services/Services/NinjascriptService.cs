@@ -73,7 +73,7 @@ namespace KrTrade.Nt.Services
         {
 
             if (IsOutOfConfigurationStates())
-                LoggingHelpers.OutOfConfigurationStatesException(Name);
+                LoggingHelpers.ThrowIsNotConfigureException(Name);
 
             if (_isConfigure && _isDataLoaded)
                 return;
@@ -94,7 +94,7 @@ namespace KrTrade.Nt.Services
         public void DataLoaded()
         {
             if (Ninjascript.State != State.DataLoaded)
-                LoggingHelpers.OutOfConfigurationStatesException(Name);
+                LoggingHelpers.ThrowIsNotConfigureException(Name);
 
             if (_isConfigure && _isDataLoaded)
                 return;

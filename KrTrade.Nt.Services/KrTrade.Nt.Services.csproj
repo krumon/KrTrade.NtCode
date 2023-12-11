@@ -50,10 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Services\BarUpdateServices\Bars\BarsOptions.cs" />
     <Compile Include="Services\BarUpdateServices\Caches\CacheOptions.cs" />
-    <Compile Include="Services\BarUpdateServices\Bars\IBarsService.cs" />
+    <Compile Include="Services\DataSeriesServices\IDataSeriesService.cs" />
     <Compile Include="Services\BarUpdateServices\IBarUpdateService.cs" />
-    <Compile Include="Interfaces\ITerminated.cs" />
+    <Compile Include="Ninjascripts\ITerminated.cs" />
+    <Compile Include="Services\DataSeriesServices\DataSeriesService.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Services\LoggingServices\IFormatter.cs" />
     <Compile Include="Services\LoggingServices\ILogger.cs" />
@@ -128,13 +130,9 @@
     <Compile Include="DI\ServiceProvider\ServiceProviderOptions.cs" />
     <Compile Include="DI\ServiceProvider\StackGuard.cs" />
     <Compile Include="Ninjascripts\NinjascriptOptions.cs" />
-    <Compile Include="Interfaces\IConfigure.cs" />
-    <Compile Include="Interfaces\IDataLoaded.cs" />
-    <Compile Include="Interfaces\IGlobalService.cs" />
-    <Compile Include="Interfaces\INeedBarsService.cs" />
-    <Compile Include="Interfaces\INeedConfiguration.cs" />
+    <Compile Include="Ninjascripts\IConfigure.cs" />
+    <Compile Include="Ninjascripts\IDataLoaded.cs" />
     <Compile Include="Services\BarUpdateServices\IBarClosedService.cs" />
-    <Compile Include="Interfaces\IOnBarUpdateService.cs" />
     <Compile Include="Services\BarUpdateServices\IEachTickService.cs" />
     <Compile Include="Services\BarUpdateServices\IFirstTickService.cs" />
     <Compile Include="Services\BarUpdateServices\ILastBarRemovedService.cs" />
@@ -142,13 +140,13 @@
     <Compile Include="Services\BarUpdateServices\IPriceChangedService.cs" />
     <Compile Include="Services\SessionsServices\IOnSessionUpdateService.cs" />
     <Compile Include="DI\ServicesHost\NinjaHostOptions.cs" />
-    <Compile Include="Services\BarUpdateServices\MultiBars\MultiBarsOptions.cs" />
+    <Compile Include="Services\DataSeriesServices\DataSeriesCollectionOptions.cs" />
     <Compile Include="Services\BarUpdateServices\Bars\BarsService.cs" />
     <Compile Include="Services\BarUpdateServices\Bar\BarOptions.cs" />
     <Compile Include="Services\BarUpdateServices\Bar\BarService.cs" />
     <Compile Include="Services\BarUpdateServices\Bar\LastBarService.cs" />
-    <Compile Include="Services\BarUpdateServices\Bars\BarsOptions.cs" />
-    <Compile Include="Services\BarUpdateServices\MultiBars\MultiBarsService.cs" />
+    <Compile Include="Services\DataSeriesServices\DataSeriesOptions.cs" />
+    <Compile Include="Services\DataSeriesServices\DataSeriesCollectionService.cs" />
     <Compile Include="Services\BarUpdateServices\Caches\BaseCacheService.cs" />
     <Compile Include="Services\BarUpdateServices\Caches\PriceCacheService.cs" />
     <Compile Include="Services\BarUpdateServices\Caches\BarsCacheService.cs" />

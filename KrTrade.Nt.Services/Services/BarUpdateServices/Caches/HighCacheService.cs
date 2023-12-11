@@ -10,30 +10,30 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Create <see cref="HighCacheService"/> instance and configure it.
         /// </summary>
-        /// <see cref="IBarsService"/> necesary for the <see cref="HighCacheService"/>.
-        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        protected HighCacheService(IBarsService barsService) : base(barsService)
+        /// <param name="dataSeriesService">The <see cref="IDataSeriesService"/> necesary for the <see cref="HighCacheService"/>.</param>
+        /// <exception cref="ArgumentNullException">The <see cref="IDataSeriesService"/> cannot be null.</exception>
+        protected HighCacheService(IDataSeriesService dataSeriesService) : base(dataSeriesService)
         {
         }
 
         /// <summary>
         /// Create <see cref="HighCacheService"/> instance and configure it.
         /// </summary>
-        /// <see cref="IBarsService"/> necesary for the <see cref="HighCacheService"/>.
+        /// <param name="dataSeriesService">The <see cref="IDataSeriesService"/> necesary for the <see cref="HighCacheService"/>.</param>
         /// <param name="capacity">The cache capacity.</param>
         /// <param name="displacement">The <see cref="BaseCacheService"/> displacement respect the bars collection.</param>
-        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        protected HighCacheService(IBarsService barsService, int capacity, int displacement) : base(barsService, capacity, displacement)
+        /// <exception cref="ArgumentNullException">The <see cref="IDataSeriesService"/> cannot be null.</exception>
+        protected HighCacheService(IDataSeriesService dataSeriesService, int capacity, int displacement) : base(dataSeriesService, capacity, displacement)
         {
         }
 
         /// <summary>
         /// Create <see cref="HighCacheService"/> instance and configure it.
         /// </summary>
-        /// <see cref="IBarsService"/> necesary for the <see cref="HighCacheService"/>.
+        /// <param name="dataSeriesService">The <see cref="IDataSeriesService"/> necesary for the <see cref="HighCacheService"/>.</param>
         /// <param name="configureOptions">The configure options of the service.</param>
-        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        protected HighCacheService(IBarsService barsService, IConfigureOptions<CacheOptions> configureOptions) : base(barsService, configureOptions)
+        /// <exception cref="ArgumentNullException">The <see cref="IDataSeriesService"/> cannot be null.</exception>
+        protected HighCacheService(IDataSeriesService dataSeriesService, IConfigureOptions<CacheOptions> configureOptions) : base(dataSeriesService, configureOptions)
         {
         }
 
@@ -42,7 +42,7 @@ namespace KrTrade.Nt.Services
         /// </summary>
         public override string Name => $"HighCache({Capacity})";
 
-        public override ISeries<double> Series => Ninjascript.Highs[_barsService.Idx];
+        public override ISeries<double> Series => Ninjascript.Highs[DataSeriesService.Idx];
         public override bool IsBestCandidateValue() => true;
     }
 }

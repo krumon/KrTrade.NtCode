@@ -7,19 +7,12 @@ namespace KrTrade.Nt.Services
     /// Base class for all caches.
     /// </summary>
     /// <typeparam name="T">The type of cache element.</typeparam>
-    public abstract class BaseCacheService<T,TOptions> : 
-        NinjascriptService<TOptions>,
+    public abstract class BaseCacheService<T,TOptions> :  BarUpdateService<TOptions>,
         IBarClosedService,
         IPriceChangedService,
         ILastBarRemovedService
         where TOptions : CacheOptions, new()
     {
-
-        #region Private members
-
-        protected IBarsService _barsService;
-
-        #endregion
 
         #region Public properties
 
@@ -58,8 +51,6 @@ namespace KrTrade.Nt.Services
         /// </summary>
         public bool IsFull => Count == Capacity;
 
-        public IBarsService BarsService => _barsService;
-
         #endregion
 
         #region Constructors
@@ -67,20 +58,20 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Create <see cref="BaseCacheService"/> instance and configure it.
         /// </summary>
-        /// <see cref="IBarsService"/> necesary for the <see cref="BaseCacheService"/>.
-        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        public BaseCacheService(IBarsService barsService) : base(barsService?.Ninjascript, barsService?.PrintService)
+        /// <param name="dataSeriesService">The <see cref="IDataSeriesService"/> necesary for the <see cref="BaseCacheService"/>.</param>
+        /// <exception cref="ArgumentNullException">The <see cref="IDataSeriesService"/> cannot be null.</exception>
+        public BaseCacheService(IDataSeriesService dataSeriesService) : base(dataSeriesService)
         {
         }
 
         /// <summary>
         /// Create <see cref="BaseCacheService"/> instance and configure it.
         /// </summary>
-        /// <see cref="IBarsService"/> necesary for the <see cref="BaseCacheService"/>.
+        /// <param name="dataSeriesService">The <see cref="IDataSeriesService"/> necesary for the <see cref="BaseCacheService"/>.</param>
         /// <param name="capacity">The cache capacity.</param>
         /// <param name="displacement">The <see cref="BaseCacheService"/> displacement respect the bars collection.</param>
-        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        public BaseCacheService(IBarsService barsService, int capacity, int displacement) : base(barsService?.Ninjascript, barsService?.PrintService)
+        /// <exception cref="ArgumentNullException">The <see cref="IDataSeriesService"/> cannot be null.</exception>
+        public BaseCacheService(IDataSeriesService dataSeriesService, int capacity, int displacement) : base(dataSeriesService)
         {
             Options.Displacement = displacement;
             Options.Capacity = capacity;
@@ -89,10 +80,10 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Create <see cref="BaseCacheService"/> instance and configure it.
         /// </summary>
-        /// <see cref="IBarsService"/> necesary for the <see cref="BaseCacheService"/>.
+        /// <param name="dataSeriesService">The <see cref="IDataSeriesService"/> necesary for the <see cref="BaseCacheService"/>.</param>
         /// <param name="configureOptions">The configure options of the service.</param>
-        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        public BaseCacheService(IBarsService barsService, IConfigureOptions<CacheOptions> configureOptions) : base(barsService?.Ninjascript, barsService?.PrintService, configureOptions)
+        /// <exception cref="ArgumentNullException">The <see cref="IDataSeriesService"/> cannot be null.</exception>
+        public BaseCacheService(IDataSeriesService dataSeriesService, IConfigureOptions<CacheOptions> configureOptions) : base(dataSeriesService, configureOptions)
         {
         }
 
@@ -132,7 +123,7 @@ namespace KrTrade.Nt.Services
         /// <returns></returns>
         public abstract bool IsBestCandidateValue();
         
-        public void Update()
+        public override void Update()
         {
             CandidateValue = GetNextCandidateValue(Displacement);
         }
@@ -155,11 +146,11 @@ namespace KrTrade.Nt.Services
                 return;
 
             Cache.Clear();
-            for (int barsBack = Math.Min(Ninjascript.CurrentBars[_barsService.Idx], Capacity) - 1; barsBack >= 0; barsBack--)
+            for (int barsBack = Math.Min(Ninjascript.CurrentBars[DataSeriesService.Idx], Capacity) - 1; barsBack >= 0; barsBack--)
                 Cache.Add(GetNextCandidateValue(Displacement + barsBack));
         }
 
-        public void LogUpdatedState()
+        public override void LogUpdatedState()
         {
             if (PrintService != null && Options.IsLogEnable)
                 PrintService.LogValue(ToLogString());
