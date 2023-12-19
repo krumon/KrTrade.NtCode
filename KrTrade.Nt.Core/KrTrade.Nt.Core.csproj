@@ -48,9 +48,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bars\BarsPattern.cs" />
-    <Compile Include="Bars\BarsEvent.cs" />
+    <Compile Include="Bars\BarEvent.cs" />
     <Compile Include="Bars\BarsLogLevel.cs" />
-    <Compile Include="Bars\BarsEventExtensions.cs" />
+    <Compile Include="Bars\BarEventExtensions.cs" />
     <Compile Include="Bars\BarPattern.cs" />
     <Compile Include="Bars\BarType.cs" />
     <Compile Include="Caches\Cache.cs" />
@@ -132,7 +132,7 @@
     <Compile Include="Data\Formats\FormatType.cs" />
     <Compile Include="DataSeries\TimeFrame.cs" />
     <Compile Include="Extensions\TimeFrameExtensions.cs" />
-    <Compile Include="Bars\Bar.cs" />
+    <Compile Include="Bars\BarDataModel.cs" />
     <Compile Include="DataSeries\DataSeriesInfo.cs" />
     <Compile Include="Logging\LogEntry.cs" />
     <Compile Include="Logging\LoggingHelpers.cs" />

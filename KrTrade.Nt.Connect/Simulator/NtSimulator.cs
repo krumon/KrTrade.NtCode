@@ -9,7 +9,7 @@ namespace KrTrade.Nt.Connect
 
         #region Events
 
-        public event Action<Bar> BarUpdated = (currentBar) => { };
+        public event Action<BarDataModel> BarUpdated = (currentBar) => { };
 
         #endregion
 
@@ -19,7 +19,7 @@ namespace KrTrade.Nt.Connect
         private int speedFactor=0;
         
         protected Timer timer;
-        protected Bar bar;
+        protected BarDataModel bar;
 
         #endregion
 
@@ -111,7 +111,7 @@ namespace KrTrade.Nt.Connect
 
         #region Virtual methods
 
-        public virtual void OnBarUpdate(Bar currentBar)
+        public virtual void OnBarUpdate(BarDataModel currentBar)
         {
         }
 
@@ -122,7 +122,7 @@ namespace KrTrade.Nt.Connect
         private void BarUpdate()
         {
             if (bar == null)
-                bar = new Bar();
+                bar = new BarDataModel();
             else
             {
                 //bar.Idx++;

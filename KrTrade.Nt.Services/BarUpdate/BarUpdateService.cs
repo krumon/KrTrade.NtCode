@@ -1,6 +1,6 @@
 ﻿namespace KrTrade.Nt.Services
 {
-    public abstract class BarUpdateService<TOptions> : NinjascriptService<TOptions>, IBarUpdateService
+    public abstract class BarUpdateService<TOptions> : BaseNinjascriptService<TOptions>, IBarUpdateService
     where TOptions : NinjascriptServiceOptions, new()
     {
         private readonly IDataSeriesService _dataSeriesService;
@@ -29,7 +29,7 @@
 
         public IDataSeriesService DataSeriesService => _dataSeriesService;
 
-        public abstract void LogUpdatedState();
+        //public abstract void LogUpdatedState();
 
         public abstract void Update();
     }

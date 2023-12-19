@@ -2,20 +2,9 @@
 
 namespace KrTrade.Nt.Core.Bars
 {
-    public class Bar
+    public class BarDataModel
     {
         #region Public properties
-
-        ///// <summary>
-        ///// Gets the bars ago of the bar in the bars collection. 
-        ///// This bars ago 0 is the last bar of the bars collection.
-        ///// </summary>
-        //public int BarsAgo { get; set; }
-
-        ///// <summary>
-        ///// Gets the index of the bars series. 
-        ///// </summary>
-        //public int BarsIdx { get; set; }
 
         /// <summary>
         /// Gets the index of the bar in the bars collection. 
@@ -53,6 +42,10 @@ namespace KrTrade.Nt.Core.Bars
         /// </summary>
         public double Volume { get; set; }
 
+        /// Gets the number of ticks in the bar.
+        /// </summary>
+        public int Ticks { get; set; }
+
         /// <summary>
         /// Gets the range of the bar.
         /// </summary>
@@ -67,20 +60,10 @@ namespace KrTrade.Nt.Core.Bars
 
         #region Constructors
 
-        ///// <summary>
-        ///// Create <see cref="Bar"/> default instance.
-        ///// </summary>
-        //public Bar(int barsAgo, int barsIdx)
-        //{
-        //    BarsAgo = barsAgo;
-        //    BarsIdx = barsIdx;
-        //    Reset();
-        //}
-
         /// <summary>
         /// Create <see cref="Bar"/> default instance.
         /// </summary>
-        public Bar()
+        public BarDataModel()
         {
             Reset();
         }
@@ -120,10 +103,8 @@ namespace KrTrade.Nt.Core.Bars
         /// <summary>
         /// Copy the bar values to other bar object.
         /// </summary>
-        public void CopyTo(Bar bar)
+        public void CopyTo(BarDataModel bar)
         {
-            //bar.BarsAgo = BarsAgo;
-            //bar.BarsIdx = BarsIdx;
             bar.Idx = Idx;
             bar.Open = Open;
             bar.High = High;
@@ -138,7 +119,7 @@ namespace KrTrade.Nt.Core.Bars
         /// </summary>
         /// <param name="bar">The second bar to compare.</param>
         /// <returns></returns>
-        public bool IsEqualsTo(Bar bar)
+        public bool IsEqualsTo(BarDataModel bar)
         {
             if (bar == null)
                 throw new ArgumentNullException(nameof(bar));

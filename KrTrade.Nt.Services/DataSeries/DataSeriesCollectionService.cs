@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
-    public class DataSeriesCollectionService : NinjascriptService<DataSeriesCollectionOptions>
+    public class DataSeriesCollectionService : BaseNinjascriptService<DataSeriesCollectionOptions>
     { 
         #region Private members
 
@@ -268,6 +268,11 @@ namespace KrTrade.Nt.Services
         }
 
         internal override void DataLoaded(out bool isDataLoaded)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string ToLogString(string format = "")
         {
             throw new NotImplementedException();
         }

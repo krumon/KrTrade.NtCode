@@ -26,7 +26,7 @@ namespace KrTrade.Nt.Services
         #region Constructors
 
         /// <summary>
-        /// Create <see cref="NinjascriptService"/> instance and configure it.
+        /// Create <see cref="BaseNinjascriptService"/> instance and configure it.
         /// This instance must be created in the 'Ninjascript.State == Configure'.
         /// </summary>
         /// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
@@ -47,7 +47,7 @@ namespace KrTrade.Nt.Services
             if (barsAgo < 0 || barsAgo >= Ninjascript.BarsArray[barsInProgress].Count)
                 return -1;
 
-            return Ninjascript.CurrentBars[barsInProgress];
+            return Ninjascript.CurrentBars[barsInProgress]-barsAgo;
         }
         protected double GetOpen(int barsInProgress, int barsAgo)
         {

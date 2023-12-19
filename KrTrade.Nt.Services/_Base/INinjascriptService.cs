@@ -23,7 +23,7 @@
         /// <summary>
         /// Print in NinjaScript putput window the configuration state. If the configuration has been ok or error.
         /// </summary>
-        void LogConfigureState();
+        void LogConfigurationState();
 
     }
     /// <summary>

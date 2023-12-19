@@ -2,7 +2,6 @@
 using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.DataSeries;
 using KrTrade.Nt.Core.Extensions;
-using NinjaTrader.Core.FloatingPoint;
 using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
 using System;
@@ -10,7 +9,7 @@ using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
-    public class DataSeriesService : NinjascriptService<DataSeriesOptions>, IDataSeriesService
+    public class DataSeriesService : BaseNinjascriptService<DataSeriesOptions>, IDataSeriesService
     {
 
         #region Private members
@@ -19,18 +18,18 @@ namespace KrTrade.Nt.Services
         private LastBarService _lastBar;
         private LastBarService _currentBar;
         // State
-        private Dictionary<BarsEvent, bool> _barsEvents;
+        private Dictionary<BarEvent, bool> _barsEvents;
         // Logging
         private List<string> _logLines;
         // Services
         private List<IBarUpdateService> _services;
         // Execute methods
-        private List<Action> _onBarUpdateMethods;
-        private List<Action> _onLastBarRemovedMethods;
-        private List<Action> _onBarClosedMethods;
-        private List<Action> _onPriceChangedMethods;
-        private List<Action> _onEachTickMethods;
-        private List<Action> _onFirstTickMethods;
+        private List<Action> _updateMethods;
+        private List<Action> _lastBarRemovedMethods;
+        private List<Action> _barClosedMethods;
+        private List<Action> _priceChangedMethods;
+        private List<Action> _eachTickMethods;
+        private List<Action> _firstTickMethods;
 
         #endregion
 
@@ -152,18 +151,20 @@ namespace KrTrade.Nt.Services
         #region Implementation
 
         public override string Name => InstrumentName + "(" + BarsPeriod.ToShortString() + ")";
+        public override string ToLogString(string format = "") => Name;
+
         public IList<IBarUpdateService> Services => throw new NotImplementedException();
 
         internal override void Configure(out bool isConfigured)
         {
-            _barsEvents = new Dictionary<BarsEvent, bool>()
+            _barsEvents = new Dictionary<BarEvent, bool>()
             {
-                [BarsEvent.None] = false,
-                [BarsEvent.LastBarRemoved] = false,
-                [BarsEvent.BarClosed] = false,
-                [BarsEvent.FirstTick] = false,
-                [BarsEvent.PriceChanged] = false,
-                [BarsEvent.Tick] = false
+                [BarEvent.None] = false,
+                [BarEvent.Removed] = false,
+                [BarEvent.Closed] = false,
+                [BarEvent.FirstTick] = false,
+                [BarEvent.PriceChanged] = false,
+                [BarEvent.Tick] = false
             };
 
             _logLines = new List<string>();
@@ -217,75 +218,34 @@ namespace KrTrade.Nt.Services
         public void Update()
         {
             _currentBar.Update();
+            ExecuteMethods(_updateMethods);
 
-            ResetBarsEvents();
-            OnBarUpdated();
-            ExecuteMethods(_onBarUpdateMethods);
-
-            // LasBarRemoved
-            if (Ninjascript.BarsArray[Idx].BarsType.IsRemoveLastBarSupported && _currentBar.Idx < _lastBar.Idx)
+            if (_currentBar.IsRemove)
             {
-                SetBarsEventValue(BarsEvent.LastBarRemoved, true);
                 OnLastBarRemoved();
-                ExecuteMethods(_onLastBarRemovedMethods);
-            }
-            else
-            {
-                // BarClosed Or First tick success
-                if (_currentBar.Idx != _lastBar.Idx)
-                {
-                    SetBarsEventValue(BarsEvent.BarClosed, true);
-                    OnBarClosed();
-                    ExecuteMethods(_onBarClosedMethods);
-
-                    if (Ninjascript.Calculate != NinjaTrader.NinjaScript.Calculate.OnBarClose)
-                    {
-                        SetBarsEventValue(BarsEvent.FirstTick, true);
-                        OnFirstTick();
-                        ExecuteMethods(_onFirstTickMethods);
-
-                        if (_lastBar.Close.ApproxCompare(_currentBar.Close) != 0)
-                        {
-                            SetBarsEventValue(BarsEvent.PriceChanged, true);
-                            OnPriceChanged();
-                            ExecuteMethods(_onPriceChangedMethods);
-                        }
-
-                        if (Ninjascript.Calculate == NinjaTrader.NinjaScript.Calculate.OnEachTick)
-                        {
-                            SetBarsEventValue(BarsEvent.Tick, true);
-                            OnEachTick();
-                            ExecuteMethods(_onEachTickMethods);
-                        }
-                    }
-                }
-
-                // Tick Success
-                else
-                {
-                    if (_lastBar.Close.ApproxCompare(_currentBar.Close) != 0)
-                    {
-                        SetBarsEventValue(BarsEvent.PriceChanged, true);
-                        OnPriceChanged();
-                    }
-                    if (Ninjascript.Calculate == NinjaTrader.NinjaScript.Calculate.OnEachTick)
-                    {
-                        SetBarsEventValue(BarsEvent.Tick, true);
-                        OnEachTick();
-                    }
-                }
-            }
-            _currentBar.CopyTo(_lastBar);
-        }
-        public void LogUpdatedState()
-        {
-            if (_logLines == null || _logLines.Count == 0)
+                ExecuteMethods(_lastBarRemovedMethods);
                 return;
-            string stateText = string.Empty;
-            for (int i = 0; i < _logLines.Count; i++)
-                stateText += _logLines[i];
-
-            PrintService?.LogValue(stateText);
+            }
+            if (_currentBar.IsClose)
+            {
+                OnBarClosed();
+                ExecuteMethods(_barClosedMethods);
+            }
+            if (_currentBar.IsFirstTick)
+            {
+                OnFirstTick();
+                ExecuteMethods(_firstTickMethods);
+            }
+            if (_currentBar.IsPriceChange)
+            {
+                OnPriceChanged();
+                ExecuteMethods(_priceChangedMethods);
+            }
+            if (_currentBar.IsTick)
+            {
+                OnEachTick();
+                ExecuteMethods(_eachTickMethods);
+            }
         }
 
         #endregion
@@ -314,38 +274,38 @@ namespace KrTrade.Nt.Services
         internal void AddService(IBarUpdateService service)
         {
             PrintService?.LogTrace($"{Name} entry in 'AddService' method.");
-            if (_onBarUpdateMethods == null)
-                _onBarUpdateMethods = new List<Action>();
-            _onBarUpdateMethods.Add(service.Update);
+            if (_updateMethods == null)
+                _updateMethods = new List<Action>();
+            _updateMethods.Add(service.Update);
             if (service is IBarClosedService barClosed)
             {
-                if (_onBarClosedMethods == null)
-                    _onBarClosedMethods = new List<Action>();
-                _onBarClosedMethods.Add(barClosed.BarClosed);
+                if (_barClosedMethods == null)
+                    _barClosedMethods = new List<Action>();
+                _barClosedMethods.Add(barClosed.BarClosed);
             }
             if (service is IEachTickService barTick)
             {
-                if (_onEachTickMethods == null)
-                    _onEachTickMethods = new List<Action>();
-                _onEachTickMethods.Add(barTick.EachTick);
+                if (_eachTickMethods == null)
+                    _eachTickMethods = new List<Action>();
+                _eachTickMethods.Add(barTick.EachTick);
             }
             if (service is IPriceChangedService priceChanged)
             {
-                if (_onPriceChangedMethods == null)
-                    _onPriceChangedMethods = new List<Action>();
-                _onPriceChangedMethods.Add(priceChanged.PriceChanged);
+                if (_priceChangedMethods == null)
+                    _priceChangedMethods = new List<Action>();
+                _priceChangedMethods.Add(priceChanged.PriceChanged);
             }
             if (service is IFirstTickService barFirstTick)
             {
-                if (_onFirstTickMethods == null)
-                    _onFirstTickMethods = new List<Action>();
-                _onFirstTickMethods.Add(barFirstTick.FirstTick);
+                if (_firstTickMethods == null)
+                    _firstTickMethods = new List<Action>();
+                _firstTickMethods.Add(barFirstTick.FirstTick);
             }
             if (service is ILastBarRemovedService lastBarRemoved)
             {
-                if (_onLastBarRemovedMethods == null)
-                    _onLastBarRemovedMethods = new List<Action>();
-                _onLastBarRemovedMethods.Add(lastBarRemoved.LastBarRemoved);
+                if (_lastBarRemovedMethods == null)
+                    _lastBarRemovedMethods = new List<Action>();
+                _lastBarRemovedMethods.Add(lastBarRemoved.LastBarRemoved);
             }
         }
 
@@ -399,23 +359,23 @@ namespace KrTrade.Nt.Services
 
         #region Private methods
 
-        internal bool GetIsClosed(int barsInProgress) => !IsBarsInProgressOutOfRange(barsInProgress) && IsBarsInProgress(barsInProgress) && _barsEvents[BarsEvent.BarClosed];
-        internal bool GetHasNewTick(int barsInProgress) => !IsBarsInProgressOutOfRange(barsInProgress) && IsBarsInProgress(barsInProgress) && Ninjascript.Calculate == NinjaTrader.NinjaScript.Calculate.OnEachTick && _barsEvents[BarsEvent.Tick];
-        internal bool GetIsRemoved(int barsInProgress) => !IsBarsInProgressOutOfRange(barsInProgress) && IsBarsInProgress(barsInProgress) && _barsEvents[BarsEvent.LastBarRemoved];
-        internal bool GetHasNewPrice(int barsInProgress) => Ninjascript.Calculate != NinjaTrader.NinjaScript.Calculate.OnBarClose && IsBarsInProgress(barsInProgress) && _barsEvents[BarsEvent.PriceChanged];
-        internal bool GetIsFirstTick(int barsInProgress) => Ninjascript.Calculate != NinjaTrader.NinjaScript.Calculate.OnBarClose && IsBarsInProgress(barsInProgress) && _barsEvents[BarsEvent.FirstTick];
+        internal bool GetIsClosed(int barsInProgress) => !IsBarsInProgressOutOfRange(barsInProgress) && IsBarsInProgress(barsInProgress) && _barsEvents[BarEvent.Closed];
+        internal bool GetHasNewTick(int barsInProgress) => !IsBarsInProgressOutOfRange(barsInProgress) && IsBarsInProgress(barsInProgress) && Ninjascript.Calculate == NinjaTrader.NinjaScript.Calculate.OnEachTick && _barsEvents[BarEvent.Tick];
+        internal bool GetIsRemoved(int barsInProgress) => !IsBarsInProgressOutOfRange(barsInProgress) && IsBarsInProgress(barsInProgress) && _barsEvents[BarEvent.Removed];
+        internal bool GetHasNewPrice(int barsInProgress) => Ninjascript.Calculate != NinjaTrader.NinjaScript.Calculate.OnBarClose && IsBarsInProgress(barsInProgress) && _barsEvents[BarEvent.PriceChanged];
+        internal bool GetIsFirstTick(int barsInProgress) => Ninjascript.Calculate != NinjaTrader.NinjaScript.Calculate.OnBarClose && IsBarsInProgress(barsInProgress) && _barsEvents[BarEvent.FirstTick];
 
         private bool IsBarsInProgress(int barsInProgress) => barsInProgress == Ninjascript.BarsInProgress && barsInProgress == Idx;
-        private bool IsUpdated() => _lastBar.Idx == _currentBar.Idx;
+        //private bool IsUpdated() => _lastBar.Idx == _currentBar.Idx;
 
         private void SetBarsEvents(bool noneEvent, bool isLastBarRemoved, bool isBarClosed, bool isFirstTick, bool isPriceChanged, bool isNewTick)
         {
-            _barsEvents[BarsEvent.None] = noneEvent;
-            _barsEvents[BarsEvent.LastBarRemoved] = isLastBarRemoved;
-            _barsEvents[BarsEvent.BarClosed] = isBarClosed;
-            _barsEvents[BarsEvent.FirstTick] = isFirstTick;
-            _barsEvents[BarsEvent.PriceChanged] = isPriceChanged;
-            _barsEvents[BarsEvent.Tick] = isNewTick;
+            _barsEvents[BarEvent.None] = noneEvent;
+            _barsEvents[BarEvent.Removed] = isLastBarRemoved;
+            _barsEvents[BarEvent.Closed] = isBarClosed;
+            _barsEvents[BarEvent.FirstTick] = isFirstTick;
+            _barsEvents[BarEvent.PriceChanged] = isPriceChanged;
+            _barsEvents[BarEvent.Tick] = isNewTick;
         }
         private void ResetBarsEvents()
         {
@@ -429,7 +389,7 @@ namespace KrTrade.Nt.Services
                 );
             _logLines.Clear();
         }
-        private void SetBarsEventValue(BarsEvent barsEvent, bool value)
+        private void SetBarsEventValue(BarEvent barsEvent, bool value)
         {
             _barsEvents[barsEvent] = value;
 

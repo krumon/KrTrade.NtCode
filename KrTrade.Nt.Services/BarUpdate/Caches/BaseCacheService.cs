@@ -150,13 +150,7 @@ namespace KrTrade.Nt.Services
                 Cache.Add(GetNextCandidateValue(Displacement + barsBack));
         }
 
-        public override void LogUpdatedState()
-        {
-            if (PrintService != null && Options.IsLogEnable)
-                PrintService.LogValue(ToLogString());
-        }
-
-        protected virtual string ToLogString() => $"{Name}[Current]:{this[Count]}";
+        public override string ToLogString(string format = "") => $"{Name}[{Displacement}]:{this[Count]}";
 
         #endregion
 

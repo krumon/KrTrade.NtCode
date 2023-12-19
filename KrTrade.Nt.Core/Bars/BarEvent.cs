@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the the bars state.
     /// </summary>
-    public enum BarsEvent
+    public enum BarEvent
     {
         /// <summary>
         /// Indicates that the bars have not caused any event.
@@ -13,12 +13,12 @@
         /// <summary>
         /// Indicates that the last bar has been closed.
         /// </summary>
-        LastBarRemoved,
+        Removed,
 
         /// <summary>
         /// Indicates that the last bar has been removed.
         /// </summary>
-        BarClosed,
+        Closed,
 
         /// <summary>
         /// Indicates that the first tick of the bar has occurred.

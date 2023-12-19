@@ -60,7 +60,7 @@ namespace KrTrade.Nt.Services
         //}
 
         public T Get<T>()
-            where T : NinjascriptService
+            where T : BaseNinjascriptService
         {
             
             if (ServiceCollection.TryGetValue(typeof(T), out var service))
@@ -81,7 +81,7 @@ namespace KrTrade.Nt.Services
 
         #region Private methods
 
-        private void Recursive(NinjascriptService service)
+        private void Recursive(BaseNinjascriptService service)
         {
             //foreach (var key in ServiceCollection.Keys)
             //{
@@ -90,7 +90,7 @@ namespace KrTrade.Nt.Services
             //}
         }
 
-        private void Add(Type type, NinjascriptService service)
+        private void Add(Type type, BaseNinjascriptService service)
         {
             if (service == null)
             {
@@ -115,7 +115,7 @@ namespace KrTrade.Nt.Services
             //    PrintService = Get<PrintService>();
         }
 
-        private void Add(Type type, Func<NinjascriptService> delegateServiceCtor)
+        private void Add(Type type, Func<BaseNinjascriptService> delegateServiceCtor)
         {
             if (delegateServiceCtor == null)
             {

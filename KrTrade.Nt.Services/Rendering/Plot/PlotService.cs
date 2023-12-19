@@ -5,7 +5,7 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Implemets methods to plot in the ninjatrader charts.
     /// </summary>
-    public class PlotService : NinjascriptService
+    public class PlotService : BaseNinjascriptService
     {
         public PlotService(NinjaScriptBase ninjascript) : base(ninjascript)
         {
@@ -19,6 +19,11 @@ namespace KrTrade.Nt.Services
         /// Gets the name of the service.
         /// </summary>
         public override string Name => nameof(PlotService);
+
+        public override string ToLogString(string format = "")
+        {
+            throw new System.NotImplementedException();
+        }
 
         internal override void Configure(out bool isConfigured)
         {
