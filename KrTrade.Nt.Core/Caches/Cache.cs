@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NinjaTrader.NinjaScript;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Core.Caches
@@ -7,182 +8,200 @@ namespace KrTrade.Nt.Core.Caches
     /// Base class for all caches.
     /// </summary>
     /// <typeparam name="T">The type of cache element.</typeparam>
-    public class Cache<T>
+    public abstract class Cache<T> : ICache<T>,
+        IList<T>,
+        ICollection<T>,
+        IEnumerable<T>,
+        IEnumerable
     {
 
-        #region Private members
+        #region Consts
 
-        private List<T> _cache = new List<T>();
-        private readonly int _capacity;
+        public const int MAX_CAPACITY = 256;
+        public const int DEFAULT_CAPACITY = 20;
 
         #endregion
 
-        #region Public properties
+        #region Private members
 
-        /// <summary>
-        /// Gets the element of a sepecific index.
-        /// </summary>
-        /// <param name="index">The specific index.</param>
-        /// <returns><see cref="T"/> element.</returns>
-        public T this[int index]
+        private readonly IList<T> _cache = new List<T>();
+        private T _candidateValue;
+        private T _lastRemovedValue;
+        private bool _released = true;
+        private bool _redo = true;
+
+        #endregion
+
+        #region Implementation
+
+        public int Capacity { get; private set; }
+        public int Displacement { get; private set; }
+        public bool IsFull => Count == Capacity;
+        public T CurrentValue { get => _cache[0]; private set => _cache[0] = value; }
+        public void Release()
         {
-            get
+            _candidateValue = default;
+            if (Count > Capacity)
             {
-                if (index < 0 || index >= _cache.Count)
-                    throw new Exception(string.Format("'BaseCache' exception. The index to access to the cache is out of range. The index value is {0}", index));
-                return _cache[index];
+                _lastRemovedValue = _cache[Count-1];
+                _cache.RemoveAt(Count-1);
+                _redo = false;
             }
+            _released = true;
+        }
+        public void ReDo()
+        {
+            if (_redo)
+                return;
+            if (_cache == null || Count == 0 || !IsFull)
+                return;
+            _cache.RemoveAt(0);
+            _cache.Insert(Count - 1, _lastRemovedValue);
+            _lastRemovedValue = default;
+            _redo = true;
+            Release();
+        }
+        public void Reset()
+        {
+            _cache?.Clear();
+            Release();
+            _lastRemovedValue = default;
+        }
+        public void SetCandidateValue(NinjaScriptBase ninjascript = null)
+        {
+            _candidateValue = GetCandidateValue(ninjascript);
+            _released = false;
+        }
+        public void Add()
+        {
+            if (_released)
+                return;
+            if (IsValidCandidateValueToAdd(_candidateValue))
+            {
+                if (Count == 0) 
+                    Add(_candidateValue);
+                else 
+                    Insert(0, _candidateValue);
+            }
+            Release();
+        }
+        public void Update()
+        {
+            if (_cache == null || Count == 0)
+                return;
+            if (_released)
+                return;
+            if (IsValidCandidateValueToUpdate(_candidateValue))
+                Update(_candidateValue);
+            Release();
         }
 
-        /// <summary>
-        /// Represents the cache capacity.
-        /// </summary>
-        public int Capacity => _capacity;
+        protected abstract T GetCandidateValue(NinjaScriptBase ninjascript = null);
+        protected virtual bool IsValidCandidateValueToAdd(T candidateValue) => true;
+        protected virtual bool IsValidCandidateValueToUpdate(T candidateValue) => true;
+        protected virtual void Update(T newValue)
+        {
+            CurrentValue = newValue;
+        }
 
-        /// <summary>
-        /// The number of elements that exists in cache.
-        /// </summary>
+        #endregion
+
+        #region IEnumerable & ICollection implementation
+
         public int Count => _cache.Count;
-
-        /// <summary>
-        /// The number of elements that exists in cache.
-        /// </summary>
-        public bool IsFull => Count == Capacity;
+        public void Add(T item)
+        {
+            _cache.Add(item);
+        }
+        public void Clear()
+        {
+            _cache.Clear();
+        }
+        public int IndexOf(T item)
+        {
+            return _cache.IndexOf(item);
+        }
+        public void Insert(int index, T item)
+        {
+            _cache.Insert(index, item);
+        }
+        public void RemoveAt(int index)
+        {
+            _cache.RemoveAt(index);
+        }
+        public bool Contains(T item)
+        {
+            return _cache.Contains(item);
+        }
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            _cache.CopyTo(array, arrayIndex);
+        }
+        public bool Remove(T item)
+        {
+            return _cache.Remove(item);
+        }
+        public IEnumerator<T> GetEnumerator()
+        {
+            return _cache.GetEnumerator();
+        }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+        public bool IsReadOnly => false;
+        public T this[int index]
+        {
+            get => _cache[index];
+            set => _cache[index] = value;
+        }
 
         #endregion
 
         #region Constructors
 
-        /// <summary>
-        /// Create <see cref="Cache{T}"/> new instance with a specific capacity.
-        /// </summary>
-        /// <param name="capacity">The cache capacity.</param>
-        public Cache(int capacity)
-        {
-            _capacity = capacity <= 0 ? int.MaxValue : capacity;
-        }
+        ///// <summary>
+        ///// Create <see cref="ICache{T}"/> instance with the default capacity.
+        ///// </summary>
+        //public Cache() : this(DEFAULT_CAPACITY, 0)
+        //{
+        //}
 
-        #endregion
+        ///// <summary>
+        ///// Create <see cref="ICache{T}"/> instance with specific capacity.
+        ///// </summary>
+        ///// <param name="capacity">The <see cref="ICache{T}"/> capacity.</param>
+        //public Cache(int capacity) : this(capacity, 0)
+        //{
+        //}
 
-        #region Public methods
+        ///// <summary>
+        ///// Create <see cref="ICache{T}"/> instance with infinity capacity.
+        ///// </summary>
+        ///// <param name="infiniteCapacity">Indicates infinite <see cref="ICache{T}"/> capacity.</param>
+        //public Cache(bool infiniteCapacity) : this(DEFAULT_CAPACITY, 0, infiniteCapacity)
+        //{
+        //}
 
-        /// <summary>
-        /// Dispose the service.
-        /// </summary>
-        public virtual void Dispose()
-        {
-            _cache.Clear();
-            _cache = null;
-        }
-
-        #endregion
-
-        #region protected methods
-
-        /// <summary>
-        /// Adds a new element to the end of the cache.
-        /// </summary>
-        /// <param name="element">The element to add.</param>
-        public void Add(T element)
-        {
-            _cache.Add(element);
-            if (_cache.Count > _capacity)
-                RemoveAt(0);
-        }
+        ///// <summary>
+        ///// Create <see cref="ICache{T}"/> instance.
+        ///// </summary>
+        ///// <param name="capacity">The <see cref="ICache{T}"/> capacity.</param>
+        ///// <param name="displacement">The displacement of <see cref="ICache{T}"/> respect NinjaScript <see cref="ISeries"/> used to gets elements.</param>
+        //public Cache(int capacity, int displacement) : this(capacity,displacement,false)
+        //{
+        //}
 
         /// <summary>
-        /// Inserts a new element at the specified cache index.
+        /// Create <see cref="ICache{T}"/> instance.
         /// </summary>
-        /// <param name="idx">The specified index.</param>
-        /// <param name="element">The element to add.</param>
-        public void Insert(int idx, T element)
+        /// <param name="capacity">The <see cref="ICache{T}"/> capacity.</param>
+        /// <param name="displacement">The displacement of <see cref="ICache{T}"/> respect NinjaScript <see cref="ISeries"/> used to gets elements.</param>
+        /// <param name="infiniteCapacity">Indicates infinite <see cref="ICache{T}"/> capacity.</param>
+        protected Cache(int capacity, int displacement, bool infiniteCapacity)
         {
-            _cache.Insert(idx, element);
-        }
-
-        /// <summary>
-        /// Replace two elements at the specified cache bars ago.
-        /// </summary>
-        /// <param name="element">The element to replace.</param>
-        /// <param name="barsAgo">The bars ago of the element to replace.</param>
-        public void Replace(T element, int barsAgo = 0)
-        {
-            int idx = _cache.Count - 1 - barsAgo;
-            _cache[idx] = element;
-        }
-
-        /// <summary>
-        /// Determines if an element is in the cache.
-        /// </summary>
-        /// <param name="element">The element to find.</param>
-        /// <returns>True, if the element is in cache.</returns>
-        public bool Contains(T element)
-        {
-            return _cache.Contains(element);
-        }
-
-        /// <summary>
-        /// Create a lightweight copy of a range of cache items.
-        /// </summary>
-        /// <param name="startIdx">The start index.</param>
-        /// <param name="count">Nmber of elements to gets.</param>
-        /// <returns></returns>
-        public List<T> GetList(int startIdx, int count)
-        {
-            return _cache.GetRange(startIdx, count);
-        }
-
-        /// <summary>
-        /// Adds the elements of a collection to the end of the cache.
-        /// </summary>
-        /// <param name="elements">The collection to add.</param>
-        public void AddRange(IEnumerable<T> elements)
-        {
-            _cache.AddRange(elements);
-        }
-
-        /// <summary>
-        /// Remove range of elements of the cache.
-        /// </summary>
-        /// <param name="startIdx">The start index of the elements.</param>
-        /// <param name="count">The number of elements to remove.</param>
-        public void RemoveRange(int startIdx, int count)
-        {
-            _cache.RemoveRange(startIdx, count);
-        }
-
-        /// <summary>
-        /// Removes a specific element from the cache.
-        /// </summary>
-        /// <param name="item"></param>
-        public void Remove(T item)
-        {
-            _cache.Remove(item);
-        }
-
-        /// <summary>
-        /// Remove an element at the specified cache index.
-        /// </summary>
-        /// <param name="index">The specified index.</param>
-        public void RemoveAt(int index)
-        {
-            _cache.RemoveAt(index);
-        }
-
-        /// <summary>
-        /// Removes all elements from the cache.
-        /// </summary>
-        public void RemoveAll()
-        {
-            _cache.RemoveAll((t) => true);
-        }
-
-        /// <summary>
-        /// Clear the cache.
-        /// </summary>
-        public void Clear()
-        {
-            _cache.Clear();
+            Capacity = infiniteCapacity ? int.MaxValue : capacity <= 0 ? DEFAULT_CAPACITY : capacity > MAX_CAPACITY ? DEFAULT_CAPACITY : capacity;
+            Displacement = displacement < 0 ? 0 : displacement > capacity ? capacity - 1 : displacement;
         }
 
         #endregion

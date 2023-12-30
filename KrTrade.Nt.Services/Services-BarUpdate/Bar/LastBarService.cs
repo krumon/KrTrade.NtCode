@@ -8,8 +8,8 @@
         /// <summary>
         /// Create <see cref="LastBarService"/> instance.
         /// </summary>
-        /// <param name="barsService">The <see cref="IDataSeriesService"/> thats content <see cref="LastBarService"/></param>
-        public LastBarService(IDataSeriesService barsService) : base(barsService, 0, 0)
+        /// <param name="barsService">The <see cref="IBarsService"/> thats content <see cref="LastBarService"/></param>
+        public LastBarService(IBarsService barsService) : base(barsService) // base(barsService, 0, 0)
         {
         }
     }

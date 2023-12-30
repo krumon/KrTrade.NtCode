@@ -272,7 +272,7 @@ namespace KrTrade.Nt.Services
             throw new NotImplementedException();
         }
 
-        public override string ToLogString(string format = "")
+        public override string ToLogString()
         {
             throw new NotImplementedException();
         }

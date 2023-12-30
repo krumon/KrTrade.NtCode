@@ -26,7 +26,7 @@ namespace KrTrade.Nt.Services
 
         }
 
-        public override string ToLogString(string format = "")
+        public override string ToLogString()
         {
             throw new System.NotImplementedException();
         }

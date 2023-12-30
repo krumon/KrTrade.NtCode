@@ -48,6 +48,6 @@ namespace KrTrade.Nt.Services
 
                 _displacement = value;
             }
-}
+        }
     }
 }

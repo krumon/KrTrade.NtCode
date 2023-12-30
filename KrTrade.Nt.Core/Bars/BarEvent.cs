@@ -6,9 +6,9 @@
     public enum BarEvent
     {
         /// <summary>
-        /// Indicates that the bars have not caused any event.
+        /// Indicates that the last bar has been updated.
         /// </summary>
-        None,
+        Updated,
 
         /// <summary>
         /// Indicates that the last bar has been closed.

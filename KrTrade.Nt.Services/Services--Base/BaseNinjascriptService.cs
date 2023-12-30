@@ -122,18 +122,16 @@ namespace KrTrade.Nt.Services
         /// <param name="isDataLoaded">True, if the service has been configure, otherwise false.</param>
         internal abstract void DataLoaded(out bool isDataLoaded);
 
-        public abstract string ToLogString(string format = "");
+        public abstract string ToLogString();
 
         /// <summary>
-        /// Logs the values thats returns 'ToLogString(string format)' method.
-        /// The values thats return depend to the format passed by parameter.
+        /// Logs information with values thats returns 'ToLogString()' method.
         /// </summary>
-        /// <param name="logFormat">The format to convert the object to string.</param>
-        public void Log(string logFormat = "")
+        public void Log()
         {
             if (_printService == null || !Options.IsLogEnable) 
                 return;
-            _printService?.LogValue(ToLogString(logFormat));
+            _printService?.LogValue(ToLogString());
         }
 
         #endregion

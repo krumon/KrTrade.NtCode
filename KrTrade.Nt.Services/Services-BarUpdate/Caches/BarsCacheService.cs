@@ -1,54 +1,50 @@
-﻿using NinjaTrader.NinjaScript;
+﻿using KrTrade.Nt.Core.Bars;
+using NinjaTrader.NinjaScript;
 using System;
 
 namespace KrTrade.Nt.Services
 {
     /// <summary>
-    /// Represents a cache with double values.
+    /// Represents a cache with bar values.
     /// </summary>
-    public abstract class SeriesCacheService : BaseCacheService<double, CacheOptions>
+    public class BarsCacheService : BaseCacheService<BarDataModel,CacheOptions>
     {
 
         #region Constructors
 
         /// <summary>
-        /// Create <see cref="SeriesCacheService"/> instance and configure it.
+        /// Create <see cref="BarsCacheService"/> instance and configure it.
         /// </summary>
-        /// <param name="dataSeriesService">The <see cref="IDataSeriesService"/> necesary for the <see cref="SeriesCacheService"/>.</param>
-        /// <exception cref="ArgumentNullException">The <see cref="IDataSeriesService"/> cannot be null.</exception>
-        protected SeriesCacheService(IDataSeriesService dataSeriesService) : base(dataSeriesService)
+        /// <param name="barsService">The <see cref="IBarsService"/> necesary for the <see cref="BarsCacheService"/>.</param>
+        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
+        protected BarsCacheService(IBarsService barsService) : base(barsService)
         {
         }
 
         /// <summary>
-        /// Create <see cref="SeriesCacheService"/> instance and configure it.
+        /// Create <see cref="BarsCacheService"/> instance and configure it.
         /// </summary>
-        /// <param name="dataSeriesService">The <see cref="IDataSeriesService"/> necesary for the <see cref="SeriesCacheService"/>.</param>
+        /// <param name="barsService">The <see cref="IBarsService"/> necesary for the <see cref="BarsCacheService"/>.</param>
         /// <param name="capacity">The cache capacity.</param>
         /// <param name="displacement">The <see cref="BaseCacheService"/> displacement respect the bars collection.</param>
-        /// <exception cref="ArgumentNullException">The <see cref="IDataSeriesService"/> cannot be null.</exception>
-        protected SeriesCacheService(IDataSeriesService dataSeriesService, int capacity, int displacement) : base(dataSeriesService, capacity, displacement)
+        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
+        protected BarsCacheService(IBarsService barsService, int capacity, int displacement) : base(barsService, capacity, displacement)
         {
         }
 
         /// <summary>
-        /// Create <see cref="SeriesCacheService"/> instance and configure it.
+        /// Create <see cref="BarsCacheService"/> instance and configure it.
         /// </summary>
-        /// <param name="dataSeriesService">The <see cref="IDataSeriesService"/> necesary for the <see cref="SeriesCacheService"/>.</param>
+        /// <param name="barsService">The <see cref="IBarsService"/> necesary for the <see cref="BarsCacheService"/>.</param>
         /// <param name="configureOptions">The configure options of the service.</param>
-        /// <exception cref="ArgumentNullException">The <see cref="IDataSeriesService"/> cannot be null.</exception>
-        protected SeriesCacheService(IDataSeriesService dataSeriesService, IConfigureOptions<CacheOptions> configureOptions) : base(dataSeriesService, configureOptions)
+        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
+        protected BarsCacheService(IBarsService barsService, IConfigureOptions<CacheOptions> configureOptions) : base(barsService, configureOptions)
         {
         }
 
         #endregion
 
         #region Public properties
-
-        /// <summary>
-        /// The series where we are going to get the elements.
-        /// </summary>
-        public abstract ISeries<double> Series { get; }
 
         /// <summary>
         /// Gets the maximum value in cache.
@@ -63,51 +59,71 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Gets the last value in cache.
         /// </summary>
-        public double LastValue => GetValue(0);
+        public BarDataModel LastValue => GetValue(0);
 
         /// <summary>
         /// Gets the range of cache values.
         /// </summary>
         public double Range => GetRange(0, Count - 1);
 
-        /// <summary>
-        /// Gets the sum of cache values.
-        /// </summary>
-        public double Sum => GetSum(0, Count - 1);
-
         #endregion
 
         #region Implementation
 
         /// <summary>
-        /// Gets the value of the next element we want to add to the cache.
+        /// Gets the name of the service.
         /// </summary>
-        /// <param name="displacement">The value of the index that corresponds to the value we want to obtain. 
-        /// This index corresponds to the displacement from index 0 (the most recent value) of the series.</param>
-        /// <returns>The value of the next element we want to add to the cache.</returns>
-        public override double GetNextCandidateValue(int displacement)
-        {
-            if (Ninjascript.BarsInProgress != DataSeriesService.Idx || Ninjascript.CurrentBars[DataSeriesService.Idx] < displacement)
-                return double.NaN;
-            return Series[displacement];
-        }
+        public override string Name => $"BarsCache({Capacity})";
 
         /// <summary>
-        /// Indicates if the candidate value is valid. For any class, the no valid value are 'null'.
+        /// Gets the value of the next element we want to add to the cache.
         /// </summary>
-        /// <returns></returns>
-        public override bool IsValidCandidateValue() => CandidateValue != double.NaN;
+        /// <param name="seriesDisplacement">The value of the index that corresponds to the value we want to obtain. 
+        /// This index corresponds to the displacement from index 0 (the most recent value) of the series.</param>
+        /// <returns>The value of the next element we want to add to the cache.</returns>
+        public override BarDataModel GetNextCandidateValue(int seriesDisplacement)
+        {
+            if (Ninjascript.BarsInProgress != Bars.ParentBarsIdx || Ninjascript.CurrentBars[Bars.ParentBarsIdx] < seriesDisplacement)
+                return null;
+            return new BarDataModel()
+            {
+                Idx = Ninjascript.CurrentBars[Bars.ParentBarsIdx] - Displacement,
+                Time = Ninjascript.Times[Bars.ParentBarsIdx][Displacement],
+                Open = Ninjascript.Opens[Bars.ParentBarsIdx][Displacement],
+                High = Ninjascript.Opens[Bars.ParentBarsIdx][Displacement],
+                Low = Ninjascript.Opens[Bars.ParentBarsIdx][Displacement],
+                Close = Ninjascript.Opens[Bars.ParentBarsIdx][Displacement],
+                Volume = Ninjascript.Opens[Bars.ParentBarsIdx][Displacement]
+            };
+        }
+        public override bool IsValidCandidateValue() => CandidateValue != null;
+        public override bool IsBestCandidateValue() => !CandidateValue.IsEqualsTo(LastValue);
 
         #endregion
 
         #region Public methods
 
         /// <summary>
+        /// Gets the value of the next element we want to add to the cache.
+        /// </summary>
+        /// <param name="series">The series where we are going to get the element.</param>
+        /// <param name="seriesDisplacement">The value of the index that corresponds to the value we want to obtain. 
+        /// This index corresponds to the displacement from index 0 (the most recent value) of the series.</param>
+        /// <returns>The value of the next element we want to add to the cache.</returns>
+        public double GetNextCandidateValue(ISeries<double> series, int seriesDisplacement)
+        {
+            if (Ninjascript.BarsInProgress != Bars.ParentBarsIdx || Ninjascript.CurrentBars[Bars.ParentBarsIdx] < seriesDisplacement)
+                return double.NaN;
+            return series[seriesDisplacement];
+        }
+
+
+        /// <summary>
         /// Returns the value of the cache element at a specified index.
         /// </summary>
         /// <param name="idx">The specified idx. 0 is the most recent value.</param>
         /// <returns>The value of the cache element.</returns>
-        public double GetValue(int idx)
+        public BarDataModel GetValue(int idx)
         {
             IsValidIndex(idx);
             return this[Count - 1 - idx];
@@ -125,7 +141,7 @@ namespace KrTrade.Nt.Services
 
             double value = double.MinValue;
             for (int i = Count - 1 - initialIdx; i >= Count - 1 - initialIdx - finalIdx; i--)
-                value = Math.Max(value, this[i]);
+                value = Math.Max(value, this[i].High);
 
             return value;
         }
@@ -144,28 +160,9 @@ namespace KrTrade.Nt.Services
 
             for (int i = Count - 1 - initialIdx; i >= Count - (initialIdx + finalIdx); i--)
             {
-                value = Math.Min(value, this[i]);
+                value = Math.Min(value, this[i].Low);
             }
             return value;
-        }
-
-        /// <summary>
-        /// Returns the sum of values stored in the cache between the specified start and end indexes.
-        /// </summary>
-        /// <param name="initialIdx">The initial cache index from which we start calculating the sum. 0 is the most recent value in the cache.</param>
-        /// <param name="finalIdx">The final cache index up to which we finish calculating the sum. 0 is the most recent value in the cache.</param>
-        /// <returns>The sum of the cache elements.</returns>
-        public double GetSum(int initialIdx, int finalIdx)
-        {
-            IsValidIndex(initialIdx, initialIdx + finalIdx);
-
-            double sum = 0;
-
-            for (int i = Count - 1 - initialIdx; i >= Count - (initialIdx + finalIdx); i--)
-            {
-                sum += this[i];
-            }
-            return sum;
         }
 
         /// <summary>
@@ -183,6 +180,11 @@ namespace KrTrade.Nt.Services
 
         #region Private methods
 
+        public override string ToLogString()
+        {
+            return $"{Name}({Capacity}): Bar({Displacement})[Current]:{LastValue}, Bar({Displacement + 1})[Last]:{GetValue(Displacement + 1)}"; 
+        }
+
         private bool IsValidIndex(int idx)
         {
             if (idx < 0 || idx >= Count)
@@ -199,11 +201,6 @@ namespace KrTrade.Nt.Services
                 return true;
 
             return false;
-        }
-
-        public override string ToLogString(string format = "")
-        {
-            return $"{Name}({Capacity}): Last:{LastValue}, Max:{Max}, Min:{Min}";
         }
 
         #endregion

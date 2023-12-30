@@ -151,7 +151,7 @@ namespace KrTrade.Nt.Services
         #region Implementation
 
         public override string Name => InstrumentName + "(" + BarsPeriod.ToShortString() + ")";
-        public override string ToLogString(string format = "") => Name;
+        public override string ToLogString() => Name;
 
         public IList<IBarUpdateService> Services => throw new NotImplementedException();
 
@@ -159,7 +159,7 @@ namespace KrTrade.Nt.Services
         {
             _barsEvents = new Dictionary<BarEvent, bool>()
             {
-                [BarEvent.None] = false,
+                [BarEvent.Updated] = false,
                 [BarEvent.Removed] = false,
                 [BarEvent.Closed] = false,
                 [BarEvent.FirstTick] = false,
@@ -191,8 +191,8 @@ namespace KrTrade.Nt.Services
                 return;
             }
 
-            _lastBar = new LastBarService(this);
-            _currentBar = new LastBarService(this);
+            //_lastBar = new LastBarService(this);
+            //_currentBar = new LastBarService(this);
 
             isDataLoaded = true;
 
@@ -220,32 +220,32 @@ namespace KrTrade.Nt.Services
             _currentBar.Update();
             ExecuteMethods(_updateMethods);
 
-            if (_currentBar.IsRemove)
-            {
-                OnLastBarRemoved();
-                ExecuteMethods(_lastBarRemovedMethods);
-                return;
-            }
-            if (_currentBar.IsClose)
-            {
-                OnBarClosed();
-                ExecuteMethods(_barClosedMethods);
-            }
-            if (_currentBar.IsFirstTick)
-            {
-                OnFirstTick();
-                ExecuteMethods(_firstTickMethods);
-            }
-            if (_currentBar.IsPriceChange)
-            {
-                OnPriceChanged();
-                ExecuteMethods(_priceChangedMethods);
-            }
-            if (_currentBar.IsTick)
-            {
-                OnEachTick();
-                ExecuteMethods(_eachTickMethods);
-            }
+            //if (_currentBar.IsRemove)
+            //{
+            //    OnLastBarRemoved();
+            //    ExecuteMethods(_lastBarRemovedMethods);
+            //    return;
+            //}
+            //if (_currentBar.IsClose)
+            //{
+            //    OnBarClosed();
+            //    ExecuteMethods(_barClosedMethods);
+            //}
+            //if (_currentBar.IsFirstTick)
+            //{
+            //    OnFirstTick();
+            //    ExecuteMethods(_firstTickMethods);
+            //}
+            //if (_currentBar.IsPriceChange)
+            //{
+            //    OnPriceChanged();
+            //    ExecuteMethods(_priceChangedMethods);
+            //}
+            //if (_currentBar.IsTick)
+            //{
+            //    OnEachTick();
+            //    ExecuteMethods(_eachTickMethods);
+            //}
         }
 
         #endregion
@@ -370,7 +370,7 @@ namespace KrTrade.Nt.Services
 
         private void SetBarsEvents(bool noneEvent, bool isLastBarRemoved, bool isBarClosed, bool isFirstTick, bool isPriceChanged, bool isNewTick)
         {
-            _barsEvents[BarEvent.None] = noneEvent;
+            _barsEvents[BarEvent.Updated] = noneEvent;
             _barsEvents[BarEvent.Removed] = isLastBarRemoved;
             _barsEvents[BarEvent.Closed] = isBarClosed;
             _barsEvents[BarEvent.FirstTick] = isFirstTick;
