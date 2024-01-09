@@ -54,10 +54,12 @@
     <Compile Include="Bars\BarPattern.cs" />
     <Compile Include="Bars\BarType.cs" />
     <Compile Include="Caches\Cache.cs" />
+    <Compile Include="Caches\ICacheElement.cs" />
     <Compile Include="Caches\_Cache_.cs" />
     <Compile Include="Caches\ICache.cs" />
     <Compile Include="Data\Formats\TimeFormat.cs" />
     <Compile Include="Data\MarketData\MarketDataTypeExtensions.cs" />
+    <Compile Include="Data\Series\SeriesType.cs" />
     <Compile Include="Extensions\BarsPeriodExtensions.cs" />
     <Compile Include="DataSeries\DataSerie.cs" />
     <Compile Include="DataSeries\PeriodType.cs" />
@@ -134,7 +136,7 @@
     <Compile Include="Data\Formats\FormatType.cs" />
     <Compile Include="DataSeries\TimeFrame.cs" />
     <Compile Include="Extensions\TimeFrameExtensions.cs" />
-    <Compile Include="Bars\BarDataModel.cs" />
+    <Compile Include="Bars\Bar.cs" />
     <Compile Include="DataSeries\DataSeriesInfo.cs" />
     <Compile Include="Logging\LogEntry.cs" />
     <Compile Include="Logging\LoggingHelpers.cs" />

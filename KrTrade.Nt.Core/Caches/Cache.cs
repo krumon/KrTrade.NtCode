@@ -1,4 +1,6 @@
-﻿using NinjaTrader.NinjaScript;
+﻿using NinjaTrader.Data;
+using NinjaTrader.NinjaScript;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -27,6 +29,7 @@ namespace KrTrade.Nt.Core.Caches
         private readonly IList<T> _cache = new List<T>();
         private T _candidateValue;
         private T _lastRemovedValue;
+        private T _currentValue;
         private bool _released = true;
         private bool _redo = true;
 
@@ -37,7 +40,7 @@ namespace KrTrade.Nt.Core.Caches
         public int Capacity { get; private set; }
         public int Displacement { get; private set; }
         public bool IsFull => Count == Capacity;
-        public T CurrentValue { get => _cache[0]; private set => _cache[0] = value; }
+        public T CurrentValue => _currentValue;
         public void Release()
         {
             _candidateValue = default;
@@ -46,6 +49,7 @@ namespace KrTrade.Nt.Core.Caches
                 _lastRemovedValue = _cache[Count-1];
                 _cache.RemoveAt(Count-1);
                 _redo = false;
+                OnElementRemoved();
             }
             _released = true;
         }
@@ -72,16 +76,23 @@ namespace KrTrade.Nt.Core.Caches
             _candidateValue = GetCandidateValue(ninjascript);
             _released = false;
         }
+        public void UpdateCandidateValue(ref T candidateValue, NinjaScriptBase ninjascript = null)
+        {
+            UpdateCandidateValue(ref candidateValue, ninjascript, null);
+        }
+        public void UpdateCandidateValue(ref T candidateValue, MarketDataEventArgs marketDataEventArgs = null)
+        {
+            UpdateCandidateValue(ref candidateValue, null, marketDataEventArgs);
+        }
         public void Add()
         {
             if (_released)
                 return;
             if (IsValidCandidateValueToAdd(_candidateValue))
             {
-                if (Count == 0) 
-                    Add(_candidateValue);
-                else 
-                    Insert(0, _candidateValue);
+                Insert(0, _candidateValue);
+                _currentValue = _cache[0];
+                OnElementAdded();
             }
             Release();
         }
@@ -91,18 +102,38 @@ namespace KrTrade.Nt.Core.Caches
                 return;
             if (_released)
                 return;
-            if (IsValidCandidateValueToUpdate(_candidateValue))
-                Update(_candidateValue);
+            if (IsValidCandidateValueToUpdateCache(_candidateValue))
+            {
+                UpdateCurrentValue(ref _currentValue, _candidateValue);
+                OnElementChanged();
+            }
             Release();
+        }
+        public T GetElement(int index)
+        {
+            IsValidIndex(index);
+            return this[index];
+        }
+        public T[] GetElements(int initialIdx, int numberOfElements)
+        {
+            IsValidIndex(initialIdx, initialIdx + numberOfElements);
+
+            T[] elements = new T[numberOfElements];
+            int count = 0;
+            for (int i = initialIdx; i < initialIdx + numberOfElements; i++)
+            {
+                elements[count] = this[i];
+                count++;
+            }
+
+            return elements;
         }
 
         protected abstract T GetCandidateValue(NinjaScriptBase ninjascript = null);
-        protected virtual bool IsValidCandidateValueToAdd(T candidateValue) => true;
-        protected virtual bool IsValidCandidateValueToUpdate(T candidateValue) => true;
-        protected virtual void Update(T newValue)
-        {
-            CurrentValue = newValue;
-        }
+        protected abstract void UpdateCandidateValue(ref T candidateValue, NinjaScriptBase ninjascript = null, MarketDataEventArgs marketDataEventArgs = null);
+        protected abstract void UpdateCurrentValue(ref T currentValue, T candidateValue);
+        protected abstract bool IsValidCandidateValueToAdd(T candidateValue);
+        protected abstract bool IsValidCandidateValueToUpdate(T currentValue, T candidateValue);
 
         #endregion
 
@@ -205,6 +236,53 @@ namespace KrTrade.Nt.Core.Caches
         }
 
         #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// An event driven method which is called whenever a element is added to cache.
+        /// </summary>
+        public virtual void OnElementAdded()
+        {
+
+        }
+
+        /// <summary>
+        /// An event driven method which is called whenever a element is removed of cache.
+        /// </summary>
+        public virtual void OnElementRemoved()
+        {
+
+        }
+
+        /// <summary>
+        /// An event driven method which is called whenever a element changed in cache.
+        /// </summary>
+        public virtual void OnElementChanged()
+        {
+
+        }
+
+        #endregion
+
+        private bool IsValidCandidateValueToUpdateCache(T candidateValue) => IsValidCandidateValueToAdd(candidateValue) && IsValidCandidateValueToUpdate(_currentValue, candidateValue);
+        protected bool IsValidIndex(int idx)
+        {
+            if (idx < 0 || idx >= Count)
+                throw new ArgumentOutOfRangeException(nameof(idx));
+
+            return true;
+        }
+        protected bool IsValidIndex(int startIdx, int finalIdx)
+        {
+            if (startIdx > finalIdx)
+                throw new ArgumentException(string.Format("The {0} cannot be mayor than {1}.", nameof(startIdx), nameof(finalIdx)));
+
+            if (IsValidIndex(startIdx) && IsValidIndex(finalIdx))
+                return true;
+
+            return false;
+        }
 
     }
 }

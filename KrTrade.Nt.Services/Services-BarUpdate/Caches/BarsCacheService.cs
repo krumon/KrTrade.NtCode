@@ -7,7 +7,7 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Represents a cache with bar values.
     /// </summary>
-    public class BarsCacheService : BaseCacheService<BarDataModel,CacheOptions>
+    public class BarsCacheService : BaseCacheService<Bar,CacheOptions>
     {
 
         #region Constructors
@@ -59,7 +59,7 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Gets the last value in cache.
         /// </summary>
-        public BarDataModel LastValue => GetValue(0);
+        public Bar LastValue => GetValue(0);
 
         /// <summary>
         /// Gets the range of cache values.
@@ -81,11 +81,11 @@ namespace KrTrade.Nt.Services
         /// <param name="seriesDisplacement">The value of the index that corresponds to the value we want to obtain. 
         /// This index corresponds to the displacement from index 0 (the most recent value) of the series.</param>
         /// <returns>The value of the next element we want to add to the cache.</returns>
-        public override BarDataModel GetNextCandidateValue(int seriesDisplacement)
+        public override Bar GetNextCandidateValue(int seriesDisplacement)
         {
             if (Ninjascript.BarsInProgress != Bars.ParentBarsIdx || Ninjascript.CurrentBars[Bars.ParentBarsIdx] < seriesDisplacement)
                 return null;
-            return new BarDataModel()
+            return new Bar()
             {
                 Idx = Ninjascript.CurrentBars[Bars.ParentBarsIdx] - Displacement,
                 Time = Ninjascript.Times[Bars.ParentBarsIdx][Displacement],
@@ -123,7 +123,7 @@ namespace KrTrade.Nt.Services
         /// </summary>
         /// <param name="idx">The specified idx. 0 is the most recent value.</param>
         /// <returns>The value of the cache element.</returns>
-        public BarDataModel GetValue(int idx)
+        public Bar GetValue(int idx)
         {
             IsValidIndex(idx);
             return this[Count - 1 - idx];

@@ -22,7 +22,7 @@ namespace KrTrade.Nt.Services
         // Cache
         private int _cacheCapacity;
         private BarsCache _cache;
-        private BarDataModel _currentBar;
+        private Bar _currentBar;
         // Services
         private IList<IBarUpdateService> _services;
         private bool _isServicesConfigured;
@@ -40,7 +40,7 @@ namespace KrTrade.Nt.Services
 
         public int ParentBarsIdx { get; protected set; } = 0;
         public BarsCache Cache => _cache;
-        public BarDataModel CurrentBar => _currentBar;
+        public Bar CurrentBar => _currentBar;
 
         public bool IsUpdated => IsConfigured && _barEvents[BarEvent.Updated];
         public bool IsLastBarClosed => IsUpdated && _barEvents[BarEvent.Closed];
@@ -231,7 +231,7 @@ namespace KrTrade.Nt.Services
 
         #region Protected methods
 
-        protected void BarCopy(BarDataModel bar1, BarDataModel bar2)
+        protected void BarCopy(Bar bar1, Bar bar2)
         {
             if (bar1 == null || bar2 == null)
                 throw new ArgumentNullException(nameof(bar1));
@@ -245,7 +245,7 @@ namespace KrTrade.Nt.Services
             bar1.Time = bar2.Time;
             // TODO: Copiar todas las propiedades
         }
-        protected void BarUpdate(BarDataModel bar, int parentBarIdx, int displacement)
+        protected void BarUpdate(Bar bar, int parentBarIdx, int displacement)
         {
             bar.Idx = GetBarIdx(parentBarIdx, displacement);
             bar.Open = GetOpen(parentBarIdx, displacement);

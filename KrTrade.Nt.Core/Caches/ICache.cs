@@ -57,5 +57,20 @@ namespace KrTrade.Nt.Core.Caches
         /// <param name="ninjascript"></param>
         void SetCandidateValue(NinjaScriptBase ninjascript = null);
 
+        /// <summary>
+        /// Returns <see cref="{T}"/> at specified index.
+        /// </summary>
+        /// <param name="index">The specified index. 0 is the most recent value.</param>
+        /// <returns>The <see cref="{T}"/> cache element.</returns>
+        T GetElement(int index);
+
+        /// <summary>
+        /// Returns <paramref name="numberOfElements"/> of <see cref="{T}"/> from specified initial index.
+        /// </summary>
+        /// <param name="initialIdx">The initial index.</param>
+        /// <param name="numberOfElements">The number of <see cref="{T}"/> to returns.</param>
+        /// <returns><see cref="{T}"/> collection.</returns>
+        T[] GetElements(int initialIdx, int numberOfElements);
+
     }
 }

@@ -5,7 +5,7 @@ using System;
 
 namespace KrTrade.Nt.Services
 {
-    public class BarsCache : Cache<BarDataModel>, IBarsCache
+    public class BarsCache : Cache<Bar>, IBarsCache
     {
 
         #region Public properties
@@ -13,17 +13,17 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Gets the maximum value in cache.
         /// </summary>
-        public double Max => GetMax(0, Count);
+        public double High => GetMax(0, Count);
 
         /// <summary>
         /// Gets the minimum value in cache.
         /// </summary>
-        public double Min => GetMin(0, Count);
+        public double Low => GetMin(0, Count);
 
         /// <summary>
         /// Gets the last value in cache.
         /// </summary>
-        public BarDataModel LastValue => GetValue(0);
+        public Bar LastValue => GetValue(0);
 
         /// <summary>
         /// Gets the range of cache values.
@@ -41,7 +41,7 @@ namespace KrTrade.Nt.Services
 
         public double[] Quartils => throw new NotImplementedException();
 
-        public double RangeInterQuartil => throw new NotImplementedException();
+        public double InterquartilRange => throw new NotImplementedException();
 
         #endregion
 
@@ -60,7 +60,7 @@ namespace KrTrade.Nt.Services
         /// </summary>
         /// <param name="idx">The specified idx. 0 is the most recent value.</param>
         /// <returns>The value of the cache element.</returns>
-        public BarDataModel GetValue(int idx)
+        public Bar GetValue(int idx)
         {
             IsValidIndex(idx);
             return this[idx];
@@ -136,43 +136,15 @@ namespace KrTrade.Nt.Services
 
         #region Private methods
 
-        protected bool IsValidIndex(int idx)
+        protected override Bar GetCandidateValue(NinjaScriptBase ninjascript)
         {
-            if (idx < 0 || idx >= Count)
-                throw new ArgumentOutOfRangeException(nameof(idx));
-
-            return true;
-        }
-        protected bool IsValidIndex(int startIdx, int finalIdx)
-        {
-            if (startIdx > finalIdx)
-                throw new ArgumentException(string.Format("The {0} cannot be mayor than {1}.", nameof(startIdx), nameof(finalIdx)));
-
-            if (IsValidIndex(startIdx) && IsValidIndex(finalIdx))
-                return true;
-
-            return false;
-        }
-
-        protected override BarDataModel GetCandidateValue(NinjaScriptBase ninjascript)
-        {
-            return new BarDataModel()
+            return new Bar()
             {
                 Idx = ninjascript.CurrentBars[0],
                 Open = ninjascript.Opens[0][Displacement]
               
             };
         }
-
-        //public override BarDataModel GetCandidateValue(object data, int displacement)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public override void UpdateCacheLastValue(BarDataModel item)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         #endregion
     }

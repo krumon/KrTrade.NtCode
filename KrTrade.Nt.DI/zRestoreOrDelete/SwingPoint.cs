@@ -10,7 +10,7 @@ namespace KrTrade.Nt.DI.Data
         #region Private members
 
         private readonly SwingType swingType;
-        private readonly List<BarDataModel> swingBars = new List<BarDataModel>();
+        private readonly List<Bar> swingBars = new List<Bar>();
 
         #endregion
 
@@ -20,13 +20,13 @@ namespace KrTrade.Nt.DI.Data
         public int Strength { get; set; }
 
         public SwingType Type => swingType;
-        public List<BarDataModel> SwingBars => swingBars;
+        public List<Bar> SwingBars => swingBars;
 
         #endregion
 
         #region Constructors
 
-        public SwingPoint(SwingType swingType, List<BarDataModel> swingBars)
+        public SwingPoint(SwingType swingType, List<Bar> swingBars)
         {
             this.swingBars = swingBars;
             this.swingType = swingType;
@@ -34,7 +34,7 @@ namespace KrTrade.Nt.DI.Data
             Value = Type == SwingType.High ? swingBars[Strength].High : swingBars[Strength].Low;
         }
 
-        public SwingPoint(List<BarDataModel> swingBars)
+        public SwingPoint(List<Bar> swingBars)
         {
             this.swingBars = swingBars;
             Strength = (swingBars.Count - 1) / 2;

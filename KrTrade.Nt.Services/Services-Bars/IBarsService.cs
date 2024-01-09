@@ -19,9 +19,9 @@ namespace KrTrade.Nt.Services
         int ParentBarsIdx { get; }
 
         /// <summary>
-        /// Gets the current <see cref="BarDataModel"/> of the <see cref="IBarsService"/>.
+        /// Gets the current <see cref="Bar"/> of the <see cref="IBarsService"/>.
         /// </summary>
-        BarDataModel CurrentBar { get; }
+        Bar CurrentBar { get; }
 
         /// <summary>
         /// Indicates <see cref="IBarsService"/> is updated.

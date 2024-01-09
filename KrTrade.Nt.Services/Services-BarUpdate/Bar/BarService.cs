@@ -29,13 +29,13 @@ namespace KrTrade.Nt.Services
 
         #region Private members
 
-        private BarDataModel _currentBar;
+        private Bar _currentBar;
 
         #endregion
 
         #region Public properties
 
-        BarDataModel CurrentBar { get; set; }
+        Bar CurrentBar { get; set; }
 
         #endregion
 
@@ -44,7 +44,7 @@ namespace KrTrade.Nt.Services
         public override string Name => "Bar(" + Displacement + ")";
         internal override void Configure(out bool isConfigured)
         {
-            _currentBar = new BarDataModel();
+            _currentBar = new Bar();
             isConfigured = true;
         }
         internal override void DataLoaded(out bool isDataLoaded)
@@ -54,7 +54,7 @@ namespace KrTrade.Nt.Services
 
         public override void Update()
         {
-            _currentBar = new BarDataModel();
+            _currentBar = new Bar();
             
         }
 
@@ -70,7 +70,7 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Copy the bar values to other bar object.
         /// </summary>
-        public void CopyTo(BarDataModel bar)
+        public void CopyTo(Bar bar)
         {
             bar.Idx = CurrentBar.Idx;
             bar.Open = CurrentBar.Open;
@@ -86,9 +86,9 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Copy the bar values to other bar object.
         /// </summary>
-        public BarDataModel GetCurrentBar()
+        public Bar GetCurrentBar()
         {
-            return new BarDataModel
+            return new Bar
             {
                 Idx = CurrentBar.Idx,
                 Open = CurrentBar.Open,

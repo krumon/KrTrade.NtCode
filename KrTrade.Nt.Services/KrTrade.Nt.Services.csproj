@@ -50,17 +50,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core-Caches\Series\SeriesCalculateCache.cs" />
     <Compile Include="Core-Caches\Bars\IBarsCache.cs" />
-    <Compile Include="Core-Caches\Series\SeriesCache.cs" />
+    <Compile Include="Core-Caches\Series\RangeCache.cs" />
+    <Compile Include="Core-Caches\Series\Base\CalculateSeriesCache.cs" />
+    <Compile Include="Core-Caches\Series\Base\PriceSeriesCache.cs" />
     <Compile Include="Services-Bars\BarsOptions.cs" />
     <Compile Include="Services-Bars\IBarsService.cs" />
     <Compile Include="Core-Caches\Bars\BarsCache.cs" />
     <Compile Include="Services-BarUpdate\BarUpdateService.cs" />
     <Compile Include="Services-BarUpdate\Caches\CacheOptions.cs" />
-    <Compile Include="Core-Caches\Series\ISeriesCache.cs" />
-    <Compile Include="Core-Caches\Series\BaseSeriesCache.cs" />
+    <Compile Include="Core-Caches\Series\Base\ISeriesCache.cs" />
+    <Compile Include="Core-Caches\Series\Base\BaseSeriesCache.cs" />
     <Compile Include="DataSeries\IDataSeriesService.cs" />
+    <Compile Include="Services-BarUpdate\Caches\HighCacheService.cs" />
     <Compile Include="Services-BarUpdate\IBarUpdateService.cs" />
     <Compile Include="Services-Stats\IStats.cs" />
     <Compile Include="Services-Stats\StatsOptions.cs" />
@@ -162,7 +164,7 @@
     <Compile Include="Services-BarUpdate\Caches\SeriesCacheService.cs" />
     <Compile Include="Services-BarUpdate\Caches\CloseCacheService.cs" />
     <Compile Include="Services-BarUpdate\Caches\LowCacheService.cs" />
-    <Compile Include="Services-BarUpdate\Caches\HighCacheService.cs" />
+    <Compile Include="Core-Caches\Series\HighCache.cs" />
     <Compile Include="Services-Logging\BaseLoggerOptions.cs" />
     <Compile Include="Services-Logging\BaseLoggerService.cs" />
     <Compile Include="Services-Logging\LogEntry.cs" />
