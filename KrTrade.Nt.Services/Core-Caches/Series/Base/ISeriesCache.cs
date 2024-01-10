@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Core.Caches;
+using NinjaTrader.Core.FloatingPoint;
 
 namespace KrTrade.Nt.Services
 {
@@ -109,6 +110,22 @@ namespace KrTrade.Nt.Services
         /// <param name="numberOfElements">The number of elements to to calculate the minimum value.</param>
         /// <returns>The range value (the difference between the maximum value and the minimum value).</returns>
         double GetRange(int initialIdx, int numberOfElements);
+
+        /// <summary>
+        /// Returns the swing high value if exists, otherwise returns -1.0.
+        /// </summary>
+        /// <param name="initialIdx">The initial cache index from which we start calculating the range. 0 is the most recent value in the cache.</param>
+        /// <param name="strength">The swing strength. Number of bars before and after the swing bar.</param>
+        /// <returns>The swing high value if exists, otherwise returns -1.0.</returns>
+        double GetSwingHigh(int initialIdx, int strength);
+
+        /// <summary>
+        /// Returns the swing low value if exists, otherwise returns -1.0.
+        /// </summary>
+        /// <param name="initialIdx">The initial cache index from which we start calculating the range. 0 is the most recent value in the cache.</param>
+        /// <param name="strength">The swing strength. Number of bars before and after the swing bar.</param>
+        /// <returns>The swing low value if exists, otherwise returns -1.0.</returns>
+        double GetSwingLow(int initialIdx, int strength);
 
     }
 }

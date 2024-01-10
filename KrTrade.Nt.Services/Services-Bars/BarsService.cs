@@ -61,7 +61,8 @@ namespace KrTrade.Nt.Services
         { 
             _cacheCapacity = cacheCapacity;
             _cache = new BarsCache(_cacheCapacity);
-            Add(_cache);
+            // TODO: Lo borro para poder compilar.
+            //Add(_cache);
         }
 
         #endregion

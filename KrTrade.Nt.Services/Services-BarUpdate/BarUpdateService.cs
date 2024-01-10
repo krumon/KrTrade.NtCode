@@ -27,10 +27,10 @@ namespace KrTrade.Nt.Services
         protected BarUpdateService(IBarsService barsService, int period, int displacement, IConfigureOptions<TOptions> configureOptions) : base(barsService.Ninjascript, barsService.PrintService, configureOptions)
         {
             Bars = barsService ?? throw new ArgumentNullException(nameof(barsService));
-            Period = period <= 0 ? DEFAULT_PERIOD : period > BarsCache.MAX_CAPACITY ? DEFAULT_PERIOD : period;
+            //Period = period <= 0 ? DEFAULT_PERIOD : period > BarsCache.MAX_CAPACITY ? DEFAULT_PERIOD : period;
             Displacement = displacement < 0 ? DEFAULT_DISPLACEMENT : displacement >= Period ? DEFAULT_DISPLACEMENT : displacement;
-            if (Period + Displacement > BarsCache.MAX_CAPACITY) 
-                Period = BarsCache.MAX_CAPACITY - Displacement;
+            //if (Period + Displacement > BarsCache.MAX_CAPACITY) 
+            //    Period = BarsCache.MAX_CAPACITY - Displacement;
             Bars.Add(this);
         }
 

@@ -91,9 +91,9 @@ namespace KrTrade.Nt.Core.Bars
             Volume = 0;
             Ticks = 0;
         }
-        public void Set(NinjaScriptBase ninjascript, int barsAgo = 0, int barsInProgress = 0)
+        public void Set(NinjaScriptBase ninjascript, int barsAgo, int barsInProgress)
         {
-            if (ninjascript == null || ninjascript.State != State.Historical || ninjascript.State != State.Realtime) 
+            if (ninjascript == null || ninjascript.State != State.Historical || ninjascript.State != State.Realtime)
                 return;
 
             Idx = ninjascript.CurrentBars[barsInProgress] - barsAgo;
@@ -140,10 +140,7 @@ namespace KrTrade.Nt.Core.Bars
             };
         }
 
-        /// <summary>
-        /// Set the bar values when bar is updated.
-        /// </summary>
-        public void Set(int idx, DateTime time, double open, double high, double low, double close, double volume, long ticks)
+        protected void Set(int idx, DateTime time, double open, double high, double low, double close, double volume, long ticks)
         {
             Idx = idx;
             Time = time;
@@ -154,7 +151,6 @@ namespace KrTrade.Nt.Core.Bars
             Volume = volume;
             Ticks = ticks;
         }
-
 
         #endregion
 

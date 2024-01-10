@@ -4,7 +4,6 @@ using NinjaTrader.NinjaScript;
 namespace KrTrade.Nt.Core.Caches
 {
     public interface ICacheElement<T>
-        where T : new()
     {
         /// <summary>
         /// Reset <see cref="ICacheElement{T}"/> with default values. The default double values are 0, for the time is 'DateTime.MinValue' and for 'Idx' is -1.
@@ -12,7 +11,7 @@ namespace KrTrade.Nt.Core.Caches
         void Reset();
 
         /// <summary>
-        /// Sets <see cref="ICacheElement{T}"/> values in 'NinjaScript.OnBarUpdate' method.
+        /// Sets <see cref="ICacheElement{T}"/> values with specified 'NinjaScript' values.
         /// </summary>
         /// <param name="ninjascript">The NinjaScript instance.</param>
         /// <param name="barsAgo">The displacement of the <see cref="ICacheElement{T}"/> respect 'NinjaScript' series.</param>

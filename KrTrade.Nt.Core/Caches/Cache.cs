@@ -19,7 +19,7 @@ namespace KrTrade.Nt.Core.Caches
 
         #region Consts
 
-        public const int MAX_CAPACITY = 256;
+        //public const int MAX_CAPACITY = 256;
         public const int DEFAULT_CAPACITY = 20;
 
         #endregion
@@ -30,7 +30,6 @@ namespace KrTrade.Nt.Core.Caches
         private T _candidateValue;
         private T _lastRemovedValue;
         private T _currentValue;
-        private bool _released = true;
         private bool _redo = true;
 
         #endregion
@@ -40,7 +39,9 @@ namespace KrTrade.Nt.Core.Caches
         public int Capacity { get; private set; }
         public int Displacement { get; private set; }
         public bool IsFull => Count == Capacity;
-        public T CurrentValue => _currentValue;
+        public T CurrentValue { get => _currentValue; protected set => _currentValue = value; }
+        public T LastValue => GetValue(Displacement);
+
         public void Release()
         {
             _candidateValue = default;
@@ -51,7 +52,6 @@ namespace KrTrade.Nt.Core.Caches
                 _redo = false;
                 OnElementRemoved();
             }
-            _released = true;
         }
         public void ReDo()
         {
@@ -71,50 +71,52 @@ namespace KrTrade.Nt.Core.Caches
             Release();
             _lastRemovedValue = default;
         }
-        public void SetCandidateValue(NinjaScriptBase ninjascript = null)
+        public void Add(NinjaScriptBase ninjascript = null)
         {
             _candidateValue = GetCandidateValue(ninjascript);
-            _released = false;
-        }
-        public void UpdateCandidateValue(ref T candidateValue, NinjaScriptBase ninjascript = null)
-        {
-            UpdateCandidateValue(ref candidateValue, ninjascript, null);
-        }
-        public void UpdateCandidateValue(ref T candidateValue, MarketDataEventArgs marketDataEventArgs = null)
-        {
-            UpdateCandidateValue(ref candidateValue, null, marketDataEventArgs);
-        }
-        public void Add()
-        {
-            if (_released)
-                return;
-            if (IsValidCandidateValueToAdd(_candidateValue))
+            if (IsValidValue(_candidateValue))
             {
                 Insert(0, _candidateValue);
-                _currentValue = _cache[0];
+                _currentValue = _cache[Displacement];
                 OnElementAdded();
             }
             Release();
         }
-        public void Update()
+        public void Add(MarketDataEventArgs marketDataEventArgs)
         {
-            if (_cache == null || Count == 0)
-                return;
-            if (_released)
-                return;
-            if (IsValidCandidateValueToUpdateCache(_candidateValue))
+            _candidateValue = GetCandidateValue(marketDataEventArgs);
+            if (IsValidValue(_candidateValue))
             {
-                UpdateCurrentValue(ref _currentValue, _candidateValue);
-                OnElementChanged();
+                Insert(0, _candidateValue);
+                _currentValue = _cache[Displacement];
+                OnElementAdded();
             }
             Release();
         }
-        public T GetElement(int index)
+        public void Update(NinjaScriptBase ninjascript = null)
+        {
+            if (_cache == null || Count <= Displacement)
+                return;
+            
+            UpdateCurrentValue(ref _currentValue, ninjascript);
+            OnElementChanged();
+            Release();
+        }
+        public void Update(MarketDataEventArgs marketDataEventArgs)
+        {
+            if (_cache == null || Count <= Displacement)
+                return;
+            
+            UpdateCurrentValue(ref _currentValue, marketDataEventArgs);
+            OnElementChanged();
+            Release();
+        }
+        public T GetValue(int index)
         {
             IsValidIndex(index);
             return this[index];
         }
-        public T[] GetElements(int initialIdx, int numberOfElements)
+        public T[] GetValues(int initialIdx, int numberOfElements)
         {
             IsValidIndex(initialIdx, initialIdx + numberOfElements);
 
@@ -130,10 +132,10 @@ namespace KrTrade.Nt.Core.Caches
         }
 
         protected abstract T GetCandidateValue(NinjaScriptBase ninjascript = null);
-        protected abstract void UpdateCandidateValue(ref T candidateValue, NinjaScriptBase ninjascript = null, MarketDataEventArgs marketDataEventArgs = null);
-        protected abstract void UpdateCurrentValue(ref T currentValue, T candidateValue);
-        protected abstract bool IsValidCandidateValueToAdd(T candidateValue);
-        protected abstract bool IsValidCandidateValueToUpdate(T currentValue, T candidateValue);
+        protected abstract T GetCandidateValue(MarketDataEventArgs marketDataEventArgs);
+        protected abstract void UpdateCurrentValue(ref T currentValue, NinjaScriptBase ninjascript = null);
+        protected abstract void UpdateCurrentValue(ref T currentValue, MarketDataEventArgs marketDataEventArgs);
+        protected abstract bool IsValidValue(T value);
 
         #endregion
 
@@ -191,48 +193,15 @@ namespace KrTrade.Nt.Core.Caches
 
         #region Constructors
 
-        ///// <summary>
-        ///// Create <see cref="ICache{T}"/> instance with the default capacity.
-        ///// </summary>
-        //public Cache() : this(DEFAULT_CAPACITY, 0)
-        //{
-        //}
-
-        ///// <summary>
-        ///// Create <see cref="ICache{T}"/> instance with specific capacity.
-        ///// </summary>
-        ///// <param name="capacity">The <see cref="ICache{T}"/> capacity.</param>
-        //public Cache(int capacity) : this(capacity, 0)
-        //{
-        //}
-
-        ///// <summary>
-        ///// Create <see cref="ICache{T}"/> instance with infinity capacity.
-        ///// </summary>
-        ///// <param name="infiniteCapacity">Indicates infinite <see cref="ICache{T}"/> capacity.</param>
-        //public Cache(bool infiniteCapacity) : this(DEFAULT_CAPACITY, 0, infiniteCapacity)
-        //{
-        //}
-
-        ///// <summary>
-        ///// Create <see cref="ICache{T}"/> instance.
-        ///// </summary>
-        ///// <param name="capacity">The <see cref="ICache{T}"/> capacity.</param>
-        ///// <param name="displacement">The displacement of <see cref="ICache{T}"/> respect NinjaScript <see cref="ISeries"/> used to gets elements.</param>
-        //public Cache(int capacity, int displacement) : this(capacity,displacement,false)
-        //{
-        //}
-
         /// <summary>
         /// Create <see cref="ICache{T}"/> instance.
         /// </summary>
-        /// <param name="capacity">The <see cref="ICache{T}"/> capacity.</param>
+        /// <param name="capacity">The <see cref="ICache{T}"/> capacity without displacement. <see cref="Capacity"/> property include displacement.</param>
         /// <param name="displacement">The displacement of <see cref="ICache{T}"/> respect NinjaScript <see cref="ISeries"/> used to gets elements.</param>
-        /// <param name="infiniteCapacity">Indicates infinite <see cref="ICache{T}"/> capacity.</param>
-        protected Cache(int capacity, int displacement, bool infiniteCapacity)
+        protected Cache(int capacity, int displacement)
         {
-            Capacity = infiniteCapacity ? int.MaxValue : capacity <= 0 ? DEFAULT_CAPACITY : capacity > MAX_CAPACITY ? DEFAULT_CAPACITY : capacity;
-            Displacement = displacement < 0 ? 0 : displacement > capacity ? capacity - 1 : displacement;
+            Displacement = displacement < 0 ? 0 : displacement;
+            Capacity = capacity <= 0 ? DEFAULT_CAPACITY + displacement : displacement + capacity;
         }
 
         #endregion
@@ -265,7 +234,7 @@ namespace KrTrade.Nt.Core.Caches
 
         #endregion
 
-        private bool IsValidCandidateValueToUpdateCache(T candidateValue) => IsValidCandidateValueToAdd(candidateValue) && IsValidCandidateValueToUpdate(_currentValue, candidateValue);
+        //private bool IsValidCandidateValueToUpdateCache(T candidateValue) => IsValidValue(candidateValue) && IsValidCandidateValueToUpdate(_currentValue, candidateValue);
         protected bool IsValidIndex(int idx)
         {
             if (idx < 0 || idx >= Count)

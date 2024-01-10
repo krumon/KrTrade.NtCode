@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core-Caches\Bars\BarElement.cs" />
     <Compile Include="Core-Caches\Bars\IBarsCache.cs" />
     <Compile Include="Core-Caches\Series\RangeCache.cs" />
     <Compile Include="Core-Caches\Series\Base\CalculateSeriesCache.cs" />

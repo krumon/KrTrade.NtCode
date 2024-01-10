@@ -4,7 +4,7 @@ using KrTrade.Nt.Core.Data;
 
 namespace KrTrade.Nt.Services
 {
-    public interface IBarsCache : ICache<ICacheElement<Bar>>
+    public interface IBarsCache : ICache<Bar>
     {
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace KrTrade.Nt.Services
         /// <param name="numberOfBars">The number of elements to calculate the minimum value.</param>
         /// <param name="seriesType">the type of the 'NinjaScript.ISeries' used to calculated the value returns by this method. Default value is 'SeriesType.Close'.</param>
         /// <returns>The maximum value stored in the cache between the specified start and the specified number of bars.</returns>
-        double GetMax(int initialIdx, int numberOfBars, SeriesType seriesType = SeriesType.Close);
+        double GetMax(int initialIdx, int numberOfBars, SeriesType seriesType = SeriesType.High);
 
         /// <summary>
         /// The minimum value stored in the cache between the specified start and end indexes.
@@ -61,7 +61,7 @@ namespace KrTrade.Nt.Services
         /// <param name="numberOfBars">The number of elements to calculate the minimum value.</param>
         /// <param name="seriesType">the type of the 'NinjaScript.ISeries' used to calculated the value returns by this method. Default value is 'SeriesType.Close'.</param>
         /// <returns>The minimum value stored in the cache between the specified start and the specified number of bars.</returns>
-        double GetMin(int initialIdx, int numberOfBars, SeriesType seriesType = SeriesType.Close);
+        double GetMin(int initialIdx, int numberOfBars, SeriesType seriesType = SeriesType.Low);
 
         /// <summary>
         /// Returns the sum of values stored in the cache between the specified start and end indexes.
@@ -116,14 +116,23 @@ namespace KrTrade.Nt.Services
         /// <param name="numberOfBars">The number of elements to calculate the minimum value.</param>
         /// <param name="seriesType">the type of the 'NinjaScript.ISeries' used to calculated the value returns by this method. Default value is 'SeriesType.Close'.</param>
         /// <returns>The range value (the difference between the maximum value and the minimum value).</returns>
-        double GetRange(int initialIdx, int numberOfBars, SeriesType seriesType = SeriesType.Close);
+        double GetRange(int initialIdx, int numberOfBars);
 
-        //Bar GetTime(int initialIdx, int numberOfBars);
-        //Bar GetOpen(int initialIdx, int numberOfBars);
-        //Bar GetHigh(int initialIdx, int numberOfBars);
-        //Bar GetLow(int initialIdx, int numberOfBars);
-        //Bar GetClose(int initialIdx, int numberOfBars);
-        //Bar GetVolume(int initialIdx, int numberOfBars);
+        /// <summary>
+        /// Returns the swing high value if exists, otherwise returns -1.0.
+        /// </summary>
+        /// <param name="initialIdx">The initial cache index from which we start calculating the range. 0 is the most recent value in the cache.</param>
+        /// <param name="strength">The swing strength. Number of bars before and after the swing bar.</param>
+        /// <returns>The swing high value if exists, otherwise returns -1.0.</returns>
+        double GetSwingHigh(int initialIdx, int strength);
+
+        /// <summary>
+        /// Returns the swing low value if exists, otherwise returns -1.0.
+        /// </summary>
+        /// <param name="initialIdx">The initial cache index from which we start calculating the range. 0 is the most recent value in the cache.</param>
+        /// <param name="strength">The swing strength. Number of bars before and after the swing bar.</param>
+        /// <returns>The swing low value if exists, otherwise returns -1.0.</returns>
+        double GetSwingLow(int initialIdx, int strength);
 
     }
 }
