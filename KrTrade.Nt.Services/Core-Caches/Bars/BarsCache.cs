@@ -43,7 +43,7 @@ namespace KrTrade.Nt.Services
 
         public Bar GetBar(int initialIdx, int numberOfBars)
         {
-            IsValidIndex(Displacement + initialIdx, Displacement + initialIdx + numberOfBars);
+            IsValidIndexs(Displacement + initialIdx, Displacement + initialIdx + numberOfBars);
 
             Bar bar = new Bar();
             for (int i = Displacement + initialIdx; i < Displacement + initialIdx + numberOfBars; i++)
@@ -54,7 +54,7 @@ namespace KrTrade.Nt.Services
         }
         public double GetMax(int initialIdx, int numberOfBars, SeriesType seriesType = SeriesType.High)
         {
-            IsValidIndex(Displacement + initialIdx, Displacement + initialIdx + numberOfBars);
+            IsValidIndexs(Displacement + initialIdx, Displacement + initialIdx + numberOfBars);
 
             double value = double.MinValue;
             for (int i = Displacement + initialIdx; i < Displacement + initialIdx + numberOfBars; i++)
@@ -64,7 +64,7 @@ namespace KrTrade.Nt.Services
         }
         public double GetMin(int initialIdx, int barsBack, SeriesType seriesType = SeriesType.Low)
         {
-            IsValidIndex(Displacement + initialIdx, Displacement + initialIdx + barsBack);
+            IsValidIndexs(Displacement + initialIdx, Displacement + initialIdx + barsBack);
 
             double value = double.MaxValue;
             for (int i = Displacement + initialIdx; i < Displacement + initialIdx + barsBack; i++)
@@ -74,7 +74,7 @@ namespace KrTrade.Nt.Services
         }
         public double GetSum(int initialIdx, int barsBack, SeriesType seriesType = SeriesType.Close)
         {
-            IsValidIndex(Displacement + initialIdx, Displacement + initialIdx + barsBack);
+            IsValidIndexs(Displacement + initialIdx, Displacement + initialIdx + barsBack);
 
             double sum = 0;
             for (int i = Displacement + initialIdx; i < Displacement + initialIdx + barsBack; i++)
@@ -84,13 +84,13 @@ namespace KrTrade.Nt.Services
         }
         public double GetAvg(int initialIdx, int numberOfElements, SeriesType seriesType = SeriesType.Close)
         {
-            IsValidIndex(Displacement + initialIdx, Displacement + initialIdx + numberOfElements);
+            IsValidIndexs(Displacement + initialIdx, Displacement + initialIdx + numberOfElements);
 
             return GetSum(initialIdx, numberOfElements, seriesType) / Count;
         }
         public double GetStdDev(int initialIdx, int numberOfElements, SeriesType seriesType = SeriesType.Close)
         {
-            IsValidIndex(Displacement + initialIdx, Displacement + initialIdx + numberOfElements);
+            IsValidIndexs(Displacement + initialIdx, Displacement + initialIdx + numberOfElements);
 
             double avg = GetAvg(initialIdx, numberOfElements, seriesType) / Count;
             double sumx2 = 0;
@@ -107,7 +107,7 @@ namespace KrTrade.Nt.Services
         }
         public double[] GetQuartils(int initialIdx, int numberOfElements, SeriesType seriesType = SeriesType.Close)
         {
-            IsValidIndex(Displacement + initialIdx, Displacement + initialIdx + numberOfElements);
+            IsValidIndexs(Displacement + initialIdx, Displacement + initialIdx + numberOfElements);
             Bar[] rangeCache = new Bar[numberOfElements];
             int count = 0;
             for (int i = Displacement + initialIdx; i < Displacement + initialIdx + numberOfElements; i++)
@@ -133,7 +133,7 @@ namespace KrTrade.Nt.Services
         public double GetSwingHigh(int initialIdx, int strength)
         {
             int numOfBars = (strength * 2) + 1;
-            IsValidIndex(Displacement + initialIdx, Displacement + initialIdx + numOfBars);
+            IsValidIndexs(Displacement + initialIdx, Displacement + initialIdx + numOfBars);
 
             bool isSwingHigh = true;
             double candidateValue = this[Displacement + strength].High;
@@ -155,7 +155,7 @@ namespace KrTrade.Nt.Services
         public double GetSwingLow(int initialIdx, int strength)
         {
             int numOfBars = (strength * 2) + 1;
-            IsValidIndex(Displacement + initialIdx, Displacement + initialIdx + numOfBars);
+            IsValidIndexs(Displacement + initialIdx, Displacement + initialIdx + numOfBars);
 
             bool isSwingLow = true;
             double candidateValue = this[Displacement + strength].Low;
@@ -192,9 +192,18 @@ namespace KrTrade.Nt.Services
             bar.Set(args);
             return bar;
         }
-        protected override void UpdateCurrentValue(ref Bar currentValue, NinjaScriptBase ninjascript = null) => currentValue.Set(ninjascript, 0, BarsIdx);
-        protected override void UpdateCurrentValue(ref Bar currentValue, NinjaTrader.Data.MarketDataEventArgs args) => currentValue.Set(args);
-        protected override bool IsValidValue(Bar candidateValue) => candidateValue != null;
+        protected override bool UpdateCurrentValue(ref Bar currentValue, NinjaScriptBase ninjascript = null) => currentValue.Set(ninjascript, 0, BarsIdx);
+        protected override bool UpdateCurrentValue(ref Bar currentValue, NinjaTrader.Data.MarketDataEventArgs args) => currentValue.Set(args);
+        protected override bool IsValidValue(Bar candidateValue) => candidateValue != null; 
+        public override bool IsValidDataPoint(int barsAgo) => IsValidIndex(barsAgo) && this[barsAgo] != null;
+        public override bool IsValidDataPointAt(int barIndex)
+        {
+            if (Count > 0)
+                for (int i = 0; i < Count; i++)
+                    if (this[i] != null && this[i].Idx == barIndex)
+                        return true;
+            return false;
+        }
 
         #endregion
 

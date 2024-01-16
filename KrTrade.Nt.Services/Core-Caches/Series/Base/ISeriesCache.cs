@@ -1,10 +1,15 @@
 ﻿using KrTrade.Nt.Core.Caches;
-using NinjaTrader.Core.FloatingPoint;
+using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Services
 {
     public interface ISeriesCache : ICache<double>
     {
+
+        /// <summary>
+        /// The 'NinjaScript.ISeries<double>' necesary to get the cache values.</double>
+        /// </summary>
+        ISeries<double> Input { get; }
 
         /// <summary>
         /// Gets the maximum value in cache.

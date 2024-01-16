@@ -52,9 +52,13 @@
   <ItemGroup>
     <Compile Include="Core-Caches\Bars\BarElement.cs" />
     <Compile Include="Core-Caches\Bars\IBarsCache.cs" />
-    <Compile Include="Core-Caches\Series\RangeCache.cs" />
+    <Compile Include="Core-Caches\Series\Base\CacheSeriesCache.cs" />
+    <Compile Include="Core-Caches\Series\NinjascriptSeries\VolumeCache.cs" />
+    <Compile Include="Core-Caches\Series\CalculateSeries\RangeCache.cs" />
     <Compile Include="Core-Caches\Series\Base\CalculateSeriesCache.cs" />
-    <Compile Include="Core-Caches\Series\Base\PriceSeriesCache.cs" />
+    <Compile Include="Core-Caches\Series\Base\NinjascriptSeriesCache.cs" />
+    <Compile Include="Core-Caches\Series\StatsSeries\AvgCache.cs" />
+    <Compile Include="Core-Caches\Series\StatsSeries\SumCache.cs" />
     <Compile Include="Services-Bars\BarsOptions.cs" />
     <Compile Include="Services-Bars\IBarsService.cs" />
     <Compile Include="Core-Caches\Bars\BarsCache.cs" />
@@ -165,7 +169,7 @@
     <Compile Include="Services-BarUpdate\Caches\SeriesCacheService.cs" />
     <Compile Include="Services-BarUpdate\Caches\CloseCacheService.cs" />
     <Compile Include="Services-BarUpdate\Caches\LowCacheService.cs" />
-    <Compile Include="Core-Caches\Series\HighCache.cs" />
+    <Compile Include="Core-Caches\Series\NinjascriptSeries\HighCache.cs" />
     <Compile Include="Services-Logging\BaseLoggerOptions.cs" />
     <Compile Include="Services-Logging\BaseLoggerService.cs" />
     <Compile Include="Services-Logging\LogEntry.cs" />
@@ -199,6 +203,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Core-Caches\Stats\" />
     <Folder Include="Services-BarUpdate\Swings\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

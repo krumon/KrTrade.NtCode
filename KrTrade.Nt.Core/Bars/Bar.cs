@@ -91,10 +91,10 @@ namespace KrTrade.Nt.Core.Bars
             Volume = 0;
             Ticks = 0;
         }
-        public void Set(NinjaScriptBase ninjascript, int barsAgo, int barsInProgress)
+        public bool Set(NinjaScriptBase ninjascript, int barsAgo, int barsInProgress)
         {
             if (ninjascript == null || ninjascript.State != State.Historical || ninjascript.State != State.Realtime)
-                return;
+                return false;
 
             Idx = ninjascript.CurrentBars[barsInProgress] - barsAgo;
             Time = ninjascript.Times[barsInProgress][barsAgo];
@@ -109,10 +109,13 @@ namespace KrTrade.Nt.Core.Bars
                 if (ninjascript.State == State.Realtime || (ninjascript.State == State.Historical && ninjascript.Bars.IsTickReplay))
                     Ticks = ninjascript.BarsArray[barsInProgress].TickCount;
             }
+
+            return true;
         }
-        public void Set(MarketDataEventArgs args)
+        public bool Set(MarketDataEventArgs args)
         {
             // TODO: Asignar valores cada vez que los datos de mercado cambian.
+            return false;
         }
         public void CopyTo(Bar bar)
         {

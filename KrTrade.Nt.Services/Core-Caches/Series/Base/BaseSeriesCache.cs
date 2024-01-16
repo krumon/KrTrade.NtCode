@@ -10,37 +10,38 @@ namespace KrTrade.Nt.Services
 {
     public abstract class BaseSeriesCache : Cache<double>, ISeriesCache
     {
-        protected ISeries<double> Series { get; set; }
+        
+        public ISeries<double> Input { get; protected set; }
         protected int SeriesIdx { get; set; }
 
         #region Implementation
 
-        public double Max => GetMax(0, Count);
-        public double Min => GetMin(0, Count);
-        public double Sum => GetSum(0, Count);
-        public double Avg => GetAvg(0, Count);
-        public double StdDev => GetStdDev(0, Count);
-        public double[] Quartils => GetQuartils(0, Count);
+        public double Max => GetMax(Displacement, Count);
+        public double Min => GetMin(Displacement, Count);
+        public double Sum => GetSum(Displacement, Count);
+        public double Avg => GetAvg(Displacement, Count);
+        public double StdDev => GetStdDev(Displacement, Count);
+        public double[] Quartils => GetQuartils(Displacement, Count);
         public double InterquartilRange => Quartils[2] - Quartils[0];
-        public double Range => GetRange(0, Count);
+        public double Range => GetRange(Displacement, Count);
 
         public double GetMax(int initialIdx, int numberOfElements)
         {
-            IsValidIndex(Displacement + initialIdx, Displacement + initialIdx + numberOfElements);
+            IsValidIndexs(initialIdx, initialIdx + numberOfElements);
 
             double value = double.MinValue;
-            for (int i = Displacement + initialIdx; i < Displacement + initialIdx + numberOfElements; i++)
+            for (int i = initialIdx; i < initialIdx + numberOfElements; i++)
                 value = Math.Max(value, this[i]);
 
             return value;
         }
         public double GetMin(int initialIdx, int numberOfElements)
         {
-            IsValidIndex(Displacement + initialIdx, Displacement + initialIdx + numberOfElements);
+            IsValidIndexs(initialIdx, initialIdx + numberOfElements);
 
             double value = double.MaxValue;
 
-            for (int i = Displacement + initialIdx; i < Displacement + initialIdx + numberOfElements; i++)
+            for (int i = initialIdx; i < initialIdx + numberOfElements; i++)
             {
                 value = Math.Min(value, this[i]);
             }
@@ -48,11 +49,11 @@ namespace KrTrade.Nt.Services
         }
         public double GetSum(int initialIdx, int numberOfElements)
         {
-            IsValidIndex(Displacement + initialIdx, Displacement + initialIdx + numberOfElements);
+            IsValidIndexs(initialIdx, initialIdx + numberOfElements);
 
             double sum = 0;
 
-            for (int i = Displacement + initialIdx; i < Displacement + initialIdx + numberOfElements; i++)
+            for (int i = initialIdx; i < initialIdx + numberOfElements; i++)
             {
                 sum += this[i];
             }
@@ -60,17 +61,17 @@ namespace KrTrade.Nt.Services
         }
         public double GetAvg(int initialIdx, int numberOfElements)
         {
-            IsValidIndex(Displacement + initialIdx, Displacement + initialIdx + numberOfElements);
+            IsValidIndexs(initialIdx, initialIdx + numberOfElements);
 
             return GetSum(initialIdx, numberOfElements) / Count;
         }
         public double GetStdDev(int initialIdx, int numberOfElements)
         {
-            IsValidIndex(Displacement + initialIdx, Displacement + initialIdx + numberOfElements);
+            IsValidIndexs(initialIdx, initialIdx + numberOfElements);
 
             double avg = GetAvg(initialIdx, numberOfElements) / Count;
             double sumx2 = 0;
-            for (int i = Displacement + initialIdx; i < Displacement + initialIdx + numberOfElements; i++)
+            for (int i = initialIdx; i < initialIdx + numberOfElements; i++)
                 sumx2 += Math.Pow(Math.Abs(this[i] - avg), 2.0);
             return Math.Sqrt(sumx2 / Count); ;
         }
@@ -83,10 +84,10 @@ namespace KrTrade.Nt.Services
         }
         public double[] GetQuartils(int initialIdx, int numberOfElements)
         {
-            IsValidIndex(Displacement + initialIdx, Displacement + initialIdx + numberOfElements);
+            IsValidIndexs(initialIdx, initialIdx + numberOfElements);
             double[] rangeCache = new double[numberOfElements];
             int count = 0;
-            for (int i = Displacement + initialIdx; i < Displacement + initialIdx + numberOfElements; i++)
+            for (int i = initialIdx; i < initialIdx + numberOfElements; i++)
             {
                 rangeCache[count] = this[i];
                 count++;
@@ -109,17 +110,17 @@ namespace KrTrade.Nt.Services
         public double GetSwingHigh(int initialIdx, int strength)
         {
             int numOfBars = (strength * 2) + 1;
-            IsValidIndex(Displacement + initialIdx, Displacement + initialIdx + numOfBars);
+            IsValidIndexs(initialIdx, initialIdx + numOfBars);
 
             bool isSwingHigh = true;
-            double candidateValue = this[Displacement + strength];
-            for (int i = Displacement + initialIdx + numOfBars -1; i > Displacement + initialIdx + strength; i--)
+            double candidateValue = this[initialIdx + strength];
+            for (int i = initialIdx + numOfBars -1; i > initialIdx + strength; i--)
                 if (candidateValue.ApproxCompare(this[i]) <= 0.0)
                 {
                     isSwingHigh = false;
                     break;
                 }
-            for (int i = Displacement + initialIdx + strength - 1; i >= Displacement + initialIdx; i--)
+            for (int i = initialIdx + strength - 1; i >= initialIdx; i--)
                 if (candidateValue.ApproxCompare(this[i]) < 0.0)
                 {
                     isSwingHigh = false;
@@ -131,17 +132,17 @@ namespace KrTrade.Nt.Services
         public double GetSwingLow(int initialIdx, int strength)
         {
             int numOfBars = (strength * 2) + 1;
-            IsValidIndex(Displacement + initialIdx, Displacement + initialIdx + numOfBars);
+            IsValidIndexs(initialIdx, initialIdx + numOfBars);
 
             bool isSwingLow = true;
-            double candidateValue = this[Displacement + strength];
-            for (int i = Displacement + initialIdx + numOfBars - 1; i > Displacement + initialIdx + strength; i--)
+            double candidateValue = this[initialIdx + strength];
+            for (int i = initialIdx + numOfBars - 1; i > initialIdx + strength; i--)
                 if (candidateValue.ApproxCompare(this[i]) >= 0.0)
                 {
                     isSwingLow = false;
                     break;
                 }
-            for (int i = Displacement + initialIdx + strength - 1; i >= Displacement + initialIdx; i--)
+            for (int i = initialIdx + strength - 1; i >= initialIdx; i--)
                 if (candidateValue.ApproxCompare(this[i]) > 0.0)
                 {
                     isSwingLow = false;
@@ -151,50 +152,88 @@ namespace KrTrade.Nt.Services
             return isSwingLow ? candidateValue : -1;
         }
 
-        protected abstract ISeries<double> GetNinjascriptSeries(NinjaScriptBase ninjascript, int seriesIdx);
+        protected abstract ISeries<double> GetSeries(ISeries<double> input, int seriesIdx);
         protected abstract bool IsValidCandidateValueToUpdate(double currentValue, double candidateValue);
         
-        protected sealed override bool IsValidValue(double candidateValue) => !double.IsNaN(candidateValue) && candidateValue >= 0 && candidateValue <= double.MaxValue;
-        protected sealed override void UpdateCurrentValue(ref double currentValue, NinjaScriptBase ninjascript = null)
-        {
-            double candidateValue = GetCandidateValue(ninjascript);
-            if (IsValidCandidateValueToUpdate(CurrentValue, candidateValue)) 
-                CurrentValue = candidateValue;
-        }
-        protected sealed override void UpdateCurrentValue(ref double currentValue, MarketDataEventArgs marketDataEventArgs) => currentValue = GetCandidateValue(marketDataEventArgs);
+        protected sealed override bool IsValidValue(double candidateValue) => !double.IsNaN(candidateValue) && candidateValue >= 0;
         protected sealed override double GetCandidateValue(MarketDataEventArgs marketDataEventArgs) => double.NaN;
+        protected sealed override bool UpdateCurrentValue(ref double currentValue, MarketDataEventArgs marketDataEventArgs) { currentValue = default; return true; }
+        public sealed override bool IsValidDataPoint(int barsAgo) => barsAgo >= 0 && barsAgo < Count ? IsValidValue(this[barsAgo]) : throw new ArgumentOutOfRangeException(nameof(barsAgo));
+        public sealed override bool IsValidDataPointAt(int barIndex) => throw new NotImplementedException();
+
+        protected override bool UpdateCurrentValue(ref double currentValue, NinjaScriptBase ninjascript = null)
+        {
+            bool isUpdated = false;
+            double candidateValue = GetCandidateValue(ninjascript);
+            if (IsValidCandidateValueToUpdate(currentValue, candidateValue))
+            {
+                currentValue = candidateValue;
+                isUpdated = true;
+            }
+            return isUpdated;
+        }
 
         #endregion
 
         #region Constructors
 
-        /// <summary>
-        /// Create <see cref="BaseSeriesCache"/> default instance with specified properties.
-        /// </summary>
-        /// <param name="series">The NinjaScript <see cref="ISeries{double}"/> used to gets elements for <see cref="ISeriesCache"/>.</param>
-        /// <param name="capacity">The <see cref="ICache{T}"/> capacity.</param>
-        /// <param name="displacement">The displacement of <see cref="ICache{T}"/> respect NinjaScript <see cref="ISeries{double}"/> used to gets elements.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="series"/> cannot be null.</exception>
-        protected BaseSeriesCache(ISeries<double> series, int capacity, int displacement) : base(capacity, displacement)
-        {
-            Series = series ?? throw new ArgumentNullException($"The Cache nedd an input serie. The {nameof(series)} is null.");
-            SeriesIdx = 0;
-        }
+        ///// <summary>
+        ///// Create <see cref="BaseSeriesCache"/> default instance with specified properties.
+        ///// </summary>
+        //protected BaseSeriesCache() : base(DEFAULT_PERIOD + 1, 0)
+        //{
+        //    Period = DEFAULT_PERIOD;
+        //}
+
+        ///// <summary>
+        ///// Create <see cref="BaseSeriesCache"/> default instance with specified properties.
+        ///// </summary>
+        ///// <param name="displacement">The displacement of <see cref="ISeriesCache"/> respect NinjaScript <see cref="ISeries{double}"/> used to gets elements.</param>
+        //protected BaseSeriesCache(int displacement) : base(DEFAULT_PERIOD, displacement)
+        //{
+        //    Period = DEFAULT_PERIOD;
+        //}
+
+        ///// <summary>
+        ///// Create <see cref="BaseSeriesCache"/> default instance with specified properties.
+        ///// </summary>
+        ///// <param name="period">The <see cref="ISeriesCache"/> period.</param>
+        ///// <param name="displacement">The displacement of <see cref="ISeriesCache"/> respect NinjaScript <see cref="ISeries{double}"/> used to gets elements.</param>
+        //protected BaseSeriesCache(int period, int displacement) : base(displacement == 0 ? period + 1 : displacement + period, displacement)
+        //{
+        //    Period = period < 0 ? DEFAULT_PERIOD : period;
+        //}
+
+        ///// <summary>
+        ///// Create <see cref="BaseSeriesCache"/> default instance with specified properties.
+        ///// </summary>
+        ///// <param name="series">The NinjaScript <see cref="ISeries{double}"/> used to gets elements for <see cref="ISeriesCache"/>.</param>
+        ///// <param name="capacity">The <see cref="ICache{T}"/> capacity.</param>
+        ///// <param name="displacement">The displacement of <see cref="ICache{T}"/> respect NinjaScript <see cref="ISeries{double}"/> used to gets elements.</param>
+        ///// <exception cref="ArgumentNullException">The <paramref name="series"/> cannot be null.</exception>
+        //protected BaseSeriesCache(ISeries<double> series, int capacity, int displacement) : base(capacity, displacement)
+        //{
+        //    Series = series ?? throw new ArgumentNullException($"The Cache nedd an input serie. The {nameof(series)} is null.");
+        //    SeriesIdx = 0;
+        //}
 
         /// <summary>
         /// Create <see cref="BaseSeriesCache"/> default instance with specified properties.
         /// </summary>
-        /// <param name="ninjascript">The NinjaScript parent of <see cref="ISeries{double}"/> used to gets elements for <see cref="ISeriesCache"/>.</param>
-        /// <param name="capacity">The <see cref="ICache{T}"/> capacity without displacement. <see cref="Capacity"/> property include displacement.</param>
+        /// <param name="input">The NinjaScript <see cref="ISeries{double}"/> used to gets elements for <see cref="ISeriesCache"/>.</param>
+        /// <param name="period">The <see cref="ICache{T}"/> period without displacement. <see cref="Capacity"/> property include displacement.</param>
         /// <param name="displacement">The displacement of <see cref="Core.Caches.ICache{T}"/> respect NinjaScript <see cref="ISeries{double}"/> used to gets elements.</param>
         /// <param name="seriesIdx">The index of 'NinjaScript' parent bars.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="ninjascript"/> cannot be null.</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
         /// <exception cref="ArgumentOutOfRangeException">The <paramref name="seriesIdx"/> cannot be out of range.</exception>
-        protected BaseSeriesCache(NinjaScriptBase ninjascript, int capacity, int displacement, int seriesIdx) : base(capacity, displacement)
+        protected BaseSeriesCache(ISeries<double> input, int period, int displacement, int seriesIdx) : base(period, displacement)
         {
-            if (ninjascript == null) throw new ArgumentNullException(nameof(ninjascript));
-            SeriesIdx = seriesIdx >= 0 && seriesIdx < ninjascript.BarsArray.Length ? seriesIdx : throw new ArgumentOutOfRangeException(nameof(seriesIdx));
-            Series = GetNinjascriptSeries(ninjascript, seriesIdx) ?? throw new NullReferenceException(nameof(Series));
+            if (Input is NinjaScriptBase ninjascript)
+                SeriesIdx = seriesIdx < 0 ? 0 : ninjascript.BarsArray.Length > seriesIdx ? seriesIdx : throw new ArgumentOutOfRangeException(nameof(seriesIdx));
+            else 
+                SeriesIdx = 0;
+
+            Input = GetSeries(input, SeriesIdx);
         }
 
         #endregion
