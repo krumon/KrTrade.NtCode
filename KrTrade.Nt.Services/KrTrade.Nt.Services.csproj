@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
@@ -52,20 +53,35 @@
   <ItemGroup>
     <Compile Include="Core-Caches\Bars\BarElement.cs" />
     <Compile Include="Core-Caches\Bars\IBarsCache.cs" />
-    <Compile Include="Core-Caches\Series\Base\CacheSeriesCache.cs" />
-    <Compile Include="Core-Caches\Series\NinjascriptSeries\VolumeCache.cs" />
-    <Compile Include="Core-Caches\Series\CalculateSeries\RangeCache.cs" />
-    <Compile Include="Core-Caches\Series\Base\CalculateSeriesCache.cs" />
-    <Compile Include="Core-Caches\Series\Base\NinjascriptSeriesCache.cs" />
-    <Compile Include="Core-Caches\Series\StatsSeries\AvgCache.cs" />
-    <Compile Include="Core-Caches\Series\StatsSeries\SumCache.cs" />
+    <Compile Include="Core-Caches\IndexCache.cs" />
+    <Compile Include="Core-Caches\TicksCache.cs" />
+    <Compile Include="Core-Caches\TimeCache.cs" />
+    <Compile Include="Core-Caches\VolumeCache.cs" />
+    <Compile Include="Core-Caches\_Base\DateTimeCache.cs" />
+    <Compile Include="Core-Caches\_Base\IDateTimeCache.cs" />
+    <Compile Include="Core-Caches\_Base\LongCache.cs" />
+    <Compile Include="Core-Caches\_Base\IntCache.cs" />
+    <Compile Include="Core-Caches\_Base\IMarketDataCache.cs" />
+    <Compile Include="Core-Caches\_Base\IBarUpdateCache.cs" />
+    <Compile Include="Core-Caches\_Base\INumericCache.cs" />
+    <Compile Include="Core-Caches\_Base\IValueCache.cs" />
+    <Compile Include="Core-Caches\_Base\DoubleCache.cs" />
+    <Compile Include="Core-Caches\_Base\ValueCache.cs" />
+    <Compile Include="Core-Caches\_Base\SeriesCache.cs" />
+    <Compile Include="Core-Caches\_Base\ISeriesCache.cs" />
+    <Compile Include="Core-Caches\Series\CacheSeriesCache.cs" />
+    <Compile Include="Core-Caches\RangeCache.cs" />
+    <Compile Include="Core-Caches\Series\CalculateSeriesCache.cs" />
+    <Compile Include="Core-Caches\Series\NinjascriptSeriesCache.cs" />
+    <Compile Include="Core-Caches\AvgCache.cs" />
+    <Compile Include="Core-Caches\SumCache.cs" />
     <Compile Include="Services-Bars\BarsOptions.cs" />
     <Compile Include="Services-Bars\IBarsService.cs" />
     <Compile Include="Core-Caches\Bars\BarsCache.cs" />
     <Compile Include="Services-BarUpdate\BarUpdateService.cs" />
     <Compile Include="Services-BarUpdate\Caches\CacheOptions.cs" />
-    <Compile Include="Core-Caches\Series\Base\ISeriesCache.cs" />
-    <Compile Include="Core-Caches\Series\Base\BaseSeriesCache.cs" />
+    <Compile Include="Core-Caches\Series\ISeriesCache.cs" />
+    <Compile Include="Core-Caches\Series\BaseSeriesCache.cs" />
     <Compile Include="DataSeries\IDataSeriesService.cs" />
     <Compile Include="Services-BarUpdate\Caches\HighCacheService.cs" />
     <Compile Include="Services-BarUpdate\IBarUpdateService.cs" />
@@ -169,7 +185,7 @@
     <Compile Include="Services-BarUpdate\Caches\SeriesCacheService.cs" />
     <Compile Include="Services-BarUpdate\Caches\CloseCacheService.cs" />
     <Compile Include="Services-BarUpdate\Caches\LowCacheService.cs" />
-    <Compile Include="Core-Caches\Series\NinjascriptSeries\HighCache.cs" />
+    <Compile Include="Core-Caches\HighCache.cs" />
     <Compile Include="Services-Logging\BaseLoggerOptions.cs" />
     <Compile Include="Services-Logging\BaseLoggerService.cs" />
     <Compile Include="Services-Logging\LogEntry.cs" />

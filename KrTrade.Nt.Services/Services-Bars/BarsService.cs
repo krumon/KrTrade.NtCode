@@ -60,7 +60,7 @@ namespace KrTrade.Nt.Services
         protected BarsService(NinjaScriptBase ninjascript, IPrintService printService, IConfigureOptions<BarsOptions> configureOptions, int cacheCapacity) : base(ninjascript, printService, configureOptions) 
         { 
             _cacheCapacity = cacheCapacity;
-            _cache = new BarsCache(_cacheCapacity);
+            _cache = new BarsCache(Ninjascript,_cacheCapacity, 20);
             // TODO: Lo borro para poder compilar.
             //Add(_cache);
         }

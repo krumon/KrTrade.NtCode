@@ -1,6 +1,4 @@
-﻿using NinjaTrader.Data;
-using NinjaTrader.NinjaScript;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -11,143 +9,46 @@ namespace KrTrade.Nt.Core.Caches
     /// </summary>
     /// <typeparam name="T">The type of cache element.</typeparam>
     public abstract class Cache<T> : ICache<T>,
-        IList<T>,
-        ICollection<T>,
         IEnumerable<T>,
         IEnumerable
     {
 
-        #region Consts
-
         public const int DEFAULT_PERIOD = 20;
+        private IList<T> _cache = new List<T>();
 
-        #endregion
-
-        #region Private members
-
-        private readonly IList<T> _cache = new List<T>();
-        private T _candidateValue;
-        private T _currentValue;
-
-        //private T _lastRemovedValue;
-        //private bool _redo = true;
-
-        protected bool IsOverLength => Count > Capacity;
-        protected bool HasOldValues => Count > Period + Displacement;
-        protected int MaxPeriod => int.MaxValue - Displacement - RemovedValuesCacheLength;
-
-        #endregion
-
-        #region Implementation
-
+        // ICache implementation
         public int Period { get; protected set; } = -1;
         public int Displacement { get; protected set; } = 0;
-        public int RemovedValuesCacheLength { get; set; } = 1;
-
-        public int Capacity => Period + Displacement + RemovedValuesCacheLength;
+        public int LengthOfRemovedValuesCache { get; set; } = 1;
+        public int Capacity => Period + Displacement + LengthOfRemovedValuesCache;
         public bool IsFull => Count >= Capacity;
-
-        public T CurrentValue => _currentValue;
-        //public T RemovedValue => _lastRemovedValue;
-        //public T LastValue => GetValue(Displacement);
-
-        public void Release()
+        public T CurrentValue { get => _cache == null || Count == 0 ? default : _cache[0]; protected set => _cache[0] = value; }
+        public void RemoveLastElement()
         {
-            _candidateValue = default;
-            if (Count > Capacity)
-            {
-                T removedValue = _cache[Count - 1];
-                _cache.RemoveAt(Count - 1);
-                OnElementRemoved(removedValue);
-            }
-        }
-        public void ReDo()
-        {
-            if (_cache == null || Count == 0)
-                return;
-            if (HasOldValues)
-                _cache.RemoveAt(0);
-            //Release();
+            if (Count > 0 && Count != Period + Displacement)
+                RemoveAt(0);
+            else 
+                throw new Exception("The cache cannot restore the element because the removed values cache is empty.");
         }
         public void Reset()
         {
             _cache?.Clear();
             Release();
-            _currentValue = default;
-            //_lastRemovedValue = default;
         }
-        public bool Add(NinjaScriptBase ninjascript = null)
+        public void Dispose()
         {
-            bool isAdded = false;
-            _candidateValue = GetCandidateValue(ninjascript);
-            if (IsValidValue(_candidateValue))
-            {
-                _currentValue = _candidateValue;
-                Insert(0, _candidateValue);
-                //_currentValue = _cache[Displacement];
-                OnElementAdded(_currentValue);
-                isAdded = true;
-            }
-            Release();
-            return isAdded;
+            Reset();
+            _cache = null;
         }
-        public bool Add(MarketDataEventArgs marketDataEventArgs)
+        public T GetValue(int valuesAgo) => IsValidIndex(valuesAgo) ? _cache[valuesAgo] : default;
+        public T[] ToArray(int fromValuesAgo, int numOfValues)
         {
-            bool isAdded = false;
-            _candidateValue = GetCandidateValue(marketDataEventArgs);
-            if (IsValidValue(_candidateValue))
-            {
-                _currentValue = _candidateValue;
-                Insert(0, _candidateValue);
-                //_currentValue = _cache[Displacement];
-                OnElementAdded(_currentValue);
-                isAdded = true;
-            }
-            Release();
-            return isAdded;
-        }
-        public bool Update(NinjaScriptBase ninjascript = null)
-        {
-            if (_cache == null || Count == 0)
-                return false;
-            
-            bool isUpdated = false;
-            if (UpdateCurrentValue(ref _currentValue, ninjascript))
-            {
-                OnElementUpdated(_currentValue);
-                isUpdated = true;
-            }
-            //Release();
-            return isUpdated;
-        }
-        public bool Update(MarketDataEventArgs marketDataEventArgs)
-        {
-            if (_cache == null || Count <= Displacement)
-                return false;
+            if (!IsValidIndex(fromValuesAgo, numOfValues))
+                throw new ArgumentOutOfRangeException(nameof(numOfValues));
 
-            bool isUpdated = false;
-            if (UpdateCurrentValue(ref _currentValue, marketDataEventArgs))
-            {
-                OnElementUpdated(_currentValue);
-                isUpdated = true;
-            }
-            //Release();
-            return isUpdated;
-        }
-        public T GetValueAt(int index)
-        {
-            if (IsValidIndex(index))
-                return this[index];
-            throw new ArgumentOutOfRangeException(nameof(index));
-        }
-        public T[] GetValues(int initialIdx, int numberOfElements)
-        {
-            if (!IsValidIndexs(initialIdx, initialIdx + numberOfElements))
-                throw new ArgumentOutOfRangeException(nameof(numberOfElements));
-
-            T[] elements = new T[numberOfElements];
+            T[] elements = new T[numOfValues];
             int count = 0;
-            for (int i = initialIdx; i < initialIdx + numberOfElements; i++)
+            for (int i = fromValuesAgo; i < fromValuesAgo + numOfValues; i++)
             {
                 elements[count] = this[i];
                 count++;
@@ -156,65 +57,24 @@ namespace KrTrade.Nt.Core.Caches
             return elements;
         }
 
-        protected abstract T GetCandidateValue(NinjaScriptBase ninjascript = null);
-        protected abstract T GetCandidateValue(MarketDataEventArgs marketDataEventArgs);
-        protected abstract bool UpdateCurrentValue(ref T currentValue, NinjaScriptBase ninjascript = null);
-        protected abstract bool UpdateCurrentValue(ref T currentValue, MarketDataEventArgs marketDataEventArgs);
-        protected abstract bool IsValidValue(T value);
-
-        #endregion
-
-        #region ISeries<T> implementation
-
+        // ISeries<T> implementation
         public int Count => _cache.Count;
-        public T this[int index]
-        {
-            get => IsValidIndex(index) ? _cache[index] : default;
-            set
+        public T this[int index] 
+        { 
+            get => IsValidIndex(index) ? _cache[index] : throw new ArgumentOutOfRangeException(nameof(index));
+            private set
             {
-                if (IsValidIndex(index))
-                    _cache[index] = value;
+                if (!IsValidIndex(index)) throw new ArgumentOutOfRangeException(nameof(index));
+                T oldValue = _cache[index];
+                _cache[index] = value;
+                OnElementUpdated(oldValue, _cache[index]);
             }
-        }
-        public abstract bool IsValidDataPoint(int barsAgo);
-        public abstract bool IsValidDataPointAt(int barIndex);
+        } 
+        public T GetValueAt(int valueIndex) => IsValidIndex(Count - valueIndex) ? _cache[Count - valueIndex] : default;
+        public bool IsValidDataPoint(int valuesAgo) => IsValidIndex(valuesAgo) && IsValidValue(_cache[valuesAgo]);
+        public bool IsValidDataPointAt(int valueIndex) => IsValidDataPoint(Count - valueIndex);
 
-        #endregion
-
-        #region IEnumerable & ICollection implementation
-
-        public void Add(T item)
-        {
-            _cache.Add(item);
-        }
-        public void Clear()
-        {
-            _cache.Clear();
-        }
-        public int IndexOf(T item)
-        {
-            return _cache.IndexOf(item);
-        }
-        public void Insert(int index, T item)
-        {
-            _cache.Insert(index, item);
-        }
-        public void RemoveAt(int index)
-        {
-            _cache.RemoveAt(index);
-        }
-        public bool Contains(T item)
-        {
-            return _cache.Contains(item);
-        }
-        public void CopyTo(T[] array, int arrayIndex)
-        {
-            _cache.CopyTo(array, arrayIndex);
-        }
-        public bool Remove(T item)
-        {
-            return _cache.Remove(item);
-        }
+        // IEnumerable implementation
         public IEnumerator<T> GetEnumerator()
         {
             return _cache.GetEnumerator();
@@ -223,11 +83,47 @@ namespace KrTrade.Nt.Core.Caches
         {
             return GetEnumerator();
         }
-        public bool IsReadOnly => false;
-
-        #endregion
-
-        #region Constructors
+        
+        // Private and protected members
+        protected abstract bool IsValidValue(T value);
+        protected void Add(T item)
+        {
+            Insert(0, item);
+        }
+        private void Release()
+        {
+            if (Count > Capacity)
+                RemoveAt(Count - 1);
+        }
+        private void Insert(int index, T item)
+        {
+            if (Count == 0)
+                OnInit();
+            _cache.Insert(index, item);
+            OnElementAdded(CurrentValue);
+            Release();
+        }
+        private void RemoveAt(int index)
+        {
+            T removedItem = this[index];
+            _cache.RemoveAt(index);
+            if (index == 0)
+                OnLastElementRemoved();
+            else
+                OnElementRemoved(removedItem);
+        }
+        protected int MaxPeriod => int.MaxValue - Displacement - LengthOfRemovedValuesCache;
+        protected bool IsValidIndex(int barsAgo) => _cache != null && barsAgo >= 0 && barsAgo < Count;
+        protected bool IsValidIndex(int barsAgo, int period)
+        {
+            if (!IsValidIndex(barsAgo)) return false;
+            return period >= 0 && barsAgo + period < Count;
+        }
+        protected bool IsValidIndexes(int initialBarsAgo, int finalBarsAgo)
+        {
+            if (initialBarsAgo > finalBarsAgo) return false;
+            return IsValidIndex(initialBarsAgo) && IsValidIndex(finalBarsAgo);
+        }
 
         /// <summary>
         /// Create <see cref="ICache{T}"/> instance.
@@ -243,58 +139,43 @@ namespace KrTrade.Nt.Core.Caches
             Period = period < 0 ? MaxPeriod : period == 0 ? DEFAULT_PERIOD : period > MaxPeriod ? MaxPeriod : period;
         }
 
-        #endregion
-
-        #region Public methods
-
         /// <summary>
         /// An event driven method which is called whenever a element is added to cache.
         /// </summary>
         /// <param name="addedElement">The element added.</param>
-        public virtual void OnElementAdded(T addedElement)
+        protected virtual void OnElementAdded(T addedElement)
         {
-
         }
 
         /// <summary>
         /// An event driven method which is called whenever a element is removed of cache.
         /// </summary>
         /// <param name="removedElement">The removed element.</param>
-        public virtual void OnElementRemoved(T removedElement)
+        protected virtual void OnElementRemoved(T removedElement)
         {
-
         }
 
         /// <summary>
         /// An event driven method which is called whenever a element changed in cache.
         /// </summary>
-        /// <param name="updatedElement">The updated element.</param>
-        public virtual void OnElementUpdated(T updatedElement)
+        /// <param name="oldValue">The old value of the cache element.</param>
+        /// <param name="newValue">The new value of the cache element.</param>
+        protected virtual void OnElementUpdated(T oldValue, T newValue)
         {
-
         }
 
-        #endregion
-
-        //private bool IsValidCandidateValueToUpdateCache(T candidateValue) => IsValidValue(candidateValue) && IsValidCandidateValueToUpdate(_currentValue, candidateValue);
-        protected bool IsValidIndex(int idx)
+        /// <summary>
+        /// An event driven method which is called whenever the first element of cache is going to be added.
+        /// </summary>
+        protected virtual void OnInit()
         {
-            if (idx < 0 || idx >= Count)
-                return false;
-                //throw new ArgumentOutOfRangeException(nameof(idx));
-
-            return true;
         }
-        protected bool IsValidIndexs(int startIdx, int finalIdx)
+
+        /// <summary>
+        /// An event driven method which is called whenever a last element of cache is removed.
+        /// </summary>
+        protected virtual void OnLastElementRemoved()
         {
-            if (startIdx > finalIdx)
-                return false;
-                //throw new ArgumentException(string.Format("The {0} cannot be mayor than {1}.", nameof(startIdx), nameof(finalIdx)));
-
-            if (IsValidIndex(startIdx) && IsValidIndex(finalIdx))
-                return true;
-
-            return false;
         }
 
     }

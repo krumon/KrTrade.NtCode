@@ -23,7 +23,7 @@ namespace KrTrade.Nt.Core.Caches
         /// <summary>
         /// Gets the number of elements to store in cache, before will be removed forever.
         /// </summary>
-        int RemovedValuesCacheLength { get; set; }
+        int LengthOfRemovedValuesCache { get; set; }
 
         /// <summary>
         /// Indicates if <see cref="ICache{T}"/> is full.
@@ -35,62 +35,36 @@ namespace KrTrade.Nt.Core.Caches
         /// </summary>
         T CurrentValue { get; }
 
-        ///// <summary>
-        ///// Gets the last removed value in cache.
-        ///// </summary>
-        //T RemovedValue { get; }
-
-        /// <summary>
-        /// Add new element to <see cref="ICache{T}"/>.
-        /// </summary>
-        /// <param name="ninjascript">'Ninjatrader.NinjaScript' used to get the candidate value to be added to cache.</param>
-        /// <returns>True if the element has been added, otherwise <c></c>.</returns>
-        bool Add(NinjaScriptBase ninjascript = null);
-
-        /// <summary>
-        /// Add new element to <see cref="ICache{T}"/>.
-        /// </summary>
-        /// <param name="marketDataEventArgs">'Ninjatrader.MarketDataEventArgs' used to get the candidate value to be added to cache.</param>
-        /// <returns>True if the element has been added, otherwise <c></c>.</returns>
-        bool Add(MarketDataEventArgs marketDataEventArgs);
-
-        /// <summary>
-        /// Update the current element of <see cref="ICache{T}"/>.
-        /// </summary>
-        /// <param name="ninjascript">'Ninjatrader.NinjaScript' used to get the candidate value to be added to cache.</param>
-        /// <returns><c>true</c> if the element has been updated, otherwise <c>false</c>.</returns>
-        bool Update(NinjaScriptBase ninjascript = null);
-
-        /// <summary>
-        /// Update the current element of <see cref="ICache{T}"/>.
-        /// </summary>
-        /// <param name="marketDataEventArgs">'Ninjatrader.MarketDataEventArgs' used to get the candidate value to be added to cache.</param>
-        /// <returns><c>true</c> if the element has been updated, otherwise <c>false</c>.</returns>
-        bool Update(MarketDataEventArgs marketDataEventArgs);
-
         /// <summary>
         /// Remove the current element and add the last element removed.
         /// This method can be executed only one time.
         /// </summary>
-        void ReDo();
+        void RemoveLastElement();
 
         /// <summary>
-        /// Reset the <see cref="ICache{T}"/>.
+        /// Reset the <see cref="ICache{T}"/>. Clear the cache and initialize all properties.
         /// </summary>
         void Reset();
 
         /// <summary>
-        /// Release the <see cref="ICache{T}"/>.
+        /// Dispose the <see cref="ICache{T}"/>. 
         /// </summary>
-        void Release();
+        void Dispose();
 
         /// <summary>
-        /// Returns <paramref name="numberOfElements"/> of <see cref="{T}"/> from specified initial index.
+        /// Gets The element that is at the specified index.
         /// </summary>
-        /// <param name="initialIdx">The initial index.</param>
-        /// <param name="numberOfElements">The number of <see cref="{T}"/> to returns.</param>
+        /// <param name="valuesAgo">The index of the element in the <see cref="ICacheElement{T}"/>.</param>
+        /// <returns>The element that is at the specified index.</returns>
+        T GetValue(int valuesAgo);
+
+        /// <summary>
+        /// Returns <paramref name="numOfValues"/> of <see cref="{T}"/> from specified initial index.
+        /// </summary>
+        /// <param name="fromValuesAgo">The values ago where started to construct the array.</param>
+        /// <param name="numOfValues">The number of <see cref="{T}"/> to returns.</param>
         /// <returns><see cref="{T}"/> collection.</returns>
-        T[] GetValues(int initialIdx, int numberOfElements);
+        T[] ToArray(int fromValuesAgo, int numOfValues);
 
     }
 }

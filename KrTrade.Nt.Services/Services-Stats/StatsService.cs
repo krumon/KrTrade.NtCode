@@ -22,17 +22,17 @@
         {
         }
 
-        public BaseSeriesCache Value => throw new System.NotImplementedException();
+        //public BaseSeriesCache Value => throw new System.NotImplementedException();
 
-        public BaseSeriesCache Max => throw new System.NotImplementedException();
+        //public BaseSeriesCache Max => throw new System.NotImplementedException();
 
-        public BaseSeriesCache Min => throw new System.NotImplementedException();
+        //public BaseSeriesCache Min => throw new System.NotImplementedException();
 
-        public BaseSeriesCache Sum => throw new System.NotImplementedException();
+        //public BaseSeriesCache Sum => throw new System.NotImplementedException();
 
-        public BaseSeriesCache Avg => throw new System.NotImplementedException();
+        //public BaseSeriesCache Avg => throw new System.NotImplementedException();
 
-        public BaseSeriesCache StdDev => throw new System.NotImplementedException();
+        //public BaseSeriesCache StdDev => throw new System.NotImplementedException();
 
         public override string ToLogString()
         {

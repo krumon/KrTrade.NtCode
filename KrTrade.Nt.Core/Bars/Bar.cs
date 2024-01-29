@@ -5,7 +5,7 @@ using System;
 
 namespace KrTrade.Nt.Core.Bars
 {
-    public class Bar : ICacheElement<Bar>
+    public class Bar //: ICacheElement<Bar>
     {
         #region Public properties
 
