@@ -1,159 +1,205 @@
-﻿//using KrTrade.Nt.Core.Caches;
-//using System;
+﻿using KrTrade.Nt.Core.Caches;
+using NinjaTrader.NinjaScript;
+using System;
 
-//namespace KrTrade.Nt.Services
-//{
-//    /// <summary>
-//    /// Base class for all caches.
-//    /// </summary>
-//    /// <typeparam name="TElement">The type of cache element.</typeparam>
-//    public abstract class BaseCacheService<TElement,TOptions> :  BarUpdateService<TOptions>,
-//        IBarClosedService,
-//        IPriceChangedService,
-//        ILastBarRemovedService
-//        where TOptions : CacheOptions, new()
-//    {
-//        #region Private members
+namespace KrTrade.Nt.Services
+{
+    /// <summary>
+    /// Base class for all caches.
+    /// </summary>
+    public abstract class BaseCacheService<TCache> : BarUpdateService<CacheOptions>
+        where TCache : IBarUpdateCache
+    {
+        #region Private members
 
-//        private ICache<TElement> _cache;
+        //private TCache _cache;
+        private readonly object _input;
+        private readonly int _period = Cache.DEFAULT_PERIOD;
+        private readonly int _displacement = 0;
+        private readonly int _barsIndex = 0;
 
-//        #endregion
+        #endregion
 
-//        #region Public properties
+        #region Public properties
 
-//        protected internal TElement CandidateValue { get; protected set; }
-//        protected internal ICache<TElement> Cache {  get; protected set; }
+        protected TCache BarUpdateCache { get; private set; }
 
-//        /// <summary>
-//        /// Gets the element of a sepecific index.
-//        /// </summary>
-//        /// <param name="index">The specific index.</param>
-//        /// <returns><see cref="TElement"/> element.</returns>
-//        public TElement this[int index] => Cache[index];
+        /// <summary>
+        /// Gets the element of a sepecific index.
+        /// </summary>
+        /// <param name="index">The specific index.</param>
+        /// <returns><see cref="TElement"/> element.</returns>
+        public object this[int index] => BarUpdateCache[index];
 
-//        /// <summary>
-//        /// Tha maximum cache capacity.
-//        /// </summary>
-//        public int MaxCapacity => Cache<TElement>.MAX_CAPACITY;
+        /// <summary>
+        /// Represents the cache capacity.
+        /// </summary>
+        public int Capacity => BarUpdateCache.Capacity; 
 
-//        /// <summary>
-//        /// Represents the cache capacity.
-//        /// </summary>
-//        public int Capacity { get => Options.Capacity; set { Options.Capacity = value; } }
+        /// <summary>
+        /// The number of elements that exists in cache.
+        /// </summary>
+        public int Count => BarUpdateCache.Count;
 
-//        /// <summary>
-//        /// The number of elements that exists in cache.
-//        /// </summary>
-//        public int Count => Cache.Count;
+        /// <summary>
+        /// The number of elements that exists in cache.
+        /// </summary>
+        public bool IsFull => BarUpdateCache.IsFull;
 
-//        /// <summary>
-//        /// The number of elements that exists in cache.
-//        /// </summary>
-//        public bool IsFull => Count == Capacity;
+        #endregion
 
-//        #endregion
+        #region Constructors
 
-//        #region Constructors
+        /// <summary>
+        /// Create <see cref="BaseCacheService"/> instance and configure it.
+        /// </summary>
+        /// <param name="barsService">The <see cref="IBarsService"/> necesary for <see cref="BaseCacheService"/>.</param>
+        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
+        public BaseCacheService(IBarsService barsService) : base(barsService)
+        {
+        }
 
-//        /// <summary>
-//        /// Create <see cref="BaseCacheService"/> instance and configure it.
-//        /// </summary>
-//        /// <param name="barsService">The <see cref="IBarsService"/> necesary for <see cref="BaseCacheService"/>.</param>
-//        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-//        public BaseCacheService(IBarsService barsService) : base(barsService)
-//        {
-//        }
+        /// <summary>
+        /// Create <see cref="BaseCacheService"/> instance and configure it.
+        /// </summary>
+        /// <param name="barsService">The <see cref="IBarsService"/> necesary for <see cref="BaseCacheService"/>.</param>
+        /// <param name="period">The cache period.</param>
+        /// <param name="displacement">The <see cref="BaseCacheService"/> displacement respect the bars collection.</param>
+        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
+        public BaseCacheService(IBarsService barsService, object input, int period = Cache.DEFAULT_PERIOD, int displacement = 0, int barsIndex = 0) : base(barsService)
+        {
+            _input = input;
+            _period = period;
+            _displacement = displacement;
+            _barsIndex = barsIndex;
 
-//        /// <summary>
-//        /// Create <see cref="BaseCacheService"/> instance and configure it.
-//        /// </summary>
-//        /// <param name="barsService">The <see cref="IBarsService"/> necesary for <see cref="BaseCacheService"/>.</param>
-//        /// <param name="capacity">The cache capacity.</param>
-//        /// <param name="displacement">The <see cref="BaseCacheService"/> displacement respect the bars collection.</param>
-//        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-//        public BaseCacheService(IBarsService barsService, int capacity, int displacement) : base(barsService)
-//        {
-//            Options.Displacement = displacement;
-//            Options.Capacity = capacity;
-//        }
+            //Options.Displacement = displacement;
+            //Options.Capacity = period;
+        }
 
-//        /// <summary>
-//        /// Create <see cref="BaseCacheService"/> instance and configure it.
-//        /// </summary>
-//        /// <param name="barsService">The <see cref="IBarsService"/> necesary for <see cref="BaseCacheService"/>.</param>
-//        /// <param name="configureOptions">The configure options of the service.</param>
-//        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-//        public BaseCacheService(IBarsService barsService, IConfigureOptions<CacheOptions> configureOptions) : base(barsService, configureOptions)
-//        {
-//        }
+        /// <summary>
+        /// Create <see cref="BaseCacheService"/> instance and configure it.
+        /// </summary>
+        /// <param name="barsService">The <see cref="IBarsService"/> necesary for <see cref="BaseCacheService"/>.</param>
+        /// <param name="configureOptions">The configure options of the service.</param>
+        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
+        public BaseCacheService(IBarsService barsService, IConfigureOptions<CacheOptions> configureOptions) : base(barsService, configureOptions)
+        {
+        }
 
-//        #endregion
+        #endregion
 
-//        #region Abstract methods
+        #region Implementation
 
-//        internal override void Configure(out bool isConfigured)
-//        {
-//            Cache = new Cache<TElement>(Capacity);
-//            isConfigured = true;
-//        }
+        internal override void Configure(out bool isConfigured)
+        {
+            isConfigured = true;
+        }
+        internal override void DataLoaded(out bool isDataLoaded)
+        {
+            BarUpdateCache = (TCache)GetCache(_input, _period, _displacement, _barsIndex);
+            isDataLoaded = true;
+        }
+        public override void Update()
+        {
+            if (Bars.LastBarRemoved)
+                BarUpdateCache.RemoveLastElement();
+            else if (Bars.BarClosed)
+                BarUpdateCache.Add();
+            else if (Bars.PriceChanged)
+                BarUpdateCache.Update();
+            else if (Bars.Tick)
+                BarUpdateCache.Update();
+        }
+        public override string ToLogString() => $"{Name}[{Displacement}]:{this[Count]}";
 
-//        internal override void DataLoaded(out bool isDataLoaded)
-//        {
-//            isDataLoaded = true;
-//        }
+        #endregion
 
-//        ///// <summary>
-//        ///// gets the next candidate value to enter the cache. 
-//        ///// </summary>
-//        ///// <param name="displacement">The displacement in any NinjaScript serie thats we are going to find the candidate value.</param>
-//        ///// <returns>The candidate value or no valid candidate value.</returns>
-//        //public abstract TElement GetNextCandidateValue(int displacement);
+        private IBarUpdateCache GetCache(object input, int period, int displacement, int barsIndex)
+        {
+            Type type = typeof(TCache);
+            if (type == typeof(BarsCache))
+            {
+                if (input is NinjaScriptBase ninjascript)
+                    return new BarsCache(ninjascript, period, displacement, barsIndex);
+                return null;
+            }
+            if (type == typeof(AvgCache))
+            {
+                if (input is NinjaScriptBase ninjascript)
+                    return new AvgCache(ninjascript, period, displacement, barsIndex);
+                if (input is ISeries<double> series)
+                    return new AvgCache(series, period, displacement);
+                return null;
+            }
+            if (type == typeof(HighCache))
+            {
+                if (input is NinjaScriptBase ninjascript)
+                    return new HighCache(ninjascript, period, displacement, barsIndex);
+                if (input is ISeries<double> series)
+                    return new HighCache(series, period, displacement);
+                return null;
+            }
+            if (type == typeof(IndexCache))
+            {
+                if (input is NinjaScriptBase ninjascript)
+                    return new IndexCache(ninjascript, period, displacement, barsIndex);
+                return null;
+            }
+            if (type == typeof(MaxCache))
+            {
+                if (input is NinjaScriptBase ninjascript)
+                    return new MaxCache(ninjascript, period, displacement, barsIndex);
+                if (input is ISeries<double> series)
+                    return new MaxCache(series, period, displacement);
+                return null;
+            }
+            if (type == typeof(MinCache))
+            {
+                if (input is NinjaScriptBase ninjascript)
+                    return new MinCache(ninjascript, period, displacement,barsIndex);
+                if (input is ISeries<double> series)
+                    return new MinCache(series, period, displacement);
+                return null;
+            }
+            if (type == typeof(RangeCache))
+            {
+                if (input is NinjaScriptBase ninjascript)
+                    return new RangeCache(ninjascript, period, displacement, barsIndex);
+                return null;
+            }
+            if (type == typeof(SumCache))
+            {
+                if (input is NinjaScriptBase ninjascript)
+                    return new SumCache(ninjascript.Inputs[barsIndex], period, displacement);
+                if (input is ISeries<double> series)
+                    return new SumCache(series, period, displacement);
+                return null;
+            }
+            if (type == typeof(TicksCache))
+            {
+                if (input is NinjaScriptBase ninjascript)
+                    return new TicksCache(ninjascript, period, displacement);
+                return null;
+            }
+            if (type == typeof(TimeCache))
+            {
+                if (input is NinjaScriptBase ninjascript)
+                    return new TimeCache(ninjascript, period, displacement,barsIndex);
+                if (input is TimeSeries series)
+                    return new TimeCache(series, period, displacement);
+                return null;
+            }
+            if (type == typeof(VolumeCache))
+            {
+                if (input is NinjaScriptBase ninjascript)
+                    return new VolumeCache(ninjascript, period, displacement, barsIndex);
+                if (input is VolumeSeries series)
+                    return new VolumeCache(series, period, displacement);
+                return null;
+            }
+            return null;
+        }
 
-//        ///// <summary>
-//        ///// Indicates if the candidate value is valid. For any class, the no valid value are 'null'.
-//        ///// </summary>
-//        ///// <returns></returns>
-//        //public abstract bool IsValidCandidateValue();
-
-//        ///// <summary>
-//        ///// Indicates if the candidate value is better than the last value in the cache. 
-//        ///// If the cache is updated because the price changed when the bar is running, 
-//        ///// this method checked if the last value is necesary to be replaced.
-//        ///// </summary>
-//        ///// <returns></returns>
-//        //public abstract bool IsBestCandidateValue();
-        
-//        public override void Update()
-//        {
-//            Cache.UpdateCandidateValue();
-//            //CandidateValue = GetNextCandidateValue(Displacement);
-//        }
-
-//        public void BarClosed()
-//        {
-//            if (IsValidCandidateValue())
-//                Cache.Add(CandidateValue);
-//        }
-
-//        public void PriceChanged()
-//        {
-//            if (IsBestCandidateValue())
-//                Cache.Replace(CandidateValue);
-//        }
-
-//        public void LastBarRemoved()
-//        {
-//            if (Displacement != 0)
-//                return;
-
-//            Cache.Clear();
-//            for (int barsBack = Math.Min(Ninjascript.CurrentBars[Bars.ParentBarsIdx], Capacity) - 1; barsBack >= 0; barsBack--)
-//                Cache.Add(GetNextCandidateValue(Displacement + barsBack));
-//        }
-
-//        public override string ToLogString() => $"{Name}[{Displacement}]:{this[Count]}";
-
-//        #endregion
-
-//    }
-//}
+    }
+}

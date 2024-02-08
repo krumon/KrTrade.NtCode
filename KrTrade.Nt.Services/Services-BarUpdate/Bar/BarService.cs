@@ -7,21 +7,21 @@ namespace KrTrade.Nt.Services
     /// </summary>
     public class BarService : BarUpdateService<BarOptions>, IBarUpdateService
     {
-        public BarService(IBarsService barsService) : base(barsService)
-        {
-        }
+        //public BarService(IBarsService barsService) : base(barsService)
+        //{
+        //}
 
-        public BarService(IBarsService barsService, IConfigureOptions<BarOptions> configureOptions) : base(barsService, configureOptions)
-        {
-        }
+        //public BarService(IBarsService barsService, IConfigureOptions<BarOptions> configureOptions) : base(barsService, configureOptions)
+        //{
+        //}
 
-        public BarService(IBarsService barsService, int period) : base(barsService, period)
-        {
-        }
+        //public BarService(IBarsService barsService, int period) : base(barsService, period)
+        //{
+        //}
 
-        public BarService(IBarsService barsService, int period, int displacement) : base(barsService, period, displacement)
-        {
-        }
+        //public BarService(IBarsService barsService, int period, int displacement) : base(barsService, period, displacement)
+        //{
+        //}
 
         public BarService(IBarsService barsService, int period, int displacement, IConfigureOptions<BarOptions> configureOptions) : base(barsService, period, displacement, configureOptions)
         {
@@ -134,31 +134,31 @@ namespace KrTrade.Nt.Services
 
         protected void UpdateBarClosedValues()
         {
-            CurrentBar.Idx = GetBarIdx(Bars.ParentBarsIdx, Displacement);
-            CurrentBar.Open = GetOpen(Bars.ParentBarsIdx, Displacement);
-            CurrentBar.High = GetHigh(Bars.ParentBarsIdx, Displacement);
-            CurrentBar.Low = GetLow(Bars.ParentBarsIdx, Displacement);
-            CurrentBar.Close = GetClose(Bars.ParentBarsIdx, Displacement);
-            CurrentBar.Volume = GetVolume(Bars.ParentBarsIdx, Displacement);
-            CurrentBar.Time = GetTime(Bars.ParentBarsIdx, Displacement);
-            CurrentBar.Ticks = Ninjascript.BarsArray[Bars.ParentBarsIdx].TickCount;
+            CurrentBar.Idx = GetBarIdx(Bars.Index, Displacement);
+            CurrentBar.Open = GetOpen(Bars.Index, Displacement);
+            CurrentBar.High = GetHigh(Bars.Index, Displacement);
+            CurrentBar.Low = GetLow(Bars.Index, Displacement);
+            CurrentBar.Close = GetClose(Bars.Index, Displacement);
+            CurrentBar.Volume = GetVolume(Bars.Index, Displacement);
+            CurrentBar.Time = GetTime(Bars.Index, Displacement);
+            CurrentBar.Ticks = Ninjascript.BarsArray[Bars.Index].TickCount;
         }
 
         protected void SetBarUpdateValues()
         {
-            CurrentBar.Idx = Ninjascript.CurrentBars[Bars.ParentBarsIdx] - Displacement;
-            CurrentBar.Open = Ninjascript.Opens[Bars.ParentBarsIdx][Displacement];
-            CurrentBar.High = Ninjascript.Highs[Bars.ParentBarsIdx][Displacement];
-            CurrentBar.Low = Ninjascript.Lows[Bars.ParentBarsIdx][Displacement];
-            CurrentBar.Close = Ninjascript.Closes[Bars.ParentBarsIdx][Displacement];
-            CurrentBar.Volume = Ninjascript.Volumes[Bars.ParentBarsIdx][Displacement];
-            CurrentBar.Time = Ninjascript.Times[Bars.ParentBarsIdx][Displacement];
-            CurrentBar.Ticks = Ninjascript.BarsArray[Bars.ParentBarsIdx].TickCount;
+            CurrentBar.Idx = Ninjascript.CurrentBars[Bars.Index] - Displacement;
+            CurrentBar.Open = Ninjascript.Opens[Bars.Index][Displacement];
+            CurrentBar.High = Ninjascript.Highs[Bars.Index][Displacement];
+            CurrentBar.Low = Ninjascript.Lows[Bars.Index][Displacement];
+            CurrentBar.Close = Ninjascript.Closes[Bars.Index][Displacement];
+            CurrentBar.Volume = Ninjascript.Volumes[Bars.Index][Displacement];
+            CurrentBar.Time = Ninjascript.Times[Bars.Index][Displacement];
+            CurrentBar.Ticks = Ninjascript.BarsArray[Bars.Index].TickCount;
         }
 
         protected void UpdateTickValues()
         {
-            CurrentBar.Ticks = Ninjascript.BarsArray[Bars.ParentBarsIdx].TickCount;
+            CurrentBar.Ticks = Ninjascript.BarsArray[Bars.Index].TickCount;
         }
 
 

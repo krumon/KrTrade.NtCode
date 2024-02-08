@@ -8,6 +8,46 @@ namespace KrTrade.Nt.Core.Caches
     /// Base class for all caches.
     /// </summary>
     /// <typeparam name="T">The type of cache element.</typeparam>
+    public abstract class Cache : ICache
+    {
+
+        public const int DEFAULT_PERIOD = 20;
+
+        // ICache implementation
+        public int Period { get; protected set; } = -1;
+        public int Displacement { get; protected set; } = 0;
+        public int LengthOfRemovedValuesCache { get; set; } = 1;
+        public int Capacity => Period + Displacement + LengthOfRemovedValuesCache;
+        protected int MaxPeriod => int.MaxValue - Displacement - LengthOfRemovedValuesCache;
+
+        /// <summary>
+        /// Create <see cref="ICache{T}"/> instance.
+        /// When pass <paramref name="period"/> minor than 0, the <paramref name="period"/> will be MAXIMUM,
+        /// when pass <paramref name="period"/> equal than 0, the <paramref name="period"/> will be DEFAULT,
+        /// and when pass <paramref name="period"/> grater than 0, the <paramref name="period"/> will be the specified.
+        /// </summary>
+        /// <param name="period">The <see cref="ICache{T}"/> calculate period. When pass a number minor than 0, the period will be the MAXIMUM,</param>
+        /// <param name="displacement">The displacement of <see cref="ICache{T}"/> respect the last element.</param>
+        protected Cache(int period, int displacement)
+        {
+            Displacement = displacement <= 0 ? 0 : displacement;
+            Period = period < 0 ? MaxPeriod : period == 0 ? DEFAULT_PERIOD : period > MaxPeriod ? MaxPeriod : period;
+            OnInit();
+        }
+
+        /// <summary>
+        /// An event driven method which is called whenever the <see cref="ICache{T}"/> initialize.
+        /// </summary>
+        protected virtual void OnInit()
+        {
+        }
+
+    }
+
+    /// <summary>
+    /// Base class for all caches.
+    /// </summary>
+    /// <typeparam name="T">The type of cache element.</typeparam>
     public abstract class Cache<T> : ICache<T>,
         IEnumerable<T>,
         IEnumerable
@@ -33,7 +73,6 @@ namespace KrTrade.Nt.Core.Caches
         public void Reset()
         {
             _cache?.Clear();
-            Release();
         }
         public void Dispose()
         {
@@ -97,8 +136,6 @@ namespace KrTrade.Nt.Core.Caches
         }
         private void Insert(int index, T item)
         {
-            if (Count == 0)
-                OnInit();
             _cache.Insert(index, item);
             OnElementAdded(CurrentValue);
             Release();
@@ -132,11 +169,12 @@ namespace KrTrade.Nt.Core.Caches
         /// and when pass <paramref name="period"/> grater than 0, the <paramref name="period"/> will be the specified.
         /// </summary>
         /// <param name="period">The <see cref="ICache{T}"/> calculate period. When pass a number minor than 0, the period will be the MAXIMUM,</param>
-        /// <param name="displacement">The displacement of <see cref="ICache{T}"/> respect NinjaScript <see cref="ISeries"/> used to gets elements.</param>
+        /// <param name="displacement">The displacement of <see cref="ICache{T}"/> respect the last element.</param>
         protected Cache(int period, int displacement)
         {
             Displacement = displacement <= 0 ? 0 : displacement;
             Period = period < 0 ? MaxPeriod : period == 0 ? DEFAULT_PERIOD : period > MaxPeriod ? MaxPeriod : period;
+            OnInit();
         }
 
         /// <summary>
@@ -165,7 +203,7 @@ namespace KrTrade.Nt.Core.Caches
         }
 
         /// <summary>
-        /// An event driven method which is called whenever the first element of cache is going to be added.
+        /// An event driven method which is called whenever the <see cref="ICache{T}"/> initialize.
         /// </summary>
         protected virtual void OnInit()
         {
@@ -177,6 +215,5 @@ namespace KrTrade.Nt.Core.Caches
         protected virtual void OnLastElementRemoved()
         {
         }
-
     }
 }

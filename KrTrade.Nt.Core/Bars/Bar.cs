@@ -1,5 +1,4 @@
-﻿using KrTrade.Nt.Core.Caches;
-using NinjaTrader.Data;
+﻿using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
 using System;
 

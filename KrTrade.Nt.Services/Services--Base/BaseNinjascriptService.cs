@@ -62,6 +62,22 @@ namespace KrTrade.Nt.Services
             configureOptions?.Configure(Options);
         }
 
+        /// <summary>
+        /// Create <see cref="BaseNinjascriptService"/> instance and configure it.
+        /// This instance must be created in the 'Ninjascript.State == Configure'.
+        /// </summary>
+        /// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
+        /// <param name="printService">The <see cref="IPrintService"/> to log.</param>
+        /// <param name="configureOptions">The configure options of the service.</param>
+        /// <param name="options">The service options.</param>
+        /// <exception cref="ArgumentNullException">The <see cref="INinjascript"/> cannot be null.</exception>
+        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, Action<NinjascriptServiceOptions> configureOptions, NinjascriptServiceOptions options) : base(ninjascript)
+        {
+            _printService = printService;
+            Options = options ?? new NinjascriptServiceOptions();
+            configureOptions?.Invoke(Options);
+        }
+
         #endregion
 
         #region Implementation methods
@@ -138,10 +154,15 @@ namespace KrTrade.Nt.Services
 
         #region Public methods
 
+
+        #endregion
+
+        #region Protected methods
+
         /// <summary>
         /// Print in NinjaScript putput window the configuration state. If the configuration has been ok or error.
         /// </summary>
-        public void LogConfigurationState()
+        protected void LogConfigurationState()
         {
             if (_printService == null || !Options.IsLogEnable)
                 return;
@@ -156,10 +177,6 @@ namespace KrTrade.Nt.Services
             else
                 _printService?.LogError($"The '{Name}' has NOT been configured. The service will not work. '{Name}' must be configured when 'State = Configure and DataLoaded'.");
         }
-
-        #endregion
-
-        #region Protected methods
 
         protected bool IsPrintServiceAvailable()
         {
@@ -189,5 +206,11 @@ namespace KrTrade.Nt.Services
             Options = new TOptions();
             configureOptions?.Configure(Options);
         }
+        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, Action<TOptions> configureOptions, TOptions options) : base(ninjascript,printService)
+        {
+            Options = options ?? new TOptions();
+            configureOptions?.Invoke(Options);
+        }
+
     }
 }

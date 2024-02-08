@@ -3,15 +3,15 @@ using System;
 
 namespace KrTrade.Nt.Services
 {
-    public abstract class ValueCache<TElement,TInput> : SeriesCache<TElement,TInput>, IValueCache<TElement,TInput>
+    public abstract class ValueCache<TElement,TInput> : NinjaCache<TElement,TInput>, IValueCache<TElement,TInput>
         where TElement : struct
     {
         private TElement _candidateValue;
 
         /// <summary>
-        /// Create <see cref="SeriesCache{TElement,TInput}"/> default instance with specified properties.
+        /// Create <see cref="NinjaCache{TElement,TInput}"/> default instance with specified properties.
         /// </summary>
-        /// <param name="input">The object instance used to gets elements for <see cref="ISeriesCache{TElement,TInput}"/>.</param>
+        /// <param name="input">The object instance used to gets elements for <see cref="INinjaCache{TElement,TInput}"/>.</param>
         /// <param name="period">The <see cref="ICache{T}"/> period without displacement. <see cref="Cache.Capacity"/> property include displacement.</param>
         /// <param name="displacement">The displacement of <see cref="ICache{T}"/> respect <see cref="TInput"/> object used to gets elements.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>

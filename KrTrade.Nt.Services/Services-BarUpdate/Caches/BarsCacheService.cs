@@ -1,209 +1,103 @@
-﻿//using KrTrade.Nt.Core.Bars;
-//using NinjaTrader.NinjaScript;
-//using System;
+﻿using KrTrade.Nt.Core.Bars;
+using NinjaTrader.NinjaScript;
+using System;
+using System.Collections.Generic;
 
-//namespace KrTrade.Nt.Services
-//{
-//    /// <summary>
-//    /// Represents a cache with bar values.
-//    /// </summary>
-//    public class BarsCacheService : BaseCacheService<Bar,CacheOptions>
-//    {
+namespace KrTrade.Nt.Services
+{
+    /// <summary>
+    /// Represents a cache with bar values.
+    /// </summary>
+    public class BarsCacheService : BaseCacheService<BarsCache>, IBarsCacheService
+    {
 
-//        #region Constructors
+        #region Constructors
 
-//        /// <summary>
-//        /// Create <see cref="BarsCacheService"/> instance and configure it.
-//        /// </summary>
-//        /// <param name="barsService">The <see cref="IBarsService"/> necesary for the <see cref="BarsCacheService"/>.</param>
-//        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-//        protected BarsCacheService(IBarsService barsService) : base(barsService)
-//        {
-//        }
+        /// <summary>
+        /// Create <see cref="BarsCacheService"/> instance and configure it.
+        /// </summary>
+        /// <param name="barsService">The <see cref="IBarsService"/> necesary for the <see cref="BarsCacheService"/>.</param>
+        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
+        public BarsCacheService(IBarsService barsService) : base(barsService)
+        {
+            //Cache = (TCache)GetCache(20, 0);
+            //if (Cache == null) throw new NullReferenceException("The BarUpdateCache() cannot be null.");
+        }
 
-//        /// <summary>
-//        /// Create <see cref="BarsCacheService"/> instance and configure it.
-//        /// </summary>
-//        /// <param name="barsService">The <see cref="IBarsService"/> necesary for the <see cref="BarsCacheService"/>.</param>
-//        /// <param name="capacity">The cache capacity.</param>
-//        /// <param name="displacement">The <see cref="BaseCacheService"/> displacement respect the bars collection.</param>
-//        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-//        protected BarsCacheService(IBarsService barsService, int capacity, int displacement) : base(barsService, capacity, displacement)
-//        {
-//        }
+        /// <summary>
+        /// Create <see cref="BarsCacheService"/> instance and configure it.
+        /// </summary>
+        /// <param name="barsService">The <see cref="IBarsService"/> necesary for the <see cref="BarsCacheService"/>.</param>
+        /// <param name="period">The period to calculate values.</param>
+        /// <param name="displacement">The <see cref="BaseCacheService"/> displacement respect the bars collection.</param>
+        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
+        public BarsCacheService(IBarsService barsService, int period, int displacement) : base(barsService, period, displacement)
+        {
+        }
 
-//        /// <summary>
-//        /// Create <see cref="BarsCacheService"/> instance and configure it.
-//        /// </summary>
-//        /// <param name="barsService">The <see cref="IBarsService"/> necesary for the <see cref="BarsCacheService"/>.</param>
-//        /// <param name="configureOptions">The configure options of the service.</param>
-//        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-//        protected BarsCacheService(IBarsService barsService, IConfigureOptions<CacheOptions> configureOptions) : base(barsService, configureOptions)
-//        {
-//        }
+        /// <summary>
+        /// Create <see cref="BarsCacheService"/> instance and configure it.
+        /// </summary>
+        /// <param name="barsService">The <see cref="IBarsService"/> necesary for the <see cref="BarsCacheService"/>.</param>
+        /// <param name="configureOptions">The configure options of the service.</param>
+        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
+        public BarsCacheService(IBarsService barsService, IConfigureOptions<CacheOptions> configureOptions) : base(barsService, configureOptions)
+        {
+        }
 
-//        #endregion
+        /// <summary>
+        /// Create <see cref="BarsCacheService"/> instance and configure it.
+        /// </summary>
+        /// <param name="barsService">The <see cref="IBarsService"/> necesary for the <see cref="BarsCacheService"/>.</param>
+        /// <param name="configureOptions">The configure options of the service.</param>
+        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
+        public BarsCacheService(IBarsService barsService, int period, int displacement, ISeries<double> input, IConfigureOptions<CacheOptions> configureOptions) : base(barsService, configureOptions)
+        {
+        }
 
-//        #region Public properties
+        /// <summary>
+        /// Create <see cref="BarsCacheService"/> instance and configure it.
+        /// </summary>
+        /// <param name="barsService">The <see cref="IBarsService"/> necesary for the <see cref="BarsCacheService"/>.</param>
+        /// <param name="configureOptions">The configure options of the service.</param>
+        /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
+        public BarsCacheService(IBarsService barsService, CacheOptions options) : base(barsService, options)
+        {
+        }
 
-//        /// <summary>
-//        /// Gets the maximum value in cache.
-//        /// </summary>
-//        public double Max => GetMax(0, Count - 1);
+        #endregion
 
-//        /// <summary>
-//        /// Gets the minimum value in cache.
-//        /// </summary>
-//        public double Min => GetMin(0, Count - 1);
-
-//        /// <summary>
-//        /// Gets the last value in cache.
-//        /// </summary>
-//        public Bar LastValue => GetValue(0);
-
-//        /// <summary>
-//        /// Gets the range of cache values.
-//        /// </summary>
-//        public double Range => GetRange(0, Count - 1);
-
-//        #endregion
-
-//        #region Implementation
-
-//        /// <summary>
-//        /// Gets the name of the service.
-//        /// </summary>
-//        public override string Name => $"BarsCache({Capacity})";
-
-//        ///// <summary>
-//        ///// Gets the value of the next element we want to add to the cache.
-//        ///// </summary>
-//        ///// <param name="seriesDisplacement">The value of the index that corresponds to the value we want to obtain. 
-//        ///// This index corresponds to the displacement from index 0 (the most recent value) of the series.</param>
-//        ///// <returns>The value of the next element we want to add to the cache.</returns>
-//        //public override Bar GetNextCandidateValue(int seriesDisplacement)
-//        //{
-//        //    if (Ninjascript.BarsInProgress != Bars.ParentBarsIdx || Ninjascript.CurrentBars[Bars.ParentBarsIdx] < seriesDisplacement)
-//        //        return null;
-//        //    return new Bar()
-//        //    {
-//        //        Idx = Ninjascript.CurrentBars[Bars.ParentBarsIdx] - Displacement,
-//        //        Time = Ninjascript.Times[Bars.ParentBarsIdx][Displacement],
-//        //        Open = Ninjascript.Opens[Bars.ParentBarsIdx][Displacement],
-//        //        High = Ninjascript.Opens[Bars.ParentBarsIdx][Displacement],
-//        //        Low = Ninjascript.Opens[Bars.ParentBarsIdx][Displacement],
-//        //        Close = Ninjascript.Opens[Bars.ParentBarsIdx][Displacement],
-//        //        Volume = Ninjascript.Opens[Bars.ParentBarsIdx][Displacement]
-//        //    };
-//        //}
-//        //public override bool IsValidCandidateValue() => CandidateValue != null;
-//        //public override bool IsBestCandidateValue() => !CandidateValue.IsEqualsTo(LastValue);
-
-//        #endregion
-
-//        #region Public methods
-
-//        /// <summary>
-//        /// Gets the value of the next element we want to add to the cache.
-//        /// </summary>
-//        /// <param name="series">The series where we are going to get the element.</param>
-//        /// <param name="seriesDisplacement">The value of the index that corresponds to the value we want to obtain. 
-//        /// This index corresponds to the displacement from index 0 (the most recent value) of the series.</param>
-//        /// <returns>The value of the next element we want to add to the cache.</returns>
-//        public double GetNextCandidateValue(ISeries<double> series, int seriesDisplacement)
-//        {
-//            if (Ninjascript.BarsInProgress != Bars.ParentBarsIdx || Ninjascript.CurrentBars[Bars.ParentBarsIdx] < seriesDisplacement)
-//                return double.NaN;
-//            return series[seriesDisplacement];
-//        }
+        #region Public properties
 
 
-//        /// <summary>
-//        /// Returns the value of the cache element at a specified index.
-//        /// </summary>
-//        /// <param name="idx">The specified idx. 0 is the most recent value.</param>
-//        /// <returns>The value of the cache element.</returns>
-//        public Bar GetValue(int idx)
-//        {
-//            IsValidIndex(idx);
-//            return this[Count - 1 - idx];
-//        }
+        #endregion
 
-//        /// <summary>
-//        /// Returns the maximum value stored in the cache between the specified start and end indexes.
-//        /// </summary>
-//        /// <param name="initialIdx">The initial cache index from which we start calculating the maximum value. 0 is the most recent value in the cache.</param>
-//        /// <param name="finalIdx">The final cache index up to which we finish calculating the maximum value. 0 is the most recent value in the cache.</param>
-//        /// <returns>The maximum value stored in the cache between the specified start and end indexes.</returns>
-//        public double GetMax(int initialIdx, int finalIdx)
-//        {
-//            IsValidIndex(initialIdx, initialIdx + finalIdx);
+        #region Implementation
 
-//            double value = double.MinValue;
-//            for (int i = Count - 1 - initialIdx; i >= Count - 1 - initialIdx - finalIdx; i--)
-//                value = Math.Max(value, this[i].High);
+        public override string Name => $"BarsCache({BarUpdateCache.Period + BarUpdateCache.Displacement})";
+        public IndexCache Index => BarUpdateCache.Index;
+        public TimeCache Time => BarUpdateCache.Time;
+        public DoubleCache<NinjaScriptBase> Open => BarUpdateCache.Open;
+        public HighCache High => BarUpdateCache.High;
+        public DoubleCache<NinjaScriptBase> Low => BarUpdateCache.Low;
+        public DoubleCache<NinjaScriptBase> Close => BarUpdateCache.Close;
+        public VolumeCache Volume => BarUpdateCache.Volume;
+        public TicksCache Ticks => BarUpdateCache.Ticks;
+        public Bar GetBar(int barsAgo) => BarUpdateCache.GetBar(barsAgo);
+        public Bar GetBar(int barsAgo, int period) => BarUpdateCache.GetBar(barsAgo);
+        public IList<Bar> GetBars(int barsAgo, int period) => BarUpdateCache.GetBars(barsAgo, period);
 
-//            return value;
-//        }
+        #endregion
 
-//        /// <summary>
-//        /// The minimum value stored in the cache between the specified start and end indexes.
-//        /// </summary>
-//        /// <param name="initialIdx">The initial cache index from which we start calculating the minimum value. 0 is the most recent value in the cache.</param>
-//        /// <param name="finalIdx">The final cache index up to which we finish calculating the minimum value. 0 is the most recent value in the cache.</param>
-//        /// <returns>The minimum value stored in the cache between the specified start and end indexes.</returns>
-//        public double GetMin(int initialIdx, int finalIdx)
-//        {
-//            IsValidIndex(initialIdx, initialIdx + finalIdx);
+        #region Public methods
 
-//            double value = double.MaxValue;
 
-//            for (int i = Count - 1 - initialIdx; i >= Count - (initialIdx + finalIdx); i--)
-//            {
-//                value = Math.Min(value, this[i].Low);
-//            }
-//            return value;
-//        }
 
-//        /// <summary>
-//        /// Returns the range value between the specified start and end indexes.
-//        /// </summary>
-//        /// <param name="initialIdx">The initial cache index from which we start calculating the range. 0 is the most recent value in the cache.</param>
-//        /// <param name="finalIdx">The final cache index up to which we finish calculating the range. 0 is the most recent value in the cache.</param>
-//        /// <returns>The range value (the difference between the maximum value and the minimum value).</returns>
-//        public double GetRange(int initialIdx, int finalIdx)
-//        {
-//            return GetMax(initialIdx, finalIdx) - GetMin(initialIdx, finalIdx);
-//        }
+        #endregion
 
-//        #endregion
+        #region Private methods
 
-//        #region Private methods
+        #endregion
 
-//        public override string ToLogString()
-//        {
-//            return $"{Name}({Capacity}): Bar({Displacement})[Current]:{LastValue}, Bar({Displacement + 1})[Last]:{GetValue(Displacement + 1)}"; 
-//        }
-
-//        private bool IsValidIndex(int idx)
-//        {
-//            if (idx < 0 || idx >= Count)
-//                throw new ArgumentOutOfRangeException(nameof(idx));
-
-//            return true;
-//        }
-//        private bool IsValidIndex(int startIdx, int finalIdx)
-//        {
-//            if (startIdx > finalIdx)
-//                throw new ArgumentException(string.Format("The {0} cannot be mayor than {1}.", nameof(startIdx), nameof(finalIdx)));
-
-//            if (IsValidIndex(startIdx) && IsValidIndex(finalIdx))
-//                return true;
-
-//            return false;
-//        }
-
-//        #endregion
-
-//    }
-//}
+    }
+}

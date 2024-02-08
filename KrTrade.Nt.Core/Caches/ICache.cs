@@ -1,9 +1,8 @@
-﻿using NinjaTrader.Data;
-using NinjaTrader.NinjaScript;
+﻿using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Core.Caches
 {
-    public interface ICache<T> : ISeries<T>
+    public interface ICache
     {
         /// <summary>
         /// Gets <see cref="ICache{T}"/> capacity.
@@ -25,15 +24,14 @@ namespace KrTrade.Nt.Core.Caches
         /// </summary>
         int LengthOfRemovedValuesCache { get; set; }
 
+    }
+    public interface ICache<T> : ICache, ISeries<T>
+    {
+
         /// <summary>
         /// Indicates if <see cref="ICache{T}"/> is full.
         /// </summary>
         bool IsFull { get; }
-
-        /// <summary>
-        /// Gets the current cache value 'cache[0]'.
-        /// </summary>
-        T CurrentValue { get; }
 
         /// <summary>
         /// Remove the current element and add the last element removed.
@@ -50,6 +48,11 @@ namespace KrTrade.Nt.Core.Caches
         /// Dispose the <see cref="ICache{T}"/>. 
         /// </summary>
         void Dispose();
+
+        /// <summary>
+        /// Gets the current cache value 'cache[0]'.
+        /// </summary>
+        T CurrentValue { get; }
 
         /// <summary>
         /// Gets The element that is at the specified index.

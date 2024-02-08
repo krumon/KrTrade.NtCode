@@ -1,18 +1,12 @@
-﻿using KrTrade.Nt.Core.Data;
-using NinjaTrader.Core.FloatingPoint;
-using NinjaTrader.NinjaScript;
+﻿using NinjaTrader.NinjaScript;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Bar = KrTrade.Nt.Core.Bars.Bar;
 
 namespace KrTrade.Nt.Services
 {
-    public class BarsCache : SeriesCache<double,NinjaScriptBase>, IBarsCache
+    public class BarsCache : NinjaCache<double,NinjaScriptBase>, IBarsCache
     {
-        public BarsCache(NinjaScriptBase input, int period, int displacement) : base(input, period, displacement)
-        {
-        }
 
         protected int BarsIdx { get; private set; }
 
@@ -27,51 +21,73 @@ namespace KrTrade.Nt.Services
         public VolumeCache Volume {  get; private set; }
         public TicksCache Ticks { get; private set; }
 
-        //public double Open => GetBar(0, Count).Open;
-        //public double High => GetBar(0, Count).High;
-        //public double Low => GetBar(0, Count).Low;
-        //public double Close => GetBar(0, Count).Close;
-        //public double Volume => GetBar(0, Count).Volume;
-        //public double Range => GetRange(0, Count);
-
         #endregion
 
         #region Constructors
 
-        //public BarsCache(NinjaScriptBase input) : this(input, DEFAULT_PERIOD, 0)
-        //{
-        //}
+        public BarsCache(NinjaScriptBase input) : this(input, DEFAULT_PERIOD, 0)
+        {
+        }
 
-        //public BarsCache(NinjaScriptBase input, int period) : this(input, period, 0)
-        //{
-        //}
+        public BarsCache(NinjaScriptBase input, int period) : this(input, period, 0)
+        {
+        }
 
-        //public BarsCache(NinjaScriptBase input, int period, int displacement) : base(input, period, displacement)
-        //{
-        //}
+        public BarsCache(NinjaScriptBase input, int period, int displacement) : base(input, period, displacement)
+        {
+        }
+
+        public BarsCache(NinjaScriptBase input, int period, int displacement, int barsIndex) : base(input, period, displacement)
+        {
+            Index = new IndexCache(input, period,displacement,barsIndex);
+            Time = new TimeCache(input, period,displacement,barsIndex);
+            High = new HighCache(input, period,displacement,barsIndex);
+            Volume = new VolumeCache(input, period,displacement,barsIndex);
+            Ticks = new TicksCache(input, period,displacement);
+        }
 
         #endregion
 
         #region Implementation
 
-        protected override NinjaScriptBase GetInput(NinjaScriptBase input)
-        {
-            throw new NotImplementedException();
-        }
+        protected override NinjaScriptBase GetInput(NinjaScriptBase input) => input;
 
         public override bool Add()
         {
-            throw new NotImplementedException();
+            bool isAdded = Close.Add();
+            Add(Close[0]);
+            return isAdded;
         }
-
         public override bool Update()
         {
-            throw new NotImplementedException();
+            bool isUpdated = Close.Update();
+            CurrentValue = Close[0];
+            return isUpdated;
         }
-
-        protected override bool IsValidValue(double value)
+        protected override bool IsValidValue(double value) => value > 0 && !double.IsNaN(value) && !double.IsInfinity(value);
+        protected override void OnElementAdded(double addedElement)
         {
-            throw new NotImplementedException();
+            Index.Add();
+            Time.Add();
+            High.Add();
+            Volume.Add();
+            Ticks.Add();
+        }
+        protected override void OnElementUpdated(double oldValue, double newValue)
+        {
+            Index.Update();
+            Time.Update();
+            High.Update();
+            Volume.Update();
+            Ticks.Update();
+        }
+        protected override void OnLastElementRemoved()
+        {
+            Index.RemoveLastElement();
+            Time.RemoveLastElement();
+            High.RemoveLastElement();
+            Volume.RemoveLastElement();
+            Ticks.RemoveLastElement();
         }
 
         #endregion
@@ -301,77 +317,77 @@ namespace KrTrade.Nt.Services
 
         #region Private methods
 
-        private double GetValue(int idx, SeriesType seriesType)
-        {
-            if (!IsValidIndex(idx))
-                throw new ArgumentOutOfRangeException(nameof(idx));
-            if (seriesType == SeriesType.Close)
-                return Close[idx];
-            else if (seriesType == SeriesType.High)
-                return High[idx];
-            else if (seriesType == SeriesType.Low)
-                return Low[idx];
-            else if (seriesType == SeriesType.Open)
-                return Open[idx];
-            else if (seriesType == SeriesType.Volume)
-                return Volume[idx];
-            else if (seriesType == SeriesType.Median)
-                return (High[idx] + Low[idx]) / 2;
-            else if (seriesType == SeriesType.Typical)
-                return (High[idx] + Low[idx] + Close[idx]) / 3;
-            else
-                throw new NotImplementedException(nameof(seriesType));
-        }
-        private double GetValue(IList<Bar> cache, int idx, SeriesType seriesType)
-        {
-            if (cache == null)
-                throw new ArgumentNullException(nameof(cache));
-            if (cache.Count == 0)
-                throw new ArgumentException("The 'IList<Bar>' parameter is empty. Count is zero.");
-            if (!IsValidIndex(idx))
-                throw new ArgumentOutOfRangeException(nameof(idx));
+        //private double GetValue(int idx, SeriesType seriesType)
+        //{
+        //    if (!IsValidIndex(idx))
+        //        throw new ArgumentOutOfRangeException(nameof(idx));
+        //    if (seriesType == SeriesType.Close)
+        //        return Close[idx];
+        //    else if (seriesType == SeriesType.High)
+        //        return High[idx];
+        //    else if (seriesType == SeriesType.Low)
+        //        return Low[idx];
+        //    else if (seriesType == SeriesType.Open)
+        //        return Open[idx];
+        //    else if (seriesType == SeriesType.Volume)
+        //        return Volume[idx];
+        //    else if (seriesType == SeriesType.Median)
+        //        return (High[idx] + Low[idx]) / 2;
+        //    else if (seriesType == SeriesType.Typical)
+        //        return (High[idx] + Low[idx] + Close[idx]) / 3;
+        //    else
+        //        throw new NotImplementedException(nameof(seriesType));
+        //}
+        //private double GetValue(IList<Bar> cache, int idx, SeriesType seriesType)
+        //{
+        //    if (cache == null)
+        //        throw new ArgumentNullException(nameof(cache));
+        //    if (cache.Count == 0)
+        //        throw new ArgumentException("The 'IList<Bar>' parameter is empty. Count is zero.");
+        //    if (!IsValidIndex(idx))
+        //        throw new ArgumentOutOfRangeException(nameof(idx));
 
-            if (seriesType == SeriesType.Close)
-                return cache[idx].Close;
-            else if (seriesType == SeriesType.High)
-                return cache[idx].High;
-            else if (seriesType == SeriesType.Low)
-                return cache[idx].Low;
-            else if (seriesType == SeriesType.Open)
-                return cache[idx].Open;
-            else if (seriesType == SeriesType.Volume)
-                return cache[idx].Volume;
-            else if (seriesType == SeriesType.Median)
-                return cache[idx].Median;
-            else if (seriesType == SeriesType.Typical)
-                return cache[idx].Typical;
-            else
-                throw new NotImplementedException(nameof(seriesType));
-        }
-        private IList<Bar> GetSortedList(IList<Bar> disortedList, SeriesType seriesType)
-        {
-            if (disortedList == null)
-                throw new ArgumentNullException(nameof(disortedList));
-            if (disortedList.Count == 0)
-                throw new ArgumentException("The 'IList<Bar>' parameter is empty. Count is zero.");
+        //    if (seriesType == SeriesType.Close)
+        //        return cache[idx].Close;
+        //    else if (seriesType == SeriesType.High)
+        //        return cache[idx].High;
+        //    else if (seriesType == SeriesType.Low)
+        //        return cache[idx].Low;
+        //    else if (seriesType == SeriesType.Open)
+        //        return cache[idx].Open;
+        //    else if (seriesType == SeriesType.Volume)
+        //        return cache[idx].Volume;
+        //    else if (seriesType == SeriesType.Median)
+        //        return cache[idx].Median;
+        //    else if (seriesType == SeriesType.Typical)
+        //        return cache[idx].Typical;
+        //    else
+        //        throw new NotImplementedException(nameof(seriesType));
+        //}
+        //private IList<Bar> GetSortedList(IList<Bar> disortedList, SeriesType seriesType)
+        //{
+        //    if (disortedList == null)
+        //        throw new ArgumentNullException(nameof(disortedList));
+        //    if (disortedList.Count == 0)
+        //        throw new ArgumentException("The 'IList<Bar>' parameter is empty. Count is zero.");
 
-            if (seriesType == SeriesType.Close)
-                return disortedList.OrderBy(x => x.Close).ToList();
-            else if (seriesType == SeriesType.High)
-                return disortedList.OrderBy(x => x.High).ToList();
-            else if (seriesType == SeriesType.Low)
-                return disortedList.OrderBy(x => x.Low).ToList();
-            else if (seriesType == SeriesType.Open)
-                return disortedList.OrderBy(x => x.Open).ToList();
-            else if (seriesType == SeriesType.Volume)
-                return disortedList.OrderBy(x => x.Volume).ToList();
-            else if (seriesType == SeriesType.Median)
-                return disortedList.OrderBy(x => x.Median).ToList();
-            else if (seriesType == SeriesType.Typical)
-                return disortedList.OrderBy(x => x.Typical).ToList();
-            else
-                throw new NotImplementedException(nameof(seriesType));
-        }
+        //    if (seriesType == SeriesType.Close)
+        //        return disortedList.OrderBy(x => x.Close).ToList();
+        //    else if (seriesType == SeriesType.High)
+        //        return disortedList.OrderBy(x => x.High).ToList();
+        //    else if (seriesType == SeriesType.Low)
+        //        return disortedList.OrderBy(x => x.Low).ToList();
+        //    else if (seriesType == SeriesType.Open)
+        //        return disortedList.OrderBy(x => x.Open).ToList();
+        //    else if (seriesType == SeriesType.Volume)
+        //        return disortedList.OrderBy(x => x.Volume).ToList();
+        //    else if (seriesType == SeriesType.Median)
+        //        return disortedList.OrderBy(x => x.Median).ToList();
+        //    else if (seriesType == SeriesType.Typical)
+        //        return disortedList.OrderBy(x => x.Typical).ToList();
+        //    else
+        //        throw new NotImplementedException(nameof(seriesType));
+        //}
 
         #endregion
     }

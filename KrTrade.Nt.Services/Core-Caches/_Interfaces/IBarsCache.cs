@@ -1,58 +1,34 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using KrTrade.Nt.Core.Data;
 using NinjaTrader.NinjaScript;
+using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
-    public interface IBarsCache : ISeriesCache<double,NinjaScriptBase> // ICache<Bar>, 
+    public interface IBarsCache : INinjaCache<double,NinjaScriptBase>, IBarsSeries 
     {
 
-        IndexCache Index { get; }
-        TimeCache Time { get; }
-        DoubleCache<NinjaScriptBase> Open { get; }
-        HighCache High { get; }
-        DoubleCache<NinjaScriptBase> Low { get; }
-        DoubleCache<NinjaScriptBase> Close { get; }
-        VolumeCache Volume { get; }
-        TicksCache Ticks { get; }
-
-        ///// <summary>
-        ///// Gets the open price in cache.
-        ///// </summary>
-        //double Open { get; }
-
-        ///// <summary>
-        ///// Gets the high price in cache.
-        ///// </summary>
-        //double High { get; }
-
-        ///// <summary>
-        ///// Gets the low price in cache.
-        ///// </summary>
-        //double Low { get; }
-
-        ///// <summary>
-        ///// Gets the last price in cache.
-        ///// </summary>
-        //double Close { get; }
-
-        ///// <summary>
-        ///// Gets the total volume in cache.
-        ///// </summary>
-        //double Volume { get; }
-
-        ///// <summary>
-        ///// Gets the range of prices in cache.
-        ///// </summary>
-        //double Range { get; }
+        /// <summary>
+        /// Returns the <see cref="Bar"/> of the specified <paramref name="barsAgo"/>.
+        /// </summary>
+        /// <param name="barsAgo">The index specified. 0 is the most recent value in the cache.</param>
+        /// <returns>The <see cref="Bar"/> value result from bars stored in the cache between the <paramref name="barsAgo"/> to and the <paramref name="period"/> specified.</returns>
+        Bar GetBar(int barsAgo);
 
         /// <summary>
-        /// Returns the <see cref="Bar"/> result from the <paramref name="numberOfBars"/> specified.
+        /// Returns the <see cref="Bar"/> result from <paramref name="barsAgo"/> to <paramref name="period"/> specified.
         /// </summary>
-        /// <param name="initialIdx">The initial cache index from which we start calculating the <see cref="Bar"/> value. 0 is the most recent value in the cache.</param>
-        /// <param name="numberOfBars">The number of bars to calculate the <see cref="Bar"/> value.</param>
-        /// <returns>The <see cref="Bar"/> value result from bars stored in the cache between the specified start and the specified number of bars.</returns>
-        Bar GetBar(int initialIdx, int numberOfBars);
+        /// <param name="barsAgo">The initial index from most recent bar. 0 is the most recent value in the cache.</param>
+        /// <param name="period">The number of bars to calculate the <see cref="Bar"/> value.</param>
+        /// <returns>The <see cref="Bar"/> value result from bars stored in the cache between the <paramref name="barsAgo"/> to and the <paramref name="period"/> specified.</returns>
+        Bar GetBar(int barsAgo, int period);
+
+        /// <summary>
+        /// Returns the <see cref="Bar"/> collection result from <paramref name="barsAgo"/> to <paramref name="period"/> specified.
+        /// </summary>
+        /// <param name="barsAgo">The initial index from most recent bar. 0 is the most recent value in the cache.</param>
+        /// <param name="period">The number of bars to calculate the <see cref="Bar"/> value.</param>
+        /// <returns>The <see cref="Bar"/> collection result from bars stored in the cache between the <paramref name="barsAgo"/> to and the <paramref name="period"/> specified.</returns>
+        IList<Bar> GetBars(int barsAgo, int period);
 
         ///// <summary>
         ///// Returns the maximum value stored in the cache between the specified start and end indexes.

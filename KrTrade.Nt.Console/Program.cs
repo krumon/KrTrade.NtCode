@@ -1,4 +1,6 @@
-﻿namespace KrTrade.Nt.Console.Console
+﻿using KrTrade.Nt.Services;
+
+namespace KrTrade.Nt.Console.Console
 {
     internal class Program
     {
@@ -20,6 +22,41 @@
 
         public static void Main(string[] args)
         {
+
+            // Configure
+            IBarsService bars = new BarsService(null, null, (op) =>
+            {
+                op.Period = 14;
+                op.Displacement = 0;
+                op.IsEnable = true;
+                op.IsLogEnable = true;
+            })
+            .AddService<BarService, BarUpdateServiceOptions>((options) =>
+            {
+                options.IsLogEnable = true;
+            })
+            .AddService<LastBarService, BarUpdateServiceOptions>((options) =>
+            {
+                options.IsLogEnable = true;
+            });
+
+            bars.Configure();
+
+            // DataLoaded
+            bars.DataLoaded();
+
+            // OnBarUpdate
+            bars.OnBarUpdate();
+
+            var displacement = 0;
+            var strength = 4;
+
+            double swingHighValue = bars.Series.Close.SwingHigh(displacement, strength);
+            if (swingHighValue > 0)
+                bars.GetBars(displacement, strength * 2 + 1);
+
+            var high = bars.Series.High[0];
+
             //NinjaScriptBase ninjascript = null;
             //PrintService printService;
             //BarsService barsSvc = new BarsService(ninjascript, printService);

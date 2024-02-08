@@ -6,6 +6,7 @@
     public class ServiceOptions
     {
         public const string DefaultName = "Unnamed Krumon Service";
+
         /// <summary>
         /// Gets the name of the service.
         /// </summary>

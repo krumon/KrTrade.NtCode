@@ -1,4 +1,6 @@
 ﻿using KrTrade.Nt.Core.Bars;
+using System;
+using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
@@ -8,20 +10,25 @@ namespace KrTrade.Nt.Services
     public interface IBarsService : INinjascriptService<BarsOptions>
     {
 
-        ///// <summary>
-        ///// Gets <see cref="BarsCache"/> used by the <see cref="IBarsService"/> with the last bars information.
-        ///// </summary>
-        //BarsCache Cache { get; }
+        /// <summary>
+        /// Gets <see cref="IBarsSeries"/>.
+        /// </summary>
+        IBarsSeries Series { get; }
 
         /// <summary>
         /// Gets the index of the data series to which it belongs. 
         /// </summary>
-        int ParentBarsIdx { get; }
+        int Index { get; }
 
         /// <summary>
-        /// Gets the current <see cref="Bar"/> of the <see cref="IBarsService"/>.
+        /// Gets <see cref="ICache{T}"/> period.
         /// </summary>
-        Bar CurrentBar { get; }
+        int Period { get; }
+
+        /// <summary>
+        /// Gets the displacement of <see cref="ICache{T}"/> respect NinjaScript <see cref="ISeries{double}"/>.
+        /// </summary>
+        int Displacement { get; }
 
         /// <summary>
         /// Indicates <see cref="IBarsService"/> is updated.
@@ -31,18 +38,18 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Indicates the last bar of 'Ninjatrader.ChartBars' is closed.
         /// </summary>
-        bool IsLastBarClosed {get;}
+        bool BarClosed {get;}
 
         /// <summary>
         /// Indicates the last bar of 'Ninjatrader.ChartBars' is removed.
         /// </summary>
-        bool IsLastBarRemoved {get;}
+        bool LastBarRemoved {get;}
 
         /// <summary>
         /// Indicates new tick success in 'Ninjatrader.ChartBars'.
         /// If calculate mode is 'BarClosed', this value is always false.
         /// </summary>
-        bool NewTick {get;}
+        bool Tick {get;}
 
         /// <summary>
         /// Indicates first tick success in 'Ninjatrader.ChartBars'.
@@ -54,19 +61,70 @@ namespace KrTrade.Nt.Services
         /// Indicates new price success in 'Ninjatrader.ChartBars'.
         /// If calculate mode is 'BarClosed', this value is unique true when a gap success between two bars.
         /// </summary>
-        bool NewPrice {get;}
+        bool PriceChanged {get;}
 
         /// <summary>
-        /// Method to be executed when 'Ninjatrader.ChartBars' is updated.
+        /// Method to be executed in 'NinjaScript.OnBarUpdate()' method.
         /// </summary>
-        void Update();
+        void OnBarUpdate();
+
+        /// <summary>
+        /// Returns the <see cref="Bar"/> of the specified <paramref name="barsAgo"/>.
+        /// </summary>
+        /// <param name="barsAgo">The index specified. 0 is the most recent value in the cache.</param>
+        /// <returns>The <see cref="Bar"/> value result from bars stored in the cache between the <paramref name="barsAgo"/> to and the <paramref name="period"/> specified.</returns>
+        Bar GetBar(int barsAgo);
+
+        /// <summary>
+        /// Returns the <see cref="Bar"/> result from <paramref name="barsAgo"/> to <paramref name="period"/> specified.
+        /// </summary>
+        /// <param name="barsAgo">The initial index from most recent bar. 0 is the most recent value in the cache.</param>
+        /// <param name="period">The number of bars to calculate the <see cref="Bar"/> value.</param>
+        /// <returns>The <see cref="Bar"/> value result from bars stored in the cache between the <paramref name="barsAgo"/> to and the <paramref name="period"/> specified.</returns>
+        Bar GetBar(int barsAgo, int period);
+
+        /// <summary>
+        /// Returns the <see cref="Bar"/> collection result from <paramref name="barsAgo"/> to <paramref name="period"/> specified.
+        /// </summary>
+        /// <param name="barsAgo">The initial index from most recent bar. 0 is the most recent value in the cache.</param>
+        /// <param name="period">The number of bars to calculate the <see cref="Bar"/> value.</param>
+        /// <returns>The <see cref="Bar"/> collection result from bars stored in the cache between the <paramref name="barsAgo"/> to and the <paramref name="period"/> specified.</returns>
+        IList<Bar> GetBars(int barsAgo, int period);
 
         /// <summary>
         /// Adds new <see cref="IBarUpdateService"/> to <see cref="IBarsService"/>.
-        /// This services needs <see cref="IBarsService"/> to be executed because they are executed in <see cref="IBarsService"/>
-        /// after the bars have been updated.
         /// </summary>
-        void Add(IBarUpdateService service);
+        /// <typeparam name="TService">The generic type of the service.</typeparam>
+        /// <typeparam name="TOptions">The generic type of the service options.</typeparam>
+        /// <param name="configureOptions">The options to configure the service.</param>
+        IBarsService AddService<TService, TOptions>(Action<TOptions> configureOptions)
+            where TService : IBarUpdateService
+            where TOptions : BarUpdateServiceOptions, new();
+
+        /// <summary>
+        /// Adds new <see cref="IBarUpdateService"/> to <see cref="IBarsService"/>.
+        /// </summary>
+        /// <typeparam name="TService">The generic type of the service.</typeparam>
+        /// <typeparam name="TOptions">The generic type of the service options.</typeparam>
+        /// <param name="options">The options to configure the service.</param>
+        IBarsService AddService<TService, TOptions>(TOptions options)
+            where TService : IBarUpdateService
+            where TOptions : BarUpdateServiceOptions, new();
+
+
+
+        ///// <summary>
+        ///// Method to be executed when 'Ninjatrader.ChartBars' is updated.
+        ///// </summary>
+        //void Update();
+
+        ///// <summary>
+        ///// Adds new <see cref="IBarUpdateService"/> to <see cref="IBarsService"/>.
+        ///// This services needs <see cref="IBarsService"/> to be executed because they are executed in <see cref="IBarsService"/>
+        ///// after the bars have been updated.
+        ///// </summary>
+        //void Add(IBarUpdateService service);
+
 
     }
 }

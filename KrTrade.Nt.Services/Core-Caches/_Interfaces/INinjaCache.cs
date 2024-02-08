@@ -2,7 +2,7 @@
 
 namespace KrTrade.Nt.Services
 {
-    public interface ISeriesCache<TElement,TInput> : ICache<TElement>, IBarUpdateCache
+    public interface INinjaCache<TElement,TInput> : ICache<TElement>, IBarUpdateCache
     {
 
         /// <summary>

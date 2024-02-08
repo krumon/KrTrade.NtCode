@@ -7,6 +7,7 @@ namespace KrTrade.Nt.Services
     /// </summary>
     public class SumCache : DoubleCache<ISeries<double>>
     {
+        private readonly int _barsIndex = 0;
 
         /// <summary>
         /// Create <see cref="VolumeCache"/> default instance with specified properties.
@@ -17,6 +18,19 @@ namespace KrTrade.Nt.Services
         /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
         public SumCache(ISeries<double> input, int period, int displacement) : base(input, period, displacement)
         {
+        }
+
+        /// <summary>
+        /// Create <see cref="SumCache"/> default instance with specified properties.
+        /// </summary>
+        /// <param name="input">The <see cref="NinjaScriptBase"/> instance used to gets elements for <see cref="SumCache"/>.</param>
+        /// <param name="period">The <see cref="ICache{T}"/> period without include displacement. <see cref="Cache.Capacity"/> property include displacement.</param>
+        /// <param name="displacement">The displacement of <see cref="ICache{T}"/> respect <see cref="Input"/> object used to gets elements.</param>
+        /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
+        /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
+        public SumCache(NinjaScriptBase input, int period, int displacement = 0, int barsIndex = 0) : base(input, period, displacement)
+        {
+            _barsIndex = barsIndex;
         }
 
         protected override double GetCandidateValue()
@@ -35,7 +49,12 @@ namespace KrTrade.Nt.Services
         }
         protected override bool IsValidCandidateValueToUpdate(double currentValue, double candidateValue) => candidateValue != currentValue;
 
-        protected override ISeries<double> GetInput(ISeries<double> input) => input;
+        protected override ISeries<double> GetInput(ISeries<double> input)
+        {
+            if (input is NinjaScriptBase ninjascript)
+                return ninjascript.Inputs[_barsIndex];
 
+            return input;
+        }
     }
 }

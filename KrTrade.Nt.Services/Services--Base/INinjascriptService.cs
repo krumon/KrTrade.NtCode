@@ -20,10 +20,10 @@
         /// </summary>
         bool IsLogEnable { get; set; }
 
-        /// <summary>
-        /// Print in NinjaScript putput window the configuration state. If the configuration has been ok or error.
-        /// </summary>
-        void LogConfigurationState();
+        ///// <summary>
+        ///// Print in NinjaScript putput window the configuration state. If the configuration has been ok or error.
+        ///// </summary>
+        //void LogConfigurationState();
 
     }
     /// <summary>
