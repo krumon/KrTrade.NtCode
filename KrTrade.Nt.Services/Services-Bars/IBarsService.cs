@@ -11,9 +11,9 @@ namespace KrTrade.Nt.Services
     {
 
         /// <summary>
-        /// Gets <see cref="IBarsSeries"/>.
+        /// Gets <see cref="IBarsSeriesCache"/>.
         /// </summary>
-        IBarsSeries Series { get; }
+        IBarsCacheService Series { get; }
 
         /// <summary>
         /// Gets the index of the data series to which it belongs. 
@@ -97,7 +97,8 @@ namespace KrTrade.Nt.Services
         /// <typeparam name="TService">The generic type of the service.</typeparam>
         /// <typeparam name="TOptions">The generic type of the service options.</typeparam>
         /// <param name="configureOptions">The options to configure the service.</param>
-        IBarsService AddService<TService, TOptions>(Action<TOptions> configureOptions)
+        /// <param name="name">The optional name of the service.</param>
+        IBarsService AddService<TService, TOptions>(Action<TOptions> configureOptions, string name = "")
             where TService : IBarUpdateService
             where TOptions : BarUpdateServiceOptions, new();
 
@@ -107,11 +108,36 @@ namespace KrTrade.Nt.Services
         /// <typeparam name="TService">The generic type of the service.</typeparam>
         /// <typeparam name="TOptions">The generic type of the service options.</typeparam>
         /// <param name="options">The options to configure the service.</param>
-        IBarsService AddService<TService, TOptions>(TOptions options)
+        /// <param name="name">The optional name of the service.</param>
+        IBarsService AddService<TService, TOptions>(TOptions options, string name = "")
             where TService : IBarUpdateService
             where TOptions : BarUpdateServiceOptions, new();
 
+        /// <summary>
+        /// Add <typeparamref name="TService"/> to the <see cref="IBarsService"./>
+        /// </summary>
+        /// <typeparam name="TService">The <typeparamref name="TService"/> to add.</typeparam>
+        /// <param name="service">The <typeparamref name="TService"/> instance to add.</param>
+        /// <param name="name">The optional name of the service.</param>
+        /// <returns>The <see cref="IBarsService"/> to continue chaining services.</returns>
+        IBarsService AddService<TService>(TService service, string name = "")
+            where TService : IBarUpdateService;
 
+        /// <summary>
+        /// Gets <typeparamref name="TService"/> thats exist in <see cref="IBarsService"./>
+        /// </summary>
+        /// <typeparam name="TService">The <typeparamref name="TService"/> to add.</typeparam>
+        /// <param name="name">The optional name of the service.</param>
+        /// <returns>The <typeparamref name="TService"/> instance or null if doesn't exist.</returns>
+        TService GetService<TService>(string name = "")
+            where TService : class, IBarUpdateService;
+
+        /// <summary>
+        /// Gets service with specified <paramref name="name"/> thats exist in <see cref="IBarsService"./>
+        /// </summary>
+        /// <param name="name">The specified name of the service.</param>
+        /// <returns>The <see cref="IBarUpdateService"/> instance or null if doesn't exist.</returns>
+        IBarUpdateService GetService(string name);
 
         ///// <summary>
         ///// Method to be executed when 'Ninjatrader.ChartBars' is updated.

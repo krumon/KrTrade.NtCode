@@ -3,11 +3,18 @@ using NinjaTrader.Core.FloatingPoint;
 using NinjaTrader.NinjaScript;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace KrTrade.Nt.Services
 {
     public class BarsService : BaseNinjascriptService<BarsOptions>, IBarsService
     {
+        #region Consts
+
+        //public const string Series = "SERIES";
+        public const string ServicesDefaultName = "DEFAULT";
+
+        #endregion
 
         #region Private members
 
@@ -21,9 +28,10 @@ namespace KrTrade.Nt.Services
         // Logging
         private List<string> _logLines;
         // Cache
-        private readonly IBarsCache _cache;
+        private readonly IBarsCacheService _cache;
         // Services
         private IList<IBarUpdateService> _services;
+        private Dictionary<string, IBarUpdateService> _svcs;
 
         #endregion
 
@@ -33,7 +41,22 @@ namespace KrTrade.Nt.Services
         public int Period => Options.Period;
         public int Displacement => Options.Displacement;
         public Bar CurrentBar => _cache.GetBar(0);  //_currentBar;
-        public IBarsSeries Series => _cache;
+        //public IBarsCacheService Series => (IBarsCacheService)_svcs[Series_];
+        public IBarsCacheService Series => GetService<BarsCacheService>("Series");
+        public IBarUpdateService this[string name]
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
+                    return null;
+
+                name = name.ToUpper();
+                if (!ContainsService(name))
+                    return null;
+
+                return _svcs[name];
+            }
+        }
 
         public bool IsUpdated => IsConfigured && _barEvents[BarEvent.Updated];
         public bool BarClosed => IsUpdated && _barEvents[BarEvent.Closed];
@@ -52,19 +75,20 @@ namespace KrTrade.Nt.Services
         public BarsService(NinjaScriptBase ninjascript, IPrintService printService, int period, int displacement) : base(ninjascript, printService, null, new BarsOptions(period, displacement))
         {
             Options = new BarsOptions(period, displacement);
-            _cache = new BarsCache(Ninjascript, Options.Period, Options.Displacement);
-            Add((IBarUpdateService)_cache);
+            AddService<BarsCacheService, CacheOptions>(Options.CacheOptions,"Series");
         }
         
         public BarsService(NinjaScriptBase ninjascript, IPrintService printService, IConfigureOptions<BarsOptions> configureOptions) : base(ninjascript, printService, configureOptions) 
         {
-            _cache = new BarsCache(Ninjascript, Options.Period, Options.Displacement);
-            Add((IBarUpdateService)_cache);
+            Options = new BarsOptions();
+            configureOptions?.Configure(Options);
+            AddService<BarsCacheService,CacheOptions>(Options.CacheOptions, "Series");
         }
         public BarsService(NinjaScriptBase ninjascript, IPrintService printService, Action<BarsOptions> configureOptions) : base(ninjascript, printService, configureOptions,null)
         {
-            _cache = new BarsCache(Ninjascript, Options.Period, Options.Displacement);
-            Add((IBarUpdateService)_cache);
+            Options = new BarsOptions();
+            configureOptions?.Invoke(Options);
+            AddService<BarsCacheService, CacheOptions>(Options.CacheOptions, "Series");
         }
 
         #endregion
@@ -96,15 +120,6 @@ namespace KrTrade.Nt.Services
 
             isConfigured = true;
         }
-        internal override void DataLoaded(out bool isDataLoaded)
-        {
-            if (_services != null && _services.Count > 0)
-                foreach (var service in _services)
-                    service.DataLoaded();
-
-            isDataLoaded = Index > 0 && Index < Ninjascript.BarsArray.Length;
-
-        }
         public void OnBarUpdate()
         {
             if (_isRunning)
@@ -120,6 +135,15 @@ namespace KrTrade.Nt.Services
                 _isRunning = true;
                 Update();
             }
+        }
+        internal override void DataLoaded(out bool isDataLoaded)
+        {
+            if (_services != null && _services.Count > 0)
+                foreach (var service in _services)
+                    service.DataLoaded();
+
+            isDataLoaded = Index > 0 && Index < Ninjascript.BarsArray.Length;
+
         }
         public override string ToLogString()
         {
@@ -139,37 +163,110 @@ namespace KrTrade.Nt.Services
 
         #region Public methods
 
-        public IBarsService AddService<TService, TOptions>(Action<TOptions> configureOptions)
+        public IBarsService AddService<TService, TOptions>(Action<TOptions> configureOptions, string name = "")
             where TService : IBarUpdateService
             where TOptions : BarUpdateServiceOptions, new()
         {
             TOptions options = new TOptions();
             configureOptions?.Invoke(options);
-            options.Period = Period;
-            options.Displacement = Displacement;
 
-            IBarUpdateService service = GetService<TService, TOptions>(options) ?? 
-                throw new Exception("El servicio no se ha añadido porque el valor obtenido para añadir ha sido null.");
-            
-            if (!ContainsService<TService, TOptions>(options))
-                Add(service);
+            IBarUpdateService service = CreateBarUpdateService<TService, TOptions>(options) ?? 
+                throw new Exception("El servicio no se puede añadir porque su valor es 'NULL'.");
+
+            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
+                name = service.Name;
+
+            name = name.ToUpper();
+
+            if (!ContainsService<TService>(name))
+                Add(service,name);
 
             return this;
         }
-        public IBarsService AddService<TService, TOptions>(TOptions options = null)
+        public IBarsService AddService<TService, TOptions>(TOptions options = null, string name = "")
             where TService : IBarUpdateService
             where TOptions : BarUpdateServiceOptions, new()
         {
             if (options == null)
                 options = new TOptions() { Period = Period, Displacement = Displacement };
 
-            IBarUpdateService service = GetService<TService, TOptions>(options) ??
-                throw new Exception("El servicio no se ha añadido porque el valor obtenido para añadir ha sido null.");
+            IBarUpdateService service = CreateBarUpdateService<TService, TOptions>(options) ??
+                throw new Exception("El servicio no se puede añadir porque su valor es 'NULL'.");
 
-            if (!ContainsService<TService, TOptions>(options))
-                Add(service);
+            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
+                name = service.Name;
+
+            name = name.ToUpper();
+
+            if (!ContainsService<TService>(name))
+                Add(service, name);
 
             return this;    
+        }
+        public IBarsService AddService<TService>(TService service, string name = "")
+            where TService : IBarUpdateService
+        {
+            if (service == null)
+                throw new Exception("El servicio no se puede añadir porque su valor es 'NULL'.");
+
+            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
+                name = service.Name;
+
+            name = name.ToUpper();
+
+            if (!ContainsService<TService>(name))
+                Add(service, name);
+
+            return this;    
+        }
+        public TService GetService<TService>(string name = "")
+            where TService : class, IBarUpdateService
+        {
+            if (_svcs == null || _svcs.Count == 0)
+                return null;
+
+            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
+                name = ServicesDefaultName;
+            name = name.ToUpper();
+
+            // List
+            foreach (var service in _services)
+                if (service.GetType() == typeof(TService))
+                    if(name == ServicesDefaultName || service.Name.ToUpper() == name)
+                        return (TService)service;
+
+            // Dictionary
+            foreach (var service in _svcs)
+                if (service.Value.GetType() == typeof(TService))
+                    if (name == ServicesDefaultName || service.Key == name)
+                        return (TService)service.Value;
+
+            return null;
+        }
+        public IBarUpdateService GetService(string name)
+        {
+            if (_svcs == null || _svcs.Count == 0)
+                return null;
+
+            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
+                name = ServicesDefaultName;
+
+            if (name == ServicesDefaultName)
+                return null;
+
+            name = name.ToUpper();
+
+            // List
+            foreach (var service in _services)
+                if(service.Name.ToUpper() == name)
+                    return service;
+
+            // Dictionary
+            foreach (var service in _svcs)
+                if (service.Key == name)
+                    return service.Value;
+
+            return null;
         }
 
         #endregion
@@ -185,23 +282,34 @@ namespace KrTrade.Nt.Services
 
         #region Protected methods
 
-        protected void Add(IBarUpdateService service)
+        protected void Add(IBarUpdateService service, string name)
         {
             if (service == null) throw new ArgumentNullException(nameof(service));
 
             if (IsConfigured)
                 throw new Exception($"{Name} must be added before 'IBarsService' has been configured.");
 
+            // List
             if (_services == null)
                 _services = new List<IBarUpdateService>();
-
-            //_cacheCapacity = Math.Max(_cacheCapacity, service.Displacement + service.Period);
+            // No se puede asignar un nombre específico.
             _services.Add(service);
+
+            // Dictionary
+            if (_svcs == null)
+                _svcs = new Dictionary<string, IBarUpdateService>();
+            name = string.IsNullOrEmpty(name) ? service.Name : string.IsNullOrWhiteSpace(name) ? service.Name : name;
+            _svcs.Add(name, service);
         }
         protected void ExecuteServices()
         {
+            // List
             foreach (var service in _services)
                 service.Update();
+
+            // Dictionary
+            foreach(var service in _svcs)
+                service.Value.Update();
         }
 
         #endregion
@@ -298,7 +406,7 @@ namespace KrTrade.Nt.Services
             if (PrintService.IsLogLevelsEnable(Core.Logging.LogLevel.Information) && Options.IsLogEnable)
                 _logLines.Add(barsEvent.ToString());
         }
-        private IBarUpdateService GetService<TService,TOptions>(TOptions options)
+        private IBarUpdateService CreateBarUpdateService<TService,TOptions>(TOptions options)
             where TOptions : BarUpdateServiceOptions, new()
         {
             IBarUpdateService service = null;
@@ -309,25 +417,60 @@ namespace KrTrade.Nt.Services
                     Period = Period,
                     Displacement = Displacement,
                 };
-            else
-            {
-                options.Period = Period;
-                options.Displacement = Displacement;
-            }
-            if (type == typeof(BarsCacheService) && options is CacheOptions cacheOptions)
+            if ((type == typeof(BarsCacheService) || type == typeof(IBarsCacheService)) && options is CacheOptions cacheOptions)
                 service = new BarsCacheService(this, cacheOptions);
+            else 
+                throw new NotImplementedException($"The {type.Name} has not been created. Krumon...implemented it!!!!");
 
             return service;
         }
-        private bool ContainsService<TService,TOptions>(TOptions options)
+        private bool ContainsService<TService>(string name)
+            where TService : IBarUpdateService
         {
+            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
+                name = ServicesDefaultName;
+            name = name.ToUpper();
+
+            // List
             if (_services == null || _services.Count == 0)
                 return false;
+
             foreach (var service in _services)
                 if (service.GetType() == typeof(TService))
-                    if (service.Options.Equals(options)) 
+                    if (name == ServicesDefaultName || service.Name.ToUpper() == name) 
                         return true;
 
+            // Dictionary
+            if (_svcs == null || _svcs.Count == 0)
+                return false;
+
+            foreach (var service in _svcs)
+                if (service.Value.GetType() == typeof(TService))
+                    if (name == ServicesDefaultName || service.Key == name)
+                        return true;
+            return false;
+        }
+        private bool ContainsService(string name)
+        {
+            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
+                name = ServicesDefaultName;
+            name = name.ToUpper();
+
+            // List
+            if (_services == null || _services.Count == 0)
+                return false;
+
+            foreach (var service in _services)
+                if (name == ServicesDefaultName || service.Name.ToUpper() == name )
+                    return true;
+
+            // Dictionary
+            if (_svcs == null || _svcs.Count == 0)
+                return default;
+
+            foreach (var service in _svcs)
+                if (name == ServicesDefaultName || service.Key == name)
+                    return true;
             return false;
         }
 

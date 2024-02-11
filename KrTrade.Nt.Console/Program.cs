@@ -34,6 +34,7 @@ namespace KrTrade.Nt.Console.Console
             .AddService<BarService, BarUpdateServiceOptions>((options) =>
             {
                 options.IsLogEnable = true;
+                //options.Period = 20;
             })
             .AddService<LastBarService, BarUpdateServiceOptions>((options) =>
             {

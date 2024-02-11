@@ -51,7 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core-Caches\_Interfaces\IBarsSeries.cs" />
+    <Compile Include="Core-Caches\_Interfaces\IBarsSeriesCache.cs" />
     <Compile Include="Core-Caches\_Interfaces\IBarsCache.cs" />
     <Compile Include="Core-Caches\MinCache.cs" />
     <Compile Include="Core-Caches\MaxCache.cs" />
@@ -87,7 +87,7 @@
     <Compile Include="Core-Caches\Series\BaseSeriesCache.cs" />
     <Compile Include="DataSeries\IDataSeriesService.cs" />
     <Compile Include="Services-BarUpdate\Caches\HighCacheService.cs" />
-    <Compile Include="Services-BarUpdate\Caches\IBarsCache.cs" />
+    <Compile Include="Services-BarUpdate\Caches\IBarsCacheService.cs" />
     <Compile Include="Services-BarUpdate\IBarUpdateService.cs" />
     <Compile Include="Services-Stats\IStats.cs" />
     <Compile Include="Services-Stats\StatsOptions.cs" />

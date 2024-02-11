@@ -7,6 +7,16 @@
     {
 
         /// <summary>
+        /// Gets <see cref="IBarUpdateService"/> period.
+        /// </summary>
+        int Period { get; }
+
+        /// <summary>
+        /// Gets the displacement of <see cref="IBarUpdateService"/> respect 'NinjaScript.Series'./>.
+        /// </summary>
+        int Displacement { get; }
+
+        /// <summary>
         /// The <see cref="IBarsService"/> necesary to execute the <see cref="IBarUpdateService"/>.
         /// </summary>
         IBarsService Bars { get; }

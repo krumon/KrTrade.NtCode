@@ -1,4 +1,6 @@
-﻿using KrTrade.Nt.Core.Caches;
+﻿using KrTrade.Nt.Core.Bars;
+using KrTrade.Nt.Core.Caches;
+using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
@@ -61,6 +63,7 @@ namespace KrTrade.Nt.Services
         /// <param name="index">The specified index.</param>
         /// <returns>The cache vaulue in the specified index.</returns>
         object this[int index] { get; }
+
 
     }
 }

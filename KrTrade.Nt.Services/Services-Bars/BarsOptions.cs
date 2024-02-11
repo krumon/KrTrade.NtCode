@@ -18,5 +18,8 @@
             Period = period;
             Displacement = displacement;
         }
+
+        public CacheOptions CacheOptions { get; set; } = new CacheOptions();
+
     }
 }

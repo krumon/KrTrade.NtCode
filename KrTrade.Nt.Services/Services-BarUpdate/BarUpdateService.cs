@@ -3,11 +3,15 @@
 namespace KrTrade.Nt.Services
 {
     public abstract class BarUpdateService<TOptions> : BaseNinjascriptService<TOptions>, IBarUpdateService
-        where TOptions : NinjascriptServiceOptions, new()
+        where TOptions : BarUpdateServiceOptions, new()
     {
         // TODO: BORRAR ESTAS CONSTANTES
         private const int DEFAULT_PERIOD = 11;
         private const int DEFAULT_DISPLACEMENT = 0;
+
+        public IBarsService Bars { get; protected set; }
+        public int Period { get; protected set; }
+        public int Displacement { get; protected set; }
 
         protected BarUpdateService(IBarsService barsService) : this(
             barsService, 
@@ -17,19 +21,9 @@ namespace KrTrade.Nt.Services
             )
         {
         }
-
-        protected BarUpdateService(IBarsService barsService, IConfigureOptions<TOptions> configureOptions) : this(barsService, DEFAULT_PERIOD, DEFAULT_DISPLACEMENT, configureOptions)
-        {
-        }
-
-        protected BarUpdateService(IBarsService barsService, int period) : this(barsService, period, DEFAULT_DISPLACEMENT, null)
-        {
-        }
-
-        protected BarUpdateService(IBarsService barsService, int period, int displacement) : this(barsService, period, displacement, null)
-        {
-        }
-
+        protected BarUpdateService(IBarsService barsService, IConfigureOptions<TOptions> configureOptions) : this(barsService, DEFAULT_PERIOD, DEFAULT_DISPLACEMENT, configureOptions) { }
+        protected BarUpdateService(IBarsService barsService, int period) : this(barsService, period, DEFAULT_DISPLACEMENT, null) { }
+        protected BarUpdateService(IBarsService barsService, int period, int displacement) : this(barsService, period, displacement, null) {}
         protected BarUpdateService(IBarsService barsService, int period, int displacement, IConfigureOptions<TOptions> configureOptions) : base(barsService.Ninjascript, barsService.PrintService, configureOptions)
         {
             Bars = barsService ?? throw new ArgumentNullException(nameof(barsService));
@@ -49,10 +43,6 @@ namespace KrTrade.Nt.Services
             //    Period = BarsCache.MAX_CAPACITY - Displacement;
             //Bars.Add(this);
         }
-
-        public IBarsService Bars { get; protected set; }
-        public int Period { get; protected set; }
-        public int Displacement { get; protected set; }
 
         public abstract void Update();
     }

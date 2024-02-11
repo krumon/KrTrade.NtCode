@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the options of <see cref="BarService"/>.
     /// </summary>
-    public class BarOptions : NinjascriptServiceOptions
+    public class BarOptions : BarUpdateServiceOptions
     {
         private int _displacement = 0;
         private int _barsIdx = 0;
