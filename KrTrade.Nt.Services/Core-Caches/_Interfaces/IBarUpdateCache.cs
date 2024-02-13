@@ -1,11 +1,14 @@
-﻿using KrTrade.Nt.Core.Bars;
-using KrTrade.Nt.Core.Caches;
-using System.Collections.Generic;
+﻿using KrTrade.Nt.Core.Caches;
 
 namespace KrTrade.Nt.Services
 {
     public interface IBarUpdateCache : ICache
     {
+
+        /// <summary>
+        /// Gets the index of the bars thats raised the updated signal.
+        /// </summary>
+        int BarsIndex { get; }
 
         /// <summary>
         /// Gets <see cref="ICache{T}"/> count.

@@ -12,10 +12,10 @@ namespace KrTrade.Nt.Services
         /// Create <see cref="NinjaCache{TElement,TInput}"/> default instance with specified properties.
         /// </summary>
         /// <param name="input">The object instance used to gets elements for <see cref="INinjaCache{TElement,TInput}"/>.</param>
-        /// <param name="period">The <see cref="ICache{T}"/> period without displacement. <see cref="Cache.Capacity"/> property include displacement.</param>
-        /// <param name="displacement">The displacement of <see cref="ICache{T}"/> respect <see cref="TInput"/> object used to gets elements.</param>
+        /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
+        /// <param name="lengthOfRemovedCache">The length of the removed values cache. This values are at the end of cache.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        protected ValueCache(TInput input, int period, int displacement) : base(input,period, displacement)
+        protected ValueCache(TInput input, int capacity = DEFAULT_CAPACITY, int lengthOfRemovedCache = DEFAULT_LENGTH_REMOVED_CACHE,int barsIndex = 0) : base(input,capacity,lengthOfRemovedCache,barsIndex)
         {
         }
 

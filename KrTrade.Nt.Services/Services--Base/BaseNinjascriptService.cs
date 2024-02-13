@@ -195,16 +195,17 @@ namespace KrTrade.Nt.Services
         protected new TOptions _options;
         public new TOptions Options { get => _options ?? new TOptions(); protected set { _options = value; } }
 
-        protected BaseNinjascriptService(NinjaScriptBase ninjascript) : base(ninjascript)
-        {
-        }
-        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript, printService)
-        {
-        }
+        protected BaseNinjascriptService(NinjaScriptBase ninjascript) : base(ninjascript) { }
+        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript, printService) { }
         protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, IConfigureOptions<TOptions> configureOptions) : base(ninjascript, printService)
         {
             Options = new TOptions();
             configureOptions?.Configure(Options);
+        }
+        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, Action<TOptions> configureOptions) : base(ninjascript, printService)
+        {
+            Options = new TOptions();
+            configureOptions?.Invoke(Options);
         }
         protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, Action<TOptions> configureOptions, TOptions options) : base(ninjascript,printService)
         {

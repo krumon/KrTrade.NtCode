@@ -6,6 +6,11 @@ namespace KrTrade.Nt.Services
     {
 
         /// <summary>
+        /// Gets the name of cache.
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
         /// The object necesary for get the cache values.</double>
         /// </summary>
         TInput Input { get; }

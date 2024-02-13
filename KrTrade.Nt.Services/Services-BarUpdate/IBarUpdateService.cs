@@ -17,6 +17,16 @@
         int Displacement { get; }
 
         /// <summary>
+        /// Gets the number of elements to store in cache, before will be removed forever.
+        /// </summary>
+        int LengthOfRemovedValuesCache { get; }
+
+        /// <summary>
+        /// Gets the index of the bars thats raised the updated signal.
+        /// </summary>
+        int BarsIndex { get; }
+
+        /// <summary>
         /// The <see cref="IBarsService"/> necesary to execute the <see cref="IBarUpdateService"/>.
         /// </summary>
         IBarsService Bars { get; }

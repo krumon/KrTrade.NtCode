@@ -18,7 +18,7 @@
         {
         }
 
-        public StatsService(IBarsService barsService, int period, int displacement, IConfigureOptions<StatsOptions> configureOptions) : base(barsService, period, displacement, configureOptions)
+        public StatsService(IBarsService barsService, int period, int displacement, int lengthOfRemovedValues) : base(barsService, period, displacement, lengthOfRemovedValues)
         {
         }
 

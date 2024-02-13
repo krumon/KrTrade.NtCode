@@ -11,27 +11,45 @@ namespace KrTrade.Nt.Core.Caches
     public abstract class Cache : ICache
     {
 
-        public const int DEFAULT_PERIOD = 20;
+        public const int DEFAULT_CAPACITY = 20;
+        public const int DEFAULT_LENGTH_REMOVED_CACHE = 1;
+        //public const int DEFAULT_PERIOD = 20;
+        //public const int DEFAULT_DISPLACEMENT = 0;
 
         // ICache implementation
-        public int Period { get; protected set; } = -1;
-        public int Displacement { get; protected set; } = 0;
-        public int LengthOfRemovedValuesCache { get; set; } = 1;
-        public int Capacity => Period + Displacement + LengthOfRemovedValuesCache;
-        protected int MaxPeriod => int.MaxValue - Displacement - LengthOfRemovedValuesCache;
+        //public int Period { get; protected set; }
+        //public int Displacement { get; protected set; }
+        public int Capacity { get; protected set; }
+        public int LengthOfRemovedCache { get; protected set; }
+        protected int MaxCapacity => int.MaxValue - LengthOfRemovedCache;
+
+        ///// <summary>
+        ///// Create <see cref="ICache{T}"/> instance.
+        ///// When pass <paramref name="period"/> minor than 0, the <paramref name="period"/> will be MAXIMUM,
+        ///// when pass <paramref name="period"/> equal than 0, the <paramref name="period"/> will be DEFAULT,
+        ///// and when pass <paramref name="period"/> grater than 0, the <paramref name="period"/> will be the specified.
+        ///// </summary>
+        ///// <param name="period">The <see cref="ICache{T}"/> calculate period. When pass a number minor than 0, the period will be the MAXIMUM,</param>
+        ///// <param name="displacement">The displacement of <see cref="ICache{T}"/> respect the last element.</param>
+        //protected Cache(int period, int displacement, int lengthOfRemovedValuesCache = DEFAULT_LENGTH_REMOVED_VALUES_CACHE)
+        //{
+        //    Displacement = displacement <= 0 ? DEFAULT_DISPLACEMENT : displacement;
+        //    LengthOfRemovedCache = LengthOfRemovedCache < 0 ? DEFAULT_LENGTH_REMOVED_VALUES_CACHE : lengthOfRemovedValuesCache;
+        //    Period = period <= 0 ? DEFAULT_PERIOD : period > MaxPeriod ? MaxPeriod : period;
+        //    OnInit();
+        //}
 
         /// <summary>
-        /// Create <see cref="ICache{T}"/> instance.
-        /// When pass <paramref name="period"/> minor than 0, the <paramref name="period"/> will be MAXIMUM,
-        /// when pass <paramref name="period"/> equal than 0, the <paramref name="period"/> will be DEFAULT,
-        /// and when pass <paramref name="period"/> grater than 0, the <paramref name="period"/> will be the specified.
+        /// Create <see cref="ICache{T}"/> instance with specified <paramref name="capacity"/> and <paramref name="lengthOfRemovedCache"/>.
+        /// When pass <paramref name="capacity"/> minor or equal than 0, the <paramref name="capacity"/> will be DEFAULT (20),
+        /// and when pass <paramref name="capacity"/> grater than 0, the <paramref name="capacity"/> will be the specified.
         /// </summary>
-        /// <param name="period">The <see cref="ICache{T}"/> calculate period. When pass a number minor than 0, the period will be the MAXIMUM,</param>
-        /// <param name="displacement">The displacement of <see cref="ICache{T}"/> respect the last element.</param>
-        protected Cache(int period, int displacement)
+        /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
+        /// <param name="lengthOfRemovedCache">The length of the removed values cache. This values are at the end of cache.</param>
+        protected Cache(int capacity,int lengthOfRemovedCache = DEFAULT_LENGTH_REMOVED_CACHE)
         {
-            Displacement = displacement <= 0 ? 0 : displacement;
-            Period = period < 0 ? MaxPeriod : period == 0 ? DEFAULT_PERIOD : period > MaxPeriod ? MaxPeriod : period;
+            LengthOfRemovedCache = LengthOfRemovedCache < 1 ? DEFAULT_LENGTH_REMOVED_CACHE : lengthOfRemovedCache;
+            Capacity =  capacity <= 0 ? DEFAULT_CAPACITY : capacity > MaxCapacity ? MaxCapacity : capacity;
             OnInit();
         }
 
@@ -48,24 +66,19 @@ namespace KrTrade.Nt.Core.Caches
     /// Base class for all caches.
     /// </summary>
     /// <typeparam name="T">The type of cache element.</typeparam>
-    public abstract class Cache<T> : ICache<T>,
+    public abstract class Cache<T> : Cache, ICache<T>,
         IEnumerable<T>,
         IEnumerable
     {
 
-        public const int DEFAULT_PERIOD = 20;
         private IList<T> _cache = new List<T>();
 
-        // ICache implementation
-        public int Period { get; protected set; } = -1;
-        public int Displacement { get; protected set; } = 0;
-        public int LengthOfRemovedValuesCache { get; set; } = 1;
-        public int Capacity => Period + Displacement + LengthOfRemovedValuesCache;
+        // ICache<T> implementation
         public bool IsFull => Count >= Capacity;
         public T CurrentValue { get => _cache == null || Count == 0 ? default : _cache[0]; protected set => _cache[0] = value; }
         public void RemoveLastElement()
         {
-            if (Count > 0 && Count != Period + Displacement)
+            if (Count > 0 && Count != Capacity)
                 RemoveAt(0);
             else 
                 throw new Exception("The cache cannot restore the element because the removed values cache is empty.");
@@ -149,7 +162,7 @@ namespace KrTrade.Nt.Core.Caches
             else
                 OnElementRemoved(removedItem);
         }
-        protected int MaxPeriod => int.MaxValue - Displacement - LengthOfRemovedValuesCache;
+        //protected int MaxPeriod => int.MaxValue - Displacement - LengthOfRemovedValuesCache;
         protected bool IsValidIndex(int barsAgo) => _cache != null && barsAgo >= 0 && barsAgo < Count;
         protected bool IsValidIndex(int barsAgo, int period)
         {
@@ -162,19 +175,27 @@ namespace KrTrade.Nt.Core.Caches
             return IsValidIndex(initialBarsAgo) && IsValidIndex(finalBarsAgo);
         }
 
+        ///// <summary>
+        ///// Create <see cref="ICache{T}"/> instance.
+        ///// When pass <paramref name="period"/> minor than 0, the <paramref name="period"/> will be MAXIMUM,
+        ///// when pass <paramref name="period"/> equal than 0, the <paramref name="period"/> will be DEFAULT,
+        ///// and when pass <paramref name="period"/> grater than 0, the <paramref name="period"/> will be the specified.
+        ///// </summary>
+        ///// <param name="period">The <see cref="ICache{T}"/> calculate period. When pass a number minor than 0, the period will be the MAXIMUM,</param>
+        ///// <param name="displacement">The displacement of <see cref="ICache{T}"/> respect the last element.</param>
+        //protected Cache(int period = DEFAULT_PERIOD, int displacement = DEFAULT_DISPLACEMENT, int lengthOfRemovedValuesCache = DEFAULT_LENGTH_REMOVED_VALUES_CACHE) : base(period,displacement,lengthOfRemovedValuesCache)
+        //{
+        //}
+
         /// <summary>
-        /// Create <see cref="ICache{T}"/> instance.
-        /// When pass <paramref name="period"/> minor than 0, the <paramref name="period"/> will be MAXIMUM,
-        /// when pass <paramref name="period"/> equal than 0, the <paramref name="period"/> will be DEFAULT,
-        /// and when pass <paramref name="period"/> grater than 0, the <paramref name="period"/> will be the specified.
+        /// Create <see cref="ICache{T}"/> instance with specified <paramref name="capacity"/> and <paramref name="lengthOfRemovedValuesCache"/>.
+        /// When pass <paramref name="capacity"/> minor or equal than 0, the <paramref name="capacity"/> will be DEFAULT (20),
+        /// and when pass <paramref name="capacity"/> grater than 0, the <paramref name="capacity"/> will be the specified.
         /// </summary>
-        /// <param name="period">The <see cref="ICache{T}"/> calculate period. When pass a number minor than 0, the period will be the MAXIMUM,</param>
+        /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
         /// <param name="displacement">The displacement of <see cref="ICache{T}"/> respect the last element.</param>
-        protected Cache(int period, int displacement)
+        protected Cache(int capacity = DEFAULT_CAPACITY, int lengthOfRemovedValuesCache = DEFAULT_LENGTH_REMOVED_CACHE) : base(capacity,lengthOfRemovedValuesCache)
         {
-            Displacement = displacement <= 0 ? 0 : displacement;
-            Period = period < 0 ? MaxPeriod : period == 0 ? DEFAULT_PERIOD : period > MaxPeriod ? MaxPeriod : period;
-            OnInit();
         }
 
         /// <summary>
@@ -199,13 +220,6 @@ namespace KrTrade.Nt.Core.Caches
         /// <param name="oldValue">The old value of the cache element.</param>
         /// <param name="newValue">The new value of the cache element.</param>
         protected virtual void OnElementUpdated(T oldValue, T newValue)
-        {
-        }
-
-        /// <summary>
-        /// An event driven method which is called whenever the <see cref="ICache{T}"/> initialize.
-        /// </summary>
-        protected virtual void OnInit()
         {
         }
 

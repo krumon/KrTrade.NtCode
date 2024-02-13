@@ -6,10 +6,9 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Cache to store the lastest market high prices.
     /// </summary>
-    public class MaxCache : DoubleCache<ISeries<double>>
+    public class MaxCache : CalculateCache
     {
 
-        private readonly int _barsIndex = 0;
         private double _lastMax;
         private double _currentMax;
         private int _lastMaxBarsAgo;
@@ -18,27 +17,40 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Create <see cref="MaxCache"/> default instance with specified properties.
         /// </summary>
-        /// <param name="input">The <see cref="ISeries{double}"/> instance used to gets elements for <see cref="MaxCache"/>.</param>
-        /// <param name="period">The <see cref="ICache{T}"/> period without include displacement. <see cref="Cache.Capacity"/> property include displacement.</param>
-        /// <param name="displacement">The displacement of <see cref="ICache{T}"/> respect <see cref="Input"/> object used to gets elements.</param>
-        /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public MaxCache(ISeries<double> input, int period, int displacement = 0) : base(input, period, displacement)
-        {
-        }
-
-        /// <summary>
-        /// Create <see cref="HighCache"/> default instance with specified properties.
-        /// </summary>
-        /// <param name="input">The <see cref="NinjaScriptBase"/> instance used to gets elements for <see cref="HighCache"/>.</param>
-        /// <param name="period">The <see cref="ICache{T}"/> period without include displacement. <see cref="Cache.Capacity"/> property include displacement.</param>
-        /// <param name="displacement">The displacement of <see cref="ICache{T}"/> respect <see cref="Input"/> object used to gets elements.</param>
+        /// <param name="input">The <see cref="IBarsService"/> instance used to gets <see cref="NinjaScriptBase"/> object necesary for <see cref="MaxCache"/>.</param>
+        /// <param name="period">The period to calculate the cache values.</param>
+        /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
+        /// <param name="lengthOfRemovedCache">The length of the removed values cache. This values are at the end of cache.</param>
         /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
         /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public MaxCache(NinjaScriptBase input, int period, int displacement = 0, int barsIndex = 0) : base(input?.Inputs[barsIndex], period, displacement)
+        public MaxCache(IBarsService input, int period, int capacity = DEFAULT_CAPACITY, int lengthOfRemovedCache = DEFAULT_LENGTH_REMOVED_CACHE, int barsIndex = 0) : this(input?.Ninjascript.Highs[barsIndex], period, capacity, lengthOfRemovedCache)
         {
-            _barsIndex = barsIndex;
+        }
+        /// <summary>
+        /// Create <see cref="MaxCache"/> default instance with specified properties.
+        /// </summary>
+        /// <param name="input">The <see cref="NinjaScriptBase"/> instance used to gets elements for <see cref="MaxCache"/>.</param>
+        /// <param name="period">The period to calculate the cache values.</param>
+        /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
+        /// <param name="lengthOfRemovedCache">The length of the removed values cache. This values are at the end of cache.</param>
+        /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
+        /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
+        public MaxCache(NinjaScriptBase input, int period, int capacity = DEFAULT_CAPACITY, int lengthOfRemovedCache = DEFAULT_LENGTH_REMOVED_CACHE, int barsIndex = 0) : this(input?.Highs[barsIndex], period, capacity, lengthOfRemovedCache)
+        {
+        }
+        /// <summary>
+        /// Create <see cref="MaxCache"/> default instance with specified properties.
+        /// </summary>
+        /// <param name="input">The <see cref="ISeries{double}"/> instance used to gets elements for <see cref="MaxCache"/>.</param>
+        /// <param name="period">The period to calculate the cache values.</param>
+        /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
+        /// <param name="lengthOfRemovedCache">The length of the removed values cache. This values are at the end of cache.</param>
+        /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
+        public MaxCache(ISeries<double> input, int period, int capacity = DEFAULT_CAPACITY, int lengthOfRemovedCache = DEFAULT_LENGTH_REMOVED_CACHE) : base(input, period, capacity, lengthOfRemovedCache)
+        {
         }
 
+        public override string Name => $"Max({Period})";
         protected override void OnLastElementRemoved()
         {
             if (Count == 0)
@@ -136,7 +148,7 @@ namespace KrTrade.Nt.Services
         protected override ISeries<double> GetInput(ISeries<double> input)
         {
             if (input is NinjaScriptBase ninjascript)
-                return ninjascript.Inputs[_barsIndex];
+                return ninjascript.Inputs[BarsIndex];
 
             return input;
         }

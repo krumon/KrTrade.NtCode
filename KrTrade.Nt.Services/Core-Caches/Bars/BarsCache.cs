@@ -8,8 +8,6 @@ namespace KrTrade.Nt.Services
     public class BarsCache : NinjaCache<double,NinjaScriptBase>, IBarsCache
     {
 
-        protected int BarsIdx { get; private set; }
-
         #region Public properties
 
         public IndexCache Index { get; private set; }
@@ -25,31 +23,52 @@ namespace KrTrade.Nt.Services
 
         #region Constructors
 
-        public BarsCache(NinjaScriptBase input) : this(input, DEFAULT_PERIOD, 0)
+        //public BarsCache(NinjaScriptBase input, int period = DEFAULT_PERIOD, int displacement = DEFAULT_DISPLACEMENT, int lengthOfRemovedValuesCache = DEFAULT_LENGTH_REMOVED_CACHE, int barsIndex = 0) : base(input, period, displacement,lengthOfRemovedValuesCache,barsIndex)
+        //{
+        //    Index = new IndexCache(input, period,displacement,barsIndex);
+        //    Time = new TimeCache(input, period,displacement,barsIndex);
+        //    High = new HighCache(input, period,displacement,barsIndex);
+        //    Volume = new VolumeCache(input, period,displacement,barsIndex);
+        //    Ticks = new TicksCache(input, period,displacement);
+        //}
+
+        /// <summary>
+        /// Create <see cref="BarsCache"/> default instance with specified properties.
+        /// </summary>
+        /// <param name="input">The <see cref="IBarsService"/> instance used to gets <see cref="NinjaScriptBase"/> object necesary for <see cref="BarsCache"/>.</param>
+        /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
+        /// <param name="lengthOfRemovedCache">The length of the removed values cache. This values are at the end of cache.</param>
+        /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
+        /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
+        public BarsCache(IBarsService input, int capacity = DEFAULT_CAPACITY, int lengthOfRemovedCache = DEFAULT_LENGTH_REMOVED_CACHE, int barsIndex = 0) : this(input?.Ninjascript, capacity, lengthOfRemovedCache, barsIndex)
         {
         }
 
-        public BarsCache(NinjaScriptBase input, int period) : this(input, period, 0)
+        /// <summary>
+        /// Create <see cref="BarsCache"/> default instance with specified properties.
+        /// </summary>
+        /// <param name="input">The <see cref="IBarsService"/> instance used to gets <see cref="NinjaScriptBase"/> object necesary for <see cref="BarsCache"/>.</param>
+        /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
+        /// <param name="lengthOfRemovedCache">The length of the removed values cache. This values are at the end of cache.</param>
+        /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
+        /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
+        public BarsCache(NinjaScriptBase input, int period, int capacity = DEFAULT_CAPACITY, int lengthOfRemovedCache = DEFAULT_LENGTH_REMOVED_CACHE, int barsIndex = 0) : base(input, capacity, lengthOfRemovedCache, barsIndex)
         {
-        }
-
-        public BarsCache(NinjaScriptBase input, int period, int displacement) : base(input, period, displacement)
-        {
-        }
-
-        public BarsCache(NinjaScriptBase input, int period, int displacement, int barsIndex) : base(input, period, displacement)
-        {
-            Index = new IndexCache(input, period,displacement,barsIndex);
-            Time = new TimeCache(input, period,displacement,barsIndex);
-            High = new HighCache(input, period,displacement,barsIndex);
-            Volume = new VolumeCache(input, period,displacement,barsIndex);
-            Ticks = new TicksCache(input, period,displacement);
+            Index = new IndexCache(input, capacity, lengthOfRemovedCache, barsIndex);
+            Time = new TimeCache(input, capacity, lengthOfRemovedCache, barsIndex);
+            //Open = new OpenCache(input, capacity, lengthOfRemovedCache, barsIndex);
+            High = new HighCache(input, capacity, lengthOfRemovedCache, barsIndex);
+            //Low = new LowCache(input, capacity, lengthOfRemovedCache, barsIndex);
+            //Close = new CloseCache(input, capacity, lengthOfRemovedCache, barsIndex);
+            Volume = new VolumeCache(input, capacity, lengthOfRemovedCache, barsIndex);
+            Ticks = new TicksCache(input, capacity, lengthOfRemovedCache,barsIndex);
         }
 
         #endregion
 
         #region Implementation
 
+        public override string Name => $"Bars({Capacity})";
         protected override NinjaScriptBase GetInput(NinjaScriptBase input) => input;
 
         public override bool Add()
@@ -159,6 +178,8 @@ namespace KrTrade.Nt.Services
         public long GetTicks(int barsAgo) => IsValidIndex(barsAgo) ? Ticks[barsAgo] : default;
 
         public double GetRange(int barsAgo) => IsValidIndex(barsAgo) ? High[barsAgo] - Low[barsAgo] : default;
+        public override string ToString() => 
+            $"{Name}[0]: Open:{Open[0]:#,0.00} - High:{High[0]:#,0.00} - Low:{Low[0]:#,0.00} - Close:{Close[0]:#,0.00} - Volume:{Volume[0]:#,0.##} - Ticks:{Ticks[0]:#,0.##}";
 
         //public double GetMax(int initialIdx, int numberOfBars, SeriesType seriesType = SeriesType.High)
         //{

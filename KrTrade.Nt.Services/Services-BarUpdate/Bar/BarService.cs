@@ -23,7 +23,7 @@ namespace KrTrade.Nt.Services
         //{
         //}
 
-        public BarService(IBarsService barsService, int period, int displacement, IConfigureOptions<BarOptions> configureOptions) : base(barsService, period, displacement, configureOptions)
+        public BarService(IBarsService barsService, int period, int displacement, int lengthOfRemovedValues) : base(barsService, period, displacement, lengthOfRemovedValues)
         {
         }
 

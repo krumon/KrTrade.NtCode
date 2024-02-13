@@ -51,40 +51,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core-Caches\Calculate\AvgCache.cs" />
+    <Compile Include="Core-Caches\_Base\CalculateCache.cs" />
     <Compile Include="Core-Caches\_Interfaces\IBarsSeriesCache.cs" />
     <Compile Include="Core-Caches\_Interfaces\IBarsCache.cs" />
-    <Compile Include="Core-Caches\MinCache.cs" />
-    <Compile Include="Core-Caches\MaxCache.cs" />
-    <Compile Include="Core-Caches\IndexCache.cs" />
-    <Compile Include="Core-Caches\TicksCache.cs" />
-    <Compile Include="Core-Caches\TimeCache.cs" />
-    <Compile Include="Core-Caches\VolumeCache.cs" />
+    <Compile Include="Core-Caches\Calculate\MinCache.cs" />
+    <Compile Include="Core-Caches\Calculate\MaxCache.cs" />
+    <Compile Include="Core-Caches\Series\IndexCache.cs" />
+    <Compile Include="Core-Caches\Series\TicksCache.cs" />
+    <Compile Include="Core-Caches\Series\TimeCache.cs" />
+    <Compile Include="Core-Caches\Series\VolumeCache.cs" />
     <Compile Include="Core-Caches\_Base\DateTimeCache.cs" />
     <Compile Include="Core-Caches\_Interfaces\IDateTimeCache.cs" />
     <Compile Include="Core-Caches\_Base\LongCache.cs" />
     <Compile Include="Core-Caches\_Base\IntCache.cs" />
     <Compile Include="Core-Caches\_Interfaces\IMarketDataCache.cs" />
     <Compile Include="Core-Caches\_Interfaces\IBarUpdateCache.cs" />
+    <Compile Include="Core-Caches\_Interfaces\IPeriodCache.cs" />
     <Compile Include="Core-Caches\_Interfaces\INumericCache.cs" />
     <Compile Include="Core-Caches\_Interfaces\IValueCache.cs" />
     <Compile Include="Core-Caches\_Base\DoubleCache.cs" />
     <Compile Include="Core-Caches\_Base\ValueCache.cs" />
     <Compile Include="Core-Caches\_Base\NinjaCache.cs" />
     <Compile Include="Core-Caches\_Interfaces\INinjaCache.cs" />
-    <Compile Include="Core-Caches\Series\CacheSeriesCache.cs" />
-    <Compile Include="Core-Caches\RangeCache.cs" />
-    <Compile Include="Core-Caches\Series\CalculateSeriesCache.cs" />
-    <Compile Include="Core-Caches\Series\NinjascriptSeriesCache.cs" />
-    <Compile Include="Core-Caches\AvgCache.cs" />
-    <Compile Include="Core-Caches\SumCache.cs" />
+    <Compile Include="Core-Caches\Series\RangeCache.cs" />
+    <Compile Include="Core-Caches\Calculate\SumCache.cs" />
     <Compile Include="Services-Bars\BarsOptions.cs" />
     <Compile Include="Services-Bars\IBarsService.cs" />
-    <Compile Include="Core-Caches\BarsCache.cs" />
+    <Compile Include="Core-Caches\Bars\BarsCache.cs" />
     <Compile Include="Services-BarUpdate\BarUpdateService.cs" />
     <Compile Include="Services-BarUpdate\BarUpdateServiceOptions.cs" />
     <Compile Include="Services-BarUpdate\Caches\CacheOptions.cs" />
-    <Compile Include="Core-Caches\Series\ISeriesCache.cs" />
-    <Compile Include="Core-Caches\Series\BaseSeriesCache.cs" />
     <Compile Include="DataSeries\IDataSeriesService.cs" />
     <Compile Include="Services-BarUpdate\Caches\HighCacheService.cs" />
     <Compile Include="Services-BarUpdate\Caches\IBarsCacheService.cs" />
@@ -183,13 +180,13 @@
     <Compile Include="Services-BarUpdate\Bar\LastBarService.cs" />
     <Compile Include="DataSeries\DataSeriesOptions.cs" />
     <Compile Include="DataSeries\DataSeriesCollectionService.cs" />
-    <Compile Include="Services-BarUpdate\Caches\BaseCacheService.cs" />
+    <Compile Include="Services-BarUpdate\Caches\CacheService.cs" />
     <Compile Include="Services-BarUpdate\Caches\PriceCacheService.cs" />
     <Compile Include="Services-BarUpdate\Caches\BarsCacheService.cs" />
     <Compile Include="Services-BarUpdate\Caches\SeriesCacheService.cs" />
     <Compile Include="Services-BarUpdate\Caches\CloseCacheService.cs" />
     <Compile Include="Services-BarUpdate\Caches\LowCacheService.cs" />
-    <Compile Include="Core-Caches\HighCache.cs" />
+    <Compile Include="Core-Caches\Series\HighCache.cs" />
     <Compile Include="Services-Logging\BaseLoggerOptions.cs" />
     <Compile Include="Services-Logging\BaseLoggerService.cs" />
     <Compile Include="Services-Logging\LogEntry.cs" />
@@ -223,7 +220,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Core-Caches\Stats\" />
     <Folder Include="Services-BarUpdate\Swings\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

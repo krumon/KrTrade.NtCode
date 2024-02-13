@@ -9,20 +9,20 @@ namespace KrTrade.Nt.Core.Caches
         /// </summary>
         int Capacity { get; }
 
-        /// <summary>
-        /// Gets <see cref="ICache{T}"/> period.
-        /// </summary>
-        int Period { get; }
+        ///// <summary>
+        ///// Gets <see cref="ICache{T}"/> period.
+        ///// </summary>
+        //int Period { get; }
 
-        /// <summary>
-        /// Gets the displacement of <see cref="ICache{T}"/> respect NinjaScript <see cref="ISeries{double}"/>.
-        /// </summary>
-        int Displacement { get; }
+        ///// <summary>
+        ///// Gets the displacement of <see cref="ICache{T}"/> respect NinjaScript <see cref="ISeries{double}"/>.
+        ///// </summary>
+        //int Displacement { get; }
 
         /// <summary>
         /// Gets the number of elements to store in cache, before will be removed forever.
         /// </summary>
-        int LengthOfRemovedValuesCache { get; set; }
+        int LengthOfRemovedCache { get; }
 
     }
     public interface ICache<T> : ICache, ISeries<T>

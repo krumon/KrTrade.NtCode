@@ -26,19 +26,25 @@ namespace KrTrade.Nt.Console.Console
             // Configure
             IBarsService bars = new BarsService(null, null, (op) =>
             {
-                op.Period = 14;
-                op.Displacement = 0;
                 op.IsEnable = true;
                 op.IsLogEnable = true;
-            })
-            .AddService<BarService, BarUpdateServiceOptions>((options) =>
+                op.CacheOptions.Period = 14;
+                op.CacheOptions.Displacement = 0;
+                op.CacheOptions.LengthOfRemovedValuesCache = 1;
+                op.CacheOptions.BarsIndex = 0;
+            });
+            bars
+            .AddService<CacheService<MaxCache>, CacheOptions>("MAX",(options) =>
             {
                 options.IsLogEnable = true;
-                //options.Period = 20;
-            })
-            .AddService<LastBarService, BarUpdateServiceOptions>((options) =>
+                options.Period = 5;
+                options.Displacement = 0;
+            },bars.Ninjascript.High)
+            .AddService<CacheService<MaxCache>, CacheOptions>("MIN",(options) =>
             {
                 options.IsLogEnable = true;
+                options.Period = 5;
+                options.Displacement = 0;
             });
 
             bars.Configure();
@@ -53,6 +59,8 @@ namespace KrTrade.Nt.Console.Console
             var strength = 4;
 
             double swingHighValue = bars.Series.Close.SwingHigh(displacement, strength);
+            var max = bars.GetCache<MaxCache>();
+            var currentMax = max[0];
             if (swingHighValue > 0)
                 bars.GetBars(displacement, strength * 2 + 1);
 

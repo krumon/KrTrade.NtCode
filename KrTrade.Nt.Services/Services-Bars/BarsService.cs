@@ -1,9 +1,9 @@
 ﻿using KrTrade.Nt.Core.Bars;
+using KrTrade.Nt.Core.Caches;
 using NinjaTrader.Core.FloatingPoint;
 using NinjaTrader.NinjaScript;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 namespace KrTrade.Nt.Services
 {
@@ -38,11 +38,11 @@ namespace KrTrade.Nt.Services
         #region Public properties
 
         public int Index { get; protected set; } = 0;
-        public int Period => Options.Period;
-        public int Displacement => Options.Displacement;
+        public int CachePeriod => Options.CacheOptions.Period;
+        public int CacheDisplacement => Options.CacheOptions.Displacement;
         public Bar CurrentBar => _cache.GetBar(0);  //_currentBar;
         //public IBarsCacheService Series => (IBarsCacheService)_svcs[Series_];
-        public IBarsCacheService Series => GetService<BarsCacheService>("Series");
+        public IBarsCacheService Series => Get<BarsCacheService>("Series");
         public IBarUpdateService this[string name]
         {
             get
@@ -69,26 +69,32 @@ namespace KrTrade.Nt.Services
 
         #region Constructors
 
-        public BarsService(NinjaScriptBase ninjascript) : this(ninjascript, null, BarsOptions.DEFAULT_PERIOD, BarsOptions.DEFAULT_DISPLACEMENT) { }
-        public BarsService(NinjaScriptBase ninjascript, IPrintService printService) : this(ninjascript, printService, BarsOptions.DEFAULT_PERIOD, BarsOptions.DEFAULT_DISPLACEMENT) { }
-        public BarsService(NinjaScriptBase ninjascript, IPrintService printService, int period) : this(ninjascript, printService, period, BarsOptions.DEFAULT_DISPLACEMENT) { }
-        public BarsService(NinjaScriptBase ninjascript, IPrintService printService, int period, int displacement) : base(ninjascript, printService, null, new BarsOptions(period, displacement))
+        public BarsService(NinjaScriptBase ninjascript) : this(ninjascript, null, Cache.DEFAULT_PERIOD, Cache.DEFAULT_DISPLACEMENT) { }
+        public BarsService(NinjaScriptBase ninjascript, IPrintService printService) : this(ninjascript, printService, Cache.DEFAULT_PERIOD, Cache.DEFAULT_DISPLACEMENT) { }
+        public BarsService(NinjaScriptBase ninjascript, IPrintService printService, int period) : this(ninjascript, printService, period, Cache.DEFAULT_DISPLACEMENT) { }
+        public BarsService(NinjaScriptBase ninjascript, IPrintService printService, int period, int displacement) : base(ninjascript, printService, null, new BarsOptions())
         {
-            Options = new BarsOptions(period, displacement);
-            AddService<BarsCacheService, CacheOptions>(Options.CacheOptions,"Series");
+            Options.CacheOptions.Period = period;
+            Options.CacheOptions.Displacement = displacement;
+            AddService<BarsCacheService, CacheOptions>("Series", Options.CacheOptions);
         }
-        
+
         public BarsService(NinjaScriptBase ninjascript, IPrintService printService, IConfigureOptions<BarsOptions> configureOptions) : base(ninjascript, printService, configureOptions) 
         {
             Options = new BarsOptions();
             configureOptions?.Configure(Options);
-            AddService<BarsCacheService,CacheOptions>(Options.CacheOptions, "Series");
+            AddService<BarsCacheService,CacheOptions>("Series",Options.CacheOptions);
         }
         public BarsService(NinjaScriptBase ninjascript, IPrintService printService, Action<BarsOptions> configureOptions) : base(ninjascript, printService, configureOptions,null)
         {
             Options = new BarsOptions();
             configureOptions?.Invoke(Options);
-            AddService<BarsCacheService, CacheOptions>(Options.CacheOptions, "Series");
+            AddService<BarsCacheService, CacheOptions>("Series", Options.CacheOptions);
+        }
+        public BarsService(NinjaScriptBase ninjascript, IPrintService printService, BarsOptions options) : base(ninjascript, printService, null,options)
+        {
+            Options = options ?? new BarsOptions();
+            AddService<BarsCacheService, CacheOptions>("Series", Options.CacheOptions);
         }
 
         #endregion
@@ -163,107 +169,125 @@ namespace KrTrade.Nt.Services
 
         #region Public methods
 
-        public IBarsService AddService<TService, TOptions>(Action<TOptions> configureOptions, string name = "")
+        public IBarsService AddService<TService, TOptions>(string key, Action<TOptions> configureOptions = null,object input1 = null, object input2 = null)
             where TService : IBarUpdateService
             where TOptions : BarUpdateServiceOptions, new()
         {
             TOptions options = new TOptions();
             configureOptions?.Invoke(options);
 
-            IBarUpdateService service = CreateBarUpdateService<TService, TOptions>(options) ?? 
+            IBarUpdateService service = CreateBarUpdateService<TService, TOptions>(options,input1,input2) ?? 
                 throw new Exception("El servicio no se puede añadir porque su valor es 'NULL'.");
 
-            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
-                name = service.Name;
+            if (string.IsNullOrEmpty(key) || string.IsNullOrWhiteSpace(key))
+                key = service.Name;
 
-            name = name.ToUpper();
+            key = key.ToUpper();
 
-            if (!ContainsService<TService>(name))
-                Add(service,name);
+            if (!ContainsService<TService>(key))
+                Add(key, service);
 
             return this;
         }
-        public IBarsService AddService<TService, TOptions>(TOptions options = null, string name = "")
+        public IBarsService AddService<TService, TOptions>(string key,TOptions options, object input1 = null, object input2 = null)
             where TService : IBarUpdateService
             where TOptions : BarUpdateServiceOptions, new()
         {
             if (options == null)
-                options = new TOptions() { Period = Period, Displacement = Displacement };
+                options = new TOptions() { Period = CachePeriod, Displacement = CacheDisplacement };
 
-            IBarUpdateService service = CreateBarUpdateService<TService, TOptions>(options) ??
+            IBarUpdateService service = CreateBarUpdateService<TService, TOptions>(options,input1,input2) ??
                 throw new Exception("El servicio no se puede añadir porque su valor es 'NULL'.");
 
-            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
-                name = service.Name;
+            if (string.IsNullOrEmpty(key) || string.IsNullOrWhiteSpace(key))
+                key = service.Name;
 
-            name = name.ToUpper();
+            key = key.ToUpper();
 
-            if (!ContainsService<TService>(name))
-                Add(service, name);
+            if (!ContainsService<TService>(key))
+                Add(key, service);
 
             return this;    
         }
-        public IBarsService AddService<TService>(TService service, string name = "")
+        public IBarsService AddService<TService>(string key,TService service)
             where TService : IBarUpdateService
         {
             if (service == null)
                 throw new Exception("El servicio no se puede añadir porque su valor es 'NULL'.");
 
-            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
-                name = service.Name;
+            if (string.IsNullOrEmpty(key) || string.IsNullOrWhiteSpace(key))
+                key = service.Name;
 
-            name = name.ToUpper();
+            key = key.ToUpper();
 
-            if (!ContainsService<TService>(name))
-                Add(service, name);
+            if (!ContainsService<TService>(key))
+                Add(key,service);
 
             return this;    
         }
-        public TService GetService<TService>(string name = "")
+        public TService Get<TService>(string key = "")
             where TService : class, IBarUpdateService
         {
             if (_svcs == null || _svcs.Count == 0)
                 return null;
 
-            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
-                name = ServicesDefaultName;
-            name = name.ToUpper();
+            if (string.IsNullOrEmpty(key) || string.IsNullOrWhiteSpace(key))
+                key = ServicesDefaultName;
+            key = key.ToUpper();
 
-            // List
-            foreach (var service in _services)
-                if (service.GetType() == typeof(TService))
-                    if(name == ServicesDefaultName || service.Name.ToUpper() == name)
-                        return (TService)service;
+            //// List
+            //foreach (var service in _services)
+            //    if (service.GetType() == typeof(TService))
+            //        if(key == ServicesDefaultName || service.Name.ToUpper() == key)
+            //            return (TService)service;
 
             // Dictionary
             foreach (var service in _svcs)
                 if (service.Value.GetType() == typeof(TService))
-                    if (name == ServicesDefaultName || service.Key == name)
+                    if (key == ServicesDefaultName || service.Key == key)
                         return (TService)service.Value;
 
             return null;
         }
-        public IBarUpdateService GetService(string name)
+        public CacheService<TCache> GetCache<TCache>(string key = "")
+            where TCache : class, IBarUpdateCache
         {
             if (_svcs == null || _svcs.Count == 0)
                 return null;
 
-            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
-                name = ServicesDefaultName;
-
-            if (name == ServicesDefaultName)
-                return null;
-
-            name = name.ToUpper();
-
-            // List
-            foreach (var service in _services)
-                if(service.Name.ToUpper() == name)
-                    return service;
+            if (string.IsNullOrEmpty(key) || string.IsNullOrWhiteSpace(key))
+                key = ServicesDefaultName;
+            key = key.ToUpper();
 
             // Dictionary
             foreach (var service in _svcs)
-                if (service.Key == name)
+                if (service.Value.GetType() == typeof(CacheService<TCache>))
+                    if (key == ServicesDefaultName || service.Key == key)
+                        return (CacheService<TCache>)service.Value;
+
+            return null;
+        }
+        public IBarUpdateService Get(string key)
+        {
+            if (_svcs == null || _svcs.Count == 0)
+                return null;
+
+            if (string.IsNullOrEmpty(key) || string.IsNullOrWhiteSpace(key))
+                key = ServicesDefaultName;
+
+            if (key == ServicesDefaultName)
+                return null;
+
+            key = key.ToUpper();
+
+            //// List
+            //foreach (var service in _services)
+            //    if(service.Name.ToUpper() == key)
+            //        return service;
+
+            // Dictionary
+            foreach (var service in _svcs)
+                if (service.Key == key)
                     return service.Value;
 
             return null;
@@ -282,30 +306,30 @@ namespace KrTrade.Nt.Services
 
         #region Protected methods
 
-        protected void Add(IBarUpdateService service, string name)
+        protected void Add(string key,IBarUpdateService service)
         {
             if (service == null) throw new ArgumentNullException(nameof(service));
 
             if (IsConfigured)
                 throw new Exception($"{Name} must be added before 'IBarsService' has been configured.");
 
-            // List
-            if (_services == null)
-                _services = new List<IBarUpdateService>();
+            //// List
+            //if (_services == null)
+            //    _services = new List<IBarUpdateService>();
             // No se puede asignar un nombre específico.
             _services.Add(service);
 
             // Dictionary
             if (_svcs == null)
                 _svcs = new Dictionary<string, IBarUpdateService>();
-            name = string.IsNullOrEmpty(name) ? service.Name : string.IsNullOrWhiteSpace(name) ? service.Name : name;
-            _svcs.Add(name, service);
+            key = string.IsNullOrEmpty(key) ? service.Name : string.IsNullOrWhiteSpace(key) ? service.Name : key;
+            _svcs.Add(key.ToUpper(), service);
         }
         protected void ExecuteServices()
         {
-            // List
-            foreach (var service in _services)
-                service.Update();
+            //// List
+            //foreach (var service in _services)
+            //    service.Update();
 
             // Dictionary
             foreach(var service in _svcs)
@@ -406,20 +430,28 @@ namespace KrTrade.Nt.Services
             if (PrintService.IsLogLevelsEnable(Core.Logging.LogLevel.Information) && Options.IsLogEnable)
                 _logLines.Add(barsEvent.ToString());
         }
-        private IBarUpdateService CreateBarUpdateService<TService,TOptions>(TOptions options)
+        private IBarUpdateService CreateBarUpdateService<TService,TOptions>(TOptions options, object input1, object input2)
             where TOptions : BarUpdateServiceOptions, new()
         {
-            IBarUpdateService service = null;
+            IBarUpdateService service;
             Type type = typeof(TService);
             if (options == null)
                 options = new TOptions()
                 {
-                    Period = Period,
-                    Displacement = Displacement,
+                    Period = CachePeriod,
+                    Displacement = CacheDisplacement,
+                    LengthOfRemovedValuesCache = Cache.DEFAULT_LENGTH_REMOVED_CACHE,
+                    BarsIndex = 0,
                 };
-            if ((type == typeof(BarsCacheService) || type == typeof(IBarsCacheService)) && options is CacheOptions cacheOptions)
-                service = new BarsCacheService(this, cacheOptions);
-            else 
+            if ((type == typeof(BarsCacheService) || type == typeof(IBarsCacheService)))
+                service = new BarsCacheService(this);
+            else if (type == typeof(CacheService<MaxCache>))
+                if (options is CacheOptions maxOptions) service = new CacheService<MaxCache>(this, input1, maxOptions);
+                else service = new CacheService<MaxCache>(this, input1);
+            else if (type == typeof(CacheService<MinCache>))
+                if (options is CacheOptions minOptions) service = new CacheService<MinCache>(this, input1, minOptions);
+                else service = new CacheService<MinCache>(this, input1);
+            else
                 throw new NotImplementedException($"The {type.Name} has not been created. Krumon...implemented it!!!!");
 
             return service;

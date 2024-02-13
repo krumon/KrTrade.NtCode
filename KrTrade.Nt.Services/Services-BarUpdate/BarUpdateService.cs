@@ -1,49 +1,46 @@
-﻿using System;
+﻿using KrTrade.Nt.Core.Caches;
+using System;
 
 namespace KrTrade.Nt.Services
 {
     public abstract class BarUpdateService<TOptions> : BaseNinjascriptService<TOptions>, IBarUpdateService
         where TOptions : BarUpdateServiceOptions, new()
     {
-        // TODO: BORRAR ESTAS CONSTANTES
-        private const int DEFAULT_PERIOD = 11;
-        private const int DEFAULT_DISPLACEMENT = 0;
-
         public IBarsService Bars { get; protected set; }
-        public int Period { get; protected set; }
-        public int Displacement { get; protected set; }
+        public int Period => Options.Period;
+        public int Displacement => Options.Displacement;
+        public int LengthOfRemovedValuesCache => Options.LengthOfRemovedValuesCache;
+        public int BarsIndex => Options.BarsIndex;
 
-        protected BarUpdateService(IBarsService barsService) : this(
-            barsService, 
-            barsService != null ? barsService.Period : BarsOptions.DEFAULT_PERIOD,
-            barsService != null ? barsService.Displacement : BarsOptions.DEFAULT_DISPLACEMENT, 
-            null
-            )
+        protected BarUpdateService(IBarsService barsService) : base(barsService?.Ninjascript, barsService?.PrintService, null, null) { InitializeService(barsService, Options); }
+        protected BarUpdateService(IBarsService barsService, IConfigureOptions<TOptions> configureOptions) : base(barsService?.Ninjascript, barsService?.PrintService, configureOptions) { InitializeService(barsService, Options); }
+        protected BarUpdateService(IBarsService barsService, Action<TOptions> configureOptions) : base(barsService?.Ninjascript, barsService?.PrintService, configureOptions) { InitializeService(barsService, Options); }
+        protected BarUpdateService(IBarsService barsService, TOptions options): base(barsService.Ninjascript, barsService.PrintService, null, options) { InitializeService(barsService, Options); }
+        protected BarUpdateService(IBarsService barsService, int period = Cache.DEFAULT_PERIOD, int displacement = Cache.DEFAULT_DISPLACEMENT, int lengthOfRemovedValuesCache = Cache.DEFAULT_LENGTH_REMOVED_CACHE, int barsIndex = 0) : base(barsService.Ninjascript, barsService.PrintService, null,null)
         {
+            TOptions options = new TOptions();
+            options.Period = period;
+            options.Displacement = displacement;
+            options.LengthOfRemovedValuesCache = lengthOfRemovedValuesCache;
+            options.BarsIndex = barsIndex;
+            InitializeService(barsService,options);
         }
-        protected BarUpdateService(IBarsService barsService, IConfigureOptions<TOptions> configureOptions) : this(barsService, DEFAULT_PERIOD, DEFAULT_DISPLACEMENT, configureOptions) { }
-        protected BarUpdateService(IBarsService barsService, int period) : this(barsService, period, DEFAULT_DISPLACEMENT, null) { }
-        protected BarUpdateService(IBarsService barsService, int period, int displacement) : this(barsService, period, displacement, null) {}
-        protected BarUpdateService(IBarsService barsService, int period, int displacement, IConfigureOptions<TOptions> configureOptions) : base(barsService.Ninjascript, barsService.PrintService, configureOptions)
+        
+        protected void InitializeService(IBarsService barsService, TOptions options)
         {
             Bars = barsService ?? throw new ArgumentNullException(nameof(barsService));
-            //Period = period <= 0 ? DEFAULT_PERIOD : period > BarsCache.MAX_CAPACITY ? DEFAULT_PERIOD : period;
-            Displacement = displacement < 0 ? DEFAULT_DISPLACEMENT : displacement >= Period ? DEFAULT_DISPLACEMENT : displacement;
-            //if (Period + Displacement > BarsCache.MAX_CAPACITY) 
-            //    Period = BarsCache.MAX_CAPACITY - Displacement;
-            //Bars.Add(this);
-        }
-        protected BarUpdateService(IBarsService barsService, TOptions options) : base(barsService.Ninjascript, barsService.PrintService, null)
-        {
-            Bars = barsService ?? throw new ArgumentNullException(nameof(barsService));
-            Options = options ?? new TOptions();
-            //Period = period <= 0 ? DEFAULT_PERIOD : period > BarsCache.MAX_CAPACITY ? DEFAULT_PERIOD : period;
-            //Displacement = displacement < 0 ? DEFAULT_DISPLACEMENT : displacement >= Period ? DEFAULT_DISPLACEMENT : displacement;
-            //if (Period + Displacement > BarsCache.MAX_CAPACITY) 
-            //    Period = BarsCache.MAX_CAPACITY - Displacement;
-            //Bars.Add(this);
+            if (options.Displacement < 0)
+                options.Displacement = Cache.DEFAULT_DISPLACEMENT;
+            if (options.LengthOfRemovedValuesCache < 0)
+                options.LengthOfRemovedValuesCache = Cache.DEFAULT_LENGTH_REMOVED_CACHE;
+            if (options.Period <= 0)
+                options.Period = Cache.DEFAULT_PERIOD;
+            else if (options.Period > (int.MaxValue - options.Period - options.Displacement))
+                options.Period = int.MaxValue - options.Period - options.Displacement;
         }
 
         public abstract void Update();
+
+
     }
 }
