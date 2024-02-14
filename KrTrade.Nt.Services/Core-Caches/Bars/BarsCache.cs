@@ -12,11 +12,11 @@ namespace KrTrade.Nt.Services
 
         public IndexCache Index { get; private set; }
         public TimeCache Time { get; private set; }
-        public DoubleCache<NinjaScriptBase> Open {  get; private set; }
-        public HighCache High {  get; private set; }
-        public DoubleCache<NinjaScriptBase> Low {  get; private set; }
-        public DoubleCache<NinjaScriptBase> Close {  get; private set; }
-        public VolumeCache Volume {  get; private set; }
+        public SeriesCache Open {  get; private set; }
+        public SeriesCache High {  get; private set; }
+        public SeriesCache Low {  get; private set; }
+        public SeriesCache Close {  get; private set; }
+        public SeriesCache Volume {  get; private set; }
         public TicksCache Ticks { get; private set; }
 
         #endregion
@@ -37,10 +37,10 @@ namespace KrTrade.Nt.Services
         /// </summary>
         /// <param name="input">The <see cref="IBarsService"/> instance used to gets <see cref="NinjaScriptBase"/> object necesary for <see cref="BarsCache"/>.</param>
         /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        /// <param name="lengthOfRemovedCache">The length of the removed values cache. This values are at the end of cache.</param>
+        /// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
         /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
         /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public BarsCache(IBarsService input, int capacity = DEFAULT_CAPACITY, int lengthOfRemovedCache = DEFAULT_LENGTH_REMOVED_CACHE, int barsIndex = 0) : this(input?.Ninjascript, capacity, lengthOfRemovedCache, barsIndex)
+        public BarsCache(IBarsService input, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : this(input?.Ninjascript, capacity, oldValuesCapacity, barsIndex)
         {
         }
 
@@ -49,19 +49,19 @@ namespace KrTrade.Nt.Services
         /// </summary>
         /// <param name="input">The <see cref="IBarsService"/> instance used to gets <see cref="NinjaScriptBase"/> object necesary for <see cref="BarsCache"/>.</param>
         /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        /// <param name="lengthOfRemovedCache">The length of the removed values cache. This values are at the end of cache.</param>
+        /// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
         /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
         /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public BarsCache(NinjaScriptBase input, int period, int capacity = DEFAULT_CAPACITY, int lengthOfRemovedCache = DEFAULT_LENGTH_REMOVED_CACHE, int barsIndex = 0) : base(input, capacity, lengthOfRemovedCache, barsIndex)
+        public BarsCache(NinjaScriptBase input, int period, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : base(input, capacity, oldValuesCapacity, barsIndex)
         {
-            Index = new IndexCache(input, capacity, lengthOfRemovedCache, barsIndex);
-            Time = new TimeCache(input, capacity, lengthOfRemovedCache, barsIndex);
-            //Open = new OpenCache(input, capacity, lengthOfRemovedCache, barsIndex);
-            High = new HighCache(input, capacity, lengthOfRemovedCache, barsIndex);
-            //Low = new LowCache(input, capacity, lengthOfRemovedCache, barsIndex);
-            //Close = new CloseCache(input, capacity, lengthOfRemovedCache, barsIndex);
-            Volume = new VolumeCache(input, capacity, lengthOfRemovedCache, barsIndex);
-            Ticks = new TicksCache(input, capacity, lengthOfRemovedCache,barsIndex);
+            Index = new IndexCache(input, capacity, oldValuesCapacity, barsIndex);
+            Time = new TimeCache(input, capacity, oldValuesCapacity, barsIndex);
+            Open = new SeriesCache(input.Opens[BarsIndex], "OpenCache", capacity, oldValuesCapacity, barsIndex);
+            High = new SeriesCache(input.Highs[BarsIndex], "HighCache", capacity, oldValuesCapacity, barsIndex);
+            High = new SeriesCache(input.Lows[BarsIndex], "LowCache", capacity, oldValuesCapacity, barsIndex);
+            High = new SeriesCache(input.Closes[BarsIndex], "CloseCache", capacity, oldValuesCapacity, barsIndex);
+            High = new SeriesCache(input.Volumes[BarsIndex], "VolumeCache", capacity, oldValuesCapacity, barsIndex);
+            Ticks = new TicksCache(input, capacity, oldValuesCapacity,barsIndex);
         }
 
         #endregion
@@ -88,7 +88,10 @@ namespace KrTrade.Nt.Services
         {
             Index.Add();
             Time.Add();
+            Open.Add();
             High.Add();
+            Low.Add();
+            Close.Add();
             Volume.Add();
             Ticks.Add();
         }
@@ -96,15 +99,21 @@ namespace KrTrade.Nt.Services
         {
             Index.Update();
             Time.Update();
+            Open.Update();
             High.Update();
+            Low.Update();
+            Close.Update();
             Volume.Update();
             Ticks.Update();
         }
-        protected override void OnLastElementRemoved()
+        protected override void OnLastElementRemoved(double removedValue)
         {
             Index.RemoveLastElement();
             Time.RemoveLastElement();
+            Open.RemoveLastElement();
             High.RemoveLastElement();
+            Low.RemoveLastElement();
+            Close.RemoveLastElement();
             Volume.RemoveLastElement();
             Ticks.RemoveLastElement();
         }

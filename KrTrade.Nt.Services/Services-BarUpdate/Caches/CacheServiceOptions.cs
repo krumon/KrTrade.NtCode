@@ -2,7 +2,7 @@
 
 namespace KrTrade.Nt.Services
 {
-    public class CacheOptions : BarUpdateServiceOptions
+    public class CacheServiceOptions : BarUpdateServiceOptions
     {
 
         private int _capacity;

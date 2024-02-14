@@ -76,25 +76,25 @@ namespace KrTrade.Nt.Services
         {
             Options.CacheOptions.Period = period;
             Options.CacheOptions.Displacement = displacement;
-            AddService<BarsCacheService, CacheOptions>("Series", Options.CacheOptions);
+            AddService<BarsCacheService, CacheServiceOptions>("Series", Options.CacheOptions);
         }
 
         public BarsService(NinjaScriptBase ninjascript, IPrintService printService, IConfigureOptions<BarsOptions> configureOptions) : base(ninjascript, printService, configureOptions) 
         {
             Options = new BarsOptions();
             configureOptions?.Configure(Options);
-            AddService<BarsCacheService,CacheOptions>("Series",Options.CacheOptions);
+            AddService<BarsCacheService,CacheServiceOptions>("Series",Options.CacheOptions);
         }
         public BarsService(NinjaScriptBase ninjascript, IPrintService printService, Action<BarsOptions> configureOptions) : base(ninjascript, printService, configureOptions,null)
         {
             Options = new BarsOptions();
             configureOptions?.Invoke(Options);
-            AddService<BarsCacheService, CacheOptions>("Series", Options.CacheOptions);
+            AddService<BarsCacheService, CacheServiceOptions>("Series", Options.CacheOptions);
         }
         public BarsService(NinjaScriptBase ninjascript, IPrintService printService, BarsOptions options) : base(ninjascript, printService, null,options)
         {
             Options = options ?? new BarsOptions();
-            AddService<BarsCacheService, CacheOptions>("Series", Options.CacheOptions);
+            AddService<BarsCacheService, CacheServiceOptions>("Series", Options.CacheOptions);
         }
 
         #endregion
@@ -440,16 +440,16 @@ namespace KrTrade.Nt.Services
                 {
                     Period = CachePeriod,
                     Displacement = CacheDisplacement,
-                    LengthOfRemovedValuesCache = Cache.DEFAULT_LENGTH_REMOVED_CACHE,
+                    LengthOfRemovedValuesCache = Cache.DEFAULT_OLD_VALUES_CAPACITY,
                     BarsIndex = 0,
                 };
             if ((type == typeof(BarsCacheService) || type == typeof(IBarsCacheService)))
                 service = new BarsCacheService(this);
             else if (type == typeof(CacheService<MaxCache>))
-                if (options is CacheOptions maxOptions) service = new CacheService<MaxCache>(this, input1, maxOptions);
+                if (options is CacheServiceOptions maxOptions) service = new CacheService<MaxCache>(this, input1, maxOptions);
                 else service = new CacheService<MaxCache>(this, input1);
             else if (type == typeof(CacheService<MinCache>))
-                if (options is CacheOptions minOptions) service = new CacheService<MinCache>(this, input1, minOptions);
+                if (options is CacheServiceOptions minOptions) service = new CacheService<MinCache>(this, input1, minOptions);
                 else service = new CacheService<MinCache>(this, input1);
             else
                 throw new NotImplementedException($"The {type.Name} has not been created. Krumon...implemented it!!!!");

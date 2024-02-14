@@ -13,10 +13,10 @@ namespace KrTrade.Nt.Services
         /// </summary>
         /// <param name="input">The <see cref="IBarsService"/> instance used to gets <see cref="NinjaScriptBase"/> object necesary for <see cref="VolumeCache"/>.</param>
         /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        /// <param name="lengthOfRemovedCache">The length of the removed values cache. This values are at the end of cache.</param>
+        /// <param name="lengthOfRemovedCache">The length of the old values cache. This values are at the end of cache.</param>
         /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
         /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public VolumeCache(IBarsService input, int capacity = DEFAULT_CAPACITY, int lengthOfRemovedCache = DEFAULT_LENGTH_REMOVED_CACHE, int barsIndex = 0) : this(input?.Ninjascript.Times[barsIndex], capacity, lengthOfRemovedCache, barsIndex)
+        public VolumeCache(IBarsService input, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : this(input?.Ninjascript.Volumes[barsIndex], capacity, oldValuesCapacity, barsIndex)
         {
         }
 
@@ -25,10 +25,10 @@ namespace KrTrade.Nt.Services
         /// </summary>
         /// <param name="input">The <see cref="NinjaScriptBase"/> instance used to gets elements for <see cref="VolumeCache"/>.</param>
         /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        /// <param name="lengthOfRemovedCache">The length of the removed values cache. This values are at the end of cache.</param>
+        /// <param name="lengthOfRemovedCache">The length of the old values cache. This values are at the end of cache.</param>
         /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
         /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public VolumeCache(NinjaScriptBase input, int capacity = DEFAULT_CAPACITY, int lengthOfRemovedCache = DEFAULT_LENGTH_REMOVED_CACHE, int barsIndex = 0) : this(input?.Times[barsIndex], capacity, lengthOfRemovedCache, barsIndex)
+        public VolumeCache(NinjaScriptBase input, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : this(input?.Volumes[barsIndex], capacity, oldValuesCapacity, barsIndex)
         {
         }
 
@@ -37,9 +37,9 @@ namespace KrTrade.Nt.Services
         /// </summary>
         /// <param name="input">The <see cref="ISeries{double}"/> instance used to gets elements for <see cref="VolumeCache"/>.</param>
         /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        /// <param name="lengthOfRemovedCache">The length of the removed values cache. This values are at the end of cache.</param>
+        /// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
         /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public VolumeCache(TimeSeries input, int capacity = DEFAULT_CAPACITY, int lengthOfRemovedCache = DEFAULT_LENGTH_REMOVED_CACHE, int barsIndex = 0) : base(input, capacity, lengthOfRemovedCache, barsIndex)
+        public VolumeCache(VolumeSeries input, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : base(input, capacity, oldValuesCapacity, barsIndex)
         {
         }
 

@@ -1,5 +1,4 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using NinjaTrader.NinjaScript;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
@@ -20,27 +19,27 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Gets the open series.
         /// </summary>
-        DoubleCache<NinjaScriptBase> Open { get; }
+        SeriesCache Open { get; }
 
         /// <summary>
         /// Gets the high series.
         /// </summary>
-        HighCache High { get; }
+        SeriesCache High { get; }
 
         /// <summary>
         /// Gets the low series.
         /// </summary>
-        DoubleCache<NinjaScriptBase> Low { get; }
+        SeriesCache Low { get; }
 
         /// <summary>
         /// Gets the close series.
         /// </summary>
-        DoubleCache<NinjaScriptBase> Close { get; }
+        SeriesCache Close { get; }
 
         /// <summary>
         /// Gets the volume series.
         /// </summary>
-        VolumeCache Volume { get; }
+        SeriesCache Volume { get; }
 
         /// <summary>
         /// Gets the tick count series.

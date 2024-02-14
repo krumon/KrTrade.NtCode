@@ -19,18 +19,18 @@ namespace KrTrade.Nt.Services
         {
         }
 
-        public override string Name => BarUpdateCache.ToString();
-        public IndexCache Index => BarUpdateCache.Index;
-        public TimeCache Time => BarUpdateCache.Time;
-        public DoubleCache<NinjaScriptBase> Open => BarUpdateCache.Open;
-        public HighCache High => BarUpdateCache.High;
-        public DoubleCache<NinjaScriptBase> Low => BarUpdateCache.Low;
-        public DoubleCache<NinjaScriptBase> Close => BarUpdateCache.Close;
-        public VolumeCache Volume => BarUpdateCache.Volume;
-        public TicksCache Ticks => BarUpdateCache.Ticks;
-        public Bar GetBar(int barsAgo) => BarUpdateCache.GetBar(barsAgo);
-        public Bar GetBar(int barsAgo, int period) => BarUpdateCache.GetBar(barsAgo);
-        public IList<Bar> GetBars(int barsAgo, int period) => BarUpdateCache.GetBars(barsAgo, period);
+        public override string Name => _cache.ToString();
+        public IndexCache Index => _cache.Index;
+        public TimeCache Time => _cache.Time;
+        public DoubleCache<NinjaScriptBase> Open => _cache.Open;
+        public HighCache High => _cache.High;
+        public DoubleCache<NinjaScriptBase> Low => _cache.Low;
+        public DoubleCache<NinjaScriptBase> Close => _cache.Close;
+        public VolumeCache Volume => _cache.Volume;
+        public TicksCache Ticks => _cache.Ticks;
+        public Bar GetBar(int barsAgo) => _cache.GetBar(barsAgo);
+        public Bar GetBar(int barsAgo, int period) => _cache.GetBar(barsAgo);
+        public IList<Bar> GetBars(int barsAgo, int period) => _cache.GetBars(barsAgo, period);
 
     }
 }

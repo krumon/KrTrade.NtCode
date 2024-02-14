@@ -17,7 +17,7 @@
         //    Displacement = displacement;
         //}
 
-        public CacheOptions CacheOptions { get; set; } = new CacheOptions();
+        public CacheServiceOptions CacheOptions { get; set; } = new CacheServiceOptions();
 
     }
 }

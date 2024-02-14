@@ -12,7 +12,7 @@ namespace KrTrade.Nt.Core.Caches
     {
 
         public const int DEFAULT_CAPACITY = 20;
-        public const int DEFAULT_LENGTH_REMOVED_CACHE = 1;
+        public const int DEFAULT_OLD_VALUES_CAPACITY = 1;
         //public const int DEFAULT_PERIOD = 20;
         //public const int DEFAULT_DISPLACEMENT = 0;
 
@@ -20,8 +20,9 @@ namespace KrTrade.Nt.Core.Caches
         //public int Period { get; protected set; }
         //public int Displacement { get; protected set; }
         public int Capacity { get; protected set; }
-        public int LengthOfRemovedCache { get; protected set; }
-        protected int MaxCapacity => int.MaxValue - LengthOfRemovedCache;
+        public int MaxOldValuesCapacity { get; protected set; }
+        protected int MaxCapacity => int.MaxValue - MaxOldValuesCapacity;
+        protected int MaxLength => Capacity + MaxOldValuesCapacity;
 
         ///// <summary>
         ///// Create <see cref="ICache{T}"/> instance.
@@ -46,9 +47,9 @@ namespace KrTrade.Nt.Core.Caches
         /// </summary>
         /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
         /// <param name="lengthOfRemovedCache">The length of the removed values cache. This values are at the end of cache.</param>
-        protected Cache(int capacity,int lengthOfRemovedCache = DEFAULT_LENGTH_REMOVED_CACHE)
+        protected Cache(int capacity,int lengthOfRemovedCache = DEFAULT_OLD_VALUES_CAPACITY)
         {
-            LengthOfRemovedCache = LengthOfRemovedCache < 1 ? DEFAULT_LENGTH_REMOVED_CACHE : lengthOfRemovedCache;
+            MaxOldValuesCapacity = MaxOldValuesCapacity < 1 ? DEFAULT_OLD_VALUES_CAPACITY : lengthOfRemovedCache;
             Capacity =  capacity <= 0 ? DEFAULT_CAPACITY : capacity > MaxCapacity ? MaxCapacity : capacity;
             OnInit();
         }
@@ -72,16 +73,18 @@ namespace KrTrade.Nt.Core.Caches
     {
 
         private IList<T> _cache = new List<T>();
+        private bool _isOldValuesCacheRunning;
+        protected int OldValuesLength => Count < Capacity || Count > MaxLength ? 0 : MaxLength - Count;
 
         // ICache<T> implementation
-        public bool IsFull => Count >= Capacity;
+        public bool IsFull => Count > MaxLength;
         public T CurrentValue { get => _cache == null || Count == 0 ? default : _cache[0]; protected set => _cache[0] = value; }
         public void RemoveLastElement()
         {
-            if (Count > 0 && Count != Capacity)
+            if (_isOldValuesCacheRunning && Count > Capacity)
                 RemoveAt(0);
-            else 
-                throw new Exception("The cache cannot restore the element because the removed values cache is empty.");
+            else
+                throw new Exception("The cache cannot restore the last element removed because the old values cache is empty.");
         }
         public void Reset()
         {
@@ -136,7 +139,7 @@ namespace KrTrade.Nt.Core.Caches
             return GetEnumerator();
         }
         
-        // Private and protected members
+        // Private and protected methods
         protected abstract bool IsValidValue(T value);
         protected void Add(T item)
         {
@@ -144,12 +147,14 @@ namespace KrTrade.Nt.Core.Caches
         }
         private void Release()
         {
-            if (Count > Capacity)
+            if (Count > MaxLength)
                 RemoveAt(Count - 1);
         }
         private void Insert(int index, T item)
         {
             _cache.Insert(index, item);
+            if(!_isOldValuesCacheRunning && Count > Capacity)
+                _isOldValuesCacheRunning = true;
             OnElementAdded(CurrentValue);
             Release();
         }
@@ -158,11 +163,10 @@ namespace KrTrade.Nt.Core.Caches
             T removedItem = this[index];
             _cache.RemoveAt(index);
             if (index == 0)
-                OnLastElementRemoved();
+                OnLastElementRemoved(removedItem);
             else
                 OnElementRemoved(removedItem);
         }
-        //protected int MaxPeriod => int.MaxValue - Displacement - LengthOfRemovedValuesCache;
         protected bool IsValidIndex(int barsAgo) => _cache != null && barsAgo >= 0 && barsAgo < Count;
         protected bool IsValidIndex(int barsAgo, int period)
         {
@@ -174,6 +178,7 @@ namespace KrTrade.Nt.Core.Caches
             if (initialBarsAgo > finalBarsAgo) return false;
             return IsValidIndex(initialBarsAgo) && IsValidIndex(finalBarsAgo);
         }
+        //protected int MaxPeriod => int.MaxValue - Displacement - LengthOfRemovedValuesCache;
 
         ///// <summary>
         ///// Create <see cref="ICache{T}"/> instance.
@@ -193,8 +198,7 @@ namespace KrTrade.Nt.Core.Caches
         /// and when pass <paramref name="capacity"/> grater than 0, the <paramref name="capacity"/> will be the specified.
         /// </summary>
         /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        /// <param name="displacement">The displacement of <see cref="ICache{T}"/> respect the last element.</param>
-        protected Cache(int capacity = DEFAULT_CAPACITY, int lengthOfRemovedValuesCache = DEFAULT_LENGTH_REMOVED_CACHE) : base(capacity,lengthOfRemovedValuesCache)
+        protected Cache(int capacity = DEFAULT_CAPACITY, int lengthOfRemovedValuesCache = DEFAULT_OLD_VALUES_CAPACITY) : base(capacity,lengthOfRemovedValuesCache)
         {
         }
 
@@ -226,7 +230,8 @@ namespace KrTrade.Nt.Core.Caches
         /// <summary>
         /// An event driven method which is called whenever a last element of cache is removed.
         /// </summary>
-        protected virtual void OnLastElementRemoved()
+        /// <param name="removedElement">The removed element.</param>
+        protected virtual void OnLastElementRemoved(T removedElement)
         {
         }
     }

@@ -34,13 +34,13 @@ namespace KrTrade.Nt.Console.Console
                 op.CacheOptions.BarsIndex = 0;
             });
             bars
-            .AddService<CacheService<MaxCache>, CacheOptions>("MAX",(options) =>
+            .AddService<CacheService<MaxCache>, CacheServiceOptions>("MAX",(options) =>
             {
                 options.IsLogEnable = true;
                 options.Period = 5;
                 options.Displacement = 0;
             },bars.Ninjascript.High)
-            .AddService<CacheService<MaxCache>, CacheOptions>("MIN",(options) =>
+            .AddService<CacheService<MaxCache>, CacheServiceOptions>("MIN",(options) =>
             {
                 options.IsLogEnable = true;
                 options.Period = 5;

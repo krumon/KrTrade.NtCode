@@ -6,7 +6,7 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Cache to store the lastest market high prices.
     /// </summary>
-    public class MinCache : CalculateCache
+    public class MinCache : IndicatorsCache
     {
 
         private double _lastMin;
@@ -20,10 +20,10 @@ namespace KrTrade.Nt.Services
         /// <param name="input">The <see cref="IBarsService"/> instance used to gets <see cref="NinjaScriptBase"/> object necesary for <see cref="MinCache"/>.</param>
         /// <param name="period">The period to calculate the cache values.</param>
         /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        /// <param name="lengthOfRemovedCache">The length of the removed values cache. This values are at the end of cache.</param>
+        /// <param name="lengthOfRemovedCache">The length of the old values cache. This values are at the end of cache.</param>
         /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
         /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public MinCache(IBarsService input, int period, int capacity = DEFAULT_CAPACITY, int lengthOfRemovedCache = DEFAULT_LENGTH_REMOVED_CACHE, int barsIndex = 0) : this(input?.Ninjascript.Lows[barsIndex], period, capacity, lengthOfRemovedCache)
+        public MinCache(IBarsService input, int period, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : this(input?.Ninjascript.Lows[barsIndex], period, capacity, oldValuesCapacity)
         {
         }
         /// <summary>
@@ -32,10 +32,10 @@ namespace KrTrade.Nt.Services
         /// <param name="input">The <see cref="NinjaScriptBase"/> instance used to gets elements for <see cref="MinCache"/>.</param>
         /// <param name="period">The period to calculate the cache values.</param>
         /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        /// <param name="lengthOfRemovedCache">The length of the removed values cache. This values are at the end of cache.</param>
+        /// <param name="lengthOfRemovedCache">The length of the old values cache. This values are at the end of cache.</param>
         /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
         /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public MinCache(NinjaScriptBase input, int period, int capacity = DEFAULT_CAPACITY, int lengthOfRemovedCache = DEFAULT_LENGTH_REMOVED_CACHE, int barsIndex = 0) : this(input?.Lows[barsIndex], period, capacity, lengthOfRemovedCache)
+        public MinCache(NinjaScriptBase input, int period, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : this(input?.Lows[barsIndex], period, capacity, oldValuesCapacity)
         {
         }
         /// <summary>
@@ -44,14 +44,14 @@ namespace KrTrade.Nt.Services
         /// <param name="input">The <see cref="ISeries{double}"/> instance used to gets elements for <see cref="MinCache"/>.</param>
         /// <param name="period">The period to calculate the cache values.</param>
         /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        /// <param name="lengthOfRemovedCache">The length of the removed values cache. This values are at the end of cache.</param>
+        /// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
         /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public MinCache(ISeries<double> input, int period, int capacity = DEFAULT_CAPACITY, int lengthOfRemovedCache = DEFAULT_LENGTH_REMOVED_CACHE) : base(input, period, capacity, lengthOfRemovedCache)
+        public MinCache(ISeries<double> input, int period, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY) : base(input, period, capacity, oldValuesCapacity)
         {
         }
 
         public override string Name => $"Min({Period})";
-        protected override void OnLastElementRemoved()
+        protected override void OnLastElementRemoved(double removedValue)
         {
             if (Count == 0)
             {
