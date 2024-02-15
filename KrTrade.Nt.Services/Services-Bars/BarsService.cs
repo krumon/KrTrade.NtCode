@@ -38,8 +38,8 @@ namespace KrTrade.Nt.Services
         #region Public properties
 
         public int Index { get; protected set; } = 0;
-        public int CachePeriod => Options.CacheOptions.Period;
-        public int CacheDisplacement => Options.CacheOptions.Displacement;
+        //public int CachePeriod => Options.CacheOptions.Period;
+        //public int CacheDisplacement => Options.CacheOptions.Displacement;
         public Bar CurrentBar => _cache.GetBar(0);  //_currentBar;
         //public IBarsCacheService Series => (IBarsCacheService)_svcs[Series_];
         public IBarsCacheService Series => Get<BarsCacheService>("Series");
@@ -69,32 +69,32 @@ namespace KrTrade.Nt.Services
 
         #region Constructors
 
-        public BarsService(NinjaScriptBase ninjascript) : this(ninjascript, null, Cache.DEFAULT_PERIOD, Cache.DEFAULT_DISPLACEMENT) { }
-        public BarsService(NinjaScriptBase ninjascript, IPrintService printService) : this(ninjascript, printService, Cache.DEFAULT_PERIOD, Cache.DEFAULT_DISPLACEMENT) { }
-        public BarsService(NinjaScriptBase ninjascript, IPrintService printService, int period) : this(ninjascript, printService, period, Cache.DEFAULT_DISPLACEMENT) { }
-        public BarsService(NinjaScriptBase ninjascript, IPrintService printService, int period, int displacement) : base(ninjascript, printService, null, new BarsOptions())
+        public BarsService(NinjaScriptBase ninjascript) : this(ninjascript, null, Cache.DEFAULT_CAPACITY, Cache.DEFAULT_OLD_VALUES_CAPACITY) { }
+        public BarsService(NinjaScriptBase ninjascript, IPrintService printService) : this(ninjascript, printService, Cache.DEFAULT_CAPACITY, Cache.DEFAULT_OLD_VALUES_CAPACITY) { }
+        public BarsService(NinjaScriptBase ninjascript, IPrintService printService, int cacheCapacity) : this(ninjascript, printService, cacheCapacity, Cache.DEFAULT_OLD_VALUES_CAPACITY) { }
+        public BarsService(NinjaScriptBase ninjascript, IPrintService printService, int cacheCapacity, int oldValuesCacheCapacity) : base(ninjascript, printService, null, new BarsOptions())
         {
-            Options.CacheOptions.Period = period;
-            Options.CacheOptions.Displacement = displacement;
-            AddService<BarsCacheService, CacheServiceOptions>("Series", Options.CacheOptions);
+            Options.CacheServiceOptions.Capacity = cacheCapacity;
+            Options.CacheServiceOptions.OldValuesCapacity = oldValuesCacheCapacity;
+            AddService<BarsCacheService, CacheServiceOptions>("Series", Options.CacheServiceOptions);
         }
 
         public BarsService(NinjaScriptBase ninjascript, IPrintService printService, IConfigureOptions<BarsOptions> configureOptions) : base(ninjascript, printService, configureOptions) 
         {
             Options = new BarsOptions();
             configureOptions?.Configure(Options);
-            AddService<BarsCacheService,CacheServiceOptions>("Series",Options.CacheOptions);
+            AddService<BarsCacheService,CacheServiceOptions>("Series",Options.CacheServiceOptions);
         }
         public BarsService(NinjaScriptBase ninjascript, IPrintService printService, Action<BarsOptions> configureOptions) : base(ninjascript, printService, configureOptions,null)
         {
             Options = new BarsOptions();
             configureOptions?.Invoke(Options);
-            AddService<BarsCacheService, CacheServiceOptions>("Series", Options.CacheOptions);
+            AddService<BarsCacheService, CacheServiceOptions>("Series", Options.CacheServiceOptions);
         }
         public BarsService(NinjaScriptBase ninjascript, IPrintService printService, BarsOptions options) : base(ninjascript, printService, null,options)
         {
             Options = options ?? new BarsOptions();
-            AddService<BarsCacheService, CacheServiceOptions>("Series", Options.CacheOptions);
+            AddService<BarsCacheService, CacheServiceOptions>("Series", Options.CacheServiceOptions);
         }
 
         #endregion
@@ -194,7 +194,7 @@ namespace KrTrade.Nt.Services
             where TOptions : BarUpdateServiceOptions, new()
         {
             if (options == null)
-                options = new TOptions() { Period = CachePeriod, Displacement = CacheDisplacement };
+                options = new TOptions() {  };
 
             IBarUpdateService service = CreateBarUpdateService<TService, TOptions>(options,input1,input2) ??
                 throw new Exception("El servicio no se puede añadir porque su valor es 'NULL'.");
@@ -438,9 +438,9 @@ namespace KrTrade.Nt.Services
             if (options == null)
                 options = new TOptions()
                 {
-                    Period = CachePeriod,
-                    Displacement = CacheDisplacement,
-                    LengthOfRemovedValuesCache = Cache.DEFAULT_OLD_VALUES_CAPACITY,
+                    //Period = CachePeriod,
+                    //Displacement = CacheDisplacement,
+                    //LengthOfRemovedValuesCache = Cache.DEFAULT_OLD_VALUES_CAPACITY,
                     BarsIndex = 0,
                 };
             if ((type == typeof(BarsCacheService) || type == typeof(IBarsCacheService)))

@@ -10,17 +10,17 @@
         {
         }
 
-        public StatsService(IBarsService barsService, int period) : base(barsService, period)
-        {
-        }
+        //public StatsService(IBarsService barsService, int period) : base(barsService, period)
+        //{
+        //}
 
-        public StatsService(IBarsService barsService, int period, int displacement) : base(barsService, period, displacement)
-        {
-        }
+        //public StatsService(IBarsService barsService, int period, int displacement) : base(barsService, period, displacement)
+        //{
+        //}
 
-        public StatsService(IBarsService barsService, int period, int displacement, int lengthOfRemovedValues) : base(barsService, period, displacement, lengthOfRemovedValues)
-        {
-        }
+        //public StatsService(IBarsService barsService, int period, int displacement, int lengthOfRemovedValues) : base(barsService, period, displacement, lengthOfRemovedValues)
+        //{
+        //}
 
         //public BaseSeriesCache Value => throw new System.NotImplementedException();
 

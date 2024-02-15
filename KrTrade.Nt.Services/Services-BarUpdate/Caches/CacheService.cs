@@ -14,13 +14,13 @@ namespace KrTrade.Nt.Services
 
         private readonly object _input1;
         private readonly object _input2;
-        protected IBarUpdateCache _cache;
+        //protected IBarUpdateCache _cache;
 
         #endregion
 
         #region Public properties
 
-        //public TCache _cache { get; private set; }
+        public TCache _cache { get; private set; }
 
         /// <summary>
         /// Gets the element of a sepecific index.
@@ -53,7 +53,7 @@ namespace KrTrade.Nt.Services
         /// </summary>
         /// <param name="barsService">The <see cref="IBarsService"/> necesary for updated <see cref="BaseCacheService"/>.</param>
         /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        public CacheService(IBarsService barsService) : this(barsService,null,null,barsService.Options.CacheOptions.Period, barsService.Options.CacheOptions.Displacement, barsService.Options.CacheOptions.LengthOfRemovedValuesCache, barsService.Options.CacheOptions.BarsIndex)
+        public CacheService(IBarsService barsService) : this(barsService,null,null,barsService.Options.CacheServiceOptions.Capacity, barsService.Options.CacheServiceOptions.OldValuesCapacity, barsService.Options.CacheServiceOptions.BarsIndex)
         {
         }
 
@@ -63,7 +63,7 @@ namespace KrTrade.Nt.Services
         /// <param name="barsService">The <see cref="IBarsService"/> necesary for updated <see cref="BaseCacheService"/>.</param>
         /// <param name="input">The input series necesary for calculate the new elements of the <see cref="CacheService{TCache}"/></param>
         /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        public CacheService(IBarsService barsService, object input) : this(barsService,null,null,barsService.Options.CacheOptions.Period, barsService.Options.CacheOptions.Displacement, barsService.Options.CacheOptions.LengthOfRemovedValuesCache, barsService.Options.CacheOptions.BarsIndex)
+        public CacheService(IBarsService barsService, object input) : this(barsService,null,null,barsService.Options.CacheServiceOptions.Capacity, barsService.Options.CacheServiceOptions.OldValuesCapacity, barsService.Options.CacheServiceOptions.BarsIndex)
         {
             _input1 = input ?? barsService.Ninjascript;
         }
@@ -100,10 +100,15 @@ namespace KrTrade.Nt.Services
         /// <param name="input2">Second input series necesary for calculate the new elements of the <see cref="CacheService{TCache}"/></param>
         /// <param name="period">The specified period.</param>
         /// <param name="displacement">The displacement respect the input series.</param>
-        /// <param name="lengthOfRemovedValuesCache">The length of the removed values cache.</param>
+        /// <param name="oldValuesCache">The length of the removed values cache.</param>
         /// <param name="barsIndex">The index of the 'NijaScript.Bars' used to get the cache elements.</param>
         /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        public CacheService(IBarsService barsService, object input1, object input2 = null, int period = Cache.DEFAULT_PERIOD, int displacement = Cache.DEFAULT_DISPLACEMENT,int lengthOfRemovedValuesCache = Cache.DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : base(barsService,period,displacement,lengthOfRemovedValuesCache,barsIndex)
+        public CacheService(IBarsService barsService, object input1, object input2 = null, int capacity = Cache.DEFAULT_CAPACITY, int oldValuesCache = Cache.DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : base(barsService, new CacheServiceOptions()
+        {
+            Capacity = capacity,
+            OldValuesCapacity = oldValuesCache,
+            BarsIndex = barsIndex
+        })
         {
             _input1 = input1 ?? (input2 ?? barsService.Ninjascript);
             _input2 = input2;
@@ -120,7 +125,7 @@ namespace KrTrade.Nt.Services
         }
         internal override void DataLoaded(out bool isDataLoaded)
         {
-            _cache = (TCache)GetCache(_input1,_input2, Options.OldValuesCapacity, Options.BarsIndex);
+            _cache = (TCache)GetCache(_input1,_input2, Options.OldValuesCapacity,Options.OldValuesCapacity, Options.BarsIndex);
             isDataLoaded = true;
         }
         public override void Update()

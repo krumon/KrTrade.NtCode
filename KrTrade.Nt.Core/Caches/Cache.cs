@@ -20,9 +20,9 @@ namespace KrTrade.Nt.Core.Caches
         //public int Period { get; protected set; }
         //public int Displacement { get; protected set; }
         public int Capacity { get; protected set; }
-        public int MaxOldValuesCapacity { get; protected set; }
-        protected int MaxCapacity => int.MaxValue - MaxOldValuesCapacity;
-        protected int MaxLength => Capacity + MaxOldValuesCapacity;
+        public int OldValuesCapacity { get; protected set; }
+        protected int MaxCapacity => int.MaxValue - OldValuesCapacity;
+        protected int MaxLength => Capacity + OldValuesCapacity;
 
         ///// <summary>
         ///// Create <see cref="ICache{T}"/> instance.
@@ -41,15 +41,15 @@ namespace KrTrade.Nt.Core.Caches
         //}
 
         /// <summary>
-        /// Create <see cref="ICache{T}"/> instance with specified <paramref name="capacity"/> and <paramref name="lengthOfRemovedCache"/>.
+        /// Create <see cref="ICache{T}"/> instance with specified <paramref name="capacity"/> and <paramref name="oldValuesCapacity"/>.
         /// When pass <paramref name="capacity"/> minor or equal than 0, the <paramref name="capacity"/> will be DEFAULT (20),
         /// and when pass <paramref name="capacity"/> grater than 0, the <paramref name="capacity"/> will be the specified.
         /// </summary>
         /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        /// <param name="lengthOfRemovedCache">The length of the removed values cache. This values are at the end of cache.</param>
-        protected Cache(int capacity,int lengthOfRemovedCache = DEFAULT_OLD_VALUES_CAPACITY)
+        /// <param name="oldValuesCapacity">The length of the removed values cache. This values are at the end of cache.</param>
+        protected Cache(int capacity,int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY)
         {
-            MaxOldValuesCapacity = MaxOldValuesCapacity < 1 ? DEFAULT_OLD_VALUES_CAPACITY : lengthOfRemovedCache;
+            OldValuesCapacity = OldValuesCapacity < 1 ? DEFAULT_OLD_VALUES_CAPACITY : oldValuesCapacity;
             Capacity =  capacity <= 0 ? DEFAULT_CAPACITY : capacity > MaxCapacity ? MaxCapacity : capacity;
             OnInit();
         }
@@ -193,12 +193,12 @@ namespace KrTrade.Nt.Core.Caches
         //}
 
         /// <summary>
-        /// Create <see cref="ICache{T}"/> instance with specified <paramref name="capacity"/> and <paramref name="lengthOfRemovedValuesCache"/>.
+        /// Create <see cref="ICache{T}"/> instance with specified <paramref name="capacity"/> and <paramref name="oldValuesCapacity"/>.
         /// When pass <paramref name="capacity"/> minor or equal than 0, the <paramref name="capacity"/> will be DEFAULT (20),
         /// and when pass <paramref name="capacity"/> grater than 0, the <paramref name="capacity"/> will be the specified.
         /// </summary>
         /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        protected Cache(int capacity = DEFAULT_CAPACITY, int lengthOfRemovedValuesCache = DEFAULT_OLD_VALUES_CAPACITY) : base(capacity,lengthOfRemovedValuesCache)
+        protected Cache(int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY) : base(capacity,oldValuesCapacity)
         {
         }
 

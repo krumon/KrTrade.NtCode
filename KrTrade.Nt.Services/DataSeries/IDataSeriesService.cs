@@ -48,15 +48,15 @@ namespace KrTrade.Nt.Services
         /// </summary>
         int Idx { get; }
 
-        /// <summary>
-        /// Gets the last bar of the bars in progress.
-        /// </summary>
-        LastBarService LastBar { get; }
+        ///// <summary>
+        ///// Gets the last bar of the bars in progress.
+        ///// </summary>
+        //LastBarService LastBar { get; }
 
-        /// <summary>
-        /// Gets the last bar of the bars in progress.
-        /// </summary>
-        LastBarService CurrentBar { get; }
+        ///// <summary>
+        ///// Gets the last bar of the bars in progress.
+        ///// </summary>
+        //LastBarService CurrentBar { get; }
 
     }
 }

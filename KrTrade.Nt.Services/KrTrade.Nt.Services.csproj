@@ -51,13 +51,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core-Caches\Indicators\AvgCache.cs" />
+    <Compile Include="Core-Caches\Stats\AvgCache.cs" />
     <Compile Include="Core-Caches\Series\SeriesCache.cs" />
     <Compile Include="Core-Caches\_Base\IndicatorsCache.cs" />
-    <Compile Include="Core-Caches\_Interfaces\IBarsSeriesCache.cs" />
-    <Compile Include="Core-Caches\_Interfaces\IBarsCache.cs" />
-    <Compile Include="Core-Caches\Indicators\MinCache.cs" />
-    <Compile Include="Core-Caches\Indicators\MaxCache.cs" />
+    <Compile Include="Core-Caches\Bars\IBarsSeriesCache.cs" />
+    <Compile Include="Core-Caches\Bars\IBarsCache.cs" />
+    <Compile Include="Core-Caches\Stats\MinCache.cs" />
+    <Compile Include="Core-Caches\Stats\MaxCache.cs" />
     <Compile Include="Core-Caches\Series\IndexCache.cs" />
     <Compile Include="Core-Caches\Series\TicksCache.cs" />
     <Compile Include="Core-Caches\Series\TimeCache.cs" />
@@ -67,8 +67,8 @@
     <Compile Include="Core-Caches\_Base\LongCache.cs" />
     <Compile Include="Core-Caches\_Base\IntCache.cs" />
     <Compile Include="Core-Caches\_Interfaces\IMarketDataCache.cs" />
-    <Compile Include="Core-Caches\_Interfaces\IBarUpdateCache.cs" />
-    <Compile Include="Core-Caches\_Interfaces\IPeriodCache.cs" />
+    <Compile Include="Core-Caches\Bars\IBarUpdateCache.cs" />
+    <Compile Include="Core-Caches\Stats\IStatsCache.cs" />
     <Compile Include="Core-Caches\_Interfaces\INumericCache.cs" />
     <Compile Include="Core-Caches\_Interfaces\IValueCache.cs" />
     <Compile Include="Core-Caches\_Base\DoubleCache.cs" />
@@ -76,7 +76,7 @@
     <Compile Include="Core-Caches\_Base\NinjaCache.cs" />
     <Compile Include="Core-Caches\_Interfaces\INinjaCache.cs" />
     <Compile Include="Core-Caches\Series\RangeCache.cs" />
-    <Compile Include="Core-Caches\Indicators\SumCache.cs" />
+    <Compile Include="Core-Caches\Stats\SumCache.cs" />
     <Compile Include="Services-Bars\BarsOptions.cs" />
     <Compile Include="Services-Bars\IBarsService.cs" />
     <Compile Include="Core-Caches\Bars\BarsCache.cs" />
@@ -176,9 +176,9 @@
     <Compile Include="Sessions\IOnSessionUpdateService.cs" />
     <Compile Include="DI\ServicesHost\NinjaHostOptions.cs" />
     <Compile Include="DataSeries\DataSeriesCollectionOptions.cs" />
-    <Compile Include="Services-BarUpdate\Bar\BarOptions.cs" />
-    <Compile Include="Services-BarUpdate\Bar\BarService.cs" />
-    <Compile Include="Services-BarUpdate\Bar\LastBarService.cs" />
+    <Compile Include="Services-BarUpdate\Bars\BarOptions.cs" />
+    <Compile Include="Services-BarUpdate\Bars\BarService.cs" />
+    <Compile Include="Services-BarUpdate\Bars\LastBarService.cs" />
     <Compile Include="DataSeries\DataSeriesOptions.cs" />
     <Compile Include="DataSeries\DataSeriesCollectionService.cs" />
     <Compile Include="Services-BarUpdate\Caches\CacheService.cs" />

@@ -22,7 +22,7 @@ namespace KrTrade.Nt.Core.Caches
         /// <summary>
         /// Gets the number of elements to store in cache, before will be removed forever.
         /// </summary>
-        int MaxOldValuesCapacity { get; }
+        int OldValuesCapacity { get; }
 
     }
     public interface ICache<T> : ICache, ISeries<T>

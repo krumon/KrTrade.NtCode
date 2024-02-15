@@ -20,15 +20,15 @@ namespace KrTrade.Nt.Services
         /// </summary>
         int Index { get; }
 
-        /// <summary>
-        /// Gets <see cref="ICache{T}"/> period.
-        /// </summary>
-        int CachePeriod { get; }
+        ///// <summary>
+        ///// Gets <see cref="ICache{T}"/> period.
+        ///// </summary>
+        //int CachePeriod { get; }
 
-        /// <summary>
-        /// Gets the displacement of <see cref="ICache{T}"/> respect NinjaScript <see cref="ISeries{double}"/>.
-        /// </summary>
-        int CacheDisplacement { get; }
+        ///// <summary>
+        ///// Gets the displacement of <see cref="ICache{T}"/> respect NinjaScript <see cref="ISeries{double}"/>.
+        ///// </summary>
+        //int CacheDisplacement { get; }
 
         /// <summary>
         /// Indicates <see cref="IBarsService"/> is updated.

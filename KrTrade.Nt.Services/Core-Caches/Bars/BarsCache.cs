@@ -10,14 +10,14 @@ namespace KrTrade.Nt.Services
 
         #region Public properties
 
-        public IndexCache Index { get; private set; }
-        public TimeCache Time { get; private set; }
+        public IndexCache Index { get; set; }
+        public TimeCache Time { get; set; }
         public SeriesCache Open {  get; private set; }
         public SeriesCache High {  get; private set; }
         public SeriesCache Low {  get; private set; }
         public SeriesCache Close {  get; private set; }
         public SeriesCache Volume {  get; private set; }
-        public TicksCache Ticks { get; private set; }
+        public TicksCache Ticks { get; protected set; }
 
         #endregion
 

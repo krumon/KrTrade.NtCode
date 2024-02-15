@@ -28,23 +28,20 @@ namespace KrTrade.Nt.Console.Console
             {
                 op.IsEnable = true;
                 op.IsLogEnable = true;
-                op.CacheOptions.Period = 14;
-                op.CacheOptions.Displacement = 0;
-                op.CacheOptions.LengthOfRemovedValuesCache = 1;
-                op.CacheOptions.BarsIndex = 0;
+                op.CacheServiceOptions.Capacity = 14;
+                op.CacheServiceOptions.OldValuesCapacity = 1;
+                op.CacheServiceOptions.BarsIndex = 0;
             });
             bars
             .AddService<CacheService<MaxCache>, CacheServiceOptions>("MAX",(options) =>
             {
                 options.IsLogEnable = true;
-                options.Period = 5;
-                options.Displacement = 0;
+                options.Capacity = 5;
             },bars.Ninjascript.High)
             .AddService<CacheService<MaxCache>, CacheServiceOptions>("MIN",(options) =>
             {
                 options.IsLogEnable = true;
-                options.Period = 5;
-                options.Displacement = 0;
+                options.Capacity = 5;
             });
 
             bars.Configure();

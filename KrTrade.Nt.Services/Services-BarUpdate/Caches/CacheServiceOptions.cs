@@ -5,49 +5,26 @@ namespace KrTrade.Nt.Services
     public class CacheServiceOptions : BarUpdateServiceOptions
     {
 
-        private int _capacity;
-        private int _displacement;
+        /// <summary>
+        /// Gets the maximum values to store in cache.
+        /// </summary>
+        public int Capacity { get; set; }
 
         /// <summary>
-        /// Tha maximum cache capacity.
+        /// Gets the maximum old values to store in cache.
         /// </summary>
-        public const int MaxCapacity = 255;
+        public int OldValuesCapacity { get; set; }
 
-        /// <summary>
-        /// Represents the cache capacity.
-        /// </summary>
-        public int Capacity 
-        {
-            get => _capacity;
-            set
-            {
-                if (_capacity == value) return;
+        ///// <summary>
+        ///// Gets <see cref="ICache{T}"/> period.
+        ///// </summary>
+        //int Period { get; }
 
-                if (value <= 0)
-                    throw new ArgumentOutOfRangeException("The cache capacity must be greater than 0.");
-                if (value > MaxCapacity)
-                    throw new ArgumentOutOfRangeException("The cache capacity must be minor than 'NinjaScript.MaximumBarsLookUp'(256).");
-                _capacity = value;
-            }
-        }
+        ///// <summary>
+        ///// Gets the displacement of <see cref="ICache{T}"/> respect NinjaScript <see cref="ISeries{double}"/>.
+        ///// </summary>
+        //int Displacement { get; }
 
-        /// <summary>
-        /// Represents the next value displacement in NinjaScript Series.
-        /// </summary>
-        public int Displacement
-        {
-            get => _capacity;
-            set
-            {
-                if (_displacement == value) return;
 
-                if (_displacement < 0)
-                    throw new ArgumentOutOfRangeException("The displacement must be greater or equal to 0.");
-                if (value > MaxCapacity)
-                    throw new ArgumentOutOfRangeException("The displacement must be minor than 'NinjaScript.MaximumBarsLookUp'(256).");
-
-                _displacement = value;
-            }
-        }
     }
 }

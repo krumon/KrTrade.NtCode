@@ -1,6 +1,6 @@
 ﻿namespace KrTrade.Nt.Services
 {
-    public interface IPeriodCache
+    public interface IStatsCache
     {
 
         /// <summary>

@@ -14,9 +14,9 @@ namespace KrTrade.Nt.Services
 
         #region Private members
 
-        // Last and current Bar
-        private LastBarService _lastBar;
-        private LastBarService _currentBar;
+        //// Last and current Bar
+        //private LastBarService _lastBar;
+        //private LastBarService _currentBar;
         // State
         private Dictionary<BarEvent, bool> _barsEvents;
         // Logging
@@ -60,15 +60,15 @@ namespace KrTrade.Nt.Services
         /// </summary>
         public int Idx { get; private set; }
 
-        /// <summary>
-        /// Gets the last bar of the bars in progress.
-        /// </summary>
-        public LastBarService LastBar => _lastBar;
+        ///// <summary>
+        ///// Gets the last bar of the bars in progress.
+        ///// </summary>
+        //public LastBarService LastBar => _lastBar;
 
-        /// <summary>
-        /// Gets the last bar of the bars in progress.
-        /// </summary>
-        public LastBarService CurrentBar => _currentBar;
+        ///// <summary>
+        ///// Gets the last bar of the bars in progress.
+        ///// </summary>
+        //public LastBarService CurrentBar => _currentBar;
 
         #endregion
 
@@ -217,7 +217,7 @@ namespace KrTrade.Nt.Services
 
         public void Update()
         {
-            _currentBar.Update();
+            //_currentBar.Update();
             ExecuteMethods(_updateMethods);
 
             //if (_currentBar.IsRemove)
