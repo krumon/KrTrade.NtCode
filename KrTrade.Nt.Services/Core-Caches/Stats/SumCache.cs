@@ -5,7 +5,7 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Cache to store the lastest summary prices for specified period.
     /// </summary>
-    public class SumCache : IndicatorsCache
+    public class SumCache : DoubleCache<ISeries<double>>
     {
         /// <summary>
         /// Create <see cref="SumCache"/> default instance with specified properties.
@@ -13,7 +13,7 @@ namespace KrTrade.Nt.Services
         /// <param name="input">The <see cref="IBarsService"/> instance used to gets <see cref="NinjaScriptBase"/> object necesary for <see cref="SumCache"/>.</param>
         /// <param name="period">The period to calculate the cache values.</param>
         /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        /// <param name="lengthOfRemovedCache">The length of the old values cache. This values are at the end of cache.</param>
+        /// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
         /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
         /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
         public SumCache(IBarsService input, int period, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : this(input?.Ninjascript.Inputs[barsIndex], period, capacity, oldValuesCapacity)

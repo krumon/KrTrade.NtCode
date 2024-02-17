@@ -16,11 +16,12 @@ namespace KrTrade.Nt.Services
         /// Create <see cref="RangeCache"/> default instance with specified properties.
         /// </summary>
         /// <param name="input">The <see cref="IBarsService"/> instance used to gets <see cref="NinjaScriptBase"/> object necesary for <see cref="RangeCache"/>.</param>
+        /// <param name="period">The specified period to calculate values in cache.</param>
         /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
         /// <param name="oldValuesCapacity">The length of the removed values cache. This values are at the end of cache.</param>
         /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
         /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public RangeCache(IBarsService input, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : this(input?.Ninjascript.Highs[barsIndex], input?.Ninjascript.Lows[barsIndex], capacity, oldValuesCapacity, barsIndex)
+        public RangeCache(IBarsService input, int period = 1, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : this(input?.Ninjascript.Highs[barsIndex], input?.Ninjascript.Lows[barsIndex], capacity, period, oldValuesCapacity, barsIndex)
         {
         }
 
@@ -28,11 +29,12 @@ namespace KrTrade.Nt.Services
         /// Create <see cref="RangeCache"/> default instance with specified properties.
         /// </summary>
         /// <param name="input">The <see cref="NinjaScriptBase"/> instance used to gets elements for <see cref="RangeCache"/>.</param>
+        /// <param name="period">The specified period to calculate values in cache.</param>
         /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
         /// <param name="oldValuesCapacity">The length of the removed values cache. This values are at the end of cache.</param>
         /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
         /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public RangeCache(NinjaScriptBase input, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : this(input?.Highs[barsIndex], input?.Lows[barsIndex], capacity, oldValuesCapacity, barsIndex)
+        public RangeCache(NinjaScriptBase input, int period = 1, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : this(input?.Highs[barsIndex], input?.Lows[barsIndex], capacity, period, oldValuesCapacity, barsIndex)
         {
         }
 
@@ -41,10 +43,12 @@ namespace KrTrade.Nt.Services
         /// </summary>
         /// <param name="input1">The high <see cref="ISeries{double}"/> series used to gets elements for <see cref="RangeCache"/>.</param>
         /// <param name="input2">The low <see cref="ISeries{double}"/> series used to gets elements for <see cref="RangeCache"/>.</param>
+        /// <param name="period">The specified period to calculate values in cache.</param>
         /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
         /// <param name="oldValuesCapacity">The length of the removed values cache. This values are at the end of cache.</param>
+        /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
         /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public RangeCache(ISeries<double> input1, ISeries<double> input2, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : base(input1, capacity, oldValuesCapacity, barsIndex)
+        public RangeCache(ISeries<double> input1, ISeries<double> input2, int period = 1, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : base(input1, capacity, period, oldValuesCapacity, barsIndex)
         {
             Input2 = input2 ?? throw new System.ArgumentNullException(nameof(input2));
         }

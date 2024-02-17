@@ -6,7 +6,7 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Cache to store the lastest average prices for specified period.
     /// </summary>
-    public class AvgCache : IndicatorsCache
+    public class AvgCache : DoubleCache<ISeries<double>>
     {
         private readonly SumCache _sumCache;
 

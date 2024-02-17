@@ -6,7 +6,7 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Cache to store the lastest market high prices.
     /// </summary>
-    public class MaxCache : IndicatorsCache
+    public class MaxCache : DoubleCache<ISeries<double>>
     {
 
         private double _lastMax;
@@ -32,7 +32,7 @@ namespace KrTrade.Nt.Services
         /// <param name="input">The <see cref="NinjaScriptBase"/> instance used to gets elements for <see cref="MaxCache"/>.</param>
         /// <param name="period">The period to calculate the cache values.</param>
         /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        /// <param name="lengthOfRemovedCache">The length of the old values cache. This values are at the end of cache.</param>
+        /// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
         /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
         /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
         public MaxCache(NinjaScriptBase input, int period, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : this(input?.Highs[barsIndex], period, capacity, oldValuesCapacity)

@@ -15,5 +15,10 @@ namespace KrTrade.Nt.Services
         /// </summary>
         TInput Input { get; }
 
+        /// <summary>
+        /// Gets the period of cache.
+        /// </summary>
+        int Period { get; }
+
     }
 }

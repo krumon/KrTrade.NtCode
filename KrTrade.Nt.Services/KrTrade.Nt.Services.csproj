@@ -53,7 +53,6 @@
   <ItemGroup>
     <Compile Include="Core-Caches\Stats\AvgCache.cs" />
     <Compile Include="Core-Caches\Series\SeriesCache.cs" />
-    <Compile Include="Core-Caches\_Base\IndicatorsCache.cs" />
     <Compile Include="Core-Caches\Bars\IBarsSeriesCache.cs" />
     <Compile Include="Core-Caches\Bars\IBarsCache.cs" />
     <Compile Include="Core-Caches\Stats\MinCache.cs" />
@@ -62,16 +61,16 @@
     <Compile Include="Core-Caches\Series\TicksCache.cs" />
     <Compile Include="Core-Caches\Series\TimeCache.cs" />
     <Compile Include="Core-Caches\Series\VolumeCache.cs" />
-    <Compile Include="Core-Caches\_Base\DateTimeCache.cs" />
+    <Compile Include="Core-Caches\_Base\DateTimes\DateTimeCache.cs" />
     <Compile Include="Core-Caches\_Interfaces\IDateTimeCache.cs" />
-    <Compile Include="Core-Caches\_Base\LongCache.cs" />
-    <Compile Include="Core-Caches\_Base\IntCache.cs" />
+    <Compile Include="Core-Caches\_Base\Numerics\LongCache.cs" />
+    <Compile Include="Core-Caches\_Base\Numerics\IntCache.cs" />
     <Compile Include="Core-Caches\_Interfaces\IMarketDataCache.cs" />
     <Compile Include="Core-Caches\Bars\IBarUpdateCache.cs" />
     <Compile Include="Core-Caches\Stats\IStatsCache.cs" />
     <Compile Include="Core-Caches\_Interfaces\INumericCache.cs" />
     <Compile Include="Core-Caches\_Interfaces\IValueCache.cs" />
-    <Compile Include="Core-Caches\_Base\DoubleCache.cs" />
+    <Compile Include="Core-Caches\_Base\Numerics\DoubleCache.cs" />
     <Compile Include="Core-Caches\_Base\ValueCache.cs" />
     <Compile Include="Core-Caches\_Base\NinjaCache.cs" />
     <Compile Include="Core-Caches\_Interfaces\INinjaCache.cs" />

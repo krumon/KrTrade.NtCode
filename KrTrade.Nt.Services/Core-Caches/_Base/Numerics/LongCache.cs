@@ -5,34 +5,36 @@ using System.Linq;
 
 namespace KrTrade.Nt.Services
 {
-    public abstract class IntCache<TInput> : ValueCache<int,TInput>, INumericCache<int,TInput>
+    public abstract class LongCache<TInput> : ValueCache<long,TInput>, INumericCache<long,TInput>
     {
         /// <summary>
         /// Create <see cref="IntCache{TInput}"/> default instance with specified properties.
         /// </summary>
         /// <param name="input">The object instance used to gets elements for <see cref="IntCache{TInput}"/>.</param>
+        /// <param name="period">The specified period to calculate values in cache.</param>
         /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
+        /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
         /// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        protected IntCache(TInput input, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : base(input, capacity, oldValuesCapacity, barsIndex)
+        protected LongCache(TInput input, int period = 1, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : base(input, capacity, period, oldValuesCapacity, barsIndex)
         {
         }
 
-        public int Max(int displacement = 0, int period = 1)
+        public long Max(int displacement = 0, int period = 1)
         {
             IsValidIndex(displacement, period);
 
-            int value = int.MinValue;
+            long value = long.MinValue;
             for (int i = displacement; i < displacement + period; i++)
                 value = Math.Max(value, this[i]);
 
             return value;
         }
-        public int Min(int displacement = 0, int period = 1)
+        public long Min(int displacement = 0, int period = 1)
         {
             IsValidIndex(displacement, period);
 
-            int value = int.MaxValue;
+            long value = long.MaxValue;
 
             for (int i = displacement; i < displacement + period; i++)
             {
@@ -40,11 +42,11 @@ namespace KrTrade.Nt.Services
             }
             return value;
         }
-        public int Sum(int displacement = 0, int period = 1)
+        public long Sum(int displacement = 0, int period = 1)
         {
             IsValidIndex(displacement, period);
 
-            int sum = 0;
+            long sum = 0;
 
             for (int i = displacement; i < displacement + period; i++)
             {
@@ -72,14 +74,14 @@ namespace KrTrade.Nt.Services
         public double[] Quartils(int displacement = 0, int period = 1)
         {
             IsValidIndex(displacement, period);
-            int[] rangeCache = new int[period];
+            long[] rangeCache = new long[period];
             int count = 0;
             for (int i = displacement; i < displacement + period; i++)
             {
                 rangeCache[count] = this[i];
                 count++;
             }
-            IList<int> sortedCache = rangeCache.OrderBy(x => x).ToList();
+            IList<long> sortedCache = rangeCache.OrderBy(x => x).ToList();
             double[] quartils = new double[3];
             for (int i = 1; i <= 3; i++)
             {
@@ -106,17 +108,17 @@ namespace KrTrade.Nt.Services
             return quartils[2] - quartils[0];
         }
         
-        public int Range(int displacement = 0, int period = 1)
+        public long Range(int displacement = 0, int period = 1)
         {
             return Max(displacement, period) - Min(displacement, period);
         }
-        public int SwingHigh(int displacement = 0, int strength = 4)
+        public long SwingHigh(int displacement = 0, int strength = 4)
         {
             int numOfBars = (strength * 2) + 1;
             IsValidIndex(displacement, numOfBars);
 
             bool isSwingHigh = true;
-            int candidateValue = this[displacement + strength];
+            long candidateValue = this[displacement + strength];
             for (int i = displacement + numOfBars - 1; i > displacement + strength; i--)
                 if (candidateValue <= this[i])
                 {
@@ -132,13 +134,13 @@ namespace KrTrade.Nt.Services
 
             return isSwingHigh ? candidateValue : -1;
         }
-        public int SwingLow(int displacement = 0, int strength = 4)
+        public long SwingLow(int displacement = 0, int strength = 4)
         {
             int numOfBars = (strength * 2) + 1;
             IsValidIndex(displacement, numOfBars);
 
             bool isSwingLow = true;
-            int candidateValue = this[displacement + strength];
+            long candidateValue = this[displacement + strength];
             for (int i = displacement + numOfBars - 1; i > displacement + strength; i--)
                 if (candidateValue >= this[i])
                 {
@@ -155,7 +157,8 @@ namespace KrTrade.Nt.Services
             return isSwingLow ? candidateValue : -1;
         }
 
-        protected sealed override bool IsValidValue(int value) => value > 0;
+        protected sealed override bool IsValidValue(long value) => value > 0;
+
         public override string ToString() => $"{Name}[0]: {this[0]:#,0.##}";
     }
 }
