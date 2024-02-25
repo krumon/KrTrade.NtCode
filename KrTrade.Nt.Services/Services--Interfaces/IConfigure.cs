@@ -10,5 +10,10 @@
         /// </summary>
         void Configure();
 
+        /// <summary>
+        /// Indicates the service is configure.
+        /// </summary>
+        bool IsConfigure {  get; }
+
     }
 }

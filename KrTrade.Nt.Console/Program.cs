@@ -28,21 +28,20 @@ namespace KrTrade.Nt.Console.Console
             {
                 op.IsEnable = true;
                 op.IsLogEnable = true;
-                op.CacheServiceOptions.Capacity = 14;
-                op.CacheServiceOptions.OldValuesCapacity = 1;
-                op.CacheServiceOptions.BarsIndex = 0;
+                op.Capacity = 14;
+                op.RemovedCacheCapacity = 1;
             });
-            bars
-            .AddService<CacheService<MaxCache>, CacheServiceOptions>("MAX",(options) =>
-            {
-                options.IsLogEnable = true;
-                options.Capacity = 5;
-            },bars.Ninjascript.High)
-            .AddService<CacheService<MaxCache>, CacheServiceOptions>("MIN",(options) =>
-            {
-                options.IsLogEnable = true;
-                options.Capacity = 5;
-            });
+            //bars
+            //.AddService<CacheService<MaxCache>, CacheServiceOptions>("MAX",(options) =>
+            //{
+            //    options.IsLogEnable = true;
+            //    options.Capacity = 5;
+            //},bars.Ninjascript.High)
+            //.AddService<CacheService<MaxCache>, CacheServiceOptions>("MIN",(options) =>
+            //{
+            //    options.IsLogEnable = true;
+            //    options.Capacity = 5;
+            //});
 
             bars.Configure();
 
@@ -55,13 +54,13 @@ namespace KrTrade.Nt.Console.Console
             var displacement = 0;
             var strength = 4;
 
-            double swingHighValue = bars.Series.Close.SwingHigh(displacement, strength);
-            var max = bars.GetCache<MaxCache>();
-            var currentMax = max[0];
-            if (swingHighValue > 0)
-                bars.GetBars(displacement, strength * 2 + 1);
+            //double swingHighValue = bars.Series.Close.SwingHigh(displacement, strength);
+            //var max = bars.GetCache<MaxCache>();
+            //var currentMax = max[0];
+            //if (swingHighValue > 0)
+            //    bars.GetBars(displacement, strength * 2 + 1);
 
-            var high = bars.Series.High[0];
+            //var high = bars.Series.High[0];
 
             //NinjaScriptBase ninjascript = null;
             //PrintService printService;

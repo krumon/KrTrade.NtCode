@@ -53,7 +53,7 @@ namespace KrTrade.Nt.Services
         /// </summary>
         /// <param name="barsService">The <see cref="IBarsService"/> necesary for updated <see cref="BaseCacheService"/>.</param>
         /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        public CacheService(IBarsService barsService) : this(barsService,null,null,barsService.Options.CacheServiceOptions.Capacity, barsService.Options.CacheServiceOptions.OldValuesCapacity, barsService.Options.CacheServiceOptions.BarsIndex)
+        public CacheService(IBarsService barsService) : this(barsService,null,null,barsService.Capacity, barsService.RemovedCacheCapacity, barsService.Index)
         {
         }
 
@@ -63,7 +63,7 @@ namespace KrTrade.Nt.Services
         /// <param name="barsService">The <see cref="IBarsService"/> necesary for updated <see cref="BaseCacheService"/>.</param>
         /// <param name="input">The input series necesary for calculate the new elements of the <see cref="CacheService{TCache}"/></param>
         /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        public CacheService(IBarsService barsService, object input) : this(barsService,null,null,barsService.Options.CacheServiceOptions.Capacity, barsService.Options.CacheServiceOptions.OldValuesCapacity, barsService.Options.CacheServiceOptions.BarsIndex)
+        public CacheService(IBarsService barsService, object input) : this(barsService,null,null,barsService.Capacity, barsService.RemovedCacheCapacity, barsService.Index)
         {
             _input1 = input ?? barsService.Ninjascript;
         }
@@ -130,13 +130,13 @@ namespace KrTrade.Nt.Services
         }
         public override void Update()
         {
-            if (Bars.LastBarRemoved)
+            if (Bars.LastBarIsRemoved)
                 _cache.RemoveLastElement();
-            else if (Bars.BarClosed)
+            else if (Bars.IsClosed)
                 _cache.Add();
-            else if (Bars.PriceChanged)
+            else if (Bars.IsPriceChanged)
                 _cache.Update();
-            else if (Bars.Tick)
+            else if (Bars.IsTick)
                 _cache.Update();
         }
         public override string ToLogString() => $"{Name}[0]: {this[0]}";

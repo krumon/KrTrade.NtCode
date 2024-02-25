@@ -26,6 +26,10 @@ namespace KrTrade.Nt.Services
         /// </summary>
         public IServiceProvider Services { get; internal set; }
 
+        public bool IsConfigure => throw new NotImplementedException();
+
+        public bool IsDataLoaded => throw new NotImplementedException();
+
         /// <summary>
         /// Create <see cref="Ninjascript"/> instance.
         /// </summary>

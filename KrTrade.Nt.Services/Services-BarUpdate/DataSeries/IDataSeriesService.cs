@@ -1,13 +1,12 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using System;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
     /// <summary>
-    /// Defines methods that are necesary to be executed when the bar is updated.
+    /// Defines properties and methods that are necesary to create a data series service.
     /// </summary>
-    public interface IBarsService : INinjascriptService<BarsOptions>
+    public interface IDataSeriesService : IBarUpdateService
     {
 
         /// <summary>
@@ -16,14 +15,14 @@ namespace KrTrade.Nt.Services
         string TradingHoursName { get; }
 
         /// <summary>
-        /// Gets the instument name.
-        /// </summary>
-        string InstrumentName { get; }
-
-        /// <summary>
         /// Gets or sets the market data type of the bars series.
         /// </summary>
         NinjaTrader.Data.MarketDataType MarketDataType { get; }
+
+        /// <summary>
+        /// Gets the instument name.
+        /// </summary>
+        string InstrumentName { get; }
 
         /// <summary>
         /// The bars period of the DataSeries.
@@ -31,35 +30,49 @@ namespace KrTrade.Nt.Services
         NinjaTrader.Data.BarsPeriod BarsPeriod { get; }
 
         /// <summary>
+        /// Gets the index series.
+        /// </summary>
+        IndexCache CurrentBar { get; }
+
+        /// <summary>
+        /// Gets the time series.
+        /// </summary>
+        TimeCache Time { get; }
+
+        /// <summary>
+        /// Gets the open series.
+        /// </summary>
+        SeriesCache Open { get; }
+
+        /// <summary>
+        /// Gets the high series.
+        /// </summary>
+        SeriesCache High { get; }
+
+        /// <summary>
+        /// Gets the low series.
+        /// </summary>
+        SeriesCache Low { get; }
+
+        /// <summary>
+        /// Gets the close series.
+        /// </summary>
+        SeriesCache Close { get; }
+
+        /// <summary>
+        /// Gets the volume series.
+        /// </summary>
+        SeriesCache Volume { get; }
+
+        /// <summary>
+        /// Gets the tick count series.
+        /// </summary>
+        TicksCache Ticks { get; }
+
+        /// <summary>
         /// Gets the bars index in the 'NinjaScript.BarsArray'.
         /// </summary>
         int Index { get; }
-
-        /// <summary>
-        /// Gets the capacity of the service. The number of bars stored.
-        /// </summary>
-        int Capacity { get; }
-
-        /// <summary>
-        /// Gets the capacity of the revemoved values cache.
-        /// </summary>
-        int RemovedCacheCapacity { get; }
-
-        ///// <summary>
-        ///// Gets <see cref="IBarsSeriesCache"/>.
-        ///// </summary>
-        //IBarsCacheService Series { get; }
-
-
-        ///// <summary>
-        ///// Gets <see cref="ICache{T}"/> period.
-        ///// </summary>
-        //int CachePeriod { get; }
-
-        ///// <summary>
-        ///// Gets the displacement of <see cref="ICache{T}"/> respect NinjaScript <see cref="ISeries{double}"/>.
-        ///// </summary>
-        //int CacheDisplacement { get; }
 
         /// <summary>
         /// Indicates <see cref="IBarsService"/> is updated.

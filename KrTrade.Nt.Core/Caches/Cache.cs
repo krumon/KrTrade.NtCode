@@ -13,12 +13,8 @@ namespace KrTrade.Nt.Core.Caches
 
         public const int DEFAULT_CAPACITY = 20;
         public const int DEFAULT_OLD_VALUES_CAPACITY = 1;
-        //public const int DEFAULT_PERIOD = 20;
-        //public const int DEFAULT_DISPLACEMENT = 0;
 
         // ICache implementation
-        //public int Period { get; protected set; }
-        //public int Displacement { get; protected set; }
         public int Capacity { get; protected set; }
         public int OldValuesCapacity { get; protected set; }
         protected int MaxCapacity => int.MaxValue - OldValuesCapacity;

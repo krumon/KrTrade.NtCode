@@ -34,5 +34,20 @@ namespace KrTrade.Nt.Core.Helpers
                 action(t);
         }
 
+        /// <summary>
+        /// Execute a delegate method for each enum member.
+        /// </summary>
+        /// <typeparam name="T">Any object enum.</typeparam>
+        /// <param name="action">Delegate method to execute for each enum member.</param>
+        public static T ForEach<T>(Func<T,bool> action)
+            where T : Enum
+        {
+            Array array = Enum.GetValues(typeof(T));
+            foreach (T t in array)
+                if (action(t))
+                    return t;
+            return default;
+        }
+
     }
 }

@@ -20,6 +20,17 @@
         /// </summary>
         bool IsLogEnable { get; set; }
 
+        /// <summary>
+        /// Gets service log string.
+        /// </summary>
+        /// <returns></returns>
+        string ToLogString();
+
+        /// <summary>
+        /// Print in NinjaScript output winw the log string.
+        /// </summary>
+        void Log();
+
         ///// <summary>
         ///// Print in NinjaScript putput window the configuration state. If the configuration has been ok or error.
         ///// </summary>

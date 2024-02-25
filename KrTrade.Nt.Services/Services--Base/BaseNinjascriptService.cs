@@ -18,7 +18,10 @@ namespace KrTrade.Nt.Services
 
         public new NinjascriptServiceOptions Options { get => _options ?? new NinjascriptServiceOptions(); protected set { _options = value; } }
         public bool IsLogEnable { get => _options.IsLogEnable; set { _options.IsLogEnable = value; } }
-        public bool IsConfigured => _isConfigure && _isDataLoaded;
+        public bool IsConfigure => _isConfigure;
+        public bool IsDataLoaded => _isDataLoaded;
+
+        public bool IsConfigureAll => _isConfigure && _isDataLoaded;
         public IPrintService PrintService => _printService;
 
         #endregion
@@ -167,15 +170,14 @@ namespace KrTrade.Nt.Services
             if (_printService == null || !Options.IsLogEnable)
                 return;
 
-            //if (IsConfigured && IsInConfigurationStates())
-            //    _printService?.LogInformation($"The {Name} has been configured succesfully.");
-            //else if (!IsConfigured && Ninjascript.Instance.State == State.DataLoaded)
-            //    _printService?.LogError($"The {Name} has NOT been configured. The service will not work.");
-
-            if (IsConfigured)
+            if (IsDataLoaded && Ninjascript.State == State.DataLoaded)
+                _printService?.LogInformation($"The {Name} has been loaded succesfully.");
+            else if (IsConfigure && Ninjascript.State == State.Configure)
                 _printService?.LogInformation($"The {Name} has been configured succesfully.");
+            else if (!IsConfigureAll && Ninjascript.State == State.DataLoaded)
+                _printService?.LogError($"The '{Name}' has NOT been configured. The service will not work.");
             else
-                _printService?.LogError($"The '{Name}' has NOT been configured. The service will not work. '{Name}' must be configured when 'State = Configure and DataLoaded'.");
+                _printService?.LogError($"The '{Name}' has NOT been configured. You are configuring the service out of configure or data loaded states.");
         }
 
         protected bool IsPrintServiceAvailable()

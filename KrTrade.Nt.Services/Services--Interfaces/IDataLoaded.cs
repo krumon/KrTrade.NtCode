@@ -10,5 +10,10 @@
         /// </summary>
         void DataLoaded();
 
+        /// <summary>
+        /// Indicates the service is configure correctly when 'NinjaScript' data is loaded.
+        /// </summary>
+        bool IsDataLoaded {  get; }
+
     }
 }

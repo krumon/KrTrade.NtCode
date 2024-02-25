@@ -14,9 +14,13 @@ namespace KrTrade.Nt.Services
         /// </summary>
         /// <param name="barsService">The <see cref="IBarsService"/> necesary for updated <see cref="BarsCacheService"/>.</param>
         /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        public BarsCacheService(IBarsService barsService) : base(barsService, barsService?.Ninjascript, barsService?.Options.CacheServiceOptions)
+        public BarsCacheService(IBarsService barsService) : base(barsService, barsService?.Ninjascript, new CacheServiceOptions()
         {
-        }
+            Capacity = barsService.Capacity,
+            OldValuesCapacity = barsService.RemovedCacheCapacity,
+            BarsIndex = barsService.Index
+            
+        }){ }
 
         public override string Name => _cache.ToString();
         public IndexCache Index => _cache.Index;

@@ -152,6 +152,54 @@ namespace KrTrade.Nt.Core.Extensions
 
             }
         }
+        /// <summary>
+        /// Converts from <see cref="TimeFrame"/> to <see cref="BarsPeriod"/>.
+        /// </summary>
+        /// <param name="barsPeriod">The time frame.</param>
+        /// <returns><see cref="BarsPeriod"/> instance.</returns>
+        /// <exception cref="Exception">The <see cref="TimeFrame"/> to convert, has not been implemented.</exception>
+        public static TimeFrame ToTimeFrame(this BarsPeriod barsPeriod)
+        {
+            if (barsPeriod.BarsPeriodType == BarsPeriodType.Tick)
+            {
+                if (barsPeriod.Value == 1)
+                    return TimeFrame.t1;
+                else if (barsPeriod.Value == 150)
+                    return TimeFrame.t150;
+            }
+            else if (barsPeriod.BarsPeriodType == BarsPeriodType.Second)
+            {
+                if (barsPeriod.Value == 15)
+                    return TimeFrame.s15;
+            }
+            else if (barsPeriod.BarsPeriodType == BarsPeriodType.Minute)
+            {
+                if (barsPeriod.Value == 1)
+                    return TimeFrame.m1;
+                else if (barsPeriod.Value == 5)
+                    return TimeFrame.m5;
+                else if (barsPeriod.Value == 15)
+                    return TimeFrame.m15;
+                else if (barsPeriod.Value == 30)
+                    return TimeFrame.m30;
+                else if (barsPeriod.Value == 60)
+                    return TimeFrame.h1;
+                else if (barsPeriod.Value == 240)
+                    return TimeFrame.h4;
+            }
+            else if (barsPeriod.BarsPeriodType == BarsPeriodType.Day)
+            {
+                if (barsPeriod.Value == 1)
+                    return TimeFrame.d1;
+            }
+            else if (barsPeriod.BarsPeriodType == BarsPeriodType.Week)
+            {
+                if (barsPeriod.Value == 1)
+                    return TimeFrame.w1;
+            }
+                
+            throw new Exception("The BarsPeriod conversion has not yet been implemented.");
+        }
 
     }
 }

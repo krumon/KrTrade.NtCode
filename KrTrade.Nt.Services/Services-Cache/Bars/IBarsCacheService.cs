@@ -1,6 +1,6 @@
 ﻿namespace KrTrade.Nt.Services
 {
-    public interface IBarsCacheService : IBarsSeriesCache
+    public interface IBarsCacheService : IBarsSeriesCache, IBarUpdateService
     {
 
         ///// <summary>

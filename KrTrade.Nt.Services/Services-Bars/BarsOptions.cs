@@ -1,23 +1,23 @@
-﻿namespace KrTrade.Nt.Services
+﻿using KrTrade.Nt.Core.Caches;
+using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.DataSeries;
+
+namespace KrTrade.Nt.Services
 {
     public class BarsOptions : NinjascriptServiceOptions
     {
-        //public const int DEFAULT_PERIOD = 12;
-        //public const int DEFAULT_DISPLACEMENT = 0;
-        //public int Period { get; set; }
-        //public int Displacement { get; set; }
 
-        //public BarsOptions()
-        //{
-        //}
+        // BarsSeries options
+        public InstrumentCode InstrumentCode { get; set; } = InstrumentCode.Default;
+        public TradingHoursCode TradringHoursCode {  get; set; } = TradingHoursCode.Default;
+        public TimeFrame TimeFrame { get; set; } = TimeFrame.Default;
+        public MarketDataType MarketDataType { get; set; } = MarketDataType.Last;
 
-        //public BarsOptions(int period, int displacement)
-        //{
-        //    Period = period;
-        //    Displacement = displacement;
-        //}
-
-        public CacheServiceOptions CacheServiceOptions { get; set; } = new CacheServiceOptions();
+        // BarsCache options
+        public int Capacity {  get; set; } = Cache.DEFAULT_CAPACITY;
+        public int RemovedCacheCapacity {  get; set; } = Cache.DEFAULT_OLD_VALUES_CAPACITY;
+        
+        //public CacheServiceOptions CacheServiceOptions { get; set; } = new CacheServiceOptions();
 
     }
 }
