@@ -28,7 +28,7 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Indicates the length of the strings. This property affects to the ninjascript state string and data series string
         /// </summary>
-        public FormatLength StringFormatLength { get => Formatter.StringFormatLength; set { Formatter.StringFormatLength = value; } }
+        public FormatLength FormatLength { get => Formatter.StringFormatLength; set { Formatter.StringFormatLength = value; } }
 
     }
 }

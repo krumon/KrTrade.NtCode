@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Core.Logging;
+﻿using KrTrade.Nt.Core.Data;
 using NinjaTrader.Data;
 
 namespace KrTrade.Nt.Core.DataSeries
@@ -6,27 +6,31 @@ namespace KrTrade.Nt.Core.DataSeries
     public class DataSeriesInfo
     {
 
-        public string Instrument { get; set; }
-        public string Expiry { get; set; }
-        public BarsPeriodType PeriodType { get; set; }
-        public int PeriodValue { get; set; }
-        public BarsPeriod BarsPeriod { get; set; }
-        public string TradingHoursName { get;set; }
+        /// <summary>
+        /// Gets or sets the Data Series instrument code.
+        /// </summary>
+        public InstrumentCode InstrumentCode { get; set; }
 
-        public void Load(NinjaTrader.Data.Bars bars)
-        {
-            string[] name = bars.Instrument.MasterInstrument.Name.Split(' ');
-            Instrument = name[0];
-            Expiry = name.Length >= 1 ? bars.Instrument.Expiry.ToString("yy/MM") : string.Empty;
-            BarsPeriod = bars.BarsPeriod;
-            PeriodType = BarsPeriod.BarsPeriodType;
-            PeriodValue = BarsPeriod.Value;
-            TradingHoursName = bars.TradingHours.Name;
-        }
+        /// <summary>
+        /// Gets or sets data series trading hours code.
+        /// </summary>
+        public TradingHoursCode TradringHoursCode { get; set; }
 
-        public string ToLogString()
-        {
-            return "(" + Instrument + "." + PeriodType.ToLogString() + BarsPeriod.Value +")";
-        }
+        /// <summary>
+        /// Gets or sets data series time frame.
+        /// </summary>
+        public TimeFrame TimeFrame { get; set; }
+
+        /// <summary>
+        /// Gets or sets data series market data type.
+        /// </summary>
+        public Data.MarketDataType MarketDataType { get; set; }
+
+        //public string ToLogString()
+        //{
+        //    return "(" + Instrument + "." + PeriodType.ToLogString() + BarsPeriod.Value +")";
+        //}
+
+        public override string ToString() => $"{InstrumentCode}({TimeFrame})";
     }
 }

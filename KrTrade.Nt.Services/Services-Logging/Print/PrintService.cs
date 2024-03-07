@@ -45,7 +45,7 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Indicates the length of the strings. This property affects to the ninjascript state string, the data series string
         /// </summary>
-        public FormatLength StringFormatLength { get => Options.StringFormatLength; set { Options.StringFormatLength = value; } }
+        public FormatLength StringFormatLength { get => Options.FormatLength; set { Options.FormatLength = value; } }
 
         #endregion
 
@@ -67,6 +67,26 @@ namespace KrTrade.Nt.Services
         /// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
         /// <param name="configureOptions">The configure options of the service.</param>
         public PrintService(NinjaScriptBase ninjascript, IConfigureOptions<PrintOptions> configureOptions) : base(ninjascript, configureOptions)
+        {
+        }
+
+        /// <summary>
+        /// Create <see cref="PrintService"/> instance and configure it.
+        /// This instance must be created in the 'Ninjascript.State == Configure'.
+        /// </summary>
+        /// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
+        /// <param name="configureOptions">The configure options of the service.</param>
+        public PrintService(NinjaScriptBase ninjascript, Action<PrintOptions> configureOptions) : base(ninjascript, configureOptions)
+        {
+        }
+
+        /// <summary>
+        /// Create <see cref="PrintService"/> instance and configure it.
+        /// This instance must be created in the 'Ninjascript.State == Configure'.
+        /// </summary>
+        /// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
+        /// <param name="options">The configure options of the service.</param>
+        public PrintService(NinjaScriptBase ninjascript, PrintOptions options) : base(ninjascript, options)
         {
         }
 

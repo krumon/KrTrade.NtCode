@@ -1,4 +1,8 @@
-﻿using KrTrade.Nt.Services;
+﻿using KrTrade.Nt.Core.Bars;
+using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.DataSeries;
+using KrTrade.Nt.Core.Logging;
+using KrTrade.Nt.Services;
 
 namespace KrTrade.Nt.Console.Console
 {
@@ -24,13 +28,44 @@ namespace KrTrade.Nt.Console.Console
         {
 
             // Configure
-            IBarsService bars = new BarsService(null, null, (op) =>
-            {
-                op.IsEnable = true;
-                op.IsLogEnable = true;
-                op.Capacity = 14;
-                op.RemovedCacheCapacity = 1;
-            });
+            IBarsMaster bars = new BarsMasterBuilder()
+                .UsePrintService((o) =>
+                {
+                    o.IsEnable = true;
+                    o.IsLogInfoVisible = true;
+                    o.IsDataSeriesInfoVisible = true;
+                    o.IsNumOfBarVisible = true;
+                    o.IsTimeVisible = true;
+                    o.FormatLength = FormatLength.Short;
+                    o.LogLevel = LogLevel.Information;
+                    o.NinjascriptLogLevel = NinjascriptLogLevel.Configuration;
+                    o.BarsLogLevel = BarsLogLevel.BarClosed;
+                })
+                .ConfigureOptions((o) =>
+                {
+                    // TODO:    Cambiar estas propiedades
+                    //          - DefaultCachesCapacity.
+                    //          - DefaultRemovedCachesCapacity.
+                    // *** Eliminar TradingHoursCode, TimeFrame,....
+                    o.DefaultCachesCapacity = 14;
+                    o.DefaultRemovedCachesCapacity = 1;
+                    //o.MarketDataType = MarketDataType.Last;
+                    //o.TimeFrame = TimeFrame.m1;
+                    //o.TradringHoursCode = TradingHoursCode.CME_FX_Futures_ETH;
+                    //o.InstrumentCode = InstrumentCode.MES;
+                    
+                })
+                .ConfigureDataSeries((o) =>
+                {
+
+                })
+                .AddDataSeries((info,builder) =>
+                {
+
+                })
+                .Build(null);
+
+
             //bars
             //.AddService<CacheService<MaxCache>, CacheServiceOptions>("MAX",(options) =>
             //{

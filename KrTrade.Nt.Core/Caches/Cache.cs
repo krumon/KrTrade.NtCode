@@ -20,21 +20,6 @@ namespace KrTrade.Nt.Core.Caches
         protected int MaxCapacity => int.MaxValue - OldValuesCapacity;
         protected int MaxLength => Capacity + OldValuesCapacity;
 
-        ///// <summary>
-        ///// Create <see cref="ICache{T}"/> instance.
-        ///// When pass <paramref name="period"/> minor than 0, the <paramref name="period"/> will be MAXIMUM,
-        ///// when pass <paramref name="period"/> equal than 0, the <paramref name="period"/> will be DEFAULT,
-        ///// and when pass <paramref name="period"/> grater than 0, the <paramref name="period"/> will be the specified.
-        ///// </summary>
-        ///// <param name="period">The <see cref="ICache{T}"/> calculate period. When pass a number minor than 0, the period will be the MAXIMUM,</param>
-        ///// <param name="displacement">The displacement of <see cref="ICache{T}"/> respect the last element.</param>
-        //protected Cache(int period, int displacement, int lengthOfRemovedValuesCache = DEFAULT_LENGTH_REMOVED_VALUES_CACHE)
-        //{
-        //    Displacement = displacement <= 0 ? DEFAULT_DISPLACEMENT : displacement;
-        //    LengthOfRemovedCache = LengthOfRemovedCache < 0 ? DEFAULT_LENGTH_REMOVED_VALUES_CACHE : lengthOfRemovedValuesCache;
-        //    Period = period <= 0 ? DEFAULT_PERIOD : period > MaxPeriod ? MaxPeriod : period;
-        //    OnInit();
-        //}
 
         /// <summary>
         /// Create <see cref="ICache{T}"/> instance with specified <paramref name="capacity"/> and <paramref name="oldValuesCapacity"/>.
@@ -57,6 +42,14 @@ namespace KrTrade.Nt.Core.Caches
         {
         }
 
+        public object this[int index] => null;
+        public abstract bool IsFull { get; }
+        public abstract void RemoveLastElement();
+        public abstract void Reset();
+        public abstract void Dispose();
+        public object CurrentValue => null;
+        public object GetValue(int valuesAgo) { return null; }
+        public object[] ToArray(int fromValuesAgo, int numOfValues) => null;
     }
 
     /// <summary>
@@ -73,26 +66,26 @@ namespace KrTrade.Nt.Core.Caches
         protected int OldValuesLength => Count < Capacity || Count > MaxLength ? 0 : MaxLength - Count;
 
         // ICache<T> implementation
-        public bool IsFull => Count > MaxLength;
-        public T CurrentValue { get => _cache == null || Count == 0 ? default : _cache[0]; protected set => _cache[0] = value; }
-        public void RemoveLastElement()
+        public override bool IsFull => Count > MaxLength;
+        public new T CurrentValue { get => _cache == null || Count == 0 ? default : _cache[0]; protected set => _cache[0] = value; }
+        public override void RemoveLastElement()
         {
             if (_isOldValuesCacheRunning && Count > Capacity)
                 RemoveAt(0);
             else
                 throw new Exception("The cache cannot restore the last element removed because the old values cache is empty.");
         }
-        public void Reset()
+        public override void Reset()
         {
             _cache?.Clear();
         }
-        public void Dispose()
+        public override void Dispose()
         {
             Reset();
             _cache = null;
         }
-        public T GetValue(int valuesAgo) => IsValidIndex(valuesAgo) ? _cache[valuesAgo] : default;
-        public T[] ToArray(int fromValuesAgo, int numOfValues)
+        public new T GetValue(int valuesAgo) => IsValidIndex(valuesAgo) ? _cache[valuesAgo] : default;
+        public new T[] ToArray(int fromValuesAgo, int numOfValues)
         {
             if (!IsValidIndex(fromValuesAgo, numOfValues))
                 throw new ArgumentOutOfRangeException(nameof(numOfValues));
@@ -110,7 +103,7 @@ namespace KrTrade.Nt.Core.Caches
 
         // ISeries<T> implementation
         public int Count => _cache.Count;
-        public T this[int index] 
+        public new T this[int index] 
         { 
             get => IsValidIndex(index) ? _cache[index] : throw new ArgumentOutOfRangeException(nameof(index));
             private set
@@ -174,19 +167,6 @@ namespace KrTrade.Nt.Core.Caches
             if (initialBarsAgo > finalBarsAgo) return false;
             return IsValidIndex(initialBarsAgo) && IsValidIndex(finalBarsAgo);
         }
-        //protected int MaxPeriod => int.MaxValue - Displacement - LengthOfRemovedValuesCache;
-
-        ///// <summary>
-        ///// Create <see cref="ICache{T}"/> instance.
-        ///// When pass <paramref name="period"/> minor than 0, the <paramref name="period"/> will be MAXIMUM,
-        ///// when pass <paramref name="period"/> equal than 0, the <paramref name="period"/> will be DEFAULT,
-        ///// and when pass <paramref name="period"/> grater than 0, the <paramref name="period"/> will be the specified.
-        ///// </summary>
-        ///// <param name="period">The <see cref="ICache{T}"/> calculate period. When pass a number minor than 0, the period will be the MAXIMUM,</param>
-        ///// <param name="displacement">The displacement of <see cref="ICache{T}"/> respect the last element.</param>
-        //protected Cache(int period = DEFAULT_PERIOD, int displacement = DEFAULT_DISPLACEMENT, int lengthOfRemovedValuesCache = DEFAULT_LENGTH_REMOVED_VALUES_CACHE) : base(period,displacement,lengthOfRemovedValuesCache)
-        //{
-        //}
 
         /// <summary>
         /// Create <see cref="ICache{T}"/> instance with specified <paramref name="capacity"/> and <paramref name="oldValuesCapacity"/>.

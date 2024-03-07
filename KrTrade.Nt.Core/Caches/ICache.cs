@@ -5,31 +5,17 @@ namespace KrTrade.Nt.Core.Caches
     public interface ICache
     {
         /// <summary>
-        /// Gets <see cref="ICache{T}"/> capacity.
+        /// Gets <see cref="ICache"/> capacity.
         /// </summary>
         int Capacity { get; }
-
-        ///// <summary>
-        ///// Gets <see cref="ICache{T}"/> period.
-        ///// </summary>
-        //int Period { get; }
-
-        ///// <summary>
-        ///// Gets the displacement of <see cref="ICache{T}"/> respect NinjaScript <see cref="ISeries{double}"/>.
-        ///// </summary>
-        //int Displacement { get; }
 
         /// <summary>
         /// Gets the number of elements to store in cache, before will be removed forever.
         /// </summary>
         int OldValuesCapacity { get; }
 
-    }
-    public interface ICache<T> : ICache, ISeries<T>
-    {
-
         /// <summary>
-        /// Indicates if <see cref="ICache{T}"/> is full.
+        /// Indicates if <see cref="ICache"/> is full.
         /// </summary>
         bool IsFull { get; }
 
@@ -40,26 +26,57 @@ namespace KrTrade.Nt.Core.Caches
         void RemoveLastElement();
 
         /// <summary>
-        /// Reset the <see cref="ICache{T}"/>. Clear the cache and initialize all properties.
+        /// Reset the <see cref="ICache"/>. Clear the cache and initialize all properties.
         /// </summary>
         void Reset();
 
         /// <summary>
-        /// Dispose the <see cref="ICache{T}"/>. 
+        /// Dispose the <see cref="ICache"/>. 
         /// </summary>
         void Dispose();
 
         /// <summary>
         /// Gets the current cache value 'cache[0]'.
         /// </summary>
-        T CurrentValue { get; }
+        object CurrentValue { get; }
 
         /// <summary>
         /// Gets The element that is at the specified index.
         /// </summary>
         /// <param name="valuesAgo">The index of the element in the <see cref="ICacheElement{T}"/>.</param>
         /// <returns>The element that is at the specified index.</returns>
-        T GetValue(int valuesAgo);
+        object GetValue(int valuesAgo);
+
+        /// <summary>
+        /// Returns array of <see cref="ICache"/> elements from specified initial index.
+        /// </summary>
+        /// <param name="fromValuesAgo">The values ago where started to construct the array.</param>
+        /// <param name="numOfValues">The number of <see cref="{T}"/> to returns.</param>
+        /// <returns><see cref="{T}"/> collection.</returns>
+        object[] ToArray(int fromValuesAgo, int numOfValues);
+
+        /// <summary>
+        /// Gets the cache element located at the specified index. 
+        /// </summary>
+        /// <param name="index">The specified index.</param>
+        /// <returns>The cache element at the specified index.</returns>
+        object this[int index] { get; }
+
+    }
+    public interface ICache<T> : ICache, ISeries<T>
+    {
+
+        /// <summary>
+        /// Gets the current cache value 'cache[0]'.
+        /// </summary>
+        new T CurrentValue { get; }
+
+        /// <summary>
+        /// Gets The element that is at the specified index.
+        /// </summary>
+        /// <param name="valuesAgo">The index of the element in the <see cref="ICacheElement{T}"/>.</param>
+        /// <returns>The element that is at the specified index.</returns>
+        new T GetValue(int valuesAgo);
 
         /// <summary>
         /// Returns <paramref name="numOfValues"/> of <see cref="{T}"/> from specified initial index.
@@ -67,7 +84,7 @@ namespace KrTrade.Nt.Core.Caches
         /// <param name="fromValuesAgo">The values ago where started to construct the array.</param>
         /// <param name="numOfValues">The number of <see cref="{T}"/> to returns.</param>
         /// <returns><see cref="{T}"/> collection.</returns>
-        T[] ToArray(int fromValuesAgo, int numOfValues);
+        new T[] ToArray(int fromValuesAgo, int numOfValues);
 
     }
 }

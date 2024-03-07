@@ -1,6 +1,6 @@
 ﻿namespace KrTrade.Nt.Services
 {
-    public class StatisticOptions : BarUpdateServiceOptions
+    public class StatsOptions : BarUpdateServiceOptions
     {
     }
 }

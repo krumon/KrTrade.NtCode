@@ -1,15 +1,18 @@
-﻿using System;
+﻿using NinjaTrader.NinjaScript;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
-    public class BarUpdateServiceCollection<TService,TOptions> : BarUpdateService<TOptions> , IEnumerable, IEnumerable<KeyValuePair<string,TService>>
+    public class BarUpdateServiceCollection<TService,TOptions> : BaseNinjascriptService<TOptions>, IBarUpdateService, IEnumerable, IEnumerable<TService>
         where TService : IBarUpdateService
         where TOptions : BarUpdateServiceCollectionOptions, new()
     {
+        private IList<TService> _services;
+        private readonly IDictionary<string, int> _keys;
 
-        private IDictionary<string, TService> _services;
+        //private IDictionary<string, TService> _services;
 
         public TService this[string key] 
         {
@@ -19,9 +22,28 @@ namespace KrTrade.Nt.Services
                 {
                     if (_services == null)
                         throw new ArgumentNullException(nameof(_services));
-                    if (_services.Count == 0)
-                        throw new NotSupportedException("There are any service. The collection is empty.");
-                    return _services[key.Trim().ToUpper()];
+                    int index = -1;
+                    _keys?.TryGetValue(key, out index);
+
+                    if (index < 0 || index >= _services.Count)
+                        throw new KeyNotFoundException($"The {key} key DOESN`T EXISTIS.");
+
+                    return _services[index];
+                }
+                catch (Exception ex)
+                {
+                    PrintService.LogError(ex);
+                    return default;
+                }
+            }
+        }
+        public TService this[int index]
+        {
+            get
+            {
+                try
+                {
+                    return _services[index];
                 }
                 catch (Exception ex)
                 {
@@ -31,15 +53,18 @@ namespace KrTrade.Nt.Services
             }
         }
 
-        public BarUpdateServiceCollection(IBarsService barsService) : base(barsService)
+        public BarUpdateServiceCollection(NinjaScriptBase ninjascript) : base(ninjascript)
         {
         }
 
-        public BarUpdateServiceCollection(IBarsService barsService, Action<TOptions> configureOptions) : base(barsService, configureOptions)
+        public BarUpdateServiceCollection(NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript, printService)
         {
         }
 
-        public BarUpdateServiceCollection(IBarsService barsService, TOptions options) : base(barsService, options)
+        public BarUpdateServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, Action<TOptions> configureOptions) : base(ninjascript, printService, configureOptions)
+        {
+        }
+        public BarUpdateServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, TOptions options) : base(ninjascript, printService, options)
         {
         }
 
@@ -52,8 +77,8 @@ namespace KrTrade.Nt.Services
                 return string.Empty;
 
             string logText = string.Empty;
-            foreach(var key  in _services.Keys) 
-                logText += _services[key].ToLogString() + "NewLine";
+            foreach(var service  in _services) 
+                logText += service.ToLogString() + "NewLine";
 
             logText.Remove(logText.Length - 7);
             logText.Replace("NewLine", Environment.NewLine);
@@ -69,8 +94,8 @@ namespace KrTrade.Nt.Services
                 isConfigured = true;
                 foreach (var service in _services)
                 {
-                    service.Value.Configure();
-                    if (!service.Value.IsConfigure)
+                    service.Configure();
+                    if (!service.IsConfigure)
                         isConfigured = false;
                 }
             }
@@ -84,18 +109,18 @@ namespace KrTrade.Nt.Services
                 isDataLoaded = true;
                 foreach (var service in _services)
                 {
-                    service.Value.Configure();
-                    if (!service.Value.IsConfigure)
+                    service.Configure();
+                    if (!service.IsConfigure)
                         isDataLoaded = false;
                 }
             }
         }
-        public override void Update()
+        public void Update()
         {
             if (_services == null || _services.Count == 0)
                 return;
             foreach (var service in _services)
-                service.Value.Update();
+                service.Update();
 
         }
         //public void Terminated()
@@ -109,32 +134,70 @@ namespace KrTrade.Nt.Services
 
         public void Add(string key, TService service)
         {
-            string infoText;
-            if (service == null)
-                infoText = $"The '{nameof(service)}' is NULL and and could not be added to the collection.";
-            else
+            string logText;
+            try
             {
+                if (service == null)
+                    throw new ArgumentNullException(nameof(service));
+
+                if (!ContainsKey(key))
+                    throw new Exception($"The '{key}' key already exists. The key is being used by another service.");
+
                 if (_services == null)
-                    _services = new Dictionary<string, TService>();
+                    _services = new List<TService>();
 
-                //key = key.Trim().ToUpper();
-                if (_services.ContainsKey(key))
-                    infoText = $"The '{key}' key already exists. The service has been added before or the key is being used by another service.";
-                else
-                {
-                    _services.Add(key, service);
-                    infoText = $"The {service.Name} service has been added successfully";
-                }
+                _services.Add(service);
+                _keys.Add(key, _services.Count - 1);
+
+                logText = $"The {service.Name} service has been added successfully.";
+                PrintService.LogInformation(logText);
             }
-
-            PrintService.LogInformation(infoText);
+            catch (Exception e)
+            {
+                logText = $"The {service.Name} service has NOT been added.";
+                PrintService.LogError(logText,e);
+            }
         }
         public int Count => _services.Count;
-        public void Clear() => _services?.Clear();
-        public void Remove(string key) => _services?.Remove(key.Trim().ToUpper());
-        public bool ContainsKey(string key) => _services == null ? false : _services.ContainsKey(key);
 
-        public IEnumerator<KeyValuePair<string, TService>> GetEnumerator() => _services.GetEnumerator();
+        public void Clear() => _services?.Clear();
+        public void Remove(string key)
+        {
+            try
+            {
+                if (_services == null)
+                    throw new ArgumentNullException(nameof(_services));
+
+                int index = -1;
+                _keys?.TryGetValue(key, out index);
+
+                if (index < 0 || index >= _services.Count)
+                    throw new KeyNotFoundException($"The {key} key DOESN`T EXISTIS.");
+
+                RemoveAt(index);
+            }
+            catch (Exception ex)
+            {
+                PrintService.LogError("The element cannot be added.",ex);
+            }
+        }
+        public void RemoveAt(int index)
+        {
+            try
+            {
+                if (_services == null)
+                    throw new ArgumentNullException(nameof(_services));
+
+                _services?.RemoveAt(index);
+            }
+            catch (Exception e)
+            {
+                PrintService.LogError("The element cannot be added.", e);
+            }
+        }
+        public bool ContainsKey(string key) => _services == null ? false : _keys.ContainsKey(key);
+
+        public IEnumerator<TService> GetEnumerator() => _services.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         #endregion

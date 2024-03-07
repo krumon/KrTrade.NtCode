@@ -1,12 +1,12 @@
 ﻿namespace KrTrade.Nt.Services
 {
-    public class StatsService : BarUpdateService<StatsOptions>, IStats
+    public class StatsService : BarUpdateService<StatsOptions>, IStatsService
     {
-        public StatsService(IBarsService barsService) : base(barsService)
+        public StatsService(IBarsService barsSeries) : base(barsSeries)
         {
         }
 
-        public StatsService(IBarsService barsService, IConfigureOptions<StatsOptions> configureOptions) : base(barsService, configureOptions)
+        public StatsService(IBarsService barsSeries, IConfigureOptions<StatsOptions> configureOptions) : base(barsSeries, configureOptions)
         {
         }
 

@@ -33,6 +33,26 @@ namespace KrTrade.Nt.Services
         }
 
         /// <summary>
+        /// Create <see cref="BaseLoggerService"/> instance and configure it.
+        /// This instance must be created in the 'Ninjascript.State == Configure'.
+        /// </summary>
+        /// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
+        /// <param name="configureOptions">The configure options of the service.</param>
+        protected BaseLoggerService(NinjaScriptBase ninjascript, Action<TOptions> configureOptions) : base(ninjascript,configureOptions)
+        {
+        }
+
+        /// <summary>
+        /// Create <see cref="BaseLoggerService"/> instance and configure it.
+        /// This instance must be created in the 'Ninjascript.State == Configure'.
+        /// </summary>
+        /// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
+        /// <param name="options">The configure options of the service.</param>
+        protected BaseLoggerService(NinjaScriptBase ninjascript, TOptions options) : base(ninjascript,options)
+        {
+        }
+
+        /// <summary>
         /// Represents the minimum log level. 0:Trace, 1:Debug, 2:Information, 3:Warning, 4:Error, 5:Critical, 6:None
         /// </summary>
         public LogLevel LogLevel { get => Options.LogLevel; set { Options.LogLevel = value; } }

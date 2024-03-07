@@ -56,6 +56,8 @@
     <Compile Include="Caches\Cache.cs" />
     <Compile Include="Caches\ICacheElement.cs" />
     <Compile Include="Caches\ICache.cs" />
+    <Compile Include="DataSeries\DataSeriesInfo.cs" />
+    <Compile Include="DataSeries\MultiSeriesCalculateMode.cs" />
     <Compile Include="Data\Formats\TimeFormat.cs" />
     <Compile Include="Data\MarketData\MarketDataTypeExtensions.cs" />
     <Compile Include="Data\Series\SeriesType.cs" />
@@ -136,7 +138,7 @@
     <Compile Include="DataSeries\TimeFrame.cs" />
     <Compile Include="Extensions\TimeFrameExtensions.cs" />
     <Compile Include="Bars\Bar.cs" />
-    <Compile Include="DataSeries\DataSeriesInfo.cs" />
+    <Compile Include="DataSeries\DataSeriesInfo__.cs" />
     <Compile Include="Logging\LogEntry.cs" />
     <Compile Include="Logging\LoggingHelpers.cs" />
     <Compile Include="Logging\LogLevel.cs" />
