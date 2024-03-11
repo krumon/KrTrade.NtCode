@@ -1,6 +1,6 @@
 ﻿namespace KrTrade.Nt.Services
 {
-    public interface ILongSeries<TInput> : IValueSeries<long,TInput>, IHasCalculatedValues<long>
+    public interface ILongSeries<TInput> : INumericSeries<long,TInput>
     {
     }
 }

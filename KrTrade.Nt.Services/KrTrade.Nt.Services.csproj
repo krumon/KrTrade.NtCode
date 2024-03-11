@@ -51,31 +51,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Series--Base\Interfaces\IIndicatorSeries.cs" />
+    <Compile Include="Series--Base\NumericSeries.cs" />
+    <Compile Include="Series--Base\Interfaces\IHasDateTimeCalculateValues.cs" />
     <Compile Include="Series--Base\Interfaces\ILongSeries.cs" />
     <Compile Include="Series--Base\Interfaces\IIntSeries.cs" />
-    <Compile Include="Series--Base\DoubleCalculateSeries.cs" />
-    <Compile Include="Series--Ninjascript\Interfaces\ICurrentBarSeries.cs" />
-    <Compile Include="Series--Ninjascript\Interfaces\ITimeSeries.cs" />
-    <Compile Include="Series--Ninjascript\Interfaces\IVolumeSeries.cs" />
-    <Compile Include="Series--Ninjascript\Interfaces\IPriceSeries.cs" />
+    <Compile Include="Series--Base\Interfaces\INumericSeries.cs" />
+    <Compile Include="Series--Ninjascript\_Interfaces\ICurrentBarSeries.cs" />
+    <Compile Include="Series--Ninjascript\_Interfaces\ITimeSeries.cs" />
+    <Compile Include="Series--Ninjascript\_Interfaces\ITickSeries.cs" />
+    <Compile Include="Series--Ninjascript\_Interfaces\IVolumeSeries.cs" />
+    <Compile Include="Series--Ninjascript\_Interfaces\IPriceSeries.cs" />
     <Compile Include="Series-Indicators\AvgSeries.cs" />
     <Compile Include="Series--Ninjascript\PriceSeries.cs" />
-    <Compile Include="Series--Ninjascript\Interfaces\IBarsSeries.cs" />
+    <Compile Include="Series--Ninjascript\_Interfaces\IBarsSeries.cs" />
     <Compile Include="Series-Indicators\Base\IndicatorSeries.cs" />
     <Compile Include="Series-Indicators\Interfaces\IIndicatorSeries.cs" />
     <Compile Include="Series-Indicators\MinSeries.cs" />
     <Compile Include="Series-Indicators\MaxSeries.cs" />
     <Compile Include="Series--Ninjascript\CurrentBarSeries.cs" />
-    <Compile Include="Series-Indicators\TickSeries.cs" />
+    <Compile Include="Series--Ninjascript\TickSeries.cs" />
     <Compile Include="Series--Ninjascript\TimeSeries.cs" />
     <Compile Include="Series--Ninjascript\VolumeSeries.cs" />
     <Compile Include="Series--Base\DateTimeSeries.cs" />
     <Compile Include="Series--Base\Interfaces\IDateTimeSeries.cs" />
     <Compile Include="Series--Base\LongSeries.cs" />
     <Compile Include="Series--Base\IntSeries.cs" />
-    <Compile Include="Series--Base\Interfaces\IHasCalculatedValues.cs" />
-    <Compile Include="Series--Base\Interfaces\IBarUpdateSeries.cs" />
+    <Compile Include="Series--Base\Interfaces\IHasNumericCalculateValues.cs" />
     <Compile Include="Series--Base\Interfaces\IDoubleSeries.cs" />
     <Compile Include="Series--Base\Interfaces\IValueSeries.cs" />
     <Compile Include="Series--Base\DoubleSeries.cs" />
@@ -84,9 +85,10 @@
     <Compile Include="Series--Base\Interfaces\INinjaSeries.cs" />
     <Compile Include="Series-Indicators\RangeSeries.cs" />
     <Compile Include="Series-Indicators\SumSeries.cs" />
+    <Compile Include="Series-Stats\Interfaces\IIndicatorSeries.cs" />
     <Compile Include="Services--Master\BarsMasterOptions.cs" />
-    <Compile Include="Services--Master\IBarsMaster.cs" />
-    <Compile Include="Series--Ninjascript\BarsSeries.cs" />
+    <Compile Include="Services--Master\IBarsManager.cs" />
+    <Compile Include="Series--Ninjascript\Bars\BarsSeries.cs" />
     <Compile Include="Services--Master\Builder\BarsMasterBuilder.cs" />
     <Compile Include="Services--Master\Builder\IBarsMasterBuilder.cs" />
     <Compile Include="Services-Bars\MultiBars\IBarsServiceCollection.cs" />
@@ -235,7 +237,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="zHosting-DependencyInjection\ServicesHost\NinjaHost.cs" />
     <Compile Include="Services--Base\Services\BaseNinjascriptService.cs" />
-    <Compile Include="Services--Master\BarsMaster.cs" />
+    <Compile Include="Services--Master\BarsManager.cs" />
     <Compile Include="zStats\BaseBarStats.cs" />
     <Compile Include="zStats\BaseStats.cs" />
     <Compile Include="zStats\RangeStats.cs" />
@@ -256,7 +258,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Series-Stats\Base\" />
-    <Folder Include="Series-Stats\Interfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

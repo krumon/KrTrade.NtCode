@@ -50,7 +50,7 @@ namespace KrTrade.Nt.Services
         #region Constructors
 
         /// <summary>
-        /// Create <see cref="SeriesService{TCache}"/> instance with <see cref="IBarsMaster"/> options.
+        /// Create <see cref="SeriesService{TCache}"/> instance with <see cref="IBarsManager"/> options.
         /// </summary>
         /// <param name="barsService">The <see cref="IBarsService"/> necesary for updated the series service.</param>
         /// <exception cref="ArgumentNullException">The <see cref="IBarsSeries"/> cannot be null.</exception>
@@ -61,7 +61,7 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Create <see cref="SeriesService{TCache}"/> instance with <see cref="IBarsService"/> options.
         /// </summary>
-        /// <param name="barsService">The <see cref="IBarsMaster"/> necesary for updated <see cref="BaseCacheService"/>.</param>
+        /// <param name="barsService">The <see cref="IBarsManager"/> necesary for updated <see cref="BaseCacheService"/>.</param>
         /// <param name="input">The input series necesary for calculate the new elements of the <see cref="SeriesService{TCache}"/></param>
         /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
         public SeriesService(IBarsService barsService, object input) : this(barsService,null,null,barsService.CacheCapacity, barsService.RemovedCacheCapacity, barsService.Index)
@@ -70,24 +70,24 @@ namespace KrTrade.Nt.Services
         }
 
         /// <summary>
-        /// Create <see cref="SeriesService{TCache}"/> instance with <see cref="IBarsMaster"/> options.
+        /// Create <see cref="SeriesService{TCache}"/> instance with <see cref="IBarsManager"/> options.
         /// </summary>
-        /// <param name="barsService">The <see cref="IBarsMaster"/> necesary for updated <see cref="BaseCacheService"/>.</param>
+        /// <param name="barsService">The <see cref="IBarsManager"/> necesary for updated <see cref="BaseCacheService"/>.</param>
         /// <param name="input">The input series necesary for calculate the new elements of the <see cref="SeriesService{TCache}"/></param>
         /// <param name="configureOptions">The configure options of the service.</param>
-        /// <exception cref="ArgumentNullException">The <see cref="IBarsMaster"/> cannot be null.</exception>
+        /// <exception cref="ArgumentNullException">The <see cref="IBarsManager"/> cannot be null.</exception>
         public SeriesService(IBarsService barsService, object input, Action<SeriesOptions> configureOptions) : base(barsService, configureOptions)
         {
             _input1 = input ?? barsService.Ninjascript;
         }
 
         /// <summary>
-        /// Create <see cref="SeriesService{TCache}"/> instance with <see cref="IBarsMaster"/> options.
+        /// Create <see cref="SeriesService{TCache}"/> instance with <see cref="IBarsManager"/> options.
         /// </summary>
-        /// <param name="barsService">The <see cref="IBarsMaster"/> necesary for updated <see cref="SeriesService{TCache}"/>.</param>
+        /// <param name="barsService">The <see cref="IBarsManager"/> necesary for updated <see cref="SeriesService{TCache}"/>.</param>
         /// <param name="input">The input series necesary for calculate the new elements of the <see cref="SeriesService{TCache}"/></param>
         /// <param name="options">The specified options to configure the service.</param>
-        /// <exception cref="ArgumentNullException">The <see cref="IBarsMaster"/> cannot be null.</exception>
+        /// <exception cref="ArgumentNullException">The <see cref="IBarsManager"/> cannot be null.</exception>
         public SeriesService(IBarsService barsService, object input, SeriesOptions options) : base(barsService,options)
         {
             _input1 = input ?? barsService.Ninjascript;
@@ -96,14 +96,14 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Create <see cref="SeriesService{TCache}"/> instance with specified options.
         /// </summary>
-        /// <param name="barsService">The <see cref="IBarsMaster"/> necesary for updated <see cref="SeriesService{TCache}"/>.</param>
+        /// <param name="barsService">The <see cref="IBarsManager"/> necesary for updated <see cref="SeriesService{TCache}"/>.</param>
         /// <param name="input1">The input series necesary for calculate the new elements of the <see cref="SeriesService{TCache}"/></param>
         /// <param name="input2">Second input series necesary for calculate the new elements of the <see cref="SeriesService{TCache}"/></param>
         /// <param name="period">The specified period.</param>
         /// <param name="displacement">The displacement respect the input series.</param>
         /// <param name="oldValuesCache">The length of the removed values cache.</param>
         /// <param name="barsIndex">The index of the 'NijaScript.Bars' used to get the cache elements.</param>
-        /// <exception cref="ArgumentNullException">The <see cref="IBarsMaster"/> cannot be null.</exception>
+        /// <exception cref="ArgumentNullException">The <see cref="IBarsManager"/> cannot be null.</exception>
         public SeriesService(IBarsService barsService, object input1, object input2 = null, int capacity = Cache.DEFAULT_CAPACITY, int oldValuesCache = Cache.DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : base(barsService, new SeriesOptions()
         {
             Capacity = capacity,
@@ -136,9 +136,9 @@ namespace KrTrade.Nt.Services
             else if (Bars.IsClosed)
                 _series.Add();
             else if (Bars.IsPriceChanged)
-                _series.Replace();
+                _series.Update();
             else if (Bars.IsTick)
-                _series.Replace();
+                _series.Update();
         }
         public override void BarsSeriesUpdate(IBarsService updatedSeries)
         {
@@ -189,9 +189,9 @@ namespace KrTrade.Nt.Services
             if (type == typeof(MaxSeries))
             {
                 if (input is NinjaScriptBase ninjascript)
-                    return new MaxSeries(ninjascript, capacity, oldValuesCapacity, barsIndex);
+                    return new MaxSeries(ninjascript, period:1, capacity, oldValuesCapacity, barsIndex);
                 if (input is ISeries<double> series)
-                    return new MaxSeries(series, capacity, oldValuesCapacity, barsIndex);
+                    return new MaxSeries(series, period: 1, capacity, oldValuesCapacity, barsIndex);
                 return null;
             }
             if (type == typeof(MinSeries))

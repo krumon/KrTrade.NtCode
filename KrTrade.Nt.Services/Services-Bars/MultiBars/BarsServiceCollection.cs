@@ -4,15 +4,15 @@ namespace KrTrade.Nt.Services
 {
     public class BarsServiceCollection : BarUpdateServiceCollection<IBarsService, BarsServiceCollectionOptions>
     {
-        public BarsServiceCollection(IBarsMaster barsService) : base(barsService)
+        public BarsServiceCollection(IBarsManager barsService) : base(barsService)
         {
         }
 
-        public BarsServiceCollection(IBarsMaster barsService, Action<BarsServiceCollectionOptions> configureOptions) : base(barsService, configureOptions)
+        public BarsServiceCollection(IBarsManager barsService, Action<BarsServiceCollectionOptions> configureOptions) : base(barsService, configureOptions)
         {
         }
 
-        public BarsServiceCollection(IBarsMaster barsService, BarsServiceCollectionOptions options) : base(barsService, options)
+        public BarsServiceCollection(IBarsManager barsService, BarsServiceCollectionOptions options) : base(barsService, options)
         {
         }
     }

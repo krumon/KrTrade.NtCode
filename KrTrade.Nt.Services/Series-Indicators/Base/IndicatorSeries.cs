@@ -1,5 +1,4 @@
-﻿using KrTrade.Nt.Core.Caches;
-using NinjaTrader.NinjaScript;
+﻿using NinjaTrader.NinjaScript;
 using System;
 
 namespace KrTrade.Nt.Services
@@ -8,141 +7,141 @@ namespace KrTrade.Nt.Services
     /// Double values cache. The new values of cache are the last value of the input series. 
     /// The cache current value is updated when the current value and the candidate value are different.
     /// </summary>
-    public abstract class IndicatorSeries : DoubleSeries<ISeries<double>>, IIndicatorSeries
+    public abstract class IndicatorSeries : DoubleSeries<INumericSeries<double>>, IIndicatorSeries
     {
         private readonly string _name;
-        private double _lastValue;
-        private double _currentValue;
-        private int _lastValueBarsAgo;
-        private int _currentValueBarsAgo;
+        //private double _lastValue;
+        //private double _currentValue;
+        protected int _lastValueBar;
+        protected int _currentValueBar;
+
+        //protected TElement _lastValue;
+        //protected TElement _currentValue;
+        //protected int _lastValueBar;
+        //protected int _currentValueBar;
 
         /// <summary>
-        /// Create <see cref="PriceSeries"/> default instance with specified properties.
+        /// Create <see cref="IndicatorSeries"/> default instance with specified properties.
         /// </summary>
         /// <param name="input">The object instance used to gets elements for <see cref="IndicatorSeries"/>.</param>
         /// <param name="name">the name of indicator.</param>
-        /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
+        /// <param name="period">The period to calculate the cache values.</param>
         /// <param name="capacity">The series capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
         /// <param name="oldValuesCapacity">The length of the removed values cache. This values are at the end of cache.</param>
-        /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        internal IndicatorSeries(object input, string name, int barsIndex, int capacity, int oldValuesCapacity) : base(input, period: 1, capacity, oldValuesCapacity, barsIndex)
+        /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
+        internal IndicatorSeries(object input, string name, int period, int capacity, int oldValuesCapacity, int barsIndex) : base(input, period, capacity, oldValuesCapacity, barsIndex)
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
                 _name = "UnknownIndicator";
             else _name = name;
         }
 
-
-        public override string Name
-            => $"{_name}({Capacity})";
-        protected override void OnLastElementRemoved(double removedValue)
+        public override bool Add()
         {
-            if (Count == 0)
+            try
             {
-                _lastValue = Input[0];
-                _currentValue = Input[0];
-                _lastValueBarsAgo = -1;
-                _currentValueBarsAgo = -1;
-            }
-            if (_currentValueBarsAgo >= Period - 2)
-            {
-                _currentValue = GetInitValuePreviousRecalculate();
-                for (int i = Math.Min(Count, Period - 1); i > 0; i--)
+                _candidateValue = GetCandidateValue(0, isCandidateValueForUpdate: false);
+
+                if (Count == 0)
                 {
-                    if (IsValidCandidateValueToReplace(_currentValue, this[i]))
+                    _currentValue = _candidateValue;
+                    _lastValue = _candidateValue;
+                    _currentValueBar = -1;
+                    _lastValueBar = -1;
+                    Add(_currentValue);
+                    return true;
+                }
+
+                if (_currentValueBar > Period - 2)
+                {
+                    if (Period != 1)
                     {
-                        _currentValue = this[i];
-                        _currentValueBarsAgo = i;
+                        double lastValue = GetInitValuePreviousRecalculate();
+
+                        for (int i = Math.Min(Count, Period - 1); i > 0; i--)
+                        {
+                            double candidateValue = GetCandidateValue(i, isCandidateValueForUpdate: false);
+                            if (CheckAddConditions(lastValue, candidateValue))
+                            {
+                                _currentValue = candidateValue;
+                                _currentValueBar = i - 1;
+                            }
+                        }
                     }
                 }
-            }
-            _lastValue = _currentValue;
-            _lastValueBarsAgo = _currentValueBarsAgo;
 
-            if (IsValidCandidateValueToReplace(_lastValue, Input[0]))
-            {
-                _currentValue = Input[0];
-                _currentValueBarsAgo = -1;
-            }
-            else
-            {
-                _currentValue = _lastValue;
-                _currentValueBarsAgo = _lastValueBarsAgo;
-            }
-        }
-        protected override double GetCandidateValue()
-        {
-            if (Count == 0)
-            {
-                _lastValue = Input[0];
-                _currentValue = Input[0];
-                _lastValueBarsAgo = -1;
-                _currentValueBarsAgo = -1;
-                return _currentValue;
-            }
-            if (_currentValueBarsAgo >= Period - 2)
-            {
-                _currentValue = GetInitValuePreviousRecalculate();
-                for (int i = Math.Min(Count, Period - 1); i > 0; i--)
+                _lastValue = _currentValue;
+                _lastValueBar = _currentValueBar;
+
+                if (CheckAddConditions(_lastValue, _candidateValue))
                 {
-                    if (IsValidCandidateValueToReplace(_currentValue, this[i]))
-                    {
-                        _currentValue = this[i];
-                        _currentValueBarsAgo = i;
-                    }
+                    _currentValue = _candidateValue;
+                    _currentValueBar = -1;
                 }
-            }
 
-            _lastValue = _currentValue;
-            _lastValueBarsAgo = _currentValueBarsAgo;
+                Add(_currentValue);
+                return true;
 
-            if (IsValidCandidateValueToReplace(_lastValue, Input[0]))
-            {
-                _currentValue = Input[0];
-                _currentValueBarsAgo = -1;
             }
-            else
+            catch
             {
-                _currentValue = _lastValue;
-                _currentValueBarsAgo = _lastValueBarsAgo;
+                Add(default);
+                return false;
             }
-            return _currentValue;
         }
+        public override bool Update()
+        {
+            try
+            {
+                _candidateValue = GetCandidateValue(0, isCandidateValueForUpdate: true);
+
+                if (CheckUpdateConditions(_currentValue, _candidateValue))
+                {
+                    double updateValue = _candidateValue;
+                    _lastValue = _currentValue;
+                    _lastValueBar = _currentValueBar;
+                    _currentValue = updateValue;
+                    _currentValueBar = -1;
+                    this[0] = _currentValue;
+                }
+
+                return true;
+
+            }
+            catch { return false; }
+        }
+
         protected override void OnElementAdded(double addedElement)
         {
-            _lastValueBarsAgo++;
-            _currentValueBarsAgo++;
+            _lastValueBar++;
+            _currentValueBar++;
         }
-        protected override double ReplaceCurrentValue()
+        protected override void OnLastElementRemoved(double removedElement)
         {
-            if (IsValidCandidateValueToReplace(_lastValue, Input[0]))
-            {
-                _currentValue = Input[0];
-                _currentValueBarsAgo = -1;
-            }
-            else
-            {
-                _currentValue = _lastValue;
-                _currentValueBarsAgo = _lastValueBarsAgo;
-            }
-            return _currentValue;
+            _currentValueBar = Period;
+            Add();
         }
-        protected override bool IsValidCandidateValueToReplace(double currentValue, double candidateValue) 
-            => candidateValue != currentValue;
 
-        public override ISeries<double> GetInput(object input)
+        public override string Name
+            => $"{_name}({Input.Name}({Period}))";
+
+
+        public override INumericSeries<double> GetInput(object input)
         {
             if (input is NinjaScriptBase ninjascript)
-                return ninjascript.Inputs[_barsIndex];
+                return (INumericSeries<double>)ninjascript.Inputs[BarsIndex];
             if (input is BarsService barsService)
                 return barsService.Close;
-            if (input is BarsMaster barsMaster)
-                return barsMaster.Closes[_barsIndex];
+            if (input is BarsManager barsManager)
+                return barsManager.Closes[BarsIndex];
 
             return null;
         }
 
-        public abstract double GetInitValuePreviousRecalculate();
-        public abstract bool CheckUpdateCondition(double currentValue, double candidateValue);
+        protected abstract double GetInitValuePreviousRecalculate();
+        //protected abstract double CalculateCurrentValue(double lastValue, double candidateValue);
+        //protected abstract double CalculateUpdateValue(double lastValue, double currentValue, double candidateValue);
+
     }
 }

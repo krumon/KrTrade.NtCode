@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace KrTrade.Nt.Services
 {
     /// <summary>
-    /// Represents properties and method to built <see cref="IBarsMaster"/> objects. 
+    /// Represents properties and method to built <see cref="IBarsManager"/> objects. 
     /// </summary>
     public class BarsMasterBuilder : IBarsMasterBuilder
     {
@@ -36,7 +36,7 @@ namespace KrTrade.Nt.Services
         }
 
 
-        public IBarsMaster Build(NinjaScriptBase ninjascript)
+        public IBarsManager Build(NinjaScriptBase ninjascript)
         {
             // Make sure ninjascript is NOT NULL.
             if (ninjascript == null)
@@ -64,7 +64,7 @@ namespace KrTrade.Nt.Services
             //BarsSeriesService primaryDataSeries = new BarsSeriesService();
 
             // Create Bars Services
-            IBarsMaster barsServices = new BarsMaster(ninjascript, printService, options);
+            IBarsManager barsServices = new BarsManager(ninjascript, printService, options);
 
             
             return barsServices;

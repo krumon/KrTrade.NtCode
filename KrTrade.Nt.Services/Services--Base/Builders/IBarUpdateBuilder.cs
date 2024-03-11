@@ -25,7 +25,7 @@ namespace KrTrade.Nt.Services
         /// </summary>
         /// <returns>An initialized <typeparamref name="TService"/>.</returns>
         /// <exception cref="InvalidOperationException">The service can only be built once.</exception>
-        TService Build(IBarsMaster barsService);
+        TService Build(IBarsManager barsService);
 
     }
 }

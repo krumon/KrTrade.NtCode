@@ -11,7 +11,7 @@ namespace KrTrade.Nt.Services
 
         private List<Action<BarsServiceOptions>> _optionsDelegateActions = new List<Action<BarsServiceOptions>>();
 
-        public IBarsService Build(IBarsMaster barsService)
+        public IBarsService Build(IBarsManager barsService)
         {
             BarsServiceOptions options = new BarsServiceOptions();
             foreach (var action in _optionsDelegateActions)

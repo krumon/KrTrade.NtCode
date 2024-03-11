@@ -1,8 +1,12 @@
-﻿using System;
-
-namespace KrTrade.Nt.Services
+﻿namespace KrTrade.Nt.Services
 {
-    public interface IDateTimeSeries<TInput> : IValueSeries<DateTime>, IHasDateTimeCalculateValues
+    public interface INumericSeries<TElement> : IValueSeries<TElement>, IHasNumericCalculateValues<TElement>
+        where TElement : struct
+    {
+    }
+
+    public interface INumericSeries<TElement,TInput> : INumericSeries<TElement>
+        where TElement : struct
     {
         /// <summary>
         /// The <typeparamref name="TInput"/> object necesary to get or calculate the cache values.
@@ -15,8 +19,4 @@ namespace KrTrade.Nt.Services
         /// <returns>The instance of the input series.</returns>
         TInput GetInput(object input);
     }
-
-    //public interface IDateTimeSeries<TInput> : IValueSeries<DateTime,TInput>
-    //{
-    //}
 }

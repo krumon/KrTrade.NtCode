@@ -15,6 +15,11 @@ namespace KrTrade.Nt.Core.Caches
         int OldValuesCapacity { get; }
 
         /// <summary>
+        /// Gets the number of cache elements.
+        /// </summary>
+        int Count { get; }
+
+        /// <summary>
         /// Indicates if <see cref="ICache"/> is full.
         /// </summary>
         bool IsFull { get; }
@@ -65,6 +70,17 @@ namespace KrTrade.Nt.Core.Caches
     }
     public interface ICache<T> : ICache, ISeries<T>
     {
+        /// <summary>
+        /// Gets the number of cache elements.
+        /// </summary>
+        new int Count { get; }
+
+        /// <summary>
+        /// Gets the cache element located at the specified index. 
+        /// </summary>
+        /// <param name="index">The specified index.</param>
+        /// <returns>The cache element at the specified index.</returns>
+        new T this[int index] { get; }
 
         /// <summary>
         /// Gets the current cache value 'cache[0]'.

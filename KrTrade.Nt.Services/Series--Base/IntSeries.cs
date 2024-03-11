@@ -4,25 +4,23 @@ using System.Linq;
 
 namespace KrTrade.Nt.Services
 {
-    public abstract class IntSeries<TInput> : ValueSeries<int,TInput>, IIntSeries<TInput>
+    public abstract class IntSeries<TInput> : NumericSeries<int,TInput>, IIntSeries<TInput>
     {
+
+        /// <summary>
+        /// Create <see cref="IIntSeries{TInput}"/> default instance with specified properties.
+        /// </summary>
+        /// <param name="input">The object instance used to gets elements for <see cref="IntSeries{TInput}"/>.</param>
+        /// <param name="period">The specified period to calculate values in cache.</param>
+        /// <param name="capacity">The series capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
+        /// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
+        /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
         protected IntSeries(object input, int period, int capacity, int oldValuesCapacity, int barsIndex) : base(input, period, capacity, oldValuesCapacity, barsIndex)
         {
         }
 
-        ///// <summary>
-        ///// Create <see cref="IntSeries{TInput}"/> default instance with specified properties.
-        ///// </summary>
-        ///// <param name="input">The object instance used to gets elements for <see cref="IntSeries{TInput}"/>.</param>
-        ///// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        ///// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
-        ///// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
-        ///// <exception cref="ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        //protected IntSeries(TInput input, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : base(input, capacity, oldValuesCapacity, barsIndex)
-        //{
-        //}
-
-        public int Max(int displacement = 0, int period = 1)
+        public override int Max(int displacement = 0, int period = 1)
         {
             IsValidIndex(displacement, period);
 
@@ -32,7 +30,7 @@ namespace KrTrade.Nt.Services
 
             return value;
         }
-        public int Min(int displacement = 0, int period = 1)
+        public override int Min(int displacement = 0, int period = 1)
         {
             IsValidIndex(displacement, period);
 
@@ -44,7 +42,7 @@ namespace KrTrade.Nt.Services
             }
             return value;
         }
-        public int Sum(int displacement = 0, int period = 1)
+        public override int Sum(int displacement = 0, int period = 1)
         {
             IsValidIndex(displacement, period);
 
@@ -56,13 +54,13 @@ namespace KrTrade.Nt.Services
             }
             return sum;
         }
-        public double Avg(int displacement = 0, int period = 1)
+        public override double Avg(int displacement = 0, int period = 1)
         {
             IsValidIndex(displacement, period);
 
             return Sum(displacement, period) / Count;
         }
-        public double StdDev(int displacement = 0, int period = 1)
+        public override double StdDev(int displacement = 0, int period = 1)
         {
             IsValidIndex(displacement, period);
 
@@ -72,8 +70,7 @@ namespace KrTrade.Nt.Services
                 sumx2 += Math.Pow(Math.Abs(this[i] - avg), 2.0);
             return Math.Sqrt(sumx2 / Count); ;
         }
-        
-        public double[] Quartils(int displacement = 0, int period = 1)
+        public override double[] Quartils(int displacement = 0, int period = 1)
         {
             IsValidIndex(displacement, period);
             int[] rangeCache = new int[period];
@@ -94,14 +91,14 @@ namespace KrTrade.Nt.Services
             }
             return quartils;
         }
-        public double Quartil(int numberOfQuartil, int displacement, int period)
+        public override double Quartil(int numberOfQuartil, int displacement, int period)
         {
             if (numberOfQuartil < 1 || numberOfQuartil > 3)
                 throw new Exception("The number of quartil is not valid. The quartil can be 1, 2 or 3.");
 
             return Quartils(displacement, period)[numberOfQuartil];
         }
-        public double InterquartilRange(int displacement = 0, int period = 1)
+        public override double InterquartilRange(int displacement = 0, int period = 1)
         {
             var quartils = Quartils(displacement,period);
             if (quartils == null || quartils.Length != 3)
@@ -109,12 +106,11 @@ namespace KrTrade.Nt.Services
 
             return quartils[2] - quartils[0];
         }
-        
-        public int Range(int displacement = 0, int period = 1)
+        public override int Range(int displacement = 0, int period = 1)
         {
             return Max(displacement, period) - Min(displacement, period);
         }
-        public int SwingHigh(int displacement = 0, int strength = 4)
+        public override int SwingHigh(int displacement = 0, int strength = 4)
         {
             int numOfBars = (strength * 2) + 1;
             IsValidIndex(displacement, numOfBars);
@@ -136,7 +132,7 @@ namespace KrTrade.Nt.Services
 
             return isSwingHigh ? candidateValue : -1;
         }
-        public int SwingLow(int displacement = 0, int strength = 4)
+        public override int SwingLow(int displacement = 0, int strength = 4)
         {
             int numOfBars = (strength * 2) + 1;
             IsValidIndex(displacement, numOfBars);
@@ -161,5 +157,6 @@ namespace KrTrade.Nt.Services
 
         protected sealed override bool IsValidValue(int value) => value > 0;
         public override string ToString() => $"{Name}[0]: {this[0]:#,0.##}";
+
     }
 }

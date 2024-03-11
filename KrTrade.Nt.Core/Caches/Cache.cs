@@ -43,6 +43,7 @@ namespace KrTrade.Nt.Core.Caches
         }
 
         public object this[int index] => null;
+        public abstract int Count {  get; }
         public abstract bool IsFull { get; }
         public abstract void RemoveLastElement();
         public abstract void Reset();
@@ -102,11 +103,11 @@ namespace KrTrade.Nt.Core.Caches
         }
 
         // ISeries<T> implementation
-        public int Count => _cache.Count;
+        public override int Count => _cache.Count;
         public new T this[int index] 
         { 
             get => IsValidIndex(index) ? _cache[index] : throw new ArgumentOutOfRangeException(nameof(index));
-            private set
+            protected set
             {
                 if (!IsValidIndex(index)) throw new ArgumentOutOfRangeException(nameof(index));
                 T oldValue = _cache[index];

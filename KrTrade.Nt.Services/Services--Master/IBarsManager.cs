@@ -7,7 +7,7 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Defines methods that are necesary to be executed when the bar is updated.
     /// </summary>
-    public interface IBarsMaster : INinjascriptService<BarsMasterOptions>
+    public interface IBarsManager : INinjascriptService<BarsMasterOptions>
     {
 
         ///// <summary>
@@ -64,7 +64,7 @@ namespace KrTrade.Nt.Services
         //int CacheDisplacement { get; }
 
         /// <summary>
-        /// Indicates <see cref="IBarsMaster"/> is updated.
+        /// Indicates <see cref="IBarsManager"/> is updated.
         /// </summary>
         bool IsUpdated {get;} 
 

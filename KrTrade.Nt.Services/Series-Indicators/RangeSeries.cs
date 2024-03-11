@@ -5,7 +5,7 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Cache to store the lastest market range price.
     /// </summary>
-    public class RangeSeries : DoubleSeries<ISeries<double>>
+    public class RangeSeries : IndicatorSeries
     {
         /// <summary>
         /// Gets the second series necesary for calculate the values of cache.
@@ -61,21 +61,41 @@ namespace KrTrade.Nt.Services
         /// <param name="oldValuesCapacity">The length of the removed values cache. This values are at the end of cache.</param>
         /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
         /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public RangeSeries(ISeries<double> input1, ISeries<double> input2, int period = 1, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : base(input1, capacity, period, oldValuesCapacity, barsIndex)
+        public RangeSeries(ISeries<double> input1, ISeries<double> input2, int period = 1, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : base(input1, "Range", capacity, period, oldValuesCapacity, barsIndex)
         {
             Input2 = input2 ?? throw new System.ArgumentNullException(nameof(input2));
         }
 
-        public override string Name 
-            => $"Range({Capacity})";
-        protected override double GetCandidateValue() 
+        public override INumericSeries<double> GetInput(object input)
+        {            
+            if (input is INumericSeries<double> series)
+                return series;
+
+            return null;
+        }
+        protected override double GetCandidateValue(int barsAgo, bool isCandidateValueForUpdate)
             => Input[0] - Input2[0];
-        protected override double ReplaceCurrentValue() 
-            => GetCandidateValue();
-        protected override bool IsValidCandidateValueToReplace(double currentValue, double candidateValue) 
-            => candidateValue > currentValue;
-        public override ISeries<double> GetInput(object input) 
-            => input;
+
+        protected override double GetInitValuePreviousRecalculate()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override bool CheckAddConditions(double currentValue, double candidateValue)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override bool CheckUpdateConditions(double currentValue, double candidateValue)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        //protected override double UpdateCurrentValue() 
+        //    => GetCandidateValue();
+        //protected override bool IsValidCandidateValueToUpdate(double currentValue, double candidateValue) 
+        //=> candidateValue > currentValue;
+
 
     }
 }

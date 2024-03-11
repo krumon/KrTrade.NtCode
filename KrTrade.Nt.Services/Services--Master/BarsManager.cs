@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
-    public class BarsMaster : BaseNinjascriptService<BarsMasterOptions>, IBarsMaster
+    public class BarsManager : BaseNinjascriptService<BarsMasterOptions>, IBarsManager
     {
         #region Consts
 
@@ -128,7 +128,7 @@ namespace KrTrade.Nt.Services
 
         #region Constructors
 
-        public BarsMaster(NinjaScriptBase ninjascript, IPrintService printService, Action<BarsMasterOptions> configureOptions) : base(ninjascript, printService, configureOptions,null)
+        public BarsManager(NinjaScriptBase ninjascript, IPrintService printService, Action<BarsMasterOptions> configureOptions) : base(ninjascript, printService, configureOptions,null)
         {
             Options = new BarsMasterOptions();
             configureOptions?.Invoke(Options);
@@ -136,7 +136,7 @@ namespace KrTrade.Nt.Services
             string key = InstrumentName + "_" + BarsPeriod.ToShortString();
             _dataSeries.Add(key, _primaryDataSeries);
         }
-        public BarsMaster(NinjaScriptBase ninjascript, IPrintService printService, BarsMasterOptions options) : base(ninjascript, printService, null,options)
+        public BarsManager(NinjaScriptBase ninjascript, IPrintService printService, BarsMasterOptions options) : base(ninjascript, printService, null,options)
         {
             Options = options ?? new BarsMasterOptions();
             _primaryDataSeries = new BarsService(this);

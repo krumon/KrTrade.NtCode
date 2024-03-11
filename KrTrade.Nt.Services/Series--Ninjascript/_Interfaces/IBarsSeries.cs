@@ -1,9 +1,10 @@
 ﻿using KrTrade.Nt.Core.Bars;
+using NinjaTrader.NinjaScript;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
-    public interface IBarsSeries 
+    public interface IBarsSeries : IDoubleSeries<NinjaScriptBase>
     {
 
         /// <summary>

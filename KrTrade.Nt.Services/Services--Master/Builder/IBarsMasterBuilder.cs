@@ -5,7 +5,7 @@ using System;
 namespace KrTrade.Nt.Services
 {
     /// <summary>
-    /// Defines properties and method to built <see cref="IBarsMaster"/> objects. 
+    /// Defines properties and method to built <see cref="IBarsManager"/> objects. 
     /// </summary>
     public interface IBarsMasterBuilder
     {
@@ -14,7 +14,7 @@ namespace KrTrade.Nt.Services
         /// the results will be additive.
         /// </summary>
         /// <param name="configureDelegate">The delegate for configuring the <see cref="BarsMasterOptions"/> that will be used
-        /// to construct the <see cref="IBarsMaster"/>.</param>
+        /// to construct the <see cref="IBarsManager"/>.</param>
         /// <returns>The same instance of the <see cref="IBarsMasterBuilder"/> for chaining.</returns>
         IBarsMasterBuilder ConfigureOptions(Action<BarsMasterOptions> configureDelegate);
 
@@ -29,7 +29,7 @@ namespace KrTrade.Nt.Services
         /// <param name="ninjascript">The 'NinjaScript' used to configure <see cref="IBarsServices"/> instance.</param>
         /// <returns>An initialized <see cref="IBarsServices"/></returns>
         /// <exception cref="InvalidOperationException">The service can only be built once.</exception>
-        IBarsMaster Build(NinjaScriptBase ninjascript);
+        IBarsManager Build(NinjaScriptBase ninjascript);
 
 
     }

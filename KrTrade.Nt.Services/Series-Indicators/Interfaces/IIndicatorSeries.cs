@@ -1,8 +1,6 @@
-﻿using NinjaTrader.NinjaScript;
-
-namespace KrTrade.Nt.Services
+﻿namespace KrTrade.Nt.Services
 {
-    public interface IIndicatorSeries : IDoubleSeries<ISeries<double>>
+    public interface IIndicatorSeries : IDoubleSeries<INumericSeries<double>>
     {
     }
 }
