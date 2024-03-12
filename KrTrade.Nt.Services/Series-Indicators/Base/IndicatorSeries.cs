@@ -10,21 +10,14 @@ namespace KrTrade.Nt.Services
     public abstract class IndicatorSeries : DoubleSeries<INumericSeries<double>>, IIndicatorSeries
     {
         private readonly string _name;
-        //private double _lastValue;
-        //private double _currentValue;
         protected int _lastValueBar;
         protected int _currentValueBar;
-
-        //protected TElement _lastValue;
-        //protected TElement _currentValue;
-        //protected int _lastValueBar;
-        //protected int _currentValueBar;
 
         /// <summary>
         /// Create <see cref="IndicatorSeries"/> default instance with specified properties.
         /// </summary>
         /// <param name="input">The object instance used to gets elements for <see cref="IndicatorSeries"/>.</param>
-        /// <param name="name">the name of indicator.</param>
+        /// <param name="name">The short name of indicator series.</param>
         /// <param name="period">The period to calculate the cache values.</param>
         /// <param name="capacity">The series capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
         /// <param name="oldValuesCapacity">The length of the removed values cache. This values are at the end of cache.</param>
@@ -41,17 +34,10 @@ namespace KrTrade.Nt.Services
         {
             try
             {
-                _candidateValue = GetCandidateValue(0, isCandidateValueForUpdate: false);
+                _candidateValue = GetCandidateValue(0, isCandidateValueToUpdate: false);
 
                 if (Count == 0)
-                {
-                    _currentValue = _candidateValue;
-                    _lastValue = _candidateValue;
-                    _currentValueBar = -1;
-                    _lastValueBar = -1;
-                    Add(_currentValue);
-                    return true;
-                }
+                    return OnInit(_candidateValue);
 
                 if (_currentValueBar > Period - 2)
                 {
@@ -61,7 +47,7 @@ namespace KrTrade.Nt.Services
 
                         for (int i = Math.Min(Count, Period - 1); i > 0; i--)
                         {
-                            double candidateValue = GetCandidateValue(i, isCandidateValueForUpdate: false);
+                            double candidateValue = GetCandidateValue(i, isCandidateValueToUpdate: false);
                             if (CheckAddConditions(lastValue, candidateValue))
                             {
                                 _currentValue = candidateValue;
@@ -74,15 +60,10 @@ namespace KrTrade.Nt.Services
                 _lastValue = _currentValue;
                 _lastValueBar = _currentValueBar;
 
-                if (CheckAddConditions(_lastValue, _candidateValue))
-                {
-                    _currentValue = _candidateValue;
-                    _currentValueBar = -1;
-                }
-
-                Add(_currentValue);
-                return true;
-
+                if (CheckAddConditions(_currentValue, _candidateValue))
+                    return OnCandidateValueToAddChecked(_candidateValue);
+                else
+                    return OnCandidateValueToAddUnchecked(_candidateValue);
             }
             catch
             {
@@ -94,20 +75,12 @@ namespace KrTrade.Nt.Services
         {
             try
             {
-                _candidateValue = GetCandidateValue(0, isCandidateValueForUpdate: true);
+                _candidateValue = GetCandidateValue(0, isCandidateValueToUpdate: true);
 
                 if (CheckUpdateConditions(_currentValue, _candidateValue))
-                {
-                    double updateValue = _candidateValue;
-                    _lastValue = _currentValue;
-                    _lastValueBar = _currentValueBar;
-                    _currentValue = updateValue;
-                    _currentValueBar = -1;
-                    this[0] = _currentValue;
-                }
-
-                return true;
-
+                    return OnCandidateValueToUpdateChecked(_candidateValue);
+                else
+                    return OnCandidateValueToUpdateUnchecked(_candidateValue);
             }
             catch { return false; }
         }
@@ -122,10 +95,44 @@ namespace KrTrade.Nt.Services
             _currentValueBar = Period;
             Add();
         }
+        protected override bool OnInit(double candidateValue)
+        {
+            _currentValue = _candidateValue;
+            _lastValue = _candidateValue;
+            _currentValueBar = -1;
+            _lastValueBar = -1;
+            Add(_currentValue);
+            return true;
+        }
+        protected override bool OnCandidateValueToAddChecked(double candidateValue)
+        {
+            Add(candidateValue);
+            _currentValue = candidateValue;
+            _currentValueBar = -1;
+            return true;
+        }
+        protected override bool OnCandidateValueToAddUnchecked(double candidateValue)
+        {
+            Add(_currentValue);
+            return true;
+        }
+        protected override bool OnCandidateValueToUpdateChecked(double candidateValue)
+        {
+            this[0] = candidateValue;
+            _lastValue = _currentValue;
+            _lastValueBar = _currentValueBar;
+            _currentValue = candidateValue;
+            _currentValueBar = -1;
+            return true;
+        }
+        protected override bool OnCandidateValueToUpdateUnchecked(double candidateValue)
+        {
+            this[0] = _currentValue;
+            return true;
+        }
 
         public override string Name
-            => $"{_name}({Input.Name}({Period}))";
-
+            => $"{_name}({Input.Name},{Period})";
 
         public override INumericSeries<double> GetInput(object input)
         {
@@ -142,6 +149,39 @@ namespace KrTrade.Nt.Services
         protected abstract double GetInitValuePreviousRecalculate();
         //protected abstract double CalculateCurrentValue(double lastValue, double candidateValue);
         //protected abstract double CalculateUpdateValue(double lastValue, double currentValue, double candidateValue);
+
+    }
+
+    public abstract class IndicatorSeries<TInput1> : IndicatorSeries, IIndicatorSeries<TInput1>
+        where TInput1 : IIndicatorSeries
+    {
+        internal IndicatorSeries(TInput1 input1, string name, int period, int capacity, int oldValuesCapacity, int barsIndex) : base(input1, name, period, capacity, oldValuesCapacity, barsIndex)
+        {
+            if (input1 == null)
+                throw new ArgumentNullException(nameof(input1));
+            Input1 = input1;
+            Period = Input1.Period;
+        }
+
+        public TInput1 Input1 { get; protected set; }
+
+    }
+
+    public abstract class IndicatorSeries<TInput1,TInput2> : IndicatorSeries<TInput1>, IIndicatorSeries<TInput1,TInput2>
+        where TInput1 : IIndicatorSeries
+        where TInput2 : IIndicatorSeries
+
+    {
+        internal IndicatorSeries(TInput1 input1, TInput2 input2, string name, int period, int capacity, int oldValuesCapacity, int barsIndex) : base(input1, name, period, capacity, oldValuesCapacity, barsIndex)
+        {
+            if (input2 == null)
+                throw new ArgumentNullException(nameof(input2));
+            Input2 = input2;
+            if (Input1.Period != Input2.Period)
+                throw new Exception("Los indicadores 'MAX' y 'MIN' deben tener el mismo periodo.");
+        }
+
+        public TInput2 Input2 { get; protected set; }
 
     }
 }

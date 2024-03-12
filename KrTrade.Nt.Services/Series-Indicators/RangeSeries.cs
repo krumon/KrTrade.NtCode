@@ -1,101 +1,74 @@
-﻿using NinjaTrader.NinjaScript;
+﻿using System;
 
 namespace KrTrade.Nt.Services
 {
     /// <summary>
     /// Cache to store the lastest market range price.
     /// </summary>
-    public class RangeSeries : IndicatorSeries
+    public class RangeSeries : IndicatorSeries<MaxSeries,MinSeries>
     {
-        /// <summary>
-        /// Gets the second series necesary for calculate the values of cache.
-        /// </summary>
-        public ISeries<double> Input2 { get; private set; }
 
-        /// <summary>
-        /// Create <see cref="RangeSeries"/> default instance with specified properties.
-        /// </summary>
-        /// <param name="input">The <see cref="IBarsService"/> instance used to calculate the <see cref="RangeSeries"/>.</param>
-        /// <param name="period">The specified period to calculate values in cache.</param>
-        /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        /// <param name="oldValuesCapacity">The length of the removed values cache. This values are at the end of cache.</param>
-        /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
-        /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public RangeSeries(IBarsService input, int period = 1, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : this(input?.High, input?.Low, capacity, period, oldValuesCapacity, barsIndex)
-        {
-        }
+        //protected IIndicatorSeries _max;
+        //protected IIndicatorSeries _min;
+
+        ///// <summary>
+        ///// Create <see cref="RangeSeries"/> default instance with specified properties.
+        ///// </summary>
+        ///// <param name="input">The <see cref="IBarsSeries"/> instance used to calculate the <see cref="RangeSeries"/>.</param>
+        ///// <param name="name">The short name of indicator series.</param>
+        ///// <param name="period">The specified period to calculate values in cache.</param>
+        ///// <param name="capacity">The series capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
+        ///// <param name="oldValuesCapacity">The length of the removed values cache. This values are at the end of cache.</param>
+        ///// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
+        ///// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
+        //public RangeSeries(IBarsSeries input, string name, int period, int capacity, int oldValuesCapacity, int barsIndex) : base(input, name, period, capacity, oldValuesCapacity, barsIndex)
+        //{
+        //}
 
         /// <summary>
         /// Create <see cref="RangeSeries"/> default instance with specified properties.
         /// </summary>
         /// <param name="input">The <see cref="IBarsSeries"/> instance used to calculate the <see cref="RangeSeries"/>.</param>
+        /// <param name="name">The short name of indicator series.</param>
         /// <param name="period">The specified period to calculate values in cache.</param>
-        /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
+        /// <param name="capacity">The series capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
         /// <param name="oldValuesCapacity">The length of the removed values cache. This values are at the end of cache.</param>
         /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
         /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public RangeSeries(IBarsSeries input, int period = 1, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : this(input?.High, input?.Low, capacity, period, oldValuesCapacity, barsIndex)
+        public RangeSeries(MaxSeries maxSeries, MinSeries minSeries, string name, int period, int capacity, int oldValuesCapacity, int barsIndex) : base(maxSeries, minSeries, name, period, capacity, oldValuesCapacity, barsIndex)
         {
-        }
 
-        /// <summary>
-        /// Create <see cref="RangeSeries"/> default instance with specified properties.
-        /// </summary>
-        /// <param name="input">The <see cref="NinjaScriptBase"/> instance used to gets elements for <see cref="RangeSeries"/>.</param>
-        /// <param name="period">The specified period to calculate values in cache.</param>
-        /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        /// <param name="oldValuesCapacity">The length of the removed values cache. This values are at the end of cache.</param>
-        /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
-        /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public RangeSeries(NinjaScriptBase input, int period = 1, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : this(input?.Highs[barsIndex], input?.Lows[barsIndex], capacity, period, oldValuesCapacity, barsIndex)
-        {
-        }
-
-        /// <summary>
-        /// Create <see cref="RangeSeries"/> default instance with specified properties.
-        /// </summary>
-        /// <param name="input1">The high <see cref="ISeries{double}"/> series used to gets elements for <see cref="RangeSeries"/>.</param>
-        /// <param name="input2">The low <see cref="ISeries{double}"/> series used to gets elements for <see cref="RangeSeries"/>.</param>
-        /// <param name="period">The specified period to calculate values in cache.</param>
-        /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        /// <param name="oldValuesCapacity">The length of the removed values cache. This values are at the end of cache.</param>
-        /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
-        /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public RangeSeries(ISeries<double> input1, ISeries<double> input2, int period = 1, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : base(input1, "Range", capacity, period, oldValuesCapacity, barsIndex)
-        {
-            Input2 = input2 ?? throw new System.ArgumentNullException(nameof(input2));
+            //_max = maxSeries ?? throw new ArgumentNullException(nameof(maxSeries));
+            //_min = minSeries ?? throw new ArgumentNullException(nameof(minSeries));
+            //if (_max.Period != _min.Period)
+            //    throw new Exception("Los indicadores 'MAX' y 'MIN' deben tener el mismo periodo.");
+            //Period = _max.Period;
         }
 
         public override INumericSeries<double> GetInput(object input)
         {            
-            if (input is INumericSeries<double> series)
+            if (input is IBarsSeries series)
+            {
+                // TODO: Comprobar que en IBarsService existen los indicadores. Si existen los uso,
+                //       en caso contrario, los creo y los añado a IBarsService antes de añadir este
+                //       indicador para asegurarnos que tanto MAX como MIN son ejecutados antes de
+                //       que este indicador se ejecute.
                 return series;
+            }
 
             return null;
         }
         protected override double GetCandidateValue(int barsAgo, bool isCandidateValueForUpdate)
-            => Input[0] - Input2[0];
+            => Input1[0] - Input2[0];
 
-        protected override double GetInitValuePreviousRecalculate()
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override double GetInitValuePreviousRecalculate() 
+            => 0;
 
         protected override bool CheckAddConditions(double currentValue, double candidateValue)
-        {
-            throw new System.NotImplementedException();
-        }
+            => candidateValue >= currentValue; 
 
         protected override bool CheckUpdateConditions(double currentValue, double candidateValue)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        //protected override double UpdateCurrentValue() 
-        //    => GetCandidateValue();
-        //protected override bool IsValidCandidateValueToUpdate(double currentValue, double candidateValue) 
-        //=> candidateValue > currentValue;
-
+            => candidateValue >= currentValue;
 
     }
 }

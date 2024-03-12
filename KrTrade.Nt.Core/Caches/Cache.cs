@@ -32,14 +32,6 @@ namespace KrTrade.Nt.Core.Caches
         {
             OldValuesCapacity = OldValuesCapacity < 1 ? DEFAULT_OLD_VALUES_CAPACITY : oldValuesCapacity;
             Capacity =  capacity <= 0 ? DEFAULT_CAPACITY : capacity > MaxCapacity ? MaxCapacity : capacity;
-            OnInit();
-        }
-
-        /// <summary>
-        /// An event driven method which is called whenever the <see cref="ICache{T}"/> initialize.
-        /// </summary>
-        protected virtual void OnInit()
-        {
         }
 
         public object this[int index] => null;

@@ -85,7 +85,7 @@
     <Compile Include="Series--Base\Interfaces\INinjaSeries.cs" />
     <Compile Include="Series-Indicators\RangeSeries.cs" />
     <Compile Include="Series-Indicators\SumSeries.cs" />
-    <Compile Include="Series-Stats\Interfaces\IIndicatorSeries.cs" />
+    <Compile Include="Series-Stats\Interfaces\IStatsSeries.cs" />
     <Compile Include="Services--Master\BarsMasterOptions.cs" />
     <Compile Include="Services--Master\IBarsManager.cs" />
     <Compile Include="Series--Ninjascript\Bars\BarsSeries.cs" />
