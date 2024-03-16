@@ -8,7 +8,7 @@ namespace KrTrade.Nt.Services
     /// Base class for all caches.
     /// </summary>
     public class SeriesService<TSeries> : BarUpdateService<SeriesOptions>
-        where TSeries : INinjaSeries
+        where TSeries : ISeries
     {
         #region Private members
 
@@ -168,7 +168,7 @@ namespace KrTrade.Nt.Services
             {
                 if (input is NinjaScriptBase ninjascript)
                     return new AvgSeries(ninjascript, capacity, oldValuesCapacity, barsIndex);
-                if (input is ISeries<double> series)
+                if (input is NinjaTrader.NinjaScript.ISeries<double> series)
                     return new AvgSeries(series, capacity, oldValuesCapacity, barsIndex);
                 return null;
             }
@@ -176,7 +176,7 @@ namespace KrTrade.Nt.Services
             {
                 if (input is NinjaScriptBase ninjascript)
                     return new HighSeries(ninjascript, capacity, oldValuesCapacity, barsIndex);
-                if (input is ISeries<double> series)
+                if (input is NinjaTrader.NinjaScript.ISeries<double> series)
                     return new HighSeries(series, capacity, oldValuesCapacity, barsIndex);
                 return null;
             }
@@ -190,7 +190,7 @@ namespace KrTrade.Nt.Services
             {
                 if (input is NinjaScriptBase ninjascript)
                     return new MaxSeries(ninjascript, period:1, capacity, oldValuesCapacity, barsIndex);
-                if (input is ISeries<double> series)
+                if (input is NinjaTrader.NinjaScript.ISeries<double> series)
                     return new MaxSeries(series, period: 1, capacity, oldValuesCapacity, barsIndex);
                 return null;
             }
@@ -198,7 +198,7 @@ namespace KrTrade.Nt.Services
             {
                 if (input is NinjaScriptBase ninjascript)
                     return new MinSeries(ninjascript, capacity, oldValuesCapacity, barsIndex);
-                if (input is ISeries<double> series)
+                if (input is NinjaTrader.NinjaScript.ISeries<double> series)
                     return new MinSeries(series, capacity, oldValuesCapacity, barsIndex);
                 return null;
             }
@@ -212,7 +212,7 @@ namespace KrTrade.Nt.Services
             {
                 if (input is NinjaScriptBase ninjascript)
                     return new SumSeries(ninjascript, capacity, oldValuesCapacity, barsIndex);
-                if (input is ISeries<double> series)
+                if (input is NinjaTrader.NinjaScript.ISeries<double> series)
                     return new SumSeries(series, capacity, oldValuesCapacity, barsIndex);
                 return null;
             }

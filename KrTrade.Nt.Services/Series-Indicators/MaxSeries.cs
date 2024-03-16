@@ -1,49 +1,33 @@
-﻿using NinjaTrader.NinjaScript;
-
-namespace KrTrade.Nt.Services
+﻿namespace KrTrade.Nt.Services
 {
     /// <summary>
     /// Cache to store the lastest market high prices.
     /// </summary>
-    public class MaxSeries : IndicatorSeries
+    public class MaxSeries : IndicatorSeries<INumericSeries<double>>
     {
 
         /// <summary>
-        /// Create <see cref="MaxSeries"/> default instance with specified properties.
+        /// Create default instance with specified parameters.
         /// </summary>
-        /// <param name="input">The <see cref="IBarsService"/> instance used to gets <see cref="NinjaScriptBase"/> object necesary for <see cref="MaxSeries"/>.</param>
-        /// <param name="period">The period to calculate the cache values.</param>
-        /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public MaxSeries(IBarsService input, int period) : this(input?.High, period, input?.CacheCapacity ?? DEFAULT_CAPACITY, input?.RemovedCacheCapacity ?? DEFAULT_OLD_VALUES_CAPACITY, input?.Index ?? 0)
+        /// <param name="barsSeries">The bars series instance used to gets series.</param>
+        /// <param name="period">The specified period to calculate values in cache.</param>
+        /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
+        public MaxSeries(IBarsSeries barsSeries, int period, int barsIndex) : this(barsSeries.Low, period, barsIndex)
         {
         }
 
-        /// <summary>
-        /// Create <see cref="MaxSeries"/> default instance with specified properties.
-        /// </summary>
-        /// <param name="input">The <see cref="ISeries{double}"/> instance used to gets elements for <see cref="MaxSeries"/>.</param>
-        /// <param name="period">The period to calculate the cache values.</param>
-        /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        /// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
-        /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
-        /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public MaxSeries(INumericSeries<double> input, int period, int capacity, int oldValuesCapacity, int barsIndex) : base(input, "MAX", period, capacity, oldValuesCapacity, barsIndex)
+        /// <inheritdoc/>
+        public MaxSeries(IBarsService barsService, int period) : base(barsService, period)
         {
         }
 
-        public override INumericSeries<double> GetInput(object input)
+        /// <inheritdoc/>
+        public MaxSeries(INumericSeries<double> input, int period, int barsIndex) : base(input, period, barsIndex)
         {
-            if (input is NinjaScriptBase ninjascript)
-                return (INumericSeries<double>)ninjascript.Highs[BarsIndex];
-            if (input is BarsService barsService)
-                return barsService.High;
-            if (input is BarsManager barsMaster)
-                return barsMaster.Highs[BarsIndex];
-            if (input is INumericSeries<double> series)
-                return series;
-
-            return null;
         }
+
+        public override string Name => "Max";
 
         protected override double GetInitValuePreviousRecalculate() 
             => double.MinValue;

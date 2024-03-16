@@ -2,7 +2,7 @@
 
 namespace KrTrade.Nt.Services
 {
-    public interface IPriceSeries : IDoubleSeries<ISeries<double>>
+    public interface IPriceSeries : IDoubleSeries<NinjaTrader.NinjaScript.PriceSeries, NinjaScriptBase>
     {
     }
 }

@@ -2,7 +2,7 @@
 
 namespace KrTrade.Nt.Services
 {
-    public interface IVolumeSeries : IDoubleSeries<ISeries<double>>
+    public interface IVolumeSeries : IDoubleSeries<NinjaTrader.NinjaScript.VolumeSeries,NinjaScriptBase>
     {
     }
 }

@@ -3,7 +3,7 @@ using System;
 
 namespace KrTrade.Nt.Services
 {
-    public interface ITimeSeries : IDateTimeSeries<ISeries<DateTime>>
+    public interface ITimeSeries : IDateTimeSeries<NinjaTrader.NinjaScript.TimeSeries,NinjaScriptBase>
     {
     }
 }

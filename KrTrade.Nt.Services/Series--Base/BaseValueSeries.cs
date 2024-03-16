@@ -1,6 +1,6 @@
 ﻿namespace KrTrade.Nt.Services
 {
-    public abstract class ValueSeries<TElement> : NinjaSeries<TElement>, IValueSeries<TElement>
+    public abstract class BaseValueSeries<TElement> : BaseSeries<TElement>, IValueSeries<TElement>
         where TElement : struct
     {
         protected TElement _candidateValue;
@@ -9,15 +9,14 @@
         protected TElement _currentValue;
 
         /// <summary>
-        /// Create <see cref="ValueSeries{TElement}"/> default instance with specified properties.
+        /// Create <see cref="BaseValueSeries{TElement}"/> default instance with specified parameters.
         /// </summary>
-        /// <param name="input">The object instance used to gets <see cref="INinjaSeries{TElement,TInput}"/> elements.</param>
         /// <param name="period">The specified period to calculate values in cache.</param>
         /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
         /// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
         /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
         /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        protected ValueSeries(object input, int period, int capacity, int oldValuesCapacity, int barsIndex) : base(input, period, capacity, oldValuesCapacity, barsIndex)
+        protected BaseValueSeries(int period, int capacity, int oldValuesCapacity, int barsIndex) : base(period, capacity, oldValuesCapacity, barsIndex)
         {
         }
 
@@ -119,10 +118,5 @@
             this[0] = _currentValue;
             return true;
         }
-
-        //protected abstract TElement UpdateCurrentValue();
-        //protected abstract bool IsValidCandidateValueToAdd(TElement candidateValue);
-        //protected abstract bool IsValidCandidateValueToUpdate(TElement currentValue, TElement candidateValue);
-
     }
 }

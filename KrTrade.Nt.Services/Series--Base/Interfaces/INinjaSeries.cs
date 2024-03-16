@@ -1,49 +1,7 @@
-﻿using KrTrade.Nt.Core.Caches;
+﻿using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Services
 {
-    public interface INinjaSeries : ICache
-    {
-
-        /// <summary>
-        /// Gets the name of cache.
-        /// </summary>
-        string Name { get; }
-
-        /// <summary>
-        /// Gets the period of cache.
-        /// </summary>
-        int Period { get; }
-
-        /// <summary>
-        /// Add new element to cache using cache input series.
-        /// </summary>
-        /// <returns><c>true</c> if the element has been added, otherwise <c>false</c>.</returns>
-        bool Add();
-
-        /// <summary>
-        /// Replace the last element of cache using.
-        /// </summary>
-        /// <returns><c>true</c> if the last element has been replaced, otherwise <c>false</c>.</returns>
-        bool Update();
-
-    }
-
-    public interface INinjaSeries<TElement> : INinjaSeries, ICache<TElement>
-    {
-    }
-
-    //public interface INinjaSeries<TElement, TInput> : INinjaSeries, ICache<TElement>
-    //{
-    //    /// <summary>
-    //    /// The <typeparamref name="TInput"/> object necesary to get or calculate the cache values.
-    //    /// </summary>
-    //    TInput Input { get; }
-
-    //    /// <summary>
-    //    /// Gets the <see cref="Input"/> object, necesary to get or calculate the cache values.
-    //    /// </summary>
-    //    /// <returns>The instance of the input series.</returns>
-    //    TInput GetInput(object input);
-    //}
+    public interface INinjaSeries<TElement,TInput> : INumericSeries<TElement,TInput,NinjaScriptBase> where TElement: struct { }
+    public interface INinjaSeries<TElement,TInput1,TInput2> : INumericSeries<TElement,TInput1,TInput2,NinjaScriptBase> where TElement : struct { }
 }

@@ -4,46 +4,46 @@ using NinjaTrader.NinjaScript;
 namespace KrTrade.Nt.Services
 {
     /// <summary>
-    /// Cache to store the lastest market data ticks.
+    /// Series thats stored the lastest market data ticks.
     /// </summary>
-    public class TickSeries : DoubleSeries<Bars>, ITickSeries
+    public class TickSeries : DoubleSeries<Bars,NinjaScriptBase>, ITickSeries, IDoubleSeries<Bars>
     {
 
         /// <summary>
-        /// Create <see cref="TickSeries"/> default instance with specified properties.
+        /// Create <see cref="TickSeries"/> default instance with specified parameters.
         /// </summary>
-        /// <param name="input">The <see cref="IBarsService"/> instance used to gets <see cref="NinjaScriptBase"/> object necesary for <see cref="TickSeries"/>.</param>
-        /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public TickSeries(IBarsService input) : this(input?.Ninjascript?.BarsArray[input?.Index ?? 0], input?.CacheCapacity ?? DEFAULT_CAPACITY, input?.RemovedCacheCapacity ?? DEFAULT_OLD_VALUES_CAPACITY, input?.Index ?? 0)
+        /// <param name="barsService">The <see cref="IBarsService"/> instance used to gets <see cref="NinjaScriptBase"/> thats are necesary to gets <see cref="VolumeSeries"/>.</param>
+        /// <exception cref="System.ArgumentNullException">The <paramref name="barsService"/> cannot be null.</exception>
+        public TickSeries(IBarsService barsService) : this(barsService?.Ninjascript, barsService.CacheCapacity, barsService.RemovedCacheCapacity, barsService?.Index ?? 0)
+        {
+        }
+
+        /// <summary>TickSeries
+        /// Create <see cref="TickSeries"/> default instance with specified parameters.
+        /// </summary>
+        /// <param name="entry">The entry instance used to gets the input series. The input series is necesary for gets series elements.</param>
+        /// <param name="capacity">The series capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
+        /// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
+        /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
+        /// <exception cref="System.ArgumentNullException">The <paramref name="entry"/> cannot be null.</exception>
+        public TickSeries(NinjaScriptBase entry, int capacity, int oldValuesCapacity, int barsIndex) : base(entry, period: 1, capacity, oldValuesCapacity, barsIndex)
         {
         }
 
         /// <summary>
-        /// Create <see cref="TickSeries"/> default instance with specified properties.
+        /// Create <see cref="TickSeries"/> default instance with specified parameters.
         /// </summary>
-        /// <param name="input">The <see cref="NinjaScriptBase"/> instance used to gets elements for <see cref="TickSeries"/>.</param>
-        /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        /// <param name="oldValuesCapacity">The length of the removed values cache. This values are at the end of cache.</param>
-        /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
+        /// <param name="input">The input instance used to gets series.</param>
+        /// <param name="capacity">The series capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
+        /// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
+        /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
         /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public TickSeries(NinjaScriptBase input, int capacity, int oldValuesCapacity, int barsIndex) : this(input?.BarsArray[barsIndex], capacity, oldValuesCapacity, barsIndex)
+        public TickSeries(Bars input, int capacity, int oldValuesCapacity, int barsIndex) : base(input, period: 1, capacity, oldValuesCapacity, barsIndex)
         {
         }
 
-        /// <summary>
-        /// Create <see cref="TickSeries"/> default instance with specified properties.
-        /// </summary>
-        /// <param name="input">The <see cref="int"/> array used to gets elements for <see cref="TickSeries"/>.</param>
-        /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        /// <param name="oldValuesCapacity">The length of the removed values cache. This values are at the end of cache.</param>
-        /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
-        /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        internal TickSeries(Bars input, int capacity, int oldValuesCapacity, int barsIndex) : base(input, period : 1, capacity, oldValuesCapacity, barsIndex)
-        {
-        }
-
-        public override string Name 
-            => $"Tick({Capacity})";
+        public override string Name => "Tick";
+        public override string Key => $"{Name.ToUpper()}";
 
         protected override double GetCandidateValue(int barsAgo, bool isCandidateValueForUpdate) 
             => Input.TickCount;
@@ -54,19 +54,8 @@ namespace KrTrade.Nt.Services
         protected override bool CheckUpdateConditions(double currentValue, double candidateValue)
             => candidateValue != currentValue;
 
-        public override Bars GetInput(object input)
-        {
-            if (input is NinjaScriptBase ninjascript)
-                return ninjascript.BarsArray[BarsIndex];
-            if (input is BarsService barsService)
-                return barsService.Ninjascript.BarsArray[BarsIndex];
-            if (input is BarsManager barsMaster)
-                return barsMaster.Ninjascript.BarsArray[BarsIndex];
-            if (input is Bars[] barsArray)
-                return barsArray[BarsIndex];
-            if (input is Bars bars)
-                return bars;
-            return null;
-        }
+        public override Bars GetInput(NinjaScriptBase entry)
+            => entry.BarsArray[BarsIndex];
+
     }
 }

@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Series--Base\Interfaces\INinjaSeries.cs" />
     <Compile Include="Series--Base\NumericSeries.cs" />
     <Compile Include="Series--Base\Interfaces\IHasDateTimeCalculateValues.cs" />
     <Compile Include="Series--Base\Interfaces\ILongSeries.cs" />
@@ -63,7 +64,7 @@
     <Compile Include="Series--Ninjascript\_Interfaces\IPriceSeries.cs" />
     <Compile Include="Series-Indicators\AvgSeries.cs" />
     <Compile Include="Series--Ninjascript\PriceSeries.cs" />
-    <Compile Include="Series--Ninjascript\_Interfaces\IBarsSeries.cs" />
+    <Compile Include="Series-Bars\_Interfaces\IBarsSeries.cs" />
     <Compile Include="Series-Indicators\Base\IndicatorSeries.cs" />
     <Compile Include="Series-Indicators\Interfaces\IIndicatorSeries.cs" />
     <Compile Include="Series-Indicators\MinSeries.cs" />
@@ -80,15 +81,15 @@
     <Compile Include="Series--Base\Interfaces\IDoubleSeries.cs" />
     <Compile Include="Series--Base\Interfaces\IValueSeries.cs" />
     <Compile Include="Series--Base\DoubleSeries.cs" />
-    <Compile Include="Series--Base\ValueSeries.cs" />
-    <Compile Include="Series--Base\NinjaSeries.cs" />
-    <Compile Include="Series--Base\Interfaces\INinjaSeries.cs" />
+    <Compile Include="Series--Base\BaseValueSeries.cs" />
+    <Compile Include="Series--Base\BaseSeries.cs" />
+    <Compile Include="Series--Base\Interfaces\ISeries.cs" />
     <Compile Include="Series-Indicators\RangeSeries.cs" />
     <Compile Include="Series-Indicators\SumSeries.cs" />
     <Compile Include="Series-Stats\Interfaces\IStatsSeries.cs" />
     <Compile Include="Services--Master\BarsMasterOptions.cs" />
     <Compile Include="Services--Master\IBarsManager.cs" />
-    <Compile Include="Series--Ninjascript\Bars\BarsSeries.cs" />
+    <Compile Include="Series-Bars\BarsSeries.cs" />
     <Compile Include="Services--Master\Builder\BarsMasterBuilder.cs" />
     <Compile Include="Services--Master\Builder\IBarsMasterBuilder.cs" />
     <Compile Include="Services-Bars\MultiBars\IBarsServiceCollection.cs" />

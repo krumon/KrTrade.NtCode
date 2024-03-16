@@ -5,59 +5,41 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Cache to store the lastest market range price.
     /// </summary>
-    public class RangeSeries : IndicatorSeries<MaxSeries,MinSeries>
+    public class RangeSeries : IndicatorSeries<MaxSeries,MinSeries,INumericSeries<double>,INumericSeries<double>>
     {
+        public override string Name => "Range";
 
-        //protected IIndicatorSeries _max;
-        //protected IIndicatorSeries _min;
-
-        ///// <summary>
-        ///// Create <see cref="RangeSeries"/> default instance with specified properties.
-        ///// </summary>
-        ///// <param name="input">The <see cref="IBarsSeries"/> instance used to calculate the <see cref="RangeSeries"/>.</param>
-        ///// <param name="name">The short name of indicator series.</param>
-        ///// <param name="period">The specified period to calculate values in cache.</param>
-        ///// <param name="capacity">The series capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        ///// <param name="oldValuesCapacity">The length of the removed values cache. This values are at the end of cache.</param>
-        ///// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
-        ///// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        //public RangeSeries(IBarsSeries input, string name, int period, int capacity, int oldValuesCapacity, int barsIndex) : base(input, name, period, capacity, oldValuesCapacity, barsIndex)
-        //{
-        //}
-
-        /// <summary>
-        /// Create <see cref="RangeSeries"/> default instance with specified properties.
-        /// </summary>
-        /// <param name="input">The <see cref="IBarsSeries"/> instance used to calculate the <see cref="RangeSeries"/>.</param>
-        /// <param name="name">The short name of indicator series.</param>
-        /// <param name="period">The specified period to calculate values in cache.</param>
-        /// <param name="capacity">The series capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        /// <param name="oldValuesCapacity">The length of the removed values cache. This values are at the end of cache.</param>
-        /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
-        /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public RangeSeries(MaxSeries maxSeries, MinSeries minSeries, string name, int period, int capacity, int oldValuesCapacity, int barsIndex) : base(maxSeries, minSeries, name, period, capacity, oldValuesCapacity, barsIndex)
+        public RangeSeries(IBarsService barsService, int period) : base(barsService, period)
         {
-
-            //_max = maxSeries ?? throw new ArgumentNullException(nameof(maxSeries));
-            //_min = minSeries ?? throw new ArgumentNullException(nameof(minSeries));
-            //if (_max.Period != _min.Period)
-            //    throw new Exception("Los indicadores 'MAX' y 'MIN' deben tener el mismo periodo.");
-            //Period = _max.Period;
         }
 
-        public override INumericSeries<double> GetInput(object input)
-        {            
-            if (input is IBarsSeries series)
-            {
-                // TODO: Comprobar que en IBarsService existen los indicadores. Si existen los uso,
-                //       en caso contrario, los creo y los añado a IBarsService antes de añadir este
-                //       indicador para asegurarnos que tanto MAX como MIN son ejecutados antes de
-                //       que este indicador se ejecute.
-                return series;
-            }
-
-            return null;
+        public RangeSeries(IBarsSeries barsSeries, int period, int barsIndex) : this(barsSeries.High, barsSeries.Low, period, barsIndex)
+        {
         }
+
+        public RangeSeries(INumericSeries<double> entry1, INumericSeries<double> entry2, int period, int barsIndex) : base(entry1, entry2, period, barsIndex)
+        {
+        }
+
+        public RangeSeries(MaxSeries input1, MinSeries input2, int period, int barsIndex) : base(input1, input2, period, barsIndex)
+        {
+            if (Input1.Period != Input2.Period)
+                throw new Exception("Los indicadores 'MAX' y 'MIN' deben tener el mismo periodo.");
+            Period = Input1.Period;
+        }
+
+        public override MaxSeries GetInput1(INumericSeries<double> entry1)
+        {
+            if (entry1 is MaxSeries maxSeries) return maxSeries;
+            return new MaxSeries(entry1,Period,BarsIndex);
+        }
+
+        public override MinSeries GetInput2(INumericSeries<double> entry2)
+        {
+            if (entry2 is MinSeries minSeries) return minSeries;
+            return new MinSeries(entry2, Period, BarsIndex);
+        }
+
         protected override double GetCandidateValue(int barsAgo, bool isCandidateValueForUpdate)
             => Input1[0] - Input2[0];
 

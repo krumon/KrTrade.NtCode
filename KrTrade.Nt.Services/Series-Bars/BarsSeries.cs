@@ -4,7 +4,7 @@ using Bar = KrTrade.Nt.Core.Bars.Bar;
 
 namespace KrTrade.Nt.Services
 {
-    public class BarsSeries : DoubleSeries<NinjaScriptBase>, IBarsSeries
+    public class BarsSeries : DoubleSeries<NinjaTrader.NinjaScript.ISeries<double>,NinjaScriptBase>, IBarsSeries
     {
 
         #region Public properties
@@ -29,49 +29,40 @@ namespace KrTrade.Nt.Services
         /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
         public BarsSeries(IBarsService input) : this(input?.Ninjascript, input?.CacheCapacity ?? DEFAULT_CAPACITY, input?.RemovedCacheCapacity ?? DEFAULT_OLD_VALUES_CAPACITY, input?.Index ?? 0)
         {
-            CurrentBar = new CurrentBarSeries(input);
-            Time = new TimeSeries(input);
-            Open = new PriceSeries(input,"Open");
-            High = new HighSeries(input);
-            Low = new PriceSeries(input, "Low");
-            Close = new PriceSeries(input, "Close");
-            Volume = new VolumeSeries(input);
-            Tick = new TickSeries(input);
         }
 
         /// <summary>
         /// Create <see cref="BarsSeries"/> default instance with specified properties.
         /// </summary>
-        /// <param name="input">The <see cref="NinjaScriptBase"/> instance used to gets <see cref="BarsSeries"/> series.</param>
+        /// <param name="entry">The <see cref="NinjaScriptBase"/> instance used to gets <see cref="BarsSeries"/> series.</param>
         /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
         /// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
         /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
-        /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public BarsSeries(NinjaScriptBase input, int capacity, int oldValuesCapacity, int barsIndex) : base(input, period: 1, capacity, oldValuesCapacity, barsIndex)
+        /// <exception cref="System.ArgumentNullException">The <paramref name="entry"/> cannot be null.</exception>
+        public BarsSeries(NinjaScriptBase entry, int capacity, int oldValuesCapacity, int barsIndex) : base(entry, period: 1, capacity, oldValuesCapacity, barsIndex)
         {
-            CurrentBar = new CurrentBarSeries(input,capacity,oldValuesCapacity,barsIndex);
-            Time = new TimeSeries(input, capacity, oldValuesCapacity, barsIndex);
-            Open = new PriceSeries(input,"Open", capacity, oldValuesCapacity, barsIndex);
-            High = new HighSeries(input, capacity, oldValuesCapacity, barsIndex);
-            Low = new PriceSeries(input,"Low", capacity, oldValuesCapacity, barsIndex);
-            Close = new PriceSeries(input,"Close", capacity, oldValuesCapacity, barsIndex);
-            Volume = new VolumeSeries(input, capacity, oldValuesCapacity, barsIndex);
-            Tick = new TickSeries(input, capacity, oldValuesCapacity, barsIndex);
+            CurrentBar = new CurrentBarSeries(entry,capacity,oldValuesCapacity,barsIndex);
+            Time = new TimeSeries(entry, capacity, oldValuesCapacity, barsIndex);
+            Open = new HighSeries(entry, capacity, oldValuesCapacity, barsIndex);
+            High = new HighSeries(entry, capacity, oldValuesCapacity, barsIndex);
+            Low = new HighSeries(entry, capacity, oldValuesCapacity, barsIndex);
+            Close = new HighSeries(entry, capacity, oldValuesCapacity, barsIndex);
+            Volume = new VolumeSeries(entry, capacity, oldValuesCapacity, barsIndex);
+            Tick = new TickSeries(entry, capacity, oldValuesCapacity, barsIndex);
         }
 
         #endregion
 
         #region Implementation
 
-        public override string Name => $"Bars({Capacity})";
-        public override NinjaScriptBase GetInput(object input)
-        {
-            if (input is NinjaScriptBase ninjascript)
-                return ninjascript;
-            return null;
-        }
+        public override string Name => "Bars";
+        public override string Key => $"{Name.ToUpper()}(Capacity:{Capacity})";
+
+        public override NinjaTrader.NinjaScript.ISeries<double> GetInput(NinjaScriptBase entry)
+            => entry.Inputs[BarsIndex];
+
         protected override double GetCandidateValue(int barsAgo, bool isCandidateValueForUpdate)
-            => Input.Inputs[BarsIndex][barsAgo];
+            => Input[barsAgo];
 
         protected override bool CheckAddConditions(double lastValue, double candidateValue)
             => true;

@@ -1,28 +1,33 @@
-﻿using NinjaTrader.NinjaScript;
-
-namespace KrTrade.Nt.Services
+﻿namespace KrTrade.Nt.Services
 {
     /// <summary>
     /// Cache to store the lastest summary prices for specified period.
     /// </summary>
-    public class SumSeries : IndicatorSeries
+    public class SumSeries : IndicatorSeries<INumericSeries<double>>
     {
 
         /// <summary>
-        /// Create <see cref="SumSeries"/> default instance with specified properties.
+        /// Create default instance with specified parameters.
         /// </summary>
-        /// <param name="input">The <see cref="ISeries{double}"/> instance used to gets elements for <see cref="SumSeries"/>.</param>
-        /// <param name="period">The period to calculate the cache values.</param>
-        /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        /// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
-        /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
-        /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public SumSeries(object input, int period, int capacity = DEFAULT_CAPACITY, int oldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY, int barsIndex = 0) : base(input, "SUM", period, capacity, oldValuesCapacity, barsIndex)
+        /// <param name="barsSeries">The bars series instance used to gets series.</param>
+        /// <param name="period">The specified period to calculate values in cache.</param>
+        /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
+        public SumSeries(IBarsSeries barsSeries, int period, int barsIndex) : this(barsSeries.Low, period, barsIndex)
         {
         }
-        
-        public override string Name 
-            => $"Sum({Period})";
+
+        /// <inheritdoc/>
+        public SumSeries(IBarsService barsService, int period) : base(barsService, period)
+        {
+        }
+
+        /// <inheritdoc/>
+        public SumSeries(INumericSeries<double> input, int period, int barsIndex) : base(input, period, barsIndex)
+        {
+        }
+
+        public override string Name => $"Sum";
         protected override double GetCandidateValue(int barsAgo, bool isCandidateValueForUpdate)
         {
             if (!isCandidateValueForUpdate)
@@ -45,13 +50,6 @@ namespace KrTrade.Nt.Services
 
         protected override bool CheckUpdateConditions(double currentValue, double candidateValue)
             => candidateValue != currentValue;
-
-        public override INumericSeries<double> GetInput(object input)
-        {
-            if (input is INumericSeries<double> series)
-                return series;
-            return null;
-        }
 
     }
 }

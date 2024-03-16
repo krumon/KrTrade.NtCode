@@ -123,6 +123,8 @@ namespace KrTrade.Nt.Services
         ///// </summary>
         //void OnBarUpdate();
 
+        T GetSeries<T>();
+
         /// <summary>
         /// Returns the <see cref="Bar"/> of the specified <paramref name="barsAgo"/>.
         /// </summary>

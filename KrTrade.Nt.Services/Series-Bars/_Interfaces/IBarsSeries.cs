@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
-    public interface IBarsSeries : IDoubleSeries<NinjaScriptBase>
+    public interface IBarsSeries : IDoubleSeries<NinjaTrader.NinjaScript.ISeries<double>,NinjaScriptBase>
     {
 
         /// <summary>

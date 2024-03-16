@@ -1,33 +1,20 @@
-﻿using NinjaTrader.NinjaScript;
-using System;
+﻿using System;
 
 namespace KrTrade.Nt.Services
 {
-    /// <summary>
-    /// Double values cache. The new values of cache are the last value of the input series. 
-    /// The cache current value is updated when the current value and the candidate value are different.
-    /// </summary>
-    public abstract class IndicatorSeries : DoubleSeries<INumericSeries<double>>, IIndicatorSeries
+    public abstract class IndicatorSeries : DoubleSeries, IIndicatorSeries
     {
-        private readonly string _name;
         protected int _lastValueBar;
         protected int _currentValueBar;
 
         /// <summary>
-        /// Create <see cref="IndicatorSeries"/> default instance with specified properties.
+        /// Create default instance with specified parameters.
         /// </summary>
-        /// <param name="input">The object instance used to gets elements for <see cref="IndicatorSeries"/>.</param>
-        /// <param name="name">The short name of indicator series.</param>
-        /// <param name="period">The period to calculate the cache values.</param>
-        /// <param name="capacity">The series capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        /// <param name="oldValuesCapacity">The length of the removed values cache. This values are at the end of cache.</param>
-        /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        internal IndicatorSeries(object input, string name, int period, int capacity, int oldValuesCapacity, int barsIndex) : base(input, period, capacity, oldValuesCapacity, barsIndex)
+        /// <param name="period">The specified period to calculate values in cache.</param>
+        /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
+        protected IndicatorSeries(int period, int barsIndex) : base(period, DEFAULT_CAPACITY, DEFAULT_OLD_VALUES_CAPACITY, barsIndex)
         {
-            if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
-                _name = "UnknownIndicator";
-            else _name = name;
+            Capacity = Period > Capacity ? Period : Capacity;
         }
 
         public override bool Add()
@@ -131,57 +118,195 @@ namespace KrTrade.Nt.Services
             return true;
         }
 
-        public override string Name
-            => $"{_name}({Input.Name},{Period})";
-
-        public override INumericSeries<double> GetInput(object input)
-        {
-            if (input is NinjaScriptBase ninjascript)
-                return (INumericSeries<double>)ninjascript.Inputs[BarsIndex];
-            if (input is BarsService barsService)
-                return barsService.Close;
-            if (input is BarsManager barsManager)
-                return barsManager.Closes[BarsIndex];
-
-            return null;
-        }
-
         protected abstract double GetInitValuePreviousRecalculate();
-        //protected abstract double CalculateCurrentValue(double lastValue, double candidateValue);
-        //protected abstract double CalculateUpdateValue(double lastValue, double currentValue, double candidateValue);
 
     }
 
-    public abstract class IndicatorSeries<TInput1> : IndicatorSeries, IIndicatorSeries<TInput1>
-        where TInput1 : IIndicatorSeries
+    public abstract class IndicatorSeries<TInput> : IndicatorSeries, IIndicatorSeries<TInput>
+        where TInput : ISeries<double>
     {
-        internal IndicatorSeries(TInput1 input1, string name, int period, int capacity, int oldValuesCapacity, int barsIndex) : base(input1, name, period, capacity, oldValuesCapacity, barsIndex)
+
+        /// <summary>
+        /// Create default instance with specified parameters.
+        /// </summary>
+        /// <param name="barsService">The bars service instance used to gets series.</param>
+        /// <param name="period">The specified period to calculate values in cache.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="barsService"/> cannot be null.</exception>
+        protected IndicatorSeries(IBarsService barsService, int period) : base(period, barsService.Index)
         {
-            if (input1 == null)
-                throw new ArgumentNullException(nameof(input1));
-            Input1 = input1;
-            Period = Input1.Period;
+            if (barsService == null) throw new ArgumentNullException(nameof(barsService));
+            Input = barsService.GetSeries<TInput>();
+        }
+
+        /// <summary>
+        /// Create default instance with specified parameters.
+        /// </summary>
+        /// <param name="input">The input instance used to gets series.</param>
+        /// <param name="period">The specified period to calculate values in cache.</param>
+        /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
+        protected IndicatorSeries(TInput input, int period, int barsIndex) : base(period, barsIndex)
+        {
+            if (input == null) throw new ArgumentNullException(nameof(input));
+            Input = input;
+        }
+
+        public TInput Input { get; protected set; }
+        public override string Key => $"{Name}({Input.Name},{Period})";
+
+    }
+
+    public abstract class IndicatorSeries<TInput, TEntry> : IndicatorSeries, IIndicatorSeries<TInput, TEntry>
+        where TInput : ISeries<double>
+    {
+
+        /// <summary>
+        /// Create default instance with specified parameters.
+        /// </summary>
+        /// <param name="barsService">The bars service instance used to gets series.</param>
+        /// <param name="period">The specified period to calculate values in cache.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="barsService"/> cannot be null.</exception>
+        protected IndicatorSeries(IBarsService barsService, int period) : base(period, barsService.Index)
+        {
+            if (barsService == null) throw new ArgumentNullException(nameof(barsService));
+            Input = barsService.GetSeries<TInput>();
+        }
+
+        /// <summary>
+        /// Create default instance with specified parameters.
+        /// </summary>
+        /// <param name="entry">The entry instance used to gets the input series. The input series is necesary for gets elements of the series.</param>
+        /// <param name="period">The specified period to calculate values in cache.</param>
+        /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="entry"/> cannot be null.</exception>
+        protected IndicatorSeries(TEntry entry, int period, int barsIndex) : base(period, barsIndex)
+        {
+            Input = entry != null ? GetInput(entry) : throw new ArgumentNullException(nameof(entry));
+        }
+
+        /// <summary>
+        /// Create default instance with specified parameters.
+        /// </summary>
+        /// <param name="input">The input instance used to gets elements of the series.</param>
+        /// <param name="period">The specified period to calculate values in cache.</param>
+        /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
+        protected IndicatorSeries(TInput input, int period, int barsIndex) : base(period, barsIndex)
+        {
+            Input = input != null ? input : throw new ArgumentNullException(nameof(input));
+        }
+
+        public TInput Input { get; protected set; }
+        public abstract TInput GetInput(TEntry entry);
+        public override string Key => $"{Name}({Input.Name},{Period})";
+
+    }
+
+    public abstract class IndicatorSeries<TInput1, TInput2, TEntry> : IndicatorSeries, IIndicatorSeries<TInput1, TInput2, TEntry>
+        where TInput1 : ISeries<double>
+        where TInput2 : ISeries<double>
+    {
+
+        /// <summary>
+        /// Create default instance with specified parameters.
+        /// </summary>
+        /// <param name="barsService">The bars service instance used to gets series.</param>
+        /// <param name="period">The specified period to calculate values in cache.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="barsService"/> cannot be null.</exception>
+        protected IndicatorSeries(IBarsService barsService, int period) : base(period, barsService.Index)
+        {
+            if (barsService == null) throw new ArgumentNullException(nameof(barsService));
+            Input1 = barsService.GetSeries<TInput1>();
+            Input2 = barsService.GetSeries<TInput2>();
+        }
+
+        /// <summary>
+        /// Create default instance with specified parameters.
+        /// </summary>
+        /// <param name="entry">The entry instance used to gets the input series. The input series is necesary for gets series elements.</param>
+        /// <param name="period">The specified period to calculate values in cache.</param>
+        /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="entry"/> cannot be null.</exception>
+        protected IndicatorSeries(TEntry entry, int period, int barsIndex) : base(period, barsIndex)
+        {
+            Input1 = entry != null ? GetInput1(entry) : throw new ArgumentNullException(nameof(entry));
+            Input2 = entry != null ? GetInput2(entry) : throw new ArgumentNullException(nameof(entry));
+        }
+
+        /// <summary>
+        /// Create default instance with specified parameters.
+        /// </summary>
+        /// <param name="input1">The first object used to gets series elements.</param>
+        /// <param name="input2">The second object used to gets series elements.</param>
+        /// <param name="period">The specified period to calculate values in cache.</param>
+        /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="input1"/> or <paramref name="input2"/> cannot be null.</exception>
+        protected IndicatorSeries(TInput1 input1, TInput2 input2, int period, int barsIndex) : base(period, barsIndex)
+        {
+            Input1 = input1 != null ? input1 : throw new ArgumentNullException(nameof(input1));
+            Input2 = input1 != null ? input2 : throw new ArgumentNullException(nameof(input2));
+        }
+
+
+        public TInput1 Input1 { get; protected set; }
+        public TInput2 Input2 { get; protected set; }
+        public abstract TInput1 GetInput1(TEntry entry);
+        public abstract TInput2 GetInput2(TEntry entry);
+        public override string Key => $"{Name}({Input1.Name},{Input2.Name},{Period})";
+
+    }
+
+    public abstract class IndicatorSeries<TInput1, TInput2, TEntry1, TEntry2> : IndicatorSeries, IIndicatorSeries<TInput1, TInput2, TEntry1, TEntry2>
+        where TInput1 : ISeries<double>
+        where TInput2 : ISeries<double>
+    {
+
+        /// <summary>
+        /// Create default instance with specified parameters.
+        /// </summary>
+        /// <param name="barsService">The bars service instance used to gets series.</param>
+        /// <param name="period">The specified period to calculate values in cache.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="barsService"/> cannot be null.</exception>
+        protected IndicatorSeries(IBarsService barsService, int period) : base(period, barsService.Index)
+        {
+            if (barsService == null) throw new ArgumentNullException(nameof(barsService));
+            Input1 = barsService.GetSeries<TInput1>();
+            Input2 = barsService.GetSeries<TInput2>();
+        }
+
+        /// <summary>
+        /// Create default instance with specified parameters.
+        /// </summary>
+        /// <param name="entry1">The first entry instance used to gets the first input series. The input series is necesary for gets series elements.</param>
+        /// <param name="entry1">The second entry instance used to gets the second input series. The input series is necesary for gets series elements.</param>
+        /// <param name="period">The specified period to calculate values in cache.</param>
+        /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
+        protected IndicatorSeries(TEntry1 entry1, TEntry2 entry2, int period, int barsIndex) : base(period, barsIndex)
+        {
+            Input1 = entry1 != null ? GetInput1(entry1) : throw new ArgumentNullException(nameof(entry1));
+            Input2 = entry2 != null ? GetInput2(entry2) : throw new ArgumentNullException(nameof(entry2));
+        }
+
+        /// <summary>
+        /// Create default instance with specified parameters.
+        /// </summary>
+        /// <param name="input1">The first object used to gets series elements.</param>
+        /// <param name="input2">The second object used to gets series elements.</param>
+        /// <param name="period">The specified period to calculate values in cache.</param>
+        /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="input1"/> or <paramref name="input2"/> cannot be null.</exception>
+        protected IndicatorSeries(TInput1 input1, TInput2 input2, int period, int barsIndex) : base(period, barsIndex)
+        {
+            Input1 = input1 != null ? input1 : throw new ArgumentNullException(nameof(input1));
+            Input2 = input1 != null ? input2 : throw new ArgumentNullException(nameof(input2));
         }
 
         public TInput1 Input1 { get; protected set; }
-
-    }
-
-    public abstract class IndicatorSeries<TInput1,TInput2> : IndicatorSeries<TInput1>, IIndicatorSeries<TInput1,TInput2>
-        where TInput1 : IIndicatorSeries
-        where TInput2 : IIndicatorSeries
-
-    {
-        internal IndicatorSeries(TInput1 input1, TInput2 input2, string name, int period, int capacity, int oldValuesCapacity, int barsIndex) : base(input1, name, period, capacity, oldValuesCapacity, barsIndex)
-        {
-            if (input2 == null)
-                throw new ArgumentNullException(nameof(input2));
-            Input2 = input2;
-            if (Input1.Period != Input2.Period)
-                throw new Exception("Los indicadores 'MAX' y 'MIN' deben tener el mismo periodo.");
-        }
-
         public TInput2 Input2 { get; protected set; }
+        public abstract TInput1 GetInput1(TEntry1 entry1);
+        public abstract TInput2 GetInput2(TEntry2 entry2);
+        public override string Key => $"{Name}({Input1.Name},{Input2.Name},{Period})";
 
     }
 }

@@ -1,25 +1,9 @@
 ﻿namespace KrTrade.Nt.Services
 {
-    public interface IIndicatorSeries : IDoubleSeries<INumericSeries<double>>
-    {
-    }
-    public interface IIndicatorSeries<TInput1> : IIndicatorSeries
-    {
+    public interface IIndicatorSeries : IDoubleSeries { }
+    public interface IIndicatorSeries<TInput> : IIndicatorSeries, IDoubleSeries<TInput> { }
+    public interface IIndicatorSeries<TInput, TEntry> : IIndicatorSeries, IDoubleSeries<TInput, TEntry> { }
+    public interface IIndicatorSeries<TInput1, TInput2, TEntry> : IIndicatorSeries, IDoubleSeries<TInput1, TInput2, TEntry> { }
+    public interface IIndicatorSeries<TInput1, TInput2, TEntry1, TEntry2> : IIndicatorSeries, IDoubleSeries<TInput1, TInput2, TEntry1, TEntry2> { }
 
-        /// <summary>
-        /// The <typeparamref name="TInput1"/> object necesary to get or calculate the cache values.
-        /// </summary>
-        TInput1 Input1 { get; }
-
-    }
-
-    public interface IIndicatorSeries<TInput1,TInput2> : IIndicatorSeries<TInput1>
-    {
-
-        /// <summary>
-        /// The <typeparamref name="TInput1"/> object necesary to get or calculate the cache values.
-        /// </summary>
-        TInput2 Input2 { get; }
-
-    }
 }
