@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
-    public class BarsManager : BaseNinjascriptService<BarsMasterOptions>, IBarsManager
+    public class BarsManager : BaseNinjascriptService<BarsManagerOptions>, IBarsManager
     {
         #region Consts
 
@@ -65,7 +65,7 @@ namespace KrTrade.Nt.Services
         public PriceSeries High => _primaryDataSeries.High;
         public PriceSeries Low => _primaryDataSeries.Low;
         public PriceSeries Close => _primaryDataSeries.Close;
-        public PriceSeries Volume => _primaryDataSeries.Volume;
+        public VolumeSeries Volume => _primaryDataSeries.Volume;
         public TickSeries Ticks => _primaryDataSeries.Tick;
 
         public CurrentBarSeries[] CurrentBars { get; protected set; }
@@ -110,7 +110,7 @@ namespace KrTrade.Nt.Services
                 foreach (var dataSeries in _dataSeries)
                 {
                     if (idx == count)
-                        return dataSeries.Value;
+                        return dataSeries;
                     count++;
                 }
                 return null;
@@ -128,19 +128,19 @@ namespace KrTrade.Nt.Services
 
         #region Constructors
 
-        public BarsManager(NinjaScriptBase ninjascript, IPrintService printService, Action<BarsMasterOptions> configureOptions) : base(ninjascript, printService, configureOptions,null)
+        public BarsManager(NinjaScriptBase ninjascript, IPrintService printService, Action<BarsManagerOptions> configureOptions) : base(ninjascript, printService, configureOptions,null)
         {
-            Options = new BarsMasterOptions();
+            Options = new BarsManagerOptions();
             configureOptions?.Invoke(Options);
             _primaryDataSeries = new BarsService(this);
-            string key = InstrumentName + "_" + BarsPeriod.ToShortString();
+            string key = _primaryDataSeries.InstrumentName + "_" + _primaryDataSeries.BarsPeriod.ToShortString();
             _dataSeries.Add(key, _primaryDataSeries);
         }
-        public BarsManager(NinjaScriptBase ninjascript, IPrintService printService, BarsMasterOptions options) : base(ninjascript, printService, null,options)
+        public BarsManager(NinjaScriptBase ninjascript, IPrintService printService, BarsManagerOptions options) : base(ninjascript, printService, null,options)
         {
-            Options = options ?? new BarsMasterOptions();
+            Options = options ?? new BarsManagerOptions();
             _primaryDataSeries = new BarsService(this);
-            string key = InstrumentName + "_" + BarsPeriod.ToShortString();
+            string key = _primaryDataSeries.InstrumentName + "_" + _primaryDataSeries.BarsPeriod.ToShortString();
             _dataSeries.Add(key,_primaryDataSeries);
         }
 
@@ -148,7 +148,16 @@ namespace KrTrade.Nt.Services
 
         #region Implementation
 
-        public override string Name => $"Bars[{InstrumentName},{BarsPeriod.ToShortString()}]";
+        public override string Name => $"Bars[{_primaryDataSeries.InstrumentName},{_primaryDataSeries.BarsPeriod.ToShortString()}]";
+
+        public DataSeriesInfo[] DataSeries => throw new NotImplementedException();
+
+        public int Index => throw new NotImplementedException();
+
+        public int Capacity => throw new NotImplementedException();
+
+        public int RemovedCacheCapacity => throw new NotImplementedException();
+
         internal override void Configure(out bool isConfigured)
         {
             _dataSeries.Configure();
@@ -157,12 +166,12 @@ namespace KrTrade.Nt.Services
         internal override void DataLoaded(out bool isDataLoaded)
         {
             for (int i = 0; i < Ninjascript.BarsArray.Length; i++)
-                if (Ninjascript.BarsArray[i].Instrument.MasterInstrument.Name == InstrumentName)
-                    if (Ninjascript.BarsPeriods[i] == BarsPeriod &&
-                        Ninjascript.BarsArray[i].TradingHours.Name == TradingHoursName
+                if (Ninjascript.BarsArray[i].Instrument.MasterInstrument.Name == _dataSeries[i].InstrumentName)
+                    if (Ninjascript.BarsPeriods[i] == _dataSeries[i].BarsPeriod &&
+                        Ninjascript.BarsArray[i].TradingHours.Name == _dataSeries[i].TradingHoursName
                         )
                     {
-                        Index = i;
+                        //Index = i;
                         break;
                     }
             isDataLoaded = Index != -1;

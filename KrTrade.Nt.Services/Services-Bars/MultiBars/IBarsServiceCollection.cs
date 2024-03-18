@@ -33,7 +33,7 @@ namespace KrTrade.Nt.Services
         TickSeries[] Ticks { get; }
 
         // Services
-        IndicatorsCollection[] Indicators { get; }
+        IndicatorCollection[] Indicators { get; }
         StatsCollection[] Stats { get; }
         FiltersCollection[] Filters { get; }
 

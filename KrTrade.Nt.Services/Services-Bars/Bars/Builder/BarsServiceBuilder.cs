@@ -11,13 +11,13 @@ namespace KrTrade.Nt.Services
 
         private List<Action<BarsServiceOptions>> _optionsDelegateActions = new List<Action<BarsServiceOptions>>();
 
-        public IBarsService Build(IBarsManager barsService)
+        public IBarsService Build(IBarsManager barsManager)
         {
             BarsServiceOptions options = new BarsServiceOptions();
             foreach (var action in _optionsDelegateActions)
                 action(options);
 
-            IBarsService dataSeriesService = new BarsService(barsService,options);
+            IBarsService dataSeriesService = new BarsService(barsManager?.Ninjascript,barsManager?.PrintService,options);
 
             return dataSeriesService;
         }

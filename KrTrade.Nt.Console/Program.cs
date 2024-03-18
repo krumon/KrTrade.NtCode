@@ -28,7 +28,7 @@ namespace KrTrade.Nt.Console.Console
         {
 
             // Configure
-            IBarsManager bars = new BarsMasterBuilder()
+            IBarsManager bars = new BarsManagerBuilder()
                 .UsePrintService((o) =>
                 {
                     o.IsEnable = true;

@@ -1,6 +1,6 @@
 ﻿namespace KrTrade.Nt.Services
 {
-    public class BarsServiceCollectionOptions : BarUpdateServiceCollectionOptions
+    public class BarsServiceCollectionOptions : NinjascriptServiceCollectionOptions
     {
     }
 }

@@ -15,7 +15,7 @@
         /// Method to be executed to update the service when a <see cref="IBarsService"/> is updated.
         /// </summary>
         /// <param name="updatedBarsSeries"The ><see cref="IBarsSeries"/> updated.<see cref="IBarsService"/> updated.</param>
-        void BarsSeriesUpdate(IBarsService updatedBarsSeries);
+        void Update(IBarsService updatedBarsSeries);
 
     }
 }

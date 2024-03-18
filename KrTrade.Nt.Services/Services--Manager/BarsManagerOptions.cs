@@ -2,7 +2,7 @@
 
 namespace KrTrade.Nt.Services
 {
-    public class BarsMasterOptions : NinjascriptServiceOptions
+    public class BarsManagerOptions : NinjascriptServiceOptions
     {
 
         //// BarsSeries options

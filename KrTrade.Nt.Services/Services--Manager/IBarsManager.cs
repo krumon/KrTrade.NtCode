@@ -7,7 +7,7 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Defines methods that are necesary to be executed when the bar is updated.
     /// </summary>
-    public interface IBarsManager : INinjascriptService<BarsMasterOptions>
+    public interface IBarsManager : INinjascriptService<BarsManagerOptions>
     {
 
         ///// <summary>

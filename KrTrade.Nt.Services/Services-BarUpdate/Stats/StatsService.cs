@@ -6,9 +6,9 @@
         {
         }
 
-        public StatsService(IBarsService barsSeries, IConfigureOptions<StatsOptions> configureOptions) : base(barsSeries, configureOptions)
-        {
-        }
+        //public StatsService(IBarsService barsSeries, IConfigureOptions<StatsOptions> configureOptions) : base(barsSeries, configureOptions)
+        //{
+        //}
 
         //public StatsService(IBarsService barsService, int period) : base(barsService, period)
         //{
@@ -39,17 +39,22 @@
             throw new System.NotImplementedException();
         }
 
-        public override void Update()
-        {
-            throw new System.NotImplementedException();
-        }
-
         internal override void Configure(out bool isConfigured)
         {
             throw new System.NotImplementedException();
         }
 
         internal override void DataLoaded(out bool isDataLoaded)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void Update(IBarsService updatedSeries)
         {
             throw new System.NotImplementedException();
         }

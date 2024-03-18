@@ -5,18 +5,19 @@ using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
-    public class BarUpdateServiceCollection<TService,TOptions> : BaseNinjascriptService<TOptions>, IBarUpdateService, IEnumerable, IEnumerable<TService>
-        where TService : IBarUpdateService
-        where TOptions : BarUpdateServiceCollectionOptions, new()
+
+    public class BaseNinjascriptServiceCollection<TService> : BaseNinjascriptService, IEnumerable, IEnumerable<TService>
+    where TService : INinjascriptService
     {
         private IList<TService> _services;
         private readonly IDictionary<string, int> _keys;
+        protected new NinjascriptServiceCollectionOptions _options;
 
-        //private IDictionary<string, TService> _services;
+        public new NinjascriptServiceCollectionOptions Options { get => _options ?? new NinjascriptServiceCollectionOptions(); protected set { _options = value; } }
 
-        public TService this[string key] 
+        public TService this[string key]
         {
-            get 
+            get
             {
                 try
                 {
@@ -53,20 +54,10 @@ namespace KrTrade.Nt.Services
             }
         }
 
-        public BarUpdateServiceCollection(NinjaScriptBase ninjascript) : base(ninjascript)
-        {
-        }
-
-        public BarUpdateServiceCollection(NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript, printService)
-        {
-        }
-
-        public BarUpdateServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, Action<TOptions> configureOptions) : base(ninjascript, printService, configureOptions)
-        {
-        }
-        public BarUpdateServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, TOptions options) : base(ninjascript, printService, options)
-        {
-        }
+        public BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript) : base(ninjascript) { }
+        public BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript, printService) { }
+        public BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceOptions options) : base(ninjascript, printService, options) { }
+        public BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, Action<NinjascriptServiceOptions> configureOptions, NinjascriptServiceOptions options) : base(ninjascript, printService, configureOptions, options) { }
 
         #region Implementation
 
@@ -77,7 +68,7 @@ namespace KrTrade.Nt.Services
                 return string.Empty;
 
             string logText = string.Empty;
-            foreach(var service  in _services) 
+            foreach (var service in _services)
                 logText += service.ToLogString() + "NewLine";
 
             logText.Remove(logText.Length - 7);
@@ -115,22 +106,13 @@ namespace KrTrade.Nt.Services
                 }
             }
         }
-        public void Update()
+        public override void Terminated()
         {
             if (_services == null || _services.Count == 0)
                 return;
             foreach (var service in _services)
-                service.Update();
-
+                service.Terminated();
         }
-        //public void Terminated()
-        //{
-        //    foreach (var service in _services)
-        //    {
-        //        if (service.Value.GetType().IsAssignableFrom(typeof(ITerminated)))
-        //            service.Value.Terminated();
-        //    }
-        //}
 
         public void Add(string key, TService service)
         {
@@ -155,11 +137,10 @@ namespace KrTrade.Nt.Services
             catch (Exception e)
             {
                 logText = $"The {service.Name} service has NOT been added.";
-                PrintService.LogError(logText,e);
+                PrintService.LogError(logText, e);
             }
         }
         public int Count => _services.Count;
-
         public void Clear() => _services?.Clear();
         public void Remove(string key)
         {
@@ -178,7 +159,7 @@ namespace KrTrade.Nt.Services
             }
             catch (Exception ex)
             {
-                PrintService.LogError("The element cannot be added.",ex);
+                PrintService.LogError("The element cannot be added.", ex);
             }
         }
         public void RemoveAt(int index)
@@ -200,7 +181,40 @@ namespace KrTrade.Nt.Services
         public IEnumerator<TService> GetEnumerator() => _services.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
+        protected void Execute(Action<TService> action)
+        {
+            if (_services == null || _services.Count == 0)
+                return;
+            foreach (var service in _services)
+            {
+                try
+                {
+                    action(service);
+                }
+                catch (Exception e)
+                {
+                    string logText = $"The {service.Name} action has NOT been executed.";
+                    PrintService.LogError(logText, e);
+                }
+            }
+        }
+
         #endregion
+
+    }
+
+    public class BaseNinjascriptServiceCollection<TService,TOptions> : BaseNinjascriptServiceCollection<TService>
+        where TService : INinjascriptService
+        where TOptions : NinjascriptServiceCollectionOptions, new()
+    {
+        protected new TOptions _options;
+
+        public BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript) : base(ninjascript) { } 
+        public BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript, printService) { }
+        public BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceOptions options) : base(ninjascript, printService, options) { }
+        public BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, Action<NinjascriptServiceOptions> configureOptions, NinjascriptServiceOptions options) : base(ninjascript, printService, configureOptions, options) { }
+
+        public new TOptions Options { get => _options ?? new TOptions(); protected set { _options = value; } }
 
     }
 }

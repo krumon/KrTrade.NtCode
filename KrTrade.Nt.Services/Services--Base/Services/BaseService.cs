@@ -104,13 +104,13 @@ namespace KrTrade.Nt.Services
             return Ninjascript.Times[barsInProgress][barsAgo];
         }
 
-        protected void ExecuteMethods(List<Action> methods)
+        protected void Execute(List<Action> actions)
         {
-            if (methods == null || methods.Count == 0)
+            if (actions == null || actions.Count == 0)
                 return;
 
-            for (int i = 0; i < methods.Count; i++)
-                methods[i]?.Invoke();
+            for (int i = 0; i < actions.Count; i++)
+                actions[i]?.Invoke();
         }
         protected bool IsBarsInProgressOutOfRange(int barsInProgress)
         {

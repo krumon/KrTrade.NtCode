@@ -14,6 +14,6 @@
         /// Method to be executed to update the service when a <see cref="IBarsService"/> market data is updated.
         /// </summary>
         /// <param name="updatedBarsSeries"><see cref="IBarsService"/> updated.</param>
-        void BarsSeriesMarketData(IBarsService updatedBarsSeries);
+        void MarketData(IBarsService updatedBarsSeries);
     }
 }

@@ -14,6 +14,6 @@
         /// Method to be executed to render the ninjascript when a <see cref="IBarsService"/> is rendering.
         /// </summary>
         /// <param name="updatedBarsSeries"><see cref="IBarsService"/> updated.</param>
-        void BarsSeriesRender(IBarsService updatedBarsSeries);
+        void Render(IBarsService updatedBarsSeries);
     }
 }

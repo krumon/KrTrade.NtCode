@@ -3,7 +3,7 @@
 namespace KrTrade.Nt.Services
 {
     /// <summary>
-    /// Defines properties and method to built any <see cref="IBarUpdateService"/> object. 
+    /// Defines properties and method to built any <see cref="IBarUpdateService{TOptions}"/> object. 
     /// </summary>
     public interface IBarUpdateBuilder<TService,TOptions,TSelf> 
         where TService : IBarUpdateService<TOptions>

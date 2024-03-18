@@ -9,28 +9,28 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Represents properties and method to built <see cref="IBarsManager"/> objects. 
     /// </summary>
-    public class BarsMasterBuilder : IBarsMasterBuilder
+    public class BarsManagerBuilder : IBarsManagerBuilder
     {
-        private readonly List<Action<BarsMasterOptions>> _optionsDelegateActions = new List<Action<BarsMasterOptions>>();
+        private readonly List<Action<BarsManagerOptions>> _optionsDelegateActions = new List<Action<BarsManagerOptions>>();
         private readonly List<Action<PrintOptions>> _printDelegateActions = new List<Action<PrintOptions>>();
         private readonly List<Action<BarsServiceOptions>> _primaryDataSeriesDelegateActions = new List<Action<BarsServiceOptions>>();
 
-        public IBarsMasterBuilder ConfigureOptions(Action<BarsMasterOptions> configureDelegate)
+        public IBarsManagerBuilder ConfigureOptions(Action<BarsManagerOptions> configureDelegate)
         {
             _optionsDelegateActions.Add(configureDelegate ?? throw new ArgumentNullException(nameof(configureDelegate)));
             return this;
         }
-        public IBarsMasterBuilder UsePrintService(Action<PrintOptions> configureDelegate)
+        public IBarsManagerBuilder UsePrintService(Action<PrintOptions> configureDelegate)
         {
             _printDelegateActions.Add(configureDelegate ?? throw new ArgumentNullException(nameof(configureDelegate)));
             return this;
         }
-        public IBarsMasterBuilder ConfigureDataSeries(Action<BarsServiceOptions> configureDelegate)
+        public IBarsManagerBuilder ConfigureDataSeries(Action<BarsServiceOptions> configureDelegate)
         {
             _primaryDataSeriesDelegateActions.Add(configureDelegate ?? throw new ArgumentNullException(nameof(configureDelegate)));
             return this;
         }
-        public IBarsMasterBuilder AddDataSeries(Action<DataSeriesInfo, IBarsServiceBuilder> configureDelegate)
+        public IBarsManagerBuilder AddDataSeries(Action<DataSeriesInfo, IBarsServiceBuilder> configureDelegate)
         {
             throw new NotImplementedException();
         }
@@ -49,7 +49,7 @@ namespace KrTrade.Nt.Services
             IPrintService printService = new PrintService(ninjascript, printOptions);
 
             // Configure Options
-            BarsMasterOptions options = new BarsMasterOptions();
+            BarsManagerOptions options = new BarsManagerOptions();
             foreach (var action in _optionsDelegateActions)
                 action(options);
 

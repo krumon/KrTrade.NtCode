@@ -73,7 +73,7 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Gets the volume series.
         /// </summary>
-        PriceSeries Volume { get; }
+        VolumeSeries Volume { get; }
 
         /// <summary>
         /// Gets the tick count series.

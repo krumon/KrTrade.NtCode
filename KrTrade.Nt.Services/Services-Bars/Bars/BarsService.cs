@@ -37,8 +37,10 @@ namespace KrTrade.Nt.Services
         #region Public properties
 
         public int CacheCapacity { get => Options.CacheCapacity; protected set { Options.CacheCapacity = value; } }
-        public int ReomvedCacheCapacity {  get => Options.RemovedCacheCapacity; protected set { Options.RemovedCacheCapacity = value; }}
+        public int RemovedCacheCapacity {  get => Options.RemovedCacheCapacity; protected set { Options.RemovedCacheCapacity = value; }}
         public int Index { get; protected set; } = -1;
+        public bool IsWaitingFirstTick => throw new NotImplementedException();
+
         public string TradingHoursName {  get; protected set; }
         //{
         //    get => Options.TradringHoursCode.ToName();
@@ -92,7 +94,8 @@ namespace KrTrade.Nt.Services
             return stateText;
         }
 
-        public IndicatorsCollection Indicators { get; private set; }
+        public SeriesCollection Series { get; private set; }
+        public IndicatorCollection Indicators { get; private set; }
         public StatsCollection Stats { get; private set; }
         public FiltersCollection Filters { get; private set; }
 
@@ -100,29 +103,19 @@ namespace KrTrade.Nt.Services
 
         #region Constructors
 
-        public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript) : base(ninjascript)
-        {
-        }
-        public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript, printService)
-        {
-        }
-        public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, Action<BarsServiceOptions> configureOptions) : base(ninjascript, printService, configureOptions)
-        {
-        }
-        public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsServiceOptions options) : base(ninjascript, printService, options)
-        {
-        }
-        public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, Action<BarsServiceOptions> configureOptions, BarsServiceOptions options) : base(ninjascript, printService, configureOptions, options)
-        {
-        }
+        public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript) : base(ninjascript) { }
+        public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript, printService) { }
+        public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, Action<BarsServiceOptions> configureOptions) : base(ninjascript, printService, configureOptions) { }
+        public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsServiceOptions options) : base(ninjascript, printService, options) { }
+        public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, Action<BarsServiceOptions> configureOptions, BarsServiceOptions options) : base(ninjascript, printService, configureOptions, options) { }
 
-        //public BarsService(IBarsMaster barsService) : base(barsService)
-        //{
-        //    _barsCacheSvc = new BarsCacheService(barsService);
-        //    Indicators = new IndicatorsCollection(barsService);
-        //    Filters = new FiltersCollection(barsService);
-        //    Stats = new StatsCollection(barsService);
-        //}
+        public BarsService(IBarsManager barsManager) : base(barsManager?.Ninjascript, barsManager?.PrintService)
+        {
+            _barsCacheSvc = new BarsSeriesService(this);
+            Indicators = new IndicatorCollection(this);
+            Filters = new FiltersCollection(this);
+            Stats = new StatsCollection(this);
+        }
         //public BarsService(IBarsMaster barsService, Action<BarsServiceOptions> configureOptions) : base(barsService, configureOptions)
         //{
         //    _barsCacheSvc = new BarsCacheService(barsService);
@@ -215,7 +208,7 @@ namespace KrTrade.Nt.Services
                     Update();
             }
         }
-        public override void Update()
+        public void Update()
         {
             if (!Options.IsEnable || Ninjascript.BarsInProgress != Index)
                 return;
@@ -280,9 +273,44 @@ namespace KrTrade.Nt.Services
             _lastBarIdx = _currentBarIdx;
             _lastPrice = _currentPrice;
         }
+        public void Update(IBarsService updatedBarsSeries)
+        {
+            throw new NotImplementedException();
+        }
+        public void MarketData()
+        {
+            throw new NotImplementedException();
+        }
+        public void MarketData(IBarsService updatedBarsSeries)
+        {
+            throw new NotImplementedException();
+        }
+        public void MarketDepth()
+        {
+            throw new NotImplementedException();
+        }
+        public void MarketDepth(IBarsService updatedBarsSeries)
+        {
+            throw new NotImplementedException();
+        }
+        public void Render()
+        {
+            throw new NotImplementedException();
+        }
+        public void Render(IBarsService updatedBarsSeries)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T GetSeries<T>()
+        {
+            throw new NotImplementedException();
+        }
         public Bar GetBar(int barsAgo) => _barsCacheSvc.GetBar(barsAgo);
         public Bar GetBar(int barsAgo, int period) => _barsCacheSvc.GetBar(barsAgo, period);
         public IList<Bar> GetBars(int barsAgo, int period) => _barsCacheSvc.GetBars(barsAgo, period);
+
+
 
         #endregion
 
@@ -342,13 +370,13 @@ namespace KrTrade.Nt.Services
                     BarsIndex = 0,
                 };
             if ((type == typeof(BarsSeriesService) || type == typeof(IBarsSeriesService)))
-                service = new BarsCacheService(Bars);
+                service = new BarsSeriesService(this);
             else if (type == typeof(SeriesService<MaxSeries>))
-                if (options is SeriesOptions maxOptions) service = new CacheService<MaxSeries>(Bars, input1, maxOptions);
-                else service = new CacheService<MaxSeries>(Bars, input1);
+                if (options is SeriesOptions maxOptions) service = new SeriesService<MaxSeries>(this, input1, maxOptions);
+                else service = new SeriesService<MaxSeries>(this, input1);
             else if (type == typeof(SeriesService<MinSeries>))
-                if (options is SeriesOptions minOptions) service = new CacheService<MinSeries>(Bars, input1, minOptions);
-                else service = new CacheService<MinSeries>(Bars, input1);
+                if (options is SeriesOptions minOptions) service = new SeriesService<MinSeries>(this, input1, minOptions);
+                else service = new SeriesService<MinSeries>(this, input1);
             else
                 throw new NotImplementedException($"The {type.Name} has not been created. Krumon...implemented it!!!!");
 

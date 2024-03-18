@@ -1,7 +1,22 @@
-﻿namespace KrTrade.Nt.Services
+﻿using KrTrade.Nt.Core.Bars;
+using System.Collections.Generic;
+
+namespace KrTrade.Nt.Services
 {
-    public interface IBarsSeriesService : IBarsSeries, IBarUpdateService
+    public interface IBarsSeriesService : IBarUpdateService //, IBarsSeries
     {
+
+        CurrentBarSeries CurrentBar {get;}
+        TimeSeries Time {get;}
+        PriceSeries Open {get;}
+        PriceSeries High {get;}
+        PriceSeries Low {get;}
+        PriceSeries Close {get;}
+        VolumeSeries Volume {get;}
+        TickSeries Tick {get;}
+        Bar GetBar(int barsAgo);
+        Bar GetBar(int barsAgo, int period);
+        IList<Bar> GetBars(int barsAgo, int period);
 
         ///// <summary>
         ///// 

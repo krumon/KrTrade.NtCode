@@ -5,7 +5,7 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Defines properties and method to built <see cref="IBarsService"/> objects. 
     /// </summary>
-    public interface IBarsServiceBuilder : IBarUpdateBuilder<IBarsService,BarsServiceOptions,IBarsServiceBuilder>
+    public interface IBarsServiceBuilder : INinjascriptServiceBuilder<IBarsService,BarsServiceOptions,IBarsServiceBuilder>
     {
         ///// <summary>
         ///// Adds the indicators configuration for the <see cref="IDataSeriesService"/> objects..
