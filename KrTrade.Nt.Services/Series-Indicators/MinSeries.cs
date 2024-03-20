@@ -13,7 +13,7 @@
         /// <param name="period">The specified period to calculate values in cache.</param>
         /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public MinSeries(IBarsSeries barsSeries, int period, int barsIndex) : this(barsSeries.Low, period, barsIndex)
+        public MinSeries(IBarSeries barsSeries, int period, int barsIndex) : this(barsSeries.Low, period, barsIndex)
         {
         }
 

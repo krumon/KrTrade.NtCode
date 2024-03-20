@@ -32,6 +32,9 @@ namespace KrTrade.Nt.Services
 
         public int BarsIndex => Bars.Index;
         public IBarsService Bars { get; protected set; }
+
+        public override string Key => throw new NotImplementedException();
+
         public void Update() => Execute((service) => service.Update());
         public void Update(IBarsService updatedBarsSeries) => Execute((service) => service.Update(updatedBarsSeries));
 

@@ -4,7 +4,7 @@ using Bar = KrTrade.Nt.Core.Bars.Bar;
 
 namespace KrTrade.Nt.Services
 {
-    public class BarsSeries : DoubleSeries<NinjaTrader.NinjaScript.ISeries<double>,NinjaScriptBase>, IBarsSeries
+    public class BarSeries : DoubleSeries<NinjaTrader.NinjaScript.ISeries<double>,NinjaScriptBase>, IBarSeries
     {
 
         #region Public properties
@@ -23,23 +23,23 @@ namespace KrTrade.Nt.Services
         #region Constructors
 
         /// <summary>
-        /// Create <see cref="BarsSeries"/> default instance with specified properties.
+        /// Create <see cref="BarSeries"/> default instance with specified properties.
         /// </summary>
         /// <param name="input">The <see cref="IBarsManager"/> instance used to gets <see cref="NinjaScriptBase"/> object necesary for <see cref="BarsCache"/>.</param>
         /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-        public BarsSeries(IBarsService input) : this(input?.Ninjascript, input?.CacheCapacity ?? DEFAULT_CAPACITY, input?.RemovedCacheCapacity ?? DEFAULT_OLD_VALUES_CAPACITY, input?.Index ?? 0)
+        public BarSeries(IBarsService input) : this(input?.Ninjascript, input?.CacheCapacity ?? DEFAULT_CAPACITY, input?.RemovedCacheCapacity ?? DEFAULT_OLD_VALUES_CAPACITY, input?.Index ?? 0)
         {
         }
 
         /// <summary>
-        /// Create <see cref="BarsSeries"/> default instance with specified properties.
+        /// Create <see cref="BarSeries"/> default instance with specified properties.
         /// </summary>
-        /// <param name="entry">The <see cref="NinjaScriptBase"/> instance used to gets <see cref="BarsSeries"/> series.</param>
+        /// <param name="entry">The <see cref="NinjaScriptBase"/> instance used to gets <see cref="BarSeries"/> series.</param>
         /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
         /// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
         /// <param name="barsIndex">The index of NinjaScript.Bars used to gets cache elements.</param>
         /// <exception cref="System.ArgumentNullException">The <paramref name="entry"/> cannot be null.</exception>
-        public BarsSeries(NinjaScriptBase entry, int capacity, int oldValuesCapacity, int barsIndex) : base(entry, period: 1, capacity, oldValuesCapacity, barsIndex)
+        public BarSeries(NinjaScriptBase entry, int capacity, int oldValuesCapacity, int barsIndex) : base(entry, period: 1, capacity, oldValuesCapacity, barsIndex)
         {
             CurrentBar = new CurrentBarSeries(entry,capacity,oldValuesCapacity,barsIndex);
             Time = new TimeSeries(entry, capacity, oldValuesCapacity, barsIndex);
@@ -68,7 +68,7 @@ namespace KrTrade.Nt.Services
             => true;
 
         protected override bool CheckUpdateConditions(double currentValue, double candidateValue)
-            => candidateValue != currentValue;
+            => true;
 
         protected override void OnElementAdded(double addedElement)
         {

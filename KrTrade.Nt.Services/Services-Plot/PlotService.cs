@@ -20,6 +20,8 @@ namespace KrTrade.Nt.Services
         /// </summary>
         public override string Name => nameof(PlotService);
 
+        public override string Key => throw new System.NotImplementedException();
+
         public override string ToLogString()
         {
             throw new System.NotImplementedException();

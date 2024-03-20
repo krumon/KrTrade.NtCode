@@ -20,6 +20,8 @@ namespace KrTrade.Nt.Services
         {
         }
 
+        public override string Key => throw new System.NotImplementedException();
+
         public override void OnCalculate()
         {
             Avg = sum / Period;

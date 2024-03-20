@@ -1,11 +1,20 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using NinjaTrader.NinjaScript;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
-    public interface IBarsSeries : IDoubleSeries<NinjaTrader.NinjaScript.ISeries<double>,NinjaScriptBase>
+    /// <summary>
+    /// Defines properties and methods that are necesary to create a series service.
+    /// </summary>
+    public interface IBarSeriesService : ISeriesService<BarSeries>
     {
+
+        /// <summary>
+        /// Gets the element of a sepecific index.
+        /// </summary>
+        /// <param name="index">The specific index.</param>
+        /// <returns>Series element located at specified index.</returns>
+        new double this[int index] { get; }
 
         /// <summary>
         /// Gets the index series.

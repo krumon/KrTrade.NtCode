@@ -6,10 +6,10 @@ using System.Collections.Generic;
 namespace KrTrade.Nt.Services
 {
 
-    public class BaseNinjascriptServiceCollection<TService> : BaseNinjascriptService, IEnumerable, IEnumerable<TService>
+    public abstract class BaseNinjascriptServiceCollection<TService> : BaseNinjascriptService, IEnumerable, IEnumerable<TService>
     where TService : INinjascriptService
     {
-        private IList<TService> _services;
+        protected IList<TService> _services;
         private readonly IDictionary<string, int> _keys;
         protected new NinjascriptServiceCollectionOptions _options;
 
@@ -114,6 +114,7 @@ namespace KrTrade.Nt.Services
                 service.Terminated();
         }
 
+        public void Add(TService service) => Add(service?.Key, service);
         public void Add(string key, TService service)
         {
             string logText;
@@ -130,6 +131,7 @@ namespace KrTrade.Nt.Services
 
                 _services.Add(service);
                 _keys.Add(key, _services.Count - 1);
+                _keys.Add(service.Key, _services.Count - 1);
 
                 logText = $"The {service.Name} service has been added successfully.";
                 PrintService.LogInformation(logText);
@@ -203,7 +205,7 @@ namespace KrTrade.Nt.Services
 
     }
 
-    public class BaseNinjascriptServiceCollection<TService,TOptions> : BaseNinjascriptServiceCollection<TService>
+    public abstract class BaseNinjascriptServiceCollection<TService,TOptions> : BaseNinjascriptServiceCollection<TService>
         where TService : INinjascriptService
         where TOptions : NinjascriptServiceCollectionOptions, new()
     {

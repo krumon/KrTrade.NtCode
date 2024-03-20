@@ -149,13 +149,10 @@ namespace KrTrade.Nt.Services
         #region Implementation
 
         public override string Name => $"Bars[{_primaryDataSeries.InstrumentName},{_primaryDataSeries.BarsPeriod.ToShortString()}]";
-
+        public override string Key => throw new NotImplementedException();
         public DataSeriesInfo[] DataSeries => throw new NotImplementedException();
-
         public int Index => throw new NotImplementedException();
-
         public int Capacity => throw new NotImplementedException();
-
         public int RemovedCacheCapacity => throw new NotImplementedException();
 
         internal override void Configure(out bool isConfigured)

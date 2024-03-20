@@ -2,8 +2,9 @@
 
 namespace KrTrade.Nt.Services
 {
-    public class SeriesCollection : BarUpdateServiceCollection<ISeriesService, SeriesCollectionOptions>
+    public class SeriesCollection<TSeries> : BarUpdateServiceCollection<ISeriesService<TSeries>, SeriesCollectionOptions>
     {
+
         public SeriesCollection(IBarsService barsService) : base(barsService)
         {
         }

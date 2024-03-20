@@ -18,6 +18,7 @@ namespace KrTrade.Nt.Services
 
         public NinjaScriptBase Ninjascript => _ninjascript;
         public virtual string Name => ServiceOptions.DefaultName;
+        public abstract string Key { get; }
         public bool IsEnable { get => _options.IsEnable; set { _options.IsEnable = value; } }
         public ServiceOptions Options { get => _options ?? new ServiceOptions(); protected set { _options = value; } }
 

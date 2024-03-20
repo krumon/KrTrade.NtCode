@@ -6,17 +6,17 @@ namespace KrTrade.Nt.Services
     {
 
         /// <summary>
-        /// Gets the name of series.
+        /// Gets the series name.
         /// </summary>
         string Name { get; }
 
         /// <summary>
-        /// Gets the key of series.
+        /// Gets the series key.
         /// </summary>
         string Key { get; }
 
         /// <summary>
-        /// Gets the period of series.
+        /// Gets the series period.
         /// </summary>
         int Period { get; }
 

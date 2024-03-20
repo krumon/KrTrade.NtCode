@@ -41,6 +41,13 @@ namespace KrTrade.Nt.Services
         NinjaTrader.Data.BarsPeriod BarsPeriod { get; }
 
         /// <summary>
+        /// Gets the element of a sepecific index.
+        /// </summary>
+        /// <param name="index">The specific index.</param>
+        /// <returns>Series element located at specified index.</returns>
+        double this[int index] { get; }
+
+        /// <summary>
         /// Gets the index series.
         /// </summary>
         CurrentBarSeries CurrentBar { get; }

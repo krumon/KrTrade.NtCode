@@ -155,7 +155,7 @@ namespace KrTrade.Nt.Core.Caches
             if (!IsValidIndex(barsAgo)) return false;
             return period >= 0 && barsAgo + period < Count;
         }
-        protected bool IsValidIndexes(int initialBarsAgo, int finalBarsAgo)
+        protected bool IsValidIndexRange(int initialBarsAgo, int finalBarsAgo)
         {
             if (initialBarsAgo > finalBarsAgo) return false;
             return IsValidIndex(initialBarsAgo) && IsValidIndex(finalBarsAgo);

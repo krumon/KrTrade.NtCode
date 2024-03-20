@@ -2,6 +2,8 @@
 {
     public class StatsService : BarUpdateService<StatsOptions>, IStatsService
     {
+        public override string Key => throw new System.NotImplementedException();
+
         public StatsService(IBarsService barsSeries) : base(barsSeries)
         {
         }

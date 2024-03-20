@@ -20,5 +20,7 @@ namespace KrTrade.Nt.Services
         public BarsServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, Action<NinjascriptServiceOptions> configureOptions, NinjascriptServiceOptions options) : base(ninjascript, printService, configureOptions, options)
         {
         }
+
+        public override string Key => throw new NotImplementedException();
     }
 }

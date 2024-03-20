@@ -18,6 +18,11 @@ namespace KrTrade.Nt.Services
         string Name { get; }
 
         /// <summary>
+        /// Gets the service key.
+        /// </summary>
+        string Key { get; }
+
+        /// <summary>
         /// Indicates that the service is enabled.
         /// </summary>
         bool IsEnable { get; set; }

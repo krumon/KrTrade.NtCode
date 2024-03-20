@@ -98,6 +98,8 @@ namespace KrTrade.Nt.Services
         protected override Action<object> WriteMethod => Ninjascript.Print;
         protected override Action ClearMethod => Ninjascript.ClearOutputWindow;
 
+        public override string Key => throw new NotImplementedException();
+
         #endregion
 
         /// <summary>

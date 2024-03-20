@@ -13,7 +13,7 @@ namespace KrTrade.Nt.Services
         {
         }
 
-        public RangeSeries(IBarsSeries barsSeries, int period, int barsIndex) : this(barsSeries.High, barsSeries.Low, period, barsIndex)
+        public RangeSeries(IBarSeries barsSeries, int period, int barsIndex) : this(barsSeries.High, barsSeries.Low, period, barsIndex)
         {
         }
 

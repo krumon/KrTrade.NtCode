@@ -28,7 +28,7 @@ namespace KrTrade.Nt.Services
         // Logging
         private List<string> _logLines;
         // Cache
-        private readonly IBarsSeriesService _barsCacheSvc;
+        private IBarSeriesService _barSeries;
         // Access
         private Dictionary<int, string> _keys;
 
@@ -39,6 +39,7 @@ namespace KrTrade.Nt.Services
         public int CacheCapacity { get => Options.CacheCapacity; protected set { Options.CacheCapacity = value; } }
         public int RemovedCacheCapacity {  get => Options.RemovedCacheCapacity; protected set { Options.RemovedCacheCapacity = value; }}
         public int Index { get; protected set; } = -1;
+        public override string Key => throw new NotImplementedException();
         public bool IsWaitingFirstTick => throw new NotImplementedException();
 
         public string TradingHoursName {  get; protected set; }
@@ -62,14 +63,15 @@ namespace KrTrade.Nt.Services
         //    protected set { Options.TimeFrame = value.ToTimeFrame(); }
         //}
 
-        public CurrentBarSeries CurrentBar => _barsCacheSvc.CurrentBar;
-        public TimeSeries Time => _barsCacheSvc.Time;
-        public PriceSeries Open => _barsCacheSvc.Open;
-        public PriceSeries High => _barsCacheSvc.High;
-        public PriceSeries Low => _barsCacheSvc.Low;
-        public PriceSeries Close => _barsCacheSvc.Close;
-        public VolumeSeries Volume => _barsCacheSvc.Volume;
-        public TickSeries Tick => _barsCacheSvc.Tick;
+        public double this[int index] => _barSeries[index];
+        public CurrentBarSeries CurrentBar => _barSeries.CurrentBar;
+        public TimeSeries Time => _barSeries.Time;
+        public PriceSeries Open => _barSeries.Open;
+        public PriceSeries High => _barSeries.High;
+        public PriceSeries Low => _barSeries.Low;
+        public PriceSeries Close => _barSeries.Close;
+        public VolumeSeries Volume => _barSeries.Volume;
+        public TickSeries Tick => _barSeries.Tick;
 
         public bool IsUpdated => IsConfigureAll && _barEvents[BarEvent.Updated];
         public bool IsClosed => IsUpdated && _barEvents[BarEvent.Closed];
@@ -94,7 +96,7 @@ namespace KrTrade.Nt.Services
             return stateText;
         }
 
-        public SeriesCollection Series { get; private set; }
+        //public SeriesCollection Series { get; private set; }
         public IndicatorCollection Indicators { get; private set; }
         public StatsCollection Stats { get; private set; }
         public FiltersCollection Filters { get; private set; }
@@ -111,10 +113,9 @@ namespace KrTrade.Nt.Services
 
         public BarsService(IBarsManager barsManager) : base(barsManager?.Ninjascript, barsManager?.PrintService)
         {
-            _barsCacheSvc = new BarsSeriesService(this);
-            Indicators = new IndicatorCollection(this);
-            Filters = new FiltersCollection(this);
-            Stats = new StatsCollection(this);
+            //Indicators = new IndicatorCollection(this);
+            //Filters = new FiltersCollection(this);
+            //Stats = new StatsCollection(this);
         }
         //public BarsService(IBarsMaster barsService, Action<BarsServiceOptions> configureOptions) : base(barsService, configureOptions)
         //{
@@ -158,12 +159,16 @@ namespace KrTrade.Nt.Services
             //if (Options.TradringHoursCode == TradingHoursCode.Default)
             //    TradingHoursName = Ninjascript.BarsArray[0].TradingHours.Name;
 
-            _barsCacheSvc.Configure();
+            _barSeries = new BarSeriesService(this);
+
+            //CurrentBar = (CurrentBarSeries)_barSeries[0];
+
+            _barSeries.Configure();
             Indicators?.Configure();
             Filters?.Configure();
             Stats?.Configure();
 
-            isConfigured = _barsCacheSvc.IsConfigure && Indicators.IsConfigure && Filters.IsConfigure && Stats.IsConfigure;
+            isConfigured = _barSeries.IsConfigure && Indicators.IsConfigure && Filters.IsConfigure && Stats.IsConfigure;
         }
         internal override void DataLoaded(out bool isDataLoaded)
         {
@@ -183,12 +188,15 @@ namespace KrTrade.Nt.Services
                 return;
 
             // Configure services
-            _barsCacheSvc.DataLoaded();
+            _barSeries.DataLoaded();
             Indicators?.DataLoaded();
             Filters?.DataLoaded();
             Stats?.DataLoaded();
 
-            isDataLoaded = _barsCacheSvc.IsDataLoaded && Indicators.IsDataLoaded && Filters.IsDataLoaded && Stats.IsDataLoaded;
+            isDataLoaded = _barSeries.IsDataLoaded 
+                && Indicators != null ? Indicators.IsDataLoaded : true 
+                && Filters != null ? Filters.IsDataLoaded : true
+                && Stats != null ? Stats.IsDataLoaded : true;
         }
 
         public void OnBarUpdate()
@@ -265,7 +273,7 @@ namespace KrTrade.Nt.Services
 
             //// Check FILTERS
             //Filters.Update();
-            _barsCacheSvc.Update();
+            _barSeries.Update();
             Stats.Update();
             Indicators.Update();
 
@@ -306,11 +314,64 @@ namespace KrTrade.Nt.Services
         {
             throw new NotImplementedException();
         }
-        public Bar GetBar(int barsAgo) => _barsCacheSvc.GetBar(barsAgo);
-        public Bar GetBar(int barsAgo, int period) => _barsCacheSvc.GetBar(barsAgo, period);
-        public IList<Bar> GetBars(int barsAgo, int period) => _barsCacheSvc.GetBars(barsAgo, period);
+        //public Bar GetBar(int barsAgo) => _barsCacheSvc.GetBar(barsAgo);
+        //public Bar GetBar(int barsAgo, int period) => _barsCacheSvc.GetBar(barsAgo, period);
+        //public IList<Bar> GetBars(int barsAgo, int period) => _barsCacheSvc.GetBars(barsAgo, period);
 
+        public Bar GetBar(int barsAgo)
+        {
+            //if (!IsValidIndex(barsAgo))
+            //    return null;
 
+            Bar bar = new Bar()
+            {
+                Idx = CurrentBar[barsAgo],
+                Open = Open[barsAgo],
+                High = High[barsAgo],
+                Low = Low[barsAgo],
+                Close = Close[barsAgo],
+                Volume = Volume[barsAgo],
+                Ticks = (long)Tick[barsAgo],
+            };
+            return bar;
+        }
+        public Bar GetBar(int barsAgo, int period)
+        {
+            //IsValidIndex(barsAgo, period);
+
+            Bar bar = new Bar();
+            for (int i = barsAgo + period - 1; i >= 0; i--)
+                bar += new Bar()
+                {
+                    Idx = CurrentBar[i],
+                    Open = Open[i],
+                    High = High[i],
+                    Low = Low[i],
+                    Close = Close[i],
+                    Volume = Volume[i],
+                    Ticks = (long)Tick[i],
+                };
+
+            return bar;
+        }
+        public IList<Bar> GetBars(int barsAgo, int period)
+        {
+            //if (!IsValidIndex(barsAgo, period))
+            //    return null;
+            IList<Bar> bars = new List<Bar>();
+            for (int i = barsAgo + period - 1; i >= 0; i--)
+                bars.Add(new Bar()
+                {
+                    Idx = CurrentBar[i],
+                    Open = Open[i],
+                    High = High[i],
+                    Low = Low[i],
+                    Close = Close[i],
+                    Volume = Volume[i],
+                    Ticks = (long)Tick[i],
+                });
+            return bars;
+        }
 
         #endregion
 
@@ -369,8 +430,8 @@ namespace KrTrade.Nt.Services
                     //LengthOfRemovedValuesCache = Cache.DEFAULT_OLD_VALUES_CAPACITY,
                     BarsIndex = 0,
                 };
-            if ((type == typeof(BarsSeriesService) || type == typeof(IBarsSeriesService)))
-                service = new BarsSeriesService(this);
+            if ((type == typeof(BarSeriesService) || type == typeof(IBarSeriesService)))
+                service = new BarSeriesService(this);
             else if (type == typeof(SeriesService<MaxSeries>))
                 if (options is SeriesOptions maxOptions) service = new SeriesService<MaxSeries>(this, input1, maxOptions);
                 else service = new SeriesService<MaxSeries>(this, input1);
@@ -384,5 +445,6 @@ namespace KrTrade.Nt.Services
         }
 
         #endregion
+
     }
 }
