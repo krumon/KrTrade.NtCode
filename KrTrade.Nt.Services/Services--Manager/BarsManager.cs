@@ -34,7 +34,7 @@ namespace KrTrade.Nt.Services
         //// Logging
         //private List<string> _logLines;
         // DataSeries
-        private readonly IBarsService _primaryDataSeries;
+        private readonly BarsService _primaryDataSeries;
         private readonly BarsServiceCollection _dataSeries;
         private DataSeriesInfo[] _dataSeriesInfo;
 

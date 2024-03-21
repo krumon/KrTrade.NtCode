@@ -200,6 +200,7 @@ namespace KrTrade.Nt.Services
                 }
             }
         }
+        protected bool IsValidIndex(int index) => _services != null && index >= 0 && index < Count;
 
         #endregion
 

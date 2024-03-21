@@ -10,7 +10,7 @@ namespace KrTrade.Nt.Services
     public interface IBarsServiceCollection : IBarUpdate, IMarketData, IMarketDepth, IRender
     {
         // Properties
-        IBarsService this[int index] { get; }
+        BarsService this[int index] { get; }
         int BarsInProgress { get; }
         // CalculateMode
         // MultiSeriesCalculateMode
@@ -29,7 +29,7 @@ namespace KrTrade.Nt.Services
         PriceSeries[] Highs { get; }
         PriceSeries[] Lows { get; }
         PriceSeries[] Closes { get; }
-        PriceSeries[] Volumes { get; }
+        VolumeSeries[] Volumes { get; }
         TickSeries[] Ticks { get; }
 
         // Services
@@ -90,7 +90,7 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Gets the volume series.
         /// </summary>
-        PriceSeries Volume { get; }
+        VolumeSeries Volume { get; }
 
         /// <summary>
         /// Gets the tick count series.
@@ -103,34 +103,34 @@ namespace KrTrade.Nt.Services
         //int Index { get; }
 
         /// <summary>
-        /// Indicates <see cref="IBarsManager"/> is updated.
+        /// Indicates primary bars service is updated.
         /// </summary>
-        bool IsUpdated {get;} 
+        bool IsUpdated {get;}
 
         /// <summary>
-        /// Indicates the last bar of 'Ninjatrader.ChartBars' is closed.
+        /// Indicates primary bars service is closed.
         /// </summary>
         bool IsClosed {get;}
 
         /// <summary>
-        /// Indicates the last bar of 'Ninjatrader.ChartBars' is removed.
+        /// Indicates primary bars service is removed.
         /// </summary>
         bool LastBarIsRemoved {get;}
 
         /// <summary>
-        /// Indicates new tick success in 'Ninjatrader.ChartBars'.
+        /// Indicates new tick success in primary bars service.
         /// If calculate mode is 'BarClosed', this value is always false.
         /// </summary>
         bool IsTick {get;}
 
         /// <summary>
-        /// Indicates first tick success in 'Ninjatrader.ChartBars'.
+        /// Indicates first tick success in primary bars service.
         /// If calculate mode is 'BarClosed', this value is always false.
         /// </summary>
         bool IsFirstTick {get;}
 
         /// <summary>
-        /// Indicates new price success in 'Ninjatrader.ChartBars'.
+        /// Indicates new price success in primary bars service.
         /// If calculate mode is 'BarClosed', this value is unique true when a gap success between two bars.
         /// </summary>
         bool IsPriceChanged {get;}
