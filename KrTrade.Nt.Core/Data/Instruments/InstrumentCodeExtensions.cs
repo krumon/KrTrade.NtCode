@@ -9,6 +9,13 @@ namespace KrTrade.Nt.Core.Data
     public static class InstrumentCodeExtensions
     {
         /// <summary>
+        /// Method to convert the <see cref="InstrumentCode"/> to string.
+        /// </summary>
+        /// <param name="instrumentCode">The instrument code.</param>
+        /// <returns>The instrument name.</returns>
+        public static string ToName(this InstrumentCode instrumentCode) => instrumentCode.ToString();
+
+        /// <summary>
         /// Method to convert the <see cref="InstrumentCode"/> to description.
         /// </summary>
         /// <param name="instrumentCode">The instrument code.</param>
@@ -133,6 +140,78 @@ namespace KrTrade.Nt.Core.Data
             {
                 case (InstrumentCode.MES):
                     return 5.0;
+                default:
+                    throw new Exception("The converter is not implemented.");
+            }
+        }
+
+        /// <summary>
+        /// Converts the string to <see cref="InstrumentCode"/>.
+        /// </summary>
+        /// <param name="instrumentName">The instrument name.</param>
+        /// <returns>The instrument code value.</returns>
+        /// <exception cref="Exception">Throw an error if converter is not implemented yet.</exception>
+        public static InstrumentCode ToInstrumentCode(this string instrumentName)
+        {
+            instrumentName = instrumentName.Trim().ToUpper();
+            switch (instrumentName)
+            {
+                case ("MES"):
+                    return InstrumentCode.MES;
+                case ("ES"):
+                    return InstrumentCode.ES;
+                case ("EMD"):
+                    return InstrumentCode.EMD;
+                case ("MNQ"):
+                    return InstrumentCode.MNQ;
+                case ("NQ"):
+                    return InstrumentCode.NQ;
+                case ("RTY"):
+                    return InstrumentCode.RTY;
+                case ("M2K"):
+                    return InstrumentCode.M2K;
+                case ("BTC"):
+                    return InstrumentCode.BTC;
+                case ("MBT"):
+                    return InstrumentCode.MBT;
+                case ("MET"):
+                    return InstrumentCode.MET;
+                case ("GE"):
+                    return InstrumentCode.GE;
+                case ("GF"):
+                    return InstrumentCode.GF;
+                case ("HE"):
+                    return InstrumentCode.HE;
+                case ("LE"):
+                    return InstrumentCode.LE;
+                case ("_6A"):
+                    return InstrumentCode._6A;
+                case ("M6A"):
+                    return InstrumentCode.M6A;
+                case ("_6B"):
+                    return InstrumentCode._6B;
+                case ("M6B"):
+                    return InstrumentCode.M6B;
+                case ("_6C"):
+                    return InstrumentCode._6C;
+                case ("MICD"):
+                    return InstrumentCode.MICD;
+                case ("_6E"):
+                    return InstrumentCode._6E;
+                case ("E7"):
+                    return InstrumentCode.E7;
+                case ("M6E"):
+                    return InstrumentCode.M6E;
+                case ("_6J"):
+                    return InstrumentCode._6J;
+                case ("J7"):
+                    return InstrumentCode.J7;
+                case ("_6M"):
+                    return InstrumentCode._6M;
+                case ("_6N"):
+                    return InstrumentCode._6N;
+                case ("_6S"):
+                    return InstrumentCode._6S;
                 default:
                     throw new Exception("The converter is not implemented.");
             }

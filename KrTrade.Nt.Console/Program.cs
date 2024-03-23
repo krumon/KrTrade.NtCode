@@ -29,37 +29,28 @@ namespace KrTrade.Nt.Console.Console
 
             // Configure
             IBarsManager bars = new BarsManagerBuilder()
-                .UsePrintService((o) =>
+                .AddPrintService((printSvc) =>
                 {
-                    o.IsEnable = true;
-                    o.IsLogInfoVisible = true;
-                    o.IsDataSeriesInfoVisible = true;
-                    o.IsNumOfBarVisible = true;
-                    o.IsTimeVisible = true;
-                    o.FormatLength = FormatLength.Short;
-                    o.LogLevel = LogLevel.Information;
-                    o.NinjascriptLogLevel = NinjascriptLogLevel.Configuration;
-                    o.BarsLogLevel = BarsLogLevel.BarClosed;
+                    printSvc.IsEnable = true;
+                    printSvc.IsLogInfoVisible = true;
+                    printSvc.IsDataSeriesInfoVisible = true;
+                    printSvc.IsNumOfBarVisible = true;
+                    printSvc.IsTimeVisible = true;
+                    printSvc.FormatLength = FormatLength.Short;
+                    printSvc.LogLevel = LogLevel.Information;
+                    printSvc.NinjascriptLogLevel = NinjascriptLogLevel.Configuration;
+                    printSvc.BarsLogLevel = BarsLogLevel.BarClosed;
                 })
-                .ConfigureOptions((o) =>
+                .ConfigureOptions((options) =>
                 {
-                    // TODO:    Cambiar estas propiedades
-                    //          - DefaultCachesCapacity.
-                    //          - DefaultRemovedCachesCapacity.
-                    // *** Eliminar TradingHoursCode, TimeFrame,....
-                    o.DefaultCachesCapacity = 14;
-                    o.DefaultRemovedCachesCapacity = 1;
-                    //o.MarketDataType = MarketDataType.Last;
-                    //o.TimeFrame = TimeFrame.m1;
-                    //o.TradringHoursCode = TradingHoursCode.CME_FX_Futures_ETH;
-                    //o.InstrumentCode = InstrumentCode.MES;
-                    
+                    options.DefaultCachesCapacity = 14;
+                    options.DefaultRemovedCachesCapacity = 1;
                 })
-                .ConfigureDataSeries((o) =>
+                .ConfigurePrimaryDataSeries((builder) =>
                 {
-
+                    //builder.BarsIndex = 0;
                 })
-                .AddDataSeries((info,builder) =>
+                .AddDataSeries((builder) =>
                 {
 
                 })
@@ -86,8 +77,8 @@ namespace KrTrade.Nt.Console.Console
             // OnBarUpdate
             bars.OnBarUpdate();
 
-            var displacement = 0;
-            var strength = 4;
+            //var displacement = 0;
+            //var strength = 4;
 
             //double swingHighValue = bars.Series.Close.SwingHigh(displacement, strength);
             //var max = bars.GetCache<MaxCache>();

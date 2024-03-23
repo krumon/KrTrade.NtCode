@@ -87,7 +87,7 @@
     <Compile Include="Series-Indicators\RangeSeries.cs" />
     <Compile Include="Series-Indicators\SumSeries.cs" />
     <Compile Include="Series-Stats\Interfaces\IStatsSeries.cs" />
-    <Compile Include="Services--Base\Interfaces\INinjascriptServiceBuilder.cs" />
+    <Compile Include="Services--Base\Builders\INinjascriptServiceBuilder.cs" />
     <Compile Include="Services--Base\Options\NinjascriptServiceCollectionOptions.cs" />
     <Compile Include="Services--Base\Services\BaseNinjascriptServiceCollection.cs" />
     <Compile Include="Services--Manager\BarsManagerOptions.cs" />
@@ -95,8 +95,10 @@
     <Compile Include="Series-Bars\BarSeries.cs" />
     <Compile Include="Services--Manager\Builder\BarsManagerBuilder.cs" />
     <Compile Include="Services--Manager\Builder\IBarsManagerBuilder.cs" />
+    <Compile Include="Services-Bars\Builders\PrimaryBarsServiceBuilder.cs" />
+    <Compile Include="Services-Bars\Builders\IPrimaryBarsServiceBuilder.cs" />
     <Compile Include="Services-Bars\Interfaces\IBarsServiceCollection.cs" />
-    <Compile Include="Services-Bars\PrimaryDataSeriesOptions.cs" />
+    <Compile Include="Services-Bars\Options\PrimaryBarsServiceOptions.cs" />
     <Compile Include="Services-Bars\Builders\IBarsServiceBuilder.cs" />
     <Compile Include="Services-Bars\Builders\BarsServiceBuilder.cs" />
     <Compile Include="Services-BarUpdate\Filters\FiltersOptions.cs" />
@@ -264,7 +266,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Series-Stats\Base\" />
-    <Folder Include="Services--Base\Builders\" />
     <Folder Include="Services-BarUpdate\Builders\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

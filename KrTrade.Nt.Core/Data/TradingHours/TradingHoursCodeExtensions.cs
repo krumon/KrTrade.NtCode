@@ -185,6 +185,34 @@ namespace KrTrade.Nt.Core.Data
             }
         }
 
+        /// <summary>
+        /// Converts the string to <see cref="TradingHoursCode"/>.
+        /// </summary>
+        /// <param name="tradingHoursName">The trading hours name.</param>
+        /// <returns>The trading hours code value.</returns>
+        /// <exception cref="Exception">Throw an error if converter is not implemented yet.</exception>
+        public static TradingHoursCode ToTradingHoursCode(this string tradingHoursName)
+        {
+            tradingHoursName = tradingHoursName.Trim();
+            
+            switch (tradingHoursName)
+            {
+                case ("CME US Index Futures ETH"):
+                    return TradingHoursCode.CME_US_Index_Futures_ETH;
+                case ("CME US Index Futures RTH"):
+                    return TradingHoursCode.CME_US_Index_Futures_RTH;
+                case ("CME FX Futures ETH"):
+                    return TradingHoursCode.CME_FX_Futures_ETH;
+                case ("CME FX Futures RTH"):
+                    return TradingHoursCode.CME_FX_Futures_RTH;
+                case ("CBOE US Index Futures ETH"):
+                    return TradingHoursCode.CBOE_US_Index_Futures_ETH;
+                case ("CBOE US Index Futures RTH"):
+                    return TradingHoursCode.CBOE_US_Index_Futures_RTH;
+                default:
+                    throw new Exception("The converter is not implemented.");
+            }
+        }
 
     }
 }

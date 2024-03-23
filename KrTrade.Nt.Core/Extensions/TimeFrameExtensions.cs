@@ -1,4 +1,5 @@
-﻿using KrTrade.Nt.Core.DataSeries;
+﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.DataSeries;
 using NinjaTrader.Data;
 using System;
 
@@ -78,7 +79,7 @@ namespace KrTrade.Nt.Core.Extensions
         /// <param name="timeFrame">The time frame.</param>
         /// <returns><see cref="BarsPeriod"/> instance.</returns>
         /// <exception cref="Exception">The <see cref="TimeFrame"/> to convert, has not been implemented.</exception>
-        public static BarsPeriod ToBarsPeriod(this TimeFrame timeFrame)
+        public static BarsPeriod ToBarsPeriod(this TimeFrame timeFrame, Data.MarketDataType marketDataType = Data.MarketDataType.Last)
         {
             switch (timeFrame)
             {
@@ -87,66 +88,78 @@ namespace KrTrade.Nt.Core.Extensions
                     {
                         BarsPeriodType = BarsPeriodType.Tick,
                         Value = 1,
+                        MarketDataType = marketDataType.ToNtMarketDataType()
                     };
                 case TimeFrame.m1:
                     return new BarsPeriod
                     {
                         BarsPeriodType = BarsPeriodType.Minute,
                         Value = 1,
+                        MarketDataType = marketDataType.ToNtMarketDataType()
                     };
                 case TimeFrame.h1:
                     return new BarsPeriod
                     {
                         BarsPeriodType = BarsPeriodType.Minute,
                         Value = 60,
+                        MarketDataType = marketDataType.ToNtMarketDataType()
                     };
                 case TimeFrame.d1:
                     return new BarsPeriod
                     {
                         BarsPeriodType = BarsPeriodType.Day,
                         Value = 1,
+                        MarketDataType = marketDataType.ToNtMarketDataType()
                     };
                 case TimeFrame.w1:
                     return new BarsPeriod
                     {
                         BarsPeriodType = BarsPeriodType.Week,
                         Value = 1,
+                        MarketDataType = marketDataType.ToNtMarketDataType()
                     };
                 case TimeFrame.h4:
                     return new BarsPeriod
                     {
                         BarsPeriodType = BarsPeriodType.Minute,
                         Value = 240,
+                        MarketDataType = marketDataType.ToNtMarketDataType()
                     };
                 case TimeFrame.m5:
                     return new BarsPeriod
                     {
                         BarsPeriodType = BarsPeriodType.Minute,
                         Value = 5,
+                        MarketDataType = marketDataType.ToNtMarketDataType()
                     };
                 case TimeFrame.s15:
                     return new BarsPeriod
                     {
                         BarsPeriodType = BarsPeriodType.Second,
                         Value = 15,
+                        MarketDataType = marketDataType.ToNtMarketDataType()
                     };
                 case TimeFrame.m15:
                     return new BarsPeriod
                     {
                         BarsPeriodType = BarsPeriodType.Minute,
                         Value = 15,
+                        MarketDataType = marketDataType.ToNtMarketDataType()
+
                     };
                 case TimeFrame.m30:
                     return new BarsPeriod
                     {
                         BarsPeriodType = BarsPeriodType.Minute,
                         Value = 30,
+                        MarketDataType = marketDataType.ToNtMarketDataType()
                     };
                 case TimeFrame.t150:
                     return new BarsPeriod
                     {
                         BarsPeriodType = BarsPeriodType.Tick,
                         Value = 150,
+                        MarketDataType = marketDataType.ToNtMarketDataType()
                     };
                 default: throw new Exception("The TimeFrame conversion has not yet been implemented.");
 

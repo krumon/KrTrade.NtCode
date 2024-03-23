@@ -18,9 +18,9 @@ namespace KrTrade.Nt.Services
         /// <returns>The same instance of the <see cref="IBarsManagerBuilder"/> for chaining.</returns>
         IBarsManagerBuilder ConfigureOptions(Action<BarsManagerOptions> configureDelegate);
 
-        IBarsManagerBuilder UsePrintService(Action<PrintOptions> configureDelegate);
-        IBarsManagerBuilder ConfigureDataSeries(Action<BarsServiceOptions> configureDelegate);
-        IBarsManagerBuilder AddDataSeries(Action<DataSeriesInfo,IBarsServiceBuilder> configureDelegate);
+        IBarsManagerBuilder AddPrintService(Action<PrintOptions> configureDelegate);
+        IBarsManagerBuilder ConfigurePrimaryDataSeries(Action<IPrimaryBarsServiceBuilder> configureDelegate);
+        IBarsManagerBuilder AddDataSeries(Action<IBarsServiceBuilder> configureDelegate);
         //IBarsServicesBuilder AddFilters();
 
         /// <summary>

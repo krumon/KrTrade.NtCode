@@ -6,10 +6,10 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Build <see cref="BarsService"/> objects. 
     /// </summary>
-    public class BarsServiceBuilder : IBarsServiceBuilder
+    public class PrimaryBarsServiceBuilder : IPrimaryBarsServiceBuilder
     {
 
-        private readonly List<Action<BarsServiceOptions>> _optionsDelegateActions = new List<Action<BarsServiceOptions>>();
+        private List<Action<BarsServiceOptions>> _optionsDelegateActions = new List<Action<BarsServiceOptions>>();
 
         public IBarsService Build(IBarsManager barsManager)
         {
@@ -29,7 +29,7 @@ namespace KrTrade.Nt.Services
             return dataSeriesService;
         }
 
-        public IBarsServiceBuilder ConfigureOptions(Action<BarsServiceOptions> configureOptions)
+        public IPrimaryBarsServiceBuilder ConfigureOptions(Action<PrimaryBarsServiceOptions> configureOptions)
         {
             _optionsDelegateActions.Add(configureOptions ?? throw new ArgumentNullException(nameof(configureOptions)));
             return this;

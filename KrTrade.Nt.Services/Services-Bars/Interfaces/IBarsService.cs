@@ -26,11 +26,6 @@ namespace KrTrade.Nt.Services
         string TradingHoursName { get; }
 
         /// <summary>
-        /// Gets or sets the market data type of the bars series.
-        /// </summary>
-        NinjaTrader.Data.MarketDataType MarketDataType { get; }
-
-        /// <summary>
         /// Gets the instument name.
         /// </summary>
         string InstrumentName { get; }

@@ -1,4 +1,6 @@
 ﻿using KrTrade.Nt.Core.Bars;
+using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.DataSeries;
 using KrTrade.Nt.Core.Extensions;
 using NinjaTrader.Core.FloatingPoint;
 using System;
@@ -12,12 +14,20 @@ namespace KrTrade.Nt.Services
         #region Consts
 
         //public const string Series = "SERIES";
-        public const string ServicesDefaultName = "DEFAULT";
+        //public const string ServicesDefaultName = "DEFAULT";
 
         #endregion
 
         #region Private members
 
+        // Data series info
+        private DataSeriesInfo _dataSeriesInfo;
+        //internal InstrumentCode InstrumentCode { get => Options.InstrumentCode; set { Options.InstrumentCode = value; } }
+        //internal TimeFrame TimeFrame { get => Options.TimeFrame; set { Options.TimeFrame= value; } }
+        //internal TradingHoursCode TradingHoursCode { get => Options.TradringHoursCode; set { Options.TradringHoursCode= value; } }
+        //internal MarketDataType MarketDataType { get => Options.MarketDataType; set { Options.MarketDataType= value; } }
+
+        // Data series control
         private int _lastBarIdx;
         private int _currentBarIdx;
         private double _lastPrice;
@@ -39,29 +49,11 @@ namespace KrTrade.Nt.Services
         public int CacheCapacity { get => Options.CacheCapacity; protected set { Options.CacheCapacity = value; } }
         public int RemovedCacheCapacity {  get => Options.RemovedCacheCapacity; protected set { Options.RemovedCacheCapacity = value; }}
         public int Index { get; protected set; } = -1;
-        public override string Key => throw new NotImplementedException();
         public bool IsWaitingFirstTick => throw new NotImplementedException();
 
-        public string TradingHoursName {  get; protected set; }
-        //{
-        //    get => Options.TradringHoursCode.ToName();
-        //    protected set { Options.TradringHoursCode = EnumHelpers.ForEach<TradingHoursCode>((th) => th.ToName() == value); }
-        //}
-        public NinjaTrader.Data.MarketDataType MarketDataType { get; protected set; }
-        //{
-        //    get => Options.MarketDataType.ToNtMarketDataType();
-        //    protected set { Options.MarketDataType = value.ToKrMarketDataType(); }
-        //}
-        public string InstrumentName { get; protected set; }
-        //{
-        //    get => Options.InstrumentCode.ToString();
-        //    protected set { Options.InstrumentCode = EnumHelpers.ForEach<InstrumentCode>((ic) => ic.ToString() == value); }
-        //}
-        public NinjaTrader.Data.BarsPeriod BarsPeriod { get; protected set; }
-        //{
-        //    get => Options.TimeFrame.ToBarsPeriod();
-        //    protected set { Options.TimeFrame = value.ToTimeFrame(); }
-        //}
+        public string InstrumentName => _dataSeriesInfo.InstrumentCode.ToName();
+        public string TradingHoursName => _dataSeriesInfo.TradingHoursCode.ToName();
+        public NinjaTrader.Data.BarsPeriod BarsPeriod => _dataSeriesInfo.TimeFrame.ToBarsPeriod();
 
         public double this[int index] => _barSeries[index];
         public CurrentBarSeries CurrentBar => _barSeries.CurrentBar;
@@ -81,6 +73,7 @@ namespace KrTrade.Nt.Services
         public bool IsPriceChanged => IsUpdated && _barEvents[BarEvent.PriceChanged];
 
         public override string Name => InstrumentName + "(" + BarsPeriod.ToShortString() + ")";
+        public override string Key => $"{InstrumentName}({BarsPeriod.ToShortString()},{BarsPeriod.MarketDataType},{TradingHoursName})";
         public override string ToLogString()
         {
             if (_logLines == null || _logLines.Count == 0)
@@ -96,7 +89,6 @@ namespace KrTrade.Nt.Services
             return stateText;
         }
 
-        //public SeriesCollection Series { get; private set; }
         public IndicatorCollection Indicators { get; private set; }
         public StatsCollection Stats { get; private set; }
         public FiltersCollection Filters { get; private set; }
@@ -105,32 +97,21 @@ namespace KrTrade.Nt.Services
 
         #region Constructors
 
-        public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript) : base(ninjascript) { }
-        public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript, printService) { }
-        public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, Action<BarsServiceOptions> configureOptions) : base(ninjascript, printService, configureOptions) { }
-        public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsServiceOptions options) : base(ninjascript, printService, options) { }
-        public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, Action<BarsServiceOptions> configureOptions, BarsServiceOptions options) : base(ninjascript, printService, configureOptions, options) { }
+        //public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript) : base(ninjascript) { }
+        //public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript, printService) { }
+        //public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, Action<BarsServiceOptions> configureOptions) : base(ninjascript, printService, configureOptions) { }
+        //public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsServiceOptions options) : base(ninjascript, printService, options) { }
+        //public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, Action<BarsServiceOptions> configureOptions, BarsServiceOptions options) : base(ninjascript, printService, configureOptions, options) { }
 
-        public BarsService(IBarsManager barsManager) : base(barsManager?.Ninjascript, barsManager?.PrintService)
+        public BarsService(IBarsManager barsManager) : this(barsManager, new BarsServiceOptions())
         {
-            //Indicators = new IndicatorCollection(this);
-            //Filters = new FiltersCollection(this);
-            //Stats = new StatsCollection(this);
         }
-        //public BarsService(IBarsMaster barsService, Action<BarsServiceOptions> configureOptions) : base(barsService, configureOptions)
-        //{
-        //    _barsCacheSvc = new BarsCacheService(barsService);
-        //    Indicators = new IndicatorsCollection(barsService);
-        //    Filters = new FiltersCollection(barsService);
-        //    Stats = new StatsCollection(barsService);
-        //}
-        //public BarsService(IBarsMaster barsService, BarsServiceOptions options) : base(barsService, options)
-        //{
-        //    _barsCacheSvc = new BarsCacheService(barsService);
-        //    Indicators = new IndicatorsCollection(barsService);
-        //    Filters = new FiltersCollection(barsService);
-        //    Stats = new StatsCollection(barsService);
-        //}
+        public BarsService(IBarsManager barsManager, BarsServiceOptions options) : base(barsManager?.Ninjascript, barsManager?.PrintService, options)
+        {
+            Indicators = new IndicatorCollection(this);
+            Filters = new FiltersCollection(this);
+            Stats = new StatsCollection(this);
+        }
 
         #endregion
 
@@ -154,14 +135,27 @@ namespace KrTrade.Nt.Services
             _lastPrice = double.MinValue;
             _currentPrice = double.MinValue;
 
-            //if (Options.InstrumentCode == InstrumentCode.Default)
-            //    InstrumentName = Ninjascript.BarsArray[0].Instrument.MasterInstrument.Name;
-            //if (Options.TradringHoursCode == TradingHoursCode.Default)
-            //    TradingHoursName = Ninjascript.BarsArray[0].TradingHours.Name;
+            _dataSeriesInfo = new DataSeriesInfo()
+            {
+                InstrumentCode = Ninjascript.BarsArray[0].Instrument.MasterInstrument.Name.ToInstrumentCode(),
+                TradingHoursCode = Ninjascript.BarsArray[0].TradingHours.Name.ToTradingHoursCode(),
+                TimeFrame = Ninjascript.BarsPeriods[0].ToTimeFrame(),
+                MarketDataType = Ninjascript.BarsPeriods[0].MarketDataType.ToKrMarketDataType()
+            };
+
+            if (!Options.IsPrimaryDataSeries)
+            {
+                if (Options.InstrumentCode != _dataSeriesInfo.InstrumentCode && Options.InstrumentCode != InstrumentCode.Default)
+                    _dataSeriesInfo.InstrumentCode = Options.InstrumentCode;
+                if (Options.TradringHoursCode != _dataSeriesInfo.TradingHoursCode && Options.TradringHoursCode != TradingHoursCode.Default)
+                    _dataSeriesInfo.TradingHoursCode = Options.TradringHoursCode;
+                if (Options.TimeFrame != _dataSeriesInfo.TimeFrame && Options.TimeFrame != TimeFrame.Default)
+                    _dataSeriesInfo.TimeFrame = Options.TimeFrame;
+                if (Options.MarketDataType != _dataSeriesInfo.MarketDataType)
+                    _dataSeriesInfo.MarketDataType = Options.MarketDataType;
+            }
 
             _barSeries = new BarSeriesService(this);
-
-            //CurrentBar = (CurrentBarSeries)_barSeries[0];
 
             _barSeries.Configure();
             Indicators?.Configure();

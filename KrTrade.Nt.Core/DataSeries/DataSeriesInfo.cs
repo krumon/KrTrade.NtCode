@@ -1,10 +1,16 @@
 ﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Extensions;
 using NinjaTrader.Data;
 
 namespace KrTrade.Nt.Core.DataSeries
 {
     public class DataSeriesInfo
     {
+
+        /// <summary>
+        /// Gets the key of data series.
+        /// </summary>
+        public string Key => ToLongString();
 
         /// <summary>
         /// Gets or sets the Data Series instrument code.
@@ -14,7 +20,7 @@ namespace KrTrade.Nt.Core.DataSeries
         /// <summary>
         /// Gets or sets data series trading hours code.
         /// </summary>
-        public TradingHoursCode TradringHoursCode { get; set; }
+        public TradingHoursCode TradingHoursCode { get; set; }
 
         /// <summary>
         /// Gets or sets data series time frame.
@@ -26,11 +32,21 @@ namespace KrTrade.Nt.Core.DataSeries
         /// </summary>
         public Data.MarketDataType MarketDataType { get; set; }
 
-        //public string ToLogString()
-        //{
-        //    return "(" + Instrument + "." + PeriodType.ToLogString() + BarsPeriod.Value +")";
-        //}
+        public override string ToString() => $"{InstrumentCode},{TimeFrame}";
+        public string ToLongString() => $"{InstrumentCode},{TimeFrame},{MarketDataType},{TradingHoursCode}";
 
-        public override string ToString() => $"{InstrumentCode}({TimeFrame})";
+        /// <summary>
+        /// Converts to <see cref="NinjascriptDataSeriesInfo"/>
+        /// </summary>
+        /// <returns>The <see cref="NinjascriptDataSeriesInfo"/> object.</returns>
+        public NinjascriptDataSeriesInfo ToNinjascriptDataSeriesInfo()
+        {
+            return new NinjascriptDataSeriesInfo
+            {
+                InstrumentName = InstrumentCode.ToString(),
+                BarsPeriod = TimeFrame.ToBarsPeriod(),
+                TradingHoursName = TradingHoursCode.ToName()
+            };
+        }
     }
 }
