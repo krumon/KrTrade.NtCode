@@ -7,7 +7,7 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Defines methods that are necesary to be executed when the bar is updated.
     /// </summary>
-    public interface IBarsManager : INinjascriptService<BarsManagerOptions>
+    public interface IBarsManager : INinjascriptService<BarsManagerOptions>, IBarUpdate, IMarketData, IMarketDepth, IRender
     {
 
         ///// <summary>
@@ -30,22 +30,27 @@ namespace KrTrade.Nt.Services
         ///// </summary>
         //NinjaTrader.Data.BarsPeriod BarsPeriod { get; }
 
-        DataSeriesInfo[] DataSeries {  get; }
+        //DataSeriesInfo[] DataSeries {  get; }
 
+        /// <summary>
+        /// Gets the number of bars services hosted in it.
+        /// </summary>
+        int Count { get; }
+        
         /// <summary>
         /// Gets the bars index in the 'NinjaScript.BarsArray'.
         /// </summary>
-        int Index { get; }
+        int BarsInProgress { get; }
+        
+        ///// <summary>
+        ///// Gets the capacity of the service. The number of bars stored.
+        ///// </summary>
+        //int Capacity { get; }
 
-        /// <summary>
-        /// Gets the capacity of the service. The number of bars stored.
-        /// </summary>
-        int Capacity { get; }
-
-        /// <summary>
-        /// Gets the capacity of the revemoved values cache.
-        /// </summary>
-        int RemovedCacheCapacity { get; }
+        ///// <summary>
+        ///// Gets the capacity of the revemoved values cache.
+        ///// </summary>
+        //int RemovedCacheCapacity { get; }
 
         ///// <summary>
         ///// Gets <see cref="IBarsSeriesCache"/>.

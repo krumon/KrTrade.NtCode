@@ -19,19 +19,19 @@ namespace KrTrade.Nt.Services
                 action(options);
 
             // Create the service with specified options
-            IBarsService dataSeriesService = new BarsService(barsManager,options);
+            IBarsService barsService = new BarsService(barsManager,options);
 
             // Add diferent service to the 'BARSSERVICE'
             // .
             // .
             // .
 
-            return dataSeriesService;
+            return barsService;
         }
 
-        public IBarsServiceBuilder ConfigureOptions(Action<BarsServiceOptions> configureOptions)
+        public IBarsServiceBuilder ConfigureOptions(Action<BarsServiceOptions> barsServiceOptions)
         {
-            _optionsDelegateActions.Add(configureOptions ?? throw new ArgumentNullException(nameof(configureOptions)));
+            _optionsDelegateActions.Add(barsServiceOptions ?? throw new ArgumentNullException(nameof(barsServiceOptions)));
             return this;
         }
 

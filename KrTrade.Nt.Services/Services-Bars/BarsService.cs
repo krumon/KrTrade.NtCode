@@ -3,6 +3,7 @@ using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.DataSeries;
 using KrTrade.Nt.Core.Extensions;
 using NinjaTrader.Core.FloatingPoint;
+using NinjaTrader.NinjaScript;
 using System;
 using System.Collections.Generic;
 
@@ -21,7 +22,7 @@ namespace KrTrade.Nt.Services
         #region Private members
 
         // Data series info
-        private DataSeriesInfo _dataSeriesInfo;
+        private DataSeriesOptions _dataSeriesInfo;
         //internal InstrumentCode InstrumentCode { get => Options.InstrumentCode; set { Options.InstrumentCode = value; } }
         //internal TimeFrame TimeFrame { get => Options.TimeFrame; set { Options.TimeFrame= value; } }
         //internal TradingHoursCode TradingHoursCode { get => Options.TradringHoursCode; set { Options.TradringHoursCode= value; } }
@@ -48,7 +49,7 @@ namespace KrTrade.Nt.Services
 
         public int CacheCapacity { get => Options.CacheCapacity; protected set { Options.CacheCapacity = value; } }
         public int RemovedCacheCapacity {  get => Options.RemovedCacheCapacity; protected set { Options.RemovedCacheCapacity = value; }}
-        public int Index { get; protected set; } = -1;
+        public int Index { get; internal set; } = -1;
         public bool IsWaitingFirstTick => throw new NotImplementedException();
 
         public string InstrumentName => _dataSeriesInfo.InstrumentCode.ToName();
@@ -103,10 +104,8 @@ namespace KrTrade.Nt.Services
         //public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsServiceOptions options) : base(ninjascript, printService, options) { }
         //public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, Action<BarsServiceOptions> configureOptions, BarsServiceOptions options) : base(ninjascript, printService, configureOptions, options) { }
 
-        public BarsService(IBarsManager barsManager) : this(barsManager, new BarsServiceOptions())
-        {
-        }
-        public BarsService(IBarsManager barsManager, BarsServiceOptions options) : base(barsManager?.Ninjascript, barsManager?.PrintService, options)
+        internal BarsService(IBarsManager barsManager) : this(barsManager, new BarsServiceOptions()) { }
+        internal BarsService(IBarsManager barsManager, BarsServiceOptions options) : base(barsManager?.Ninjascript, barsManager?.PrintService, options)
         {
             Indicators = new IndicatorCollection(this);
             Filters = new FiltersCollection(this);
@@ -135,7 +134,7 @@ namespace KrTrade.Nt.Services
             _lastPrice = double.MinValue;
             _currentPrice = double.MinValue;
 
-            _dataSeriesInfo = new DataSeriesInfo()
+            _dataSeriesInfo = new DataSeriesOptions()
             {
                 InstrumentCode = Ninjascript.BarsArray[0].Instrument.MasterInstrument.Name.ToInstrumentCode(),
                 TradingHoursCode = Ninjascript.BarsArray[0].TradingHours.Name.ToTradingHoursCode(),
@@ -143,17 +142,17 @@ namespace KrTrade.Nt.Services
                 MarketDataType = Ninjascript.BarsPeriods[0].MarketDataType.ToKrMarketDataType()
             };
 
-            if (!Options.IsPrimaryDataSeries)
-            {
-                if (Options.InstrumentCode != _dataSeriesInfo.InstrumentCode && Options.InstrumentCode != InstrumentCode.Default)
-                    _dataSeriesInfo.InstrumentCode = Options.InstrumentCode;
-                if (Options.TradringHoursCode != _dataSeriesInfo.TradingHoursCode && Options.TradringHoursCode != TradingHoursCode.Default)
-                    _dataSeriesInfo.TradingHoursCode = Options.TradringHoursCode;
-                if (Options.TimeFrame != _dataSeriesInfo.TimeFrame && Options.TimeFrame != TimeFrame.Default)
-                    _dataSeriesInfo.TimeFrame = Options.TimeFrame;
-                if (Options.MarketDataType != _dataSeriesInfo.MarketDataType)
-                    _dataSeriesInfo.MarketDataType = Options.MarketDataType;
-            }
+            //if (!Options.IsPrimaryDataSeries)
+            //{
+            //    if (Options.InstrumentCode != _dataSeriesInfo.InstrumentCode && Options.InstrumentCode != InstrumentCode.Default)
+            //        _dataSeriesInfo.InstrumentCode = Options.InstrumentCode;
+            //    if (Options.TradringHoursCode != _dataSeriesInfo.TradingHoursCode && Options.TradringHoursCode != TradingHoursCode.Default)
+            //        _dataSeriesInfo.TradingHoursCode = Options.TradringHoursCode;
+            //    if (Options.TimeFrame != _dataSeriesInfo.TimeFrame && Options.TimeFrame != TimeFrame.Default)
+            //        _dataSeriesInfo.TimeFrame = Options.TimeFrame;
+            //    if (Options.MarketDataType != _dataSeriesInfo.MarketDataType)
+            //        _dataSeriesInfo.MarketDataType = Options.MarketDataType;
+            //}
 
             _barSeries = new BarSeriesService(this);
 
@@ -379,6 +378,34 @@ namespace KrTrade.Nt.Services
         #endregion
 
         #region Private methods
+
+        internal void SetDataSeriesInfo(DataSeriesOptions dataSeriesOptions)
+        {
+            if (dataSeriesOptions == null)
+                throw new ArgumentNullException(nameof(dataSeriesOptions));
+
+            if (_dataSeriesInfo == null)
+                _dataSeriesInfo = new DataSeriesOptions();
+
+            _dataSeriesInfo.InstrumentCode = dataSeriesOptions.InstrumentCode;
+            _dataSeriesInfo.TimeFrame = dataSeriesOptions.TimeFrame;
+            _dataSeriesInfo.TradingHoursCode = dataSeriesOptions.TradingHoursCode;
+            _dataSeriesInfo.MarketDataType = dataSeriesOptions.MarketDataType;
+        }
+
+        internal void SetDefaultDataSeriesInfo(NinjaScriptBase ninjascript)
+        {
+            if (ninjascript == null)
+                throw new ArgumentNullException(nameof(ninjascript));
+
+            if (_dataSeriesInfo == null)
+                _dataSeriesInfo = new DataSeriesOptions();
+
+            _dataSeriesInfo.InstrumentCode = ninjascript.BarsArray[0].Instrument.MasterInstrument.Name.ToInstrumentCode();
+            _dataSeriesInfo.TimeFrame = ninjascript.BarsArray[0].BarsPeriod.ToTimeFrame();
+            _dataSeriesInfo.TradingHoursCode = ninjascript.BarsArray[0].TradingHours.Name.ToTradingHoursCode();
+            _dataSeriesInfo.MarketDataType = ninjascript.BarsArray[0].BarsPeriod.MarketDataType.ToKrMarketDataType();
+        }
 
         private void SetBarsEvents(bool updated, bool isLastBarRemoved, bool isBarClosed, bool isFirstTick, bool isPriceChanged, bool isNewTick)
         {

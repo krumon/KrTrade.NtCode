@@ -1,6 +1,5 @@
 ﻿using KrTrade.Nt.Core.Bars;
 using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core.DataSeries;
 using KrTrade.Nt.Core.Logging;
 using KrTrade.Nt.Services;
 
@@ -50,9 +49,35 @@ namespace KrTrade.Nt.Console.Console
                 {
                     //builder.BarsIndex = 0;
                 })
-                .AddDataSeries((builder) =>
+                .AddDataSeries(
+                options =>
                 {
+                    options.InstrumentCode = InstrumentCode.MES;
+                    options.TradingHoursCode = TradingHoursCode.Default;
+                    options.TimeFrame = TimeFrame.m5;
+                    options.MarketDataType = MarketDataType.Last;
+                }, 
+                builder =>
+                {
+                    builder.ConfigureOptions(bsOptions =>
+                    {
 
+                    });
+                })
+                .AddDataSeries(
+                options =>
+                {
+                    options.InstrumentCode = InstrumentCode.MES;
+                    options.TradingHoursCode = TradingHoursCode.Default;
+                    options.TimeFrame = TimeFrame.m5;
+                    options.MarketDataType = MarketDataType.Last;
+                }, 
+                builder =>
+                {
+                    builder.ConfigureOptions(bsOptions =>
+                    {
+
+                    });
                 })
                 .Build(null);
 

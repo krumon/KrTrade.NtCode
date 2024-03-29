@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Core.DataSeries;
+﻿using KrTrade.Nt.Core.Data;
 using NinjaTrader.NinjaScript;
 using System;
 

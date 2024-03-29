@@ -10,7 +10,7 @@ namespace KrTrade.Nt.Services
     public interface IBarsServiceCollection : IBarUpdate, IMarketData, IMarketDepth, IRender
     {
         // Properties
-        BarsService this[int index] { get; }
+        IBarsService this[int index] { get; }
         int BarsInProgress { get; }
         // CalculateMode
         // MultiSeriesCalculateMode
@@ -20,7 +20,7 @@ namespace KrTrade.Nt.Services
         // Add(DataSeriesInfo info)
 
         // Data series information
-        DataSeriesInfo[] DataSeries { get; }
+        DataSeriesOptions[] DataSeries { get; }
 
         // Bars series
         CurrentBarSeries[] CurrentBars { get; }

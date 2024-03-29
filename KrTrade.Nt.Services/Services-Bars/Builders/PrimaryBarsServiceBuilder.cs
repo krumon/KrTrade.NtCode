@@ -29,7 +29,7 @@ namespace KrTrade.Nt.Services
             return dataSeriesService;
         }
 
-        public IPrimaryBarsServiceBuilder ConfigureOptions(Action<PrimaryBarsServiceOptions> configureOptions)
+        public IPrimaryBarsServiceBuilder ConfigureOptions(Action<BarsServiceOptions> configureOptions)
         {
             _optionsDelegateActions.Add(configureOptions ?? throw new ArgumentNullException(nameof(configureOptions)));
             return this;

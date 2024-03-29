@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
-    public class BarsServiceCollection : BaseNinjascriptServiceCollection<BarsService, BarsServiceCollectionOptions>, IBarsServiceCollection
+    public class BarsServiceCollection : BaseNinjascriptServiceCollection<IBarsService, BarsServiceCollectionOptions>, IBarsServiceCollection
     {
         public BarsServiceCollection(NinjaScriptBase ninjascript) : base(ninjascript)
         {
@@ -40,7 +40,7 @@ namespace KrTrade.Nt.Services
             _services = null;
         }
 
-        public new BarsService this[int index] => _services[index];
+        public new IBarsService this[int index] => _services[index];
         public override string Key
         {
             get
@@ -93,7 +93,7 @@ namespace KrTrade.Nt.Services
         public Bar GetBar(int barsAgo, int period, int barsIndex) => _services[barsIndex].GetBar(barsAgo,period);
         public IList<Bar> GetBars(int barsAgo, int period, int barsIndex) => _services[barsIndex].GetBars(barsAgo, period);
 
-        public DataSeriesInfo[] DataSeries { get; protected set; }
+        public DataSeriesOptions[] DataSeries { get; protected set; }
         public IndicatorCollection[] Indicators { get; protected set; }
         public StatsCollection[] Stats { get; protected set; }
         public FiltersCollection[] Filters { get; protected set; }

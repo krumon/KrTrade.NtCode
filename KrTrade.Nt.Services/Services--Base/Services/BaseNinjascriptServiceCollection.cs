@@ -10,7 +10,7 @@ namespace KrTrade.Nt.Services
     where TService : INinjascriptService
     {
         protected IList<TService> _services;
-        private readonly IDictionary<string, int> _keys;
+        private IDictionary<string, int> _keys;
         protected new NinjascriptServiceCollectionOptions _options;
 
         public new NinjascriptServiceCollectionOptions Options { get => _options ?? new NinjascriptServiceCollectionOptions(); protected set { _options = value; } }
@@ -123,15 +123,33 @@ namespace KrTrade.Nt.Services
                 if (service == null)
                     throw new ArgumentNullException(nameof(service));
 
-                if (!ContainsKey(key))
-                    throw new Exception($"The '{key}' key already exists. The key is being used by another service.");
-
                 if (_services == null)
                     _services = new List<TService>();
 
+                if (_keys == null)
+                    _keys = new Dictionary<string,int>();
+
+                // Si existe el servicio lo sobrescribo
+                if (ContainsKey(service.Key))
+                {
+                    int i = _keys[service.Key];
+                    _services[i] = service;
+                    // Añado una clave específica para el servicio.
+                    if (service.Key != key)
+                        _keys[key] = i;
+                }
+                // El servicio no existe
+                else
+                {
+                    // La clave específica ya existe.
+                    if (ContainsKey(key))
+                        throw new Exception($"The '{key}' key already exists. The key is being used by another service or the service already exists.");
+                }
+
                 _services.Add(service);
-                _keys.Add(key, _services.Count - 1);
                 _keys.Add(service.Key, _services.Count - 1);
+                if (service.Key != key)
+                    _keys.Add(key, _services.Count - 1);
 
                 logText = $"The {service.Name} service has been added successfully.";
                 PrintService.LogInformation(logText);
@@ -178,7 +196,7 @@ namespace KrTrade.Nt.Services
                 PrintService.LogError("The element cannot be added.", e);
             }
         }
-        public bool ContainsKey(string key) => _services == null ? false : _keys.ContainsKey(key);
+        public bool ContainsKey(string key) => _services != null && _keys.ContainsKey(key);
 
         public IEnumerator<TService> GetEnumerator() => _services.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

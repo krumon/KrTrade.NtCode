@@ -1,4 +1,4 @@
-﻿namespace KrTrade.Nt.Core.DataSeries
+﻿namespace KrTrade.Nt.Core.Data
 {
     /// <summary>
     /// The calculate mode for one series whe other series is updated.

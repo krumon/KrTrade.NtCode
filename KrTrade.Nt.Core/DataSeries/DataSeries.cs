@@ -3,7 +3,7 @@ using System;
 
 namespace KrTrade.Nt.Core.DataSeries
 {
-    public class DataSerie
+    public class DataSeries
     {
 
         #region Private members
@@ -80,7 +80,7 @@ namespace KrTrade.Nt.Core.DataSeries
         /// <summary>
         /// Create <see cref="InstrumentProvider"/> default instance.
         /// </summary>
-        public DataSerie(string stringKey)
+        public DataSeries(string stringKey)
         {
             if (string.IsNullOrEmpty(stringKey))
                 throw new ArgumentException($"the parameter {nameof(stringKey)} cannot be null or empty");
