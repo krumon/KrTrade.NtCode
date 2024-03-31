@@ -34,6 +34,7 @@ namespace KrTrade.Nt.Services
         /// <exception cref="ArgumentNullException">The <see cref="INinjascript"/> cannot be null.</exception>
         protected BaseService(NinjaScriptBase ninjascript)
         {
+            ninjascript.Print("BaseService constructor.");
             _ninjascript = ninjascript ?? throw new ArgumentNullException($"Error in 'BaseService' constructor. The {nameof(ninjascript)} argument cannot be null.");
         }
 

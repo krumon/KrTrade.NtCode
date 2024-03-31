@@ -18,6 +18,7 @@ namespace KrTrade.Nt.Services
         }
         protected BarUpdateService(IBarsService barsService, TOptions options): base(barsService.Ninjascript, barsService.PrintService, null, options) 
         {
+            barsService.PrintService.LogTrace("BarUpdateService constructor.");
             Bars = barsService ?? throw new ArgumentNullException(nameof(barsService));
             Options = options ?? new TOptions();
             options.BarsIndex = barsService.Index;

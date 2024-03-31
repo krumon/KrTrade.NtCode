@@ -26,7 +26,7 @@ namespace KrTrade.Nt.Services
                     int index = -1;
                     _keys?.TryGetValue(key, out index);
 
-                    if (index < 0 || index >= _services.Count)
+                    if (index == -1)
                         throw new KeyNotFoundException($"The {key} key DOESN`T EXISTIS.");
 
                     return _services[index];
@@ -114,8 +114,8 @@ namespace KrTrade.Nt.Services
                 service.Terminated();
         }
 
-        public void Add(TService service) => Add(service?.Key, service);
-        public void Add(string key, TService service)
+        public void Add(TService service) => Add(null, service);
+        public void Add(string name, TService service)
         {
             string logText;
             try
@@ -129,34 +129,37 @@ namespace KrTrade.Nt.Services
                 if (_keys == null)
                     _keys = new Dictionary<string,int>();
 
+                if (string.IsNullOrEmpty(name))
+                    name = service.Key;
+
                 // Si existe el servicio lo sobrescribo
                 if (ContainsKey(service.Key))
                 {
                     int i = _keys[service.Key];
                     _services[i] = service;
+                    logText = $"The {service.Name} service replace other service with the same key.";
                     // Añado una clave específica para el servicio.
-                    if (service.Key != key)
-                        _keys[key] = i;
+                    if (service.Key != name)
+                        _keys[name] = i;
                 }
                 // El servicio no existe
                 else
                 {
+                    _services.Add(service);
+                    _keys.Add(service.Key, _services.Count - 1);
+                    logText = $"The {service.Name} service has been added successfully.";
                     // La clave específica ya existe.
-                    if (ContainsKey(key))
-                        throw new Exception($"The '{key}' key already exists. The key is being used by another service or the service already exists.");
+                    if (service.Key != name && ContainsKey(name))
+                        throw new Exception($"The '{name}' name already exists. The name is being used by another service.");
+                    else if (service.Key != name)
+                        _keys.Add(name, _services.Count - 1);
+
                 }
-
-                _services.Add(service);
-                _keys.Add(service.Key, _services.Count - 1);
-                if (service.Key != key)
-                    _keys.Add(key, _services.Count - 1);
-
-                logText = $"The {service.Name} service has been added successfully.";
                 PrintService.LogInformation(logText);
             }
             catch (Exception e)
             {
-                logText = $"The {service.Name} service has NOT been added.";
+                logText = $"The {service.Name} service name cannot be added.";
                 PrintService.LogError(logText, e);
             }
         }

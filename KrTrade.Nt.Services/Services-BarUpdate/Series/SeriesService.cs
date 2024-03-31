@@ -71,6 +71,7 @@ namespace KrTrade.Nt.Services
         /// <exception cref="ArgumentNullException">The <see cref="IBarsManager"/> cannot be null.</exception>
         public SeriesService(IBarsService barsService, object input, SeriesOptions options) : base(barsService,options)
         {
+            barsService.PrintService.LogTrace("SeriesService constructor.");
             _input1 = input ?? barsService.Ninjascript;
             //BarsIndex = barsService.Index;
         }

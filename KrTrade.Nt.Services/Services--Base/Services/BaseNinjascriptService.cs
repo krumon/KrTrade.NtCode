@@ -50,23 +50,24 @@ namespace KrTrade.Nt.Services
         /// <exception cref="ArgumentNullException">The <see cref="INinjascript"/> cannot be null.</exception>
         protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript)
         {
+            printService.LogTrace("BaseNinjascriptService constructor.");
             _printService = printService;
         }
 
-        /// <summary>
-        /// Create <see cref="BaseNinjascriptService"/> instance and configure it.
-        /// This instance must be created in the 'Ninjascript.State == Configure'.
-        /// </summary>
-        /// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
-        /// <param name="printService">The <see cref="IPrintService"/> to log.</param>
-        /// <param name="configureOptions">The configure options of the service.</param>
-        /// <exception cref="ArgumentNullException">The <see cref="INinjascript"/> cannot be null.</exception>
-        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, IConfigureOptions<NinjascriptServiceOptions> configureOptions) : base(ninjascript)
-        {
-            _printService = printService;
-            Options = new NinjascriptServiceOptions();
-            configureOptions?.Configure(Options);
-        }
+        ///// <summary>
+        ///// Create <see cref="BaseNinjascriptService"/> instance and configure it.
+        ///// This instance must be created in the 'Ninjascript.State == Configure'.
+        ///// </summary>
+        ///// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
+        ///// <param name="printService">The <see cref="IPrintService"/> to log.</param>
+        ///// <param name="configureOptions">The configure options of the service.</param>
+        ///// <exception cref="ArgumentNullException">The <see cref="INinjascript"/> cannot be null.</exception>
+        //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, IConfigureOptions<NinjascriptServiceOptions> configureOptions) : base(ninjascript)
+        //{
+        //    _printService = printService;
+        //    Options = new NinjascriptServiceOptions();
+        //    configureOptions?.Configure(Options);
+        //}
 
         /// <summary>
         /// Create <see cref="BaseNinjascriptService"/> instance and configure it.
@@ -170,11 +171,6 @@ namespace KrTrade.Nt.Services
 
         #endregion
 
-        #region Public methods
-
-
-        #endregion
-
         #region Protected methods
 
         /// <summary>
@@ -230,6 +226,7 @@ namespace KrTrade.Nt.Services
         }
         protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, Action<TOptions> configureOptions, TOptions options) : base(ninjascript,printService)
         {
+            printService.LogTrace("BaseNinjascriptService<TOptions> constructor.");
             Options = options ?? new TOptions();
             configureOptions?.Invoke(Options);
         }

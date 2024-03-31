@@ -11,7 +11,7 @@ namespace KrTrade.Nt.Core.Data
         /// <summary>
         /// Converts a <see cref="TradingHoursCode"/> to name.
         /// </summary>
-        /// <param name="tradingHoursCode">The trading hours key.</param>
+        /// <param name="tradingHoursCode">The trading hours code.</param>
         /// <returns>The trading hours name.</returns>
         public static string ToName(this TradingHoursCode tradingHoursCode)
         {
@@ -19,6 +19,13 @@ namespace KrTrade.Nt.Core.Data
 
             return name;
         }
+
+        /// <summary>
+        /// Converts a <see cref="TradingHoursCode"/> to string.
+        /// </summary>
+        /// <param name="tradingHoursCode">The trading hours code.</param>
+        /// <returns>The trading hours name.</returns>
+        public static string ToString(this TradingHoursCode tradingHoursCode) => ToName(tradingHoursCode);
 
         /// <summary>
         /// Method to convert the <see cref="TradingHoursCode"/> to description.
@@ -213,6 +220,5 @@ namespace KrTrade.Nt.Core.Data
                     throw new Exception("The converter is not implemented.");
             }
         }
-
     }
 }

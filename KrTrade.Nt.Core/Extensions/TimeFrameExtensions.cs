@@ -1,5 +1,4 @@
 ﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core.DataSeries;
 using NinjaTrader.Data;
 using System;
 
@@ -36,7 +35,9 @@ namespace KrTrade.Nt.Core.Extensions
                     return BarsPeriodType.Day;
                 case TimeFrame.w1:
                     return BarsPeriodType.Week;
-                default: throw new Exception("The TimeFrame conversion has not yet been implemented.");
+                case TimeFrame.Default:
+                    throw new Exception($"The {timeFrame} time frame doesn't have conversion.");
+                default: throw new Exception($"The {timeFrame} time frame conversion has not yet been implemented.");
 
             }
         }
@@ -68,7 +69,9 @@ namespace KrTrade.Nt.Core.Extensions
                     return 30;
                 case TimeFrame.t150:
                     return 150;
-                default: throw new Exception("The TimeFrame conversion has not yet been implemented.");
+                case TimeFrame.Default:
+                    throw new Exception($"The {timeFrame} time frame doesn't have conversion.");
+                default: throw new Exception($"The {timeFrame} time frame conversion has not yet been implemented.");
 
             }
         }
@@ -161,7 +164,9 @@ namespace KrTrade.Nt.Core.Extensions
                         Value = 150,
                         MarketDataType = marketDataType.ToNtMarketDataType()
                     };
-                default: throw new Exception("The TimeFrame conversion has not yet been implemented.");
+                case TimeFrame.Default:
+                    throw new Exception($"The {timeFrame} time frame doesn't have conversion.");
+                default: throw new Exception($"The {timeFrame} time frame conversion has not yet been implemented.");
 
             }
         }
@@ -211,8 +216,7 @@ namespace KrTrade.Nt.Core.Extensions
                     return TimeFrame.w1;
             }
                 
-            throw new Exception("The BarsPeriod conversion has not yet been implemented.");
+            throw new Exception($"The {barsPeriod} BarsPeriod conversion has not yet been implemented.");
         }
-
     }
 }

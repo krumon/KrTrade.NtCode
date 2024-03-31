@@ -46,47 +46,47 @@ namespace KrTrade.Nt.Services
         public VolumeSeries[] Volumes { get; protected set; }
         public TickSeries[] Ticks { get; protected set; }
 
-        public int Count => _dataSeries.Count;
-        public IBarsService this[string name]
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
-                    return null;
+        public int Count => _dataSeries == null ? -1 : _dataSeries.Count;
+        public IBarsService this[string name] => _dataSeries[name];
+        //{
+        //    get
+        //    {
+        //        if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
+        //            return null;
 
-                string upperName = name.ToUpper();
-                if (upperName == "0" || upperName == "PRIMARY" || upperName == "DEFAULT")
-                    return _dataSeries[0];
+        //        string upperName = name.ToUpper();
+        //        if (upperName == "0" || upperName == "PRIMARY" || upperName == "DEFAULT")
+        //            return _dataSeries[0];
 
-                if (_dataSeries == null || _dataSeries.Count == 0 || !_dataSeries.ContainsKey(name))
-                    return null;
+        //        if (_dataSeries == null || _dataSeries.Count == 0 || !_dataSeries.ContainsKey(name))
+        //            return null;
 
-                return _dataSeries[name];
-            }
-        }
-        public IBarsService this[int idx]
-        {
-            get
-            {
-                if (idx == 0)
-                    return _dataSeries[0];
+        //        return _dataSeries[name];
+        //    }
+        //}
+        public IBarsService this[int idx] => _dataSeries[idx];
+        //{
+        //    get
+        //    {
+        //        if (idx == 0)
+        //            return _dataSeries[0];
 
-                if (_dataSeries == null || _dataSeries.Count == 0)
-                    return null;
+        //        if (_dataSeries == null || _dataSeries.Count == 0)
+        //            return null;
 
-                if (idx < 0 || idx >= _dataSeries.Count)
-                    return null;
+        //        if (idx < 0 || idx >= _dataSeries.Count)
+        //            return null;
 
-                int count = 0;
-                foreach (var dataSeries in _dataSeries)
-                {
-                    if (idx == count)
-                        return dataSeries;
-                    count++;
-                }
-                return null;
-            }
-        }
+        //        int count = 0;
+        //        foreach (var dataSeries in _dataSeries)
+        //        {
+        //            if (idx == count)
+        //                return dataSeries;
+        //            count++;
+        //        }
+        //        return null;
+        //    }
+        //}
 
         public bool IsUpdated => _dataSeries[0].IsUpdated;
         public bool IsClosed => _dataSeries[0].IsClosed;
@@ -99,18 +99,20 @@ namespace KrTrade.Nt.Services
 
         #region Constructors
 
-        public BarsManager(NinjaScriptBase ninjascript, IPrintService printService, Action<BarsManagerOptions> configureOptions) : base(ninjascript, printService, configureOptions,null)
+        internal BarsManager(NinjaScriptBase ninjascript, IPrintService printService, Action<BarsManagerOptions> configureOptions) : base(ninjascript, printService, configureOptions,null) 
         {
+            _dataSeries = new BarsServiceCollection(Ninjascript, PrintService, new BarsServiceCollectionOptions());
         }
-        public BarsManager(NinjaScriptBase ninjascript, IPrintService printService, BarsManagerOptions options) : base(ninjascript, printService, null,options)
+        internal BarsManager(NinjaScriptBase ninjascript, IPrintService printService, BarsManagerOptions options) : base(ninjascript, printService, null,options) 
         {
+            _dataSeries = new BarsServiceCollection(Ninjascript, PrintService, new BarsServiceCollectionOptions());
         }
 
         #endregion
 
         #region Implementation
 
-        public override string Name => $"BarsManager";
+        public override string Name => "BarsManager";
         public override string Key 
         {
             get

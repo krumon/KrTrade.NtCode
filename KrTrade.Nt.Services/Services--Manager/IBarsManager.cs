@@ -1,5 +1,4 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using KrTrade.Nt.Core.DataSeries;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
@@ -33,14 +32,28 @@ namespace KrTrade.Nt.Services
         //DataSeriesInfo[] DataSeries {  get; }
 
         /// <summary>
+        /// Gets the bars service of a sepecific index.
+        /// </summary>
+        /// <param name="index">The specific index.</param>
+        /// <returns>Bars service located at specified index.</returns>
+        IBarsService this[int index] { get; }
+
+        /// <summary>
+        /// Gets the bars service with a speecific name.
+        /// </summary>
+        /// <param name="name">The specific name.</param>
+        /// <returns>Bars service with the specified name.</returns>
+        IBarsService this[string name] { get; }
+
+        /// <summary>
+        /// The index of the data series that is running in the NinjaScript.
+        /// </summary>
+        int BarsInProgress { get; }
+
+        /// <summary>
         /// Gets the number of bars services hosted in it.
         /// </summary>
         int Count { get; }
-        
-        /// <summary>
-        /// Gets the bars index in the 'NinjaScript.BarsArray'.
-        /// </summary>
-        int BarsInProgress { get; }
         
         ///// <summary>
         ///// Gets the capacity of the service. The number of bars stored.

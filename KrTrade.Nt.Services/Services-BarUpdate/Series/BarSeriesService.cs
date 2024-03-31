@@ -14,13 +14,10 @@ namespace KrTrade.Nt.Services
         /// </summary>
         /// <param name="barsService">The <see cref="IBarsService"/> necesary for updated <see cref="BarSeriesService"/>.</param>
         /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        public BarSeriesService(IBarsService barsService) : base(barsService, barsService?.Ninjascript, new SeriesOptions()
+        public BarSeriesService(IBarsService barsService) : base(barsService, barsService?.Ninjascript, new SeriesOptions() /* new SeriesOptions(){ BarsIndex = barsService.Index }*/)
         {
-            //Capacity = barsService.CacheCapacity,
-            //OldValuesCapacity = barsService.RemovedCacheCapacity,
-            BarsIndex = barsService.Index
-            
-        }){ }
+            barsService.PrintService.LogTrace("BarSeriesService constructor.");
+        }
 
         public new double this[int index] => Series[index];
         public override string Name => Series.ToString();

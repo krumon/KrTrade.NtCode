@@ -40,7 +40,6 @@ namespace KrTrade.Nt.Services
             _services = null;
         }
 
-        public new IBarsService this[int index] => _services[index];
         public override string Key
         {
             get

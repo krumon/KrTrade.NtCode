@@ -50,7 +50,7 @@ namespace KrTrade.Nt.Services
         public int CacheCapacity { get => Options.CacheCapacity; protected set { Options.CacheCapacity = value; } }
         public int RemovedCacheCapacity {  get => Options.RemovedCacheCapacity; protected set { Options.RemovedCacheCapacity = value; }}
         public int Index { get; internal set; } = -1;
-        public bool IsWaitingFirstTick => throw new NotImplementedException();
+        public bool IsWaitingFirstTick => false;
 
         public string InstrumentName => _dataSeriesInfo.InstrumentCode.ToName();
         public string TradingHoursName => _dataSeriesInfo.TradingHoursCode.ToName();
@@ -73,7 +73,7 @@ namespace KrTrade.Nt.Services
         public bool IsFirstTick => IsUpdated && _barEvents[BarEvent.FirstTick];
         public bool IsPriceChanged => IsUpdated && _barEvents[BarEvent.PriceChanged];
 
-        public override string Name => InstrumentName + "(" + BarsPeriod.ToShortString() + ")";
+        public override string Name => string.IsNullOrEmpty(_dataSeriesInfo.Name) ? $"Bars[{Index}]({InstrumentName},{BarsPeriod.ToShortString()})" : _dataSeriesInfo.Name;
         public override string Key => $"{InstrumentName}({BarsPeriod.ToShortString()},{BarsPeriod.MarketDataType},{TradingHoursName})";
         public override string ToLogString()
         {
@@ -105,11 +105,18 @@ namespace KrTrade.Nt.Services
         //public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, Action<BarsServiceOptions> configureOptions, BarsServiceOptions options) : base(ninjascript, printService, configureOptions, options) { }
 
         internal BarsService(IBarsManager barsManager) : this(barsManager, new BarsServiceOptions()) { }
-        internal BarsService(IBarsManager barsManager, BarsServiceOptions options) : base(barsManager?.Ninjascript, barsManager?.PrintService, options)
+        internal BarsService(IBarsManager barsManager, BarsServiceOptions options) : this(barsManager, null, options) { }
+        internal BarsService(IBarsManager barsManager, DataSeriesOptions dataSeriesOptions, BarsServiceOptions barsServiceOptions) : base(barsManager?.Ninjascript, barsManager?.PrintService, barsServiceOptions)
         {
-            Indicators = new IndicatorCollection(this);
-            Filters = new FiltersCollection(this);
-            Stats = new StatsCollection(this);
+            barsManager.PrintService.LogTrace("BarsService constructor.");
+
+            _dataSeriesInfo = dataSeriesOptions ?? new DataSeriesOptions(barsManager.Ninjascript);
+            _barSeries = new BarSeriesService(this);
+            barsManager.PrintService.LogTrace("BarsSeries has been created.");
+
+            //Indicators = new IndicatorCollection(this);
+            //Filters = new FiltersCollection(this);
+            //Stats = new StatsCollection(this);
         }
 
         #endregion
@@ -134,25 +141,8 @@ namespace KrTrade.Nt.Services
             _lastPrice = double.MinValue;
             _currentPrice = double.MinValue;
 
-            _dataSeriesInfo = new DataSeriesOptions()
-            {
-                InstrumentCode = Ninjascript.BarsArray[0].Instrument.MasterInstrument.Name.ToInstrumentCode(),
-                TradingHoursCode = Ninjascript.BarsArray[0].TradingHours.Name.ToTradingHoursCode(),
-                TimeFrame = Ninjascript.BarsPeriods[0].ToTimeFrame(),
-                MarketDataType = Ninjascript.BarsPeriods[0].MarketDataType.ToKrMarketDataType()
-            };
-
-            //if (!Options.IsPrimaryDataSeries)
-            //{
-            //    if (Options.InstrumentCode != _dataSeriesInfo.InstrumentCode && Options.InstrumentCode != InstrumentCode.Default)
-            //        _dataSeriesInfo.InstrumentCode = Options.InstrumentCode;
-            //    if (Options.TradringHoursCode != _dataSeriesInfo.TradingHoursCode && Options.TradringHoursCode != TradingHoursCode.Default)
-            //        _dataSeriesInfo.TradingHoursCode = Options.TradringHoursCode;
-            //    if (Options.TimeFrame != _dataSeriesInfo.TimeFrame && Options.TimeFrame != TimeFrame.Default)
-            //        _dataSeriesInfo.TimeFrame = Options.TimeFrame;
-            //    if (Options.MarketDataType != _dataSeriesInfo.MarketDataType)
-            //        _dataSeriesInfo.MarketDataType = Options.MarketDataType;
-            //}
+            if (_dataSeriesInfo == null)
+                PrintService.LogError(new Exception("The 'DataSeriesOptions' must be loaded before the service will be configured."));
 
             _barSeries = new BarSeriesService(this);
 
@@ -161,24 +151,19 @@ namespace KrTrade.Nt.Services
             Filters?.Configure();
             Stats?.Configure();
 
-            isConfigured = _barSeries.IsConfigure && Indicators.IsConfigure && Filters.IsConfigure && Stats.IsConfigure;
+            isConfigured = _dataSeriesInfo != null && _barSeries.IsConfigure && Indicators.IsConfigure && Filters.IsConfigure && Stats.IsConfigure;
         }
         internal override void DataLoaded(out bool isDataLoaded)
         {
-
             for (int i = 0; i < Ninjascript.BarsArray.Length; i++)
-                if (Ninjascript.BarsArray[i].Instrument.MasterInstrument.Name == InstrumentName)
-                    if (Ninjascript.BarsPeriods[i] == BarsPeriod &&
-                        Ninjascript.BarsArray[i].TradingHours.Name == TradingHoursName
-                        )
-                    {
-                        Index = i;
-                        break;
-                    }
-            isDataLoaded = Index != -1;
+                if (_dataSeriesInfo.EqualsTo(Ninjascript, i))
+                {
+                    Index = i;
+                    break;
+                }
 
-            if (!isDataLoaded)
-                return;
+            if (Index == -1)
+                PrintService.LogError(new Exception($"{Name} cannot be loaded because the 'DataSeriesOptions' don't mutch with any 'NinjaScript.DataSeries'."));
 
             // Configure services
             _barSeries.DataLoaded();
@@ -186,10 +171,13 @@ namespace KrTrade.Nt.Services
             Filters?.DataLoaded();
             Stats?.DataLoaded();
 
-            isDataLoaded = _barSeries.IsDataLoaded 
-                && Indicators != null ? Indicators.IsDataLoaded : true 
-                && Filters != null ? Filters.IsDataLoaded : true
-                && Stats != null ? Stats.IsDataLoaded : true;
+            isDataLoaded =
+                Index != -1 &&
+                _barSeries.IsDataLoaded &&
+                Indicators != null ? Indicators.IsDataLoaded : true &&
+                Filters != null ? Filters.IsDataLoaded : true &&
+                Stats != null ? Stats.IsDataLoaded : true
+                ;
         }
 
         public void OnBarUpdate()
@@ -307,64 +295,9 @@ namespace KrTrade.Nt.Services
         {
             throw new NotImplementedException();
         }
-        //public Bar GetBar(int barsAgo) => _barsCacheSvc.GetBar(barsAgo);
-        //public Bar GetBar(int barsAgo, int period) => _barsCacheSvc.GetBar(barsAgo, period);
-        //public IList<Bar> GetBars(int barsAgo, int period) => _barsCacheSvc.GetBars(barsAgo, period);
-
-        public Bar GetBar(int barsAgo)
-        {
-            //if (!IsValidIndex(barsAgo))
-            //    return null;
-
-            Bar bar = new Bar()
-            {
-                Idx = CurrentBar[barsAgo],
-                Open = Open[barsAgo],
-                High = High[barsAgo],
-                Low = Low[barsAgo],
-                Close = Close[barsAgo],
-                Volume = Volume[barsAgo],
-                Ticks = (long)Tick[barsAgo],
-            };
-            return bar;
-        }
-        public Bar GetBar(int barsAgo, int period)
-        {
-            //IsValidIndex(barsAgo, period);
-
-            Bar bar = new Bar();
-            for (int i = barsAgo + period - 1; i >= 0; i--)
-                bar += new Bar()
-                {
-                    Idx = CurrentBar[i],
-                    Open = Open[i],
-                    High = High[i],
-                    Low = Low[i],
-                    Close = Close[i],
-                    Volume = Volume[i],
-                    Ticks = (long)Tick[i],
-                };
-
-            return bar;
-        }
-        public IList<Bar> GetBars(int barsAgo, int period)
-        {
-            //if (!IsValidIndex(barsAgo, period))
-            //    return null;
-            IList<Bar> bars = new List<Bar>();
-            for (int i = barsAgo + period - 1; i >= 0; i--)
-                bars.Add(new Bar()
-                {
-                    Idx = CurrentBar[i],
-                    Open = Open[i],
-                    High = High[i],
-                    Low = Low[i],
-                    Close = Close[i],
-                    Volume = Volume[i],
-                    Ticks = (long)Tick[i],
-                });
-            return bars;
-        }
+        public Bar GetBar(int barsAgo) => _barSeries.GetBar(barsAgo);
+        public Bar GetBar(int barsAgo, int period) => _barSeries.GetBar(barsAgo, period);
+        public IList<Bar> GetBars(int barsAgo, int period) => _barSeries.GetBars(barsAgo, period);
 
         #endregion
 

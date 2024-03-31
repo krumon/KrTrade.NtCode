@@ -1,5 +1,6 @@
 ﻿using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.Extensions;
+using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
 using System;
 
@@ -41,7 +42,7 @@ namespace KrTrade.Nt.Core.DataSeries
         /// <summary>
         /// Indicates the actual object is default instance.
         /// </summary>
-        public bool IsDefault => InstrumentCode == InstrumentCode.Default && TradingHoursCode == TradingHoursCode.Default && TimeFrame == TimeFrame.Default && MarketDataType == MarketDataType.Last;
+        public bool IsDefault => InstrumentCode == InstrumentCode.Default && TradingHoursCode == TradingHoursCode.Default && TimeFrame == TimeFrame.Default && MarketDataType == Data.MarketDataType.Last;
 
         public override string ToString() => $"{InstrumentCode},{TimeFrame}";
 
@@ -59,7 +60,7 @@ namespace KrTrade.Nt.Core.DataSeries
             InstrumentCode = InstrumentCode.Default;
             TimeFrame = TimeFrame.Default;
             TradingHoursCode = TradingHoursCode.Default;
-            MarketDataType = MarketDataType.Last;
+            MarketDataType = Data.MarketDataType.Last;
         }
 
         /// <summary>
@@ -93,6 +94,19 @@ namespace KrTrade.Nt.Core.DataSeries
         public DataSeriesOptions(NinjaScriptBase ninjascript)
         {
             SetNinjascriptValues(ninjascript);
+            ninjascript.Print("DataSeriesOptions has been created.");
+        }
+
+        /// <summary>
+        /// Create <see cref="DataSeriesOptions"/> of the ninjascript promary data series.
+        /// </summary>
+        /// <param name="name">the specified pseudoname of the data series.</param>
+        /// <param name="ninjascript">The 'Ninjatrader.NinjaScript' where the primary series is housed.</param>
+        public DataSeriesOptions(string name,NinjaScriptBase ninjascript)
+        {
+            Name = name;
+            SetNinjascriptValues(ninjascript);
+            ninjascript.Print("DataSeriesOptions has been created.");
         }
 
         /// <summary>
@@ -115,31 +129,40 @@ namespace KrTrade.Nt.Core.DataSeries
         /// <param name="ninjascript">The 'Ninjatrader.NinjaScript' where the primary series is housed.</param>
         public void SetNinjascriptValues(NinjaScriptBase ninjascript)
         {
+            ninjascript.Print("DataSeriesOptions is going to be created...");
             InstrumentCode = ninjascript.BarsArray[0].Instrument.MasterInstrument.Name.ToInstrumentCode();
+            ninjascript.Print(string.Format("DataSeriesOptions sets instrument value: {0}.", InstrumentCode.ToString()));
             TradingHoursCode = ninjascript.BarsArray[0].TradingHours.Name.ToTradingHoursCode();
+            ninjascript.Print(string.Format("DataSeriesOptions sets trading hours value: {0}.", TradingHoursCode.ToString()));
             TimeFrame = ninjascript.BarsPeriods[0].ToTimeFrame();
+            ninjascript.Print(string.Format("DataSeriesOptions sets time frame value: {0}.", TimeFrame.ToString()));
             MarketDataType = ninjascript.BarsPeriods[0].MarketDataType.ToKrMarketDataType();
+            ninjascript.Print(string.Format("DataSeriesOptions sets market data type value: {0}.", MarketDataType.ToString()));
         }
 
-        //public static bool operator ==(DataSeriesOptions dataSeries, NinjaTrader.Data.Bars bars) =>
-        //    dataSeries.InstrumentCode == bars.Instrument.MasterInstrument.Name.ToInstrumentCode() &&
-        //    dataSeries.TradingHoursCode == bars.TradingHours.Name.ToTradingHoursCode() &&
-        //    dataSeries.TimeFrame == bars.BarsPeriod.ToTimeFrame() &&
-        //    dataSeries.MarketDataType == bars.BarsPeriod.MarketDataType.ToKrMarketDataType()
-        //    ;
-        //public static bool operator !=(DataSeriesOptions dataSeries, NinjaTrader.Data.Bars bars) => !(dataSeries == bars);
-
         public static bool operator ==(DataSeriesOptions dataSeries1, DataSeriesOptions dataSeries2) =>
-            (dataSeries1 == null && dataSeries2 == null) ||
-            (dataSeries1 != null && 
-            dataSeries2 != null &&
+            (dataSeries1 is null && dataSeries2 is null) ||
+            (
+            !(dataSeries1 is null) && 
+            !(dataSeries2 is null) &&
             dataSeries1.InstrumentCode == dataSeries2.InstrumentCode &&
             dataSeries1.TradingHoursCode == dataSeries2.TradingHoursCode &&
             dataSeries1.TimeFrame == dataSeries2.TimeFrame &&
-            dataSeries1.MarketDataType == dataSeries2.MarketDataType)
-            ;
+            dataSeries1.MarketDataType == dataSeries2.MarketDataType
+            );
         public static bool operator !=(DataSeriesOptions dataSeries1, DataSeriesOptions dataSeries2) => !(dataSeries1 == dataSeries2);
 
+        public bool EqualsTo(NinjaScriptBase ninjascript, int index)
+        {
+            return
+            ninjascript != null &&
+            index < ninjascript.BarsArray.Length &&
+            InstrumentCode == ninjascript.BarsArray[index].Instrument.MasterInstrument.Name.ToInstrumentCode() &&
+            TradingHoursCode == ninjascript.BarsArray[index].TradingHours.Name.ToTradingHoursCode() &&
+            TimeFrame == ninjascript.BarsArray[index].BarsPeriod.ToTimeFrame() &&
+            MarketDataType == ninjascript.BarsArray[index].BarsPeriod.MarketDataType.ToKrMarketDataType()
+            ;
+        }
         public override bool Equals(object obj) => obj is DataSeriesOptions other && this == other;
         public override int GetHashCode() => ((int)InstrumentCode * 1000) + ((int)TimeFrame * 100) + ((int)TradingHoursCode * 10) + ((int)MarketDataType);
 

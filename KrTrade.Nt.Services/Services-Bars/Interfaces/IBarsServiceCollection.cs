@@ -9,9 +9,25 @@ namespace KrTrade.Nt.Services
     /// </summary>
     public interface IBarsServiceCollection : IBarUpdate, IMarketData, IMarketDepth, IRender
     {
-        // Properties
+        /// <summary>
+        /// Gets the bars service of a sepecific index.
+        /// </summary>
+        /// <param name="index">The specific index.</param>
+        /// <returns>Bars service located at specified index.</returns>
         IBarsService this[int index] { get; }
+
+        /// <summary>
+        /// Gets the bars service with a speecific name.
+        /// </summary>
+        /// <param name="name">The specific name.</param>
+        /// <returns>Bars service with the specified name.</returns>
+        IBarsService this[string name] { get; }
+
+        /// <summary>
+        /// The index of the data series that is running in the NinjaScript.
+        /// </summary>
         int BarsInProgress { get; }
+
         // CalculateMode
         // MultiSeriesCalculateMode
         // UpdatedSeriesIndex
