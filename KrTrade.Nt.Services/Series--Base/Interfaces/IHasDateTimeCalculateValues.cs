@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.Nt.Services
+namespace KrTrade.Nt.Services.Series
 {
     public interface IHasDateTimeCalculateValues
     {

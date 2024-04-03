@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Core.Bars;
+using KrTrade.Nt.Core.Data;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
@@ -9,27 +10,10 @@ namespace KrTrade.Nt.Services
     public interface IBarsManager : INinjascriptService<BarsManagerOptions>, IBarUpdate, IMarketData, IMarketDepth, IRender
     {
 
-        ///// <summary>
-        ///// Gets or sets the trading hours name of the bars series.
-        ///// </summary>
-        //string TradingHoursName { get; }
-
-        ///// <summary>
-        ///// Gets the instument name.
-        ///// </summary>
-        //string InstrumentName { get; }
-
-        ///// <summary>
-        ///// Gets or sets the market data type of the bars series.
-        ///// </summary>
-        //NinjaTrader.Data.MarketDataType MarketDataType { get; }
-
-        ///// <summary>
-        ///// The bars period of the DataSeries.
-        ///// </summary>
-        //NinjaTrader.Data.BarsPeriod BarsPeriod { get; }
-
-        //DataSeriesInfo[] DataSeries {  get; }
+        /// <summary>
+        /// Gets the list of <see cref="DataSeriesInfo"/>.
+        /// </summary>
+        IList<DataSeriesInfo> Info { get; }
 
         /// <summary>
         /// Gets the bars service of a sepecific index.

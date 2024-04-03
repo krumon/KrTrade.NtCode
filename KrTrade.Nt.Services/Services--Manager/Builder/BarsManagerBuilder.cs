@@ -1,5 +1,5 @@
 ﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core.DataSeries;
+using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
 using System;
 using System.Collections.Generic;
@@ -15,10 +15,10 @@ namespace KrTrade.Nt.Services
         private readonly List<Action<PrintOptions>> _printDelegateActions = new List<Action<PrintOptions>>();
 
         private Action<IBarsServiceBuilder> _primaryBarsServiceDelegateBuilder;
-        private DataSeriesOptions _primaryDataSeriesOptions;
+        private DataSeriesInfo _primaryDataSeriesOptions;
         private string _primaryDataSeriesName;
 
-        private Dictionary<DataSeriesOptions, Action<IBarsServiceBuilder>> _barsServiceDelegateBuilder = new Dictionary<DataSeriesOptions, Action<IBarsServiceBuilder>>();
+        private Dictionary<DataSeriesInfo, Action<IBarsServiceBuilder>> _barsServiceDelegateBuilder = new Dictionary<DataSeriesInfo, Action<IBarsServiceBuilder>>();
         
         public IBarsManagerBuilder ConfigureOptions(Action<BarsManagerOptions> configureBarsManagerOptions)
         {
@@ -45,9 +45,9 @@ namespace KrTrade.Nt.Services
             return this;
         }
 
-        public IBarsManagerBuilder AddDataSeries(Action<DataSeriesOptions> configureDataSeriesOptions, Action<IBarsServiceBuilder> configureBarsServiceBuilder)
+        public IBarsManagerBuilder AddDataSeries(Action<DataSeriesInfo> configureDataSeriesOptions, Action<IBarsServiceBuilder> configureBarsServiceBuilder)
         {
-            DataSeriesOptions dataSeriesOptions = configureDataSeriesOptions != null ? new DataSeriesOptions() : throw new ArgumentNullException(nameof(configureDataSeriesOptions));
+            DataSeriesInfo dataSeriesOptions = configureDataSeriesOptions != null ? new DataSeriesInfo() : throw new ArgumentNullException(nameof(configureDataSeriesOptions));
             configureDataSeriesOptions(dataSeriesOptions);
 
             if (_barsServiceDelegateBuilder.ContainsKey(dataSeriesOptions))
@@ -57,9 +57,9 @@ namespace KrTrade.Nt.Services
 
             return this;
         }
-        public IBarsManagerBuilder AddDataSeries(string name, Action<DataSeriesOptions> configureDataSeriesOptions, Action<IBarsServiceBuilder> configureBarsServiceBuilder)
+        public IBarsManagerBuilder AddDataSeries(string name, Action<DataSeriesInfo> configureDataSeriesOptions, Action<IBarsServiceBuilder> configureBarsServiceBuilder)
         {
-            DataSeriesOptions dataSeriesOptions = configureDataSeriesOptions != null ? new DataSeriesOptions() : throw new ArgumentNullException(nameof(configureDataSeriesOptions));
+            DataSeriesInfo dataSeriesOptions = configureDataSeriesOptions != null ? new DataSeriesInfo() : throw new ArgumentNullException(nameof(configureDataSeriesOptions));
             configureDataSeriesOptions(dataSeriesOptions);
             dataSeriesOptions.Name = name;
 
@@ -71,7 +71,7 @@ namespace KrTrade.Nt.Services
             return this;
         }
 
-        public IBarsManager Build(NinjaScriptBase ninjascript)
+        public IBarsManager Configure(NinjaScriptBase ninjascript, Action<string, BarsPeriod, string> addDataSeriesMethod = null)
         {
             string logText = string.Empty;
 
@@ -89,7 +89,7 @@ namespace KrTrade.Nt.Services
                 action(printOptions);
             IPrintService printService = new PrintService(ninjascript, printOptions);
 
-            // Log initialized trace
+            // Log trace
             logText = $"{printService.Name} has been created succesfully.";
             printService.LogTrace(logText);
 
@@ -97,10 +97,6 @@ namespace KrTrade.Nt.Services
             BarsManagerOptions options = new BarsManagerOptions();
             foreach (var action in _optionsDelegateActions)
                 action(options);
-
-            // Log config trace
-            logText = $"{nameof(BarsManager)} options have been configured correctly.";
-            printService.LogTrace(logText);
 
             // Initialize 'BarsManager' with the configure parameters.
             BarsManager barsManager = new BarsManager(ninjascript, printService, options);
@@ -113,21 +109,15 @@ namespace KrTrade.Nt.Services
 
             // Configure primary data series
             IBarsServiceBuilder primaryBarsServiceBuilder = new BarsServiceBuilder();
-            printService.LogTrace("Primary Bars Service Builder instance has been created.");
-            _primaryDataSeriesOptions = new DataSeriesOptions(_primaryDataSeriesName,ninjascript);
-            printService.LogTrace("Primary Bars Service Options has been created.");
+            _primaryDataSeriesOptions = new DataSeriesInfo(ninjascript, _primaryDataSeriesName);
             _primaryBarsServiceDelegateBuilder?.Invoke(primaryBarsServiceBuilder);
-            printService.LogTrace("Primary Bars Service Builder delegate has been invoked.");
+
             IBarsService primaryBarsService = (BarsService)primaryBarsServiceBuilder.Build(barsManager, _primaryDataSeriesOptions);
-
-            // Log initialized trace
-            logText = $"{primaryBarsService.Name} has been initialized succesfully.";
-            printService.LogTrace(logText);
-
             barsManager.Add(_primaryDataSeriesOptions.Name, primaryBarsService);
+            barsManager.Info.Add(primaryBarsService.Info);
 
-            // Log config trace
-            logText = $"{primaryBarsService.Name} has been added to {barsManager.Name} succesfully.";
+            // Log trace
+            logText = $"{primaryBarsService.Name} has been initialized and added to {barsManager.Name} succesfully.";
             printService.LogTrace(logText);
 
             // Configure all data series
@@ -135,7 +125,7 @@ namespace KrTrade.Nt.Services
             {
                 IBarsServiceBuilder barsServiceBuilder = new BarsServiceBuilder();
                 barsServiceDelegateConfiguration.Value.Invoke(barsServiceBuilder);
-                DataSeriesOptions dataSeriesOptions = barsServiceDelegateConfiguration.Key;
+                DataSeriesInfo dataSeriesOptions = barsServiceDelegateConfiguration.Key;
 
                 if (dataSeriesOptions.InstrumentCode == InstrumentCode.Default)
                     dataSeriesOptions.InstrumentCode = _primaryDataSeriesOptions.InstrumentCode;
@@ -146,13 +136,26 @@ namespace KrTrade.Nt.Services
 
                 BarsService barsService = (BarsService)barsServiceBuilder.Build(barsManager, dataSeriesOptions);
                 barsManager.Add(barsServiceDelegateConfiguration.Key.Name, barsService);
+                barsManager.Info.Add(primaryBarsService.Info);
 
-                // Log added trace
-                logText = $"{barsService.Name} has been added to {barsManager.Name} succesfully.";
+                // Log trace
+                logText = $"{barsService.Name} has been initialized and added to {barsManager.Name} succesfully.";
                 printService.LogTrace(logText);
             }
 
-            // Log initialized info
+            if (barsManager.Count > 0)
+                for (int i = 1; i < barsManager.Count; i++)
+                {
+                    addDataSeriesMethod?.Invoke(barsManager[i].InstrumentName, barsManager[i].BarsPeriod, barsManager[i].TradingHoursName);
+                    
+                    // Log trace
+                    logText = $"{barsManager[i].Name}[{i}] has been added to the 'NinjaScript'.";
+                    printService.LogTrace(logText);
+                }
+
+            barsManager.Configure();
+
+            // Log info
             logText = 
                 Environment.NewLine +
                 $"++++++ {barsManager.Name} has been initialized succesfully.\t++++++" + 

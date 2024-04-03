@@ -15,5 +15,7 @@ namespace KrTrade.Nt.Services
         public FiltersCollection(IBarsService barsService, FiltersCollectionOptions options) : base(barsService, options)
         {
         }
+
+        public override string Key => throw new NotImplementedException();
     }
 }

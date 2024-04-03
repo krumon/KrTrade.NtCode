@@ -15,5 +15,7 @@ namespace KrTrade.Nt.Services
         public IndicatorCollection(IBarsService barsService, IndicatorCollectionOptions options) : base(barsService, options)
         {
         }
+
+        public override string Key => throw new NotImplementedException();
     }
 }

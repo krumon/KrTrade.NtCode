@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace KrTrade.Nt.Services
+namespace KrTrade.Nt.Services.Series
 {
     public abstract class LongSeries : NumericSeries<long>, ILongSeries
     {

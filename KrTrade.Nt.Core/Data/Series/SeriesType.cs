@@ -5,13 +5,28 @@
     /// </summary>
     public enum SeriesType
     {
-        Open,
-        High,
-        Low,
-        Close,
-        Volume,
-        Median,
-        Typical,
-        Weighted
+        // BARS SERIES
+        INDEX,
+        TIME,
+        VOLUME,
+        TICK,
+        // PRICE SERIES
+        OPEN,
+        HIGH,
+        LOW,
+        CLOSE,
+        MEDIAN,
+        TYPICAL,
+        WEIGHTED,
+        // STATS SERIES
+        MAX,
+        MIN,
+        SUM,
+        AVG,
+        DEVSTD,
+        // INDICATOR SERIES
+        RANGE,
+        SWING_HIGH,
+        SWING_LOW,
     }
 }

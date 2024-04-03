@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KrTrade.Nt.Services.Series;
+using System;
 
 namespace KrTrade.Nt.Services
 {
@@ -9,7 +10,7 @@ namespace KrTrade.Nt.Services
         /// </summary>
         /// <param name="barsService">The <see cref="IBarsService"/> necesary for updated <see cref="BarSeriesService"/>.</param>
         /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        public IndicatorSeriesService(IBarsService barsService) : base(barsService, barsService?.Ninjascript, new SeriesOptions()
+        public IndicatorSeriesService(IBarsService barsService) : base(barsService, new SeriesOptions()
         {
             //Capacity = barsService.CacheCapacity,
             //OldValuesCapacity = barsService.RemovedCacheCapacity,

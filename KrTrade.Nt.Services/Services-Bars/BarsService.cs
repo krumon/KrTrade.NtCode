@@ -1,9 +1,7 @@
 ﻿using KrTrade.Nt.Core.Bars;
 using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core.DataSeries;
-using KrTrade.Nt.Core.Extensions;
+using KrTrade.Nt.Services.Series;
 using NinjaTrader.Core.FloatingPoint;
-using NinjaTrader.NinjaScript;
 using System;
 using System.Collections.Generic;
 
@@ -12,21 +10,7 @@ namespace KrTrade.Nt.Services
     public class BarsService : BaseNinjascriptService<BarsServiceOptions>, IBarsService
     {
 
-        #region Consts
-
-        //public const string Series = "SERIES";
-        //public const string ServicesDefaultName = "DEFAULT";
-
-        #endregion
-
         #region Private members
-
-        // Data series info
-        private DataSeriesOptions _dataSeriesInfo;
-        //internal InstrumentCode InstrumentCode { get => Options.InstrumentCode; set { Options.InstrumentCode = value; } }
-        //internal TimeFrame TimeFrame { get => Options.TimeFrame; set { Options.TimeFrame= value; } }
-        //internal TradingHoursCode TradingHoursCode { get => Options.TradringHoursCode; set { Options.TradringHoursCode= value; } }
-        //internal MarketDataType MarketDataType { get => Options.MarketDataType; set { Options.MarketDataType= value; } }
 
         // Data series control
         private int _lastBarIdx;
@@ -51,10 +35,11 @@ namespace KrTrade.Nt.Services
         public int RemovedCacheCapacity {  get => Options.RemovedCacheCapacity; protected set { Options.RemovedCacheCapacity = value; }}
         public int Index { get; internal set; } = -1;
         public bool IsWaitingFirstTick => false;
+        public DataSeriesInfo Info { get; internal set; }
 
-        public string InstrumentName => _dataSeriesInfo.InstrumentCode.ToName();
-        public string TradingHoursName => _dataSeriesInfo.TradingHoursCode.ToName();
-        public NinjaTrader.Data.BarsPeriod BarsPeriod => _dataSeriesInfo.TimeFrame.ToBarsPeriod();
+        public string InstrumentName => Info.InstrumentCode.ToName();
+        public string TradingHoursName => Info.TradingHoursCode.ToName();
+        public NinjaTrader.Data.BarsPeriod BarsPeriod => Info.TimeFrame.ToBarsPeriod();
 
         public double this[int index] => _barSeries[index];
         public CurrentBarSeries CurrentBar => _barSeries.CurrentBar;
@@ -73,7 +58,7 @@ namespace KrTrade.Nt.Services
         public bool IsFirstTick => IsUpdated && _barEvents[BarEvent.FirstTick];
         public bool IsPriceChanged => IsUpdated && _barEvents[BarEvent.PriceChanged];
 
-        public override string Name => string.IsNullOrEmpty(_dataSeriesInfo.Name) ? $"Bars[{Index}]({InstrumentName},{BarsPeriod.ToShortString()})" : _dataSeriesInfo.Name;
+        public override string Name => string.IsNullOrEmpty(Info.Name) ? $"Bars[{Index}]({InstrumentName},{BarsPeriod.ToShortString()})" : Info.Name;
         public override string Key => $"{InstrumentName}({BarsPeriod.ToShortString()},{BarsPeriod.MarketDataType},{TradingHoursName})";
         public override string ToLogString()
         {
@@ -98,25 +83,16 @@ namespace KrTrade.Nt.Services
 
         #region Constructors
 
-        //public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript) : base(ninjascript) { }
-        //public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript, printService) { }
-        //public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, Action<BarsServiceOptions> configureOptions) : base(ninjascript, printService, configureOptions) { }
-        //public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsServiceOptions options) : base(ninjascript, printService, options) { }
-        //public BarsService(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, Action<BarsServiceOptions> configureOptions, BarsServiceOptions options) : base(ninjascript, printService, configureOptions, options) { }
-
-        internal BarsService(IBarsManager barsManager) : this(barsManager, new BarsServiceOptions()) { }
+        internal BarsService(IBarsManager barsManager) : this(barsManager, null, new BarsServiceOptions()) { }
         internal BarsService(IBarsManager barsManager, BarsServiceOptions options) : this(barsManager, null, options) { }
-        internal BarsService(IBarsManager barsManager, DataSeriesOptions dataSeriesOptions, BarsServiceOptions barsServiceOptions) : base(barsManager?.Ninjascript, barsManager?.PrintService, barsServiceOptions)
+        internal BarsService(IBarsManager barsManager, DataSeriesInfo dataSeriesOptions, BarsServiceOptions barsServiceOptions) : base(barsManager?.Ninjascript, barsManager?.PrintService, barsServiceOptions)
         {
-            barsManager.PrintService.LogTrace("BarsService constructor.");
-
-            _dataSeriesInfo = dataSeriesOptions ?? new DataSeriesOptions(barsManager.Ninjascript);
+            Info = dataSeriesOptions ?? new DataSeriesInfo(barsManager.Ninjascript);
             _barSeries = new BarSeriesService(this);
-            barsManager.PrintService.LogTrace("BarsSeries has been created.");
 
-            //Indicators = new IndicatorCollection(this);
-            //Filters = new FiltersCollection(this);
-            //Stats = new StatsCollection(this);
+            Indicators = new IndicatorCollection(this);
+            Filters = new FiltersCollection(this);
+            Stats = new StatsCollection(this);
         }
 
         #endregion
@@ -141,7 +117,7 @@ namespace KrTrade.Nt.Services
             _lastPrice = double.MinValue;
             _currentPrice = double.MinValue;
 
-            if (_dataSeriesInfo == null)
+            if (Info == null)
                 PrintService.LogError(new Exception("The 'DataSeriesOptions' must be loaded before the service will be configured."));
 
             _barSeries = new BarSeriesService(this);
@@ -151,12 +127,12 @@ namespace KrTrade.Nt.Services
             Filters?.Configure();
             Stats?.Configure();
 
-            isConfigured = _dataSeriesInfo != null && _barSeries.IsConfigure && Indicators.IsConfigure && Filters.IsConfigure && Stats.IsConfigure;
+            isConfigured = Info != null && _barSeries.IsConfigure && Indicators.IsConfigure && Filters.IsConfigure && Stats.IsConfigure;
         }
         internal override void DataLoaded(out bool isDataLoaded)
         {
             for (int i = 0; i < Ninjascript.BarsArray.Length; i++)
-                if (_dataSeriesInfo.EqualsTo(Ninjascript, i))
+                if (Info.EqualsTo(Ninjascript, i))
                 {
                     Index = i;
                     break;
@@ -291,13 +267,19 @@ namespace KrTrade.Nt.Services
             throw new NotImplementedException();
         }
 
-        public T GetSeries<T>()
-        {
-            throw new NotImplementedException();
-        }
         public Bar GetBar(int barsAgo) => _barSeries.GetBar(barsAgo);
         public Bar GetBar(int barsAgo, int period) => _barSeries.GetBar(barsAgo, period);
         public IList<Bar> GetBars(int barsAgo, int period) => _barSeries.GetBars(barsAgo, period);
+
+        public ISeries GetSeries(BaseSeriesOptions options)
+        {
+            return null;
+        }
+
+        public ISeries GetOrAddSeries(BaseSeriesOptions options)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
 
@@ -312,33 +294,33 @@ namespace KrTrade.Nt.Services
 
         #region Private methods
 
-        internal void SetDataSeriesInfo(DataSeriesOptions dataSeriesOptions)
-        {
-            if (dataSeriesOptions == null)
-                throw new ArgumentNullException(nameof(dataSeriesOptions));
+        //internal void SetDataSeriesInfo(DataSeriesInfo dataSeriesOptions)
+        //{
+        //    if (dataSeriesOptions == null)
+        //        throw new ArgumentNullException(nameof(dataSeriesOptions));
 
-            if (_dataSeriesInfo == null)
-                _dataSeriesInfo = new DataSeriesOptions();
+        //    if (Info == null)
+        //        Info = new DataSeriesInfo();
 
-            _dataSeriesInfo.InstrumentCode = dataSeriesOptions.InstrumentCode;
-            _dataSeriesInfo.TimeFrame = dataSeriesOptions.TimeFrame;
-            _dataSeriesInfo.TradingHoursCode = dataSeriesOptions.TradingHoursCode;
-            _dataSeriesInfo.MarketDataType = dataSeriesOptions.MarketDataType;
-        }
+        //    Info.InstrumentCode = dataSeriesOptions.InstrumentCode;
+        //    Info.TimeFrame = dataSeriesOptions.TimeFrame;
+        //    Info.TradingHoursCode = dataSeriesOptions.TradingHoursCode;
+        //    Info.MarketDataType = dataSeriesOptions.MarketDataType;
+        //}
 
-        internal void SetDefaultDataSeriesInfo(NinjaScriptBase ninjascript)
-        {
-            if (ninjascript == null)
-                throw new ArgumentNullException(nameof(ninjascript));
+        //internal void SetDefaultDataSeriesInfo(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript)
+        //{
+        //    if (ninjascript == null)
+        //        throw new ArgumentNullException(nameof(ninjascript));
 
-            if (_dataSeriesInfo == null)
-                _dataSeriesInfo = new DataSeriesOptions();
+        //    if (Info == null)
+        //        Info = new DataSeriesInfo();
 
-            _dataSeriesInfo.InstrumentCode = ninjascript.BarsArray[0].Instrument.MasterInstrument.Name.ToInstrumentCode();
-            _dataSeriesInfo.TimeFrame = ninjascript.BarsArray[0].BarsPeriod.ToTimeFrame();
-            _dataSeriesInfo.TradingHoursCode = ninjascript.BarsArray[0].TradingHours.Name.ToTradingHoursCode();
-            _dataSeriesInfo.MarketDataType = ninjascript.BarsArray[0].BarsPeriod.MarketDataType.ToKrMarketDataType();
-        }
+        //    Info.InstrumentCode = ninjascript.BarsArray[0].Instrument.MasterInstrument.Name.ToInstrumentCode();
+        //    Info.TimeFrame = ninjascript.BarsArray[0].BarsPeriod.ToTimeFrame();
+        //    Info.TradingHoursCode = ninjascript.BarsArray[0].TradingHours.Name.ToTradingHoursCode();
+        //    Info.MarketDataType = ninjascript.BarsArray[0].BarsPeriod.MarketDataType.ToKrMarketDataType();
+        //}
 
         private void SetBarsEvents(bool updated, bool isLastBarRemoved, bool isBarClosed, bool isFirstTick, bool isPriceChanged, bool isNewTick)
         {
@@ -371,32 +353,25 @@ namespace KrTrade.Nt.Services
             if (PrintService.IsLogLevelsEnable(Core.Logging.LogLevel.Information) && Options.IsLogEnable)
                 _logLines.Add(barsEvent.ToString());
         }
-        private IBarUpdateService CreateBarUpdateService<TService, TOptions>(TOptions options, object input1, object input2)
+        private IBarUpdateService CreateBarUpdateService<TService, TOptions>(TOptions options)
             where TOptions : BarUpdateServiceOptions, new()
         {
-            IBarUpdateService service;
+            IBarUpdateService service = null;
             Type type = typeof(TService);
             if (options == null)
-                options = new TOptions()
-                {
-                    //Period = CachePeriod,
-                    //Displacement = CacheDisplacement,
-                    //LengthOfRemovedValuesCache = Cache.DEFAULT_OLD_VALUES_CAPACITY,
-                    BarsIndex = 0,
-                };
+                options = new TOptions();
             if ((type == typeof(BarSeriesService) || type == typeof(IBarSeriesService)))
                 service = new BarSeriesService(this);
             else if (type == typeof(SeriesService<MaxSeries>))
-                if (options is SeriesOptions maxOptions) service = new SeriesService<MaxSeries>(this, input1, maxOptions);
-                else service = new SeriesService<MaxSeries>(this, input1);
+                if (options is SeriesOptions maxOptions) service = new SeriesService<MaxSeries>(this, maxOptions);
             else if (type == typeof(SeriesService<MinSeries>))
-                if (options is SeriesOptions minOptions) service = new SeriesService<MinSeries>(this, input1, minOptions);
-                else service = new SeriesService<MinSeries>(this, input1);
+                if (options is SeriesOptions minOptions) service = new SeriesService<MinSeries>(this, minOptions);
             else
                 throw new NotImplementedException($"The {type.Name} has not been created. Krumon...implemented it!!!!");
 
             return service;
         }
+
 
         #endregion
 

@@ -1,4 +1,4 @@
-﻿namespace KrTrade.Nt.Services
+﻿namespace KrTrade.Nt.Services.Series
 {
     public interface ILongSeries : INumericSeries<long> { }
     public interface ILongSeries<TInput> : ILongSeries, INumericSeries<long, TInput> { }

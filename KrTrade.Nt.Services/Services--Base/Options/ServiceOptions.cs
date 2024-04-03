@@ -10,7 +10,7 @@
         /// <summary>
         /// Gets the name of the service.
         /// </summary>
-        public string Name { get; } = DefaultName;
+        public string Name { get; internal set; } = DefaultName;
 
         /// <summary>
         /// Indicates if the service is enabled.

@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Core.DataSeries;
+﻿using KrTrade.Nt.Core.Data;
 using System;
 using System.Collections.Generic;
 
@@ -12,31 +12,19 @@ namespace KrTrade.Nt.Services
 
         private readonly List<Action<BarsServiceOptions>> _optionsDelegateActions = new List<Action<BarsServiceOptions>>();
 
-        public IBarsService Build(IBarsManager barsManager, DataSeriesOptions dataSeriesOptions)
+        public IBarsService Build(IBarsManager barsManager, DataSeriesInfo dataSeriesInfo)
         {
 
             string logText = string.Empty;
 
-            // Log initialized trace
-            logText = $"BarsService is going to be created.";
-            barsManager.PrintService.LogTrace(logText);
-
             // Create service options
             BarsServiceOptions options = new BarsServiceOptions();
-
-            // Log trace
-            logText = $"BarsService options has been created.";
-            barsManager.PrintService.LogTrace(logText);
 
             foreach (var action in _optionsDelegateActions)
                 action(options);
 
-            // Log initialized trace
-            logText = $"BarsService options has been configured.";
-            barsManager.PrintService.LogTrace(logText);
-
-            // Create the service with specified options
-            IBarsService barsService = new BarsService(barsManager, dataSeriesOptions, options);
+            // Create the service with specified info
+            IBarsService barsService = new BarsService(barsManager, dataSeriesInfo, options);
 
             // Log trace
             if (barsService != null)

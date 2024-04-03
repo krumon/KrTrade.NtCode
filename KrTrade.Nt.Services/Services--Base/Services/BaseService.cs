@@ -34,7 +34,6 @@ namespace KrTrade.Nt.Services
         /// <exception cref="ArgumentNullException">The <see cref="INinjascript"/> cannot be null.</exception>
         protected BaseService(NinjaScriptBase ninjascript)
         {
-            ninjascript.Print("BaseService constructor.");
             _ninjascript = ninjascript ?? throw new ArgumentNullException($"Error in 'BaseService' constructor. The {nameof(ninjascript)} argument cannot be null.");
         }
 
@@ -239,26 +238,15 @@ namespace KrTrade.Nt.Services
         protected new TOptions _options;
         public new TOptions Options { get => _options ?? new TOptions(); protected set { _options = value; } }
 
-        protected BaseService(NinjaScriptBase ninjascript) : this(ninjascript, new TOptions())
+        protected BaseService(NinjaScriptBase ninjascript) : this(ninjascript, null,null) { }
+        protected BaseService(NinjaScriptBase ninjascript, Action<TOptions> configureOptions) : this(ninjascript, configureOptions, null) { }
+        protected BaseService(NinjaScriptBase ninjascript, TOptions options) : this(ninjascript, null, options) { }
+        protected BaseService(NinjaScriptBase ninjascript, Action<TOptions> configureOptions, TOptions options) : base(ninjascript)
         {
-        }
-
-        protected BaseService(NinjaScriptBase ninjascript, IConfigureOptions<TOptions> configureOptions) : base(ninjascript)
-        {
-            Options = new TOptions();
-            configureOptions?.Configure(Options);
-        }
-
-        protected BaseService(NinjaScriptBase ninjascript, Action<TOptions> configureOptions) : base(ninjascript)
-        {
-            Options = new TOptions();
+            Options = options ?? new TOptions();
             configureOptions?.Invoke(Options);
         }
 
-        protected BaseService(NinjaScriptBase ninjascript, TOptions options) : base(ninjascript)
-        {
-            Options = options ?? new TOptions();
-        }
 
     }
 }

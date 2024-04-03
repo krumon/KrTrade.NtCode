@@ -65,7 +65,6 @@ namespace KrTrade.Nt.Core.Exceptions
         /// Creates a <see cref="LoadException"/> with a default message and inner exception instance.
         /// </summary>
         /// <param name="message">The default message to show.</param>
-        /// <param name="inner">The inner exception taht produce the error.</param>
         /// <param name="script">The script thats the builder is going to create.</param>
         /// <param name="scriptParent">The script parent.</param>
         /// <param name="builder">The builder thats is going to create.</param>

@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Core.Bars;
+using KrTrade.Nt.Services.Series;
 using System;
 using System.Collections.Generic;
 
@@ -14,13 +15,12 @@ namespace KrTrade.Nt.Services
         /// </summary>
         /// <param name="barsService">The <see cref="IBarsService"/> necesary for updated <see cref="BarSeriesService"/>.</param>
         /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        public BarSeriesService(IBarsService barsService) : base(barsService, barsService?.Ninjascript, new SeriesOptions() /* new SeriesOptions(){ BarsIndex = barsService.Index }*/)
+        public BarSeriesService(IBarsService barsService) : base(barsService, new SeriesOptions() /* new SeriesOptions(){ BarsIndex = barsService.Index }*/)
         {
-            barsService.PrintService.LogTrace("BarSeriesService constructor.");
         }
 
         public new double this[int index] => Series[index];
-        public override string Name => Series.ToString();
+        public override string Name => "BarsSeriesService"; // Series.ToString();
         public CurrentBarSeries CurrentBar => Series.CurrentBar;
         public TimeSeries Time => Series.Time;
         public PriceSeries Open => Series.Open;

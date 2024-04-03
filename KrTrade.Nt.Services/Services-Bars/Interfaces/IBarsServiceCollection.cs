@@ -1,5 +1,6 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using KrTrade.Nt.Core.DataSeries;
+using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Services.Series;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
@@ -36,7 +37,7 @@ namespace KrTrade.Nt.Services
         // Add(DataSeriesInfo info)
 
         // Data series information
-        DataSeriesOptions[] DataSeries { get; }
+        DataSeriesInfo[] Info { get; }
 
         // Bars series
         CurrentBarSeries[] CurrentBars { get; }

@@ -1,7 +1,6 @@
 ﻿using KrTrade.Nt.Core.Caches;
-using System;
 
-namespace KrTrade.Nt.Services
+namespace KrTrade.Nt.Services.Series
 {
     public abstract class BaseSeries<TElement> : Cache<TElement>, ISeries<TElement>
     {
@@ -15,7 +14,6 @@ namespace KrTrade.Nt.Services
         /// <param name="capacity">The <see cref="ICache{T}"/> capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
         /// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
         /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
         protected BaseSeries(int period, int capacity, int oldValuesCapacity, int barsIndex) : base(capacity, oldValuesCapacity)
         {
             Period = period < 1 ? 1 : period > Capacity ? Capacity : period;

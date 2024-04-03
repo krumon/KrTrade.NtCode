@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Bar = KrTrade.Nt.Core.Bars.Bar;
 
-namespace KrTrade.Nt.Services
+namespace KrTrade.Nt.Services.Series
 {
     public class BarSeries : DoubleSeries<NinjaTrader.NinjaScript.ISeries<double>,NinjaScriptBase>, IBarSeries
     {
@@ -31,6 +31,10 @@ namespace KrTrade.Nt.Services
         {
         }
 
+        //public BarSeries(int period, int capacity, int oldValuesCapacity) 
+        //{
+        //}
+
         /// <summary>
         /// Create <see cref="BarSeries"/> default instance with specified properties.
         /// </summary>
@@ -55,7 +59,7 @@ namespace KrTrade.Nt.Services
 
         #region Implementation
 
-        public override string Name => "Bars";
+        public override string Name => "BarsSeries";
         public override string Key => $"{Name.ToUpper()}(Capacity:{Capacity})";
 
         public override NinjaTrader.NinjaScript.ISeries<double> GetInput(NinjaScriptBase entry)

@@ -1,4 +1,4 @@
-﻿namespace KrTrade.Nt.Services
+﻿namespace KrTrade.Nt.Services.Series
 {
     public interface INumericSeries<TElement> : IValueSeries<TElement>, IHasNumericCalculateValues<TElement>
         where TElement : struct

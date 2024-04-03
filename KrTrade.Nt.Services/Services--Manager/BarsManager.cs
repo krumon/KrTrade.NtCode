@@ -1,5 +1,6 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using NinjaTrader.NinjaScript;
+using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Services.Series;
 using System;
 using System.Collections.Generic;
 
@@ -7,12 +8,6 @@ namespace KrTrade.Nt.Services
 {
     public class BarsManager : BaseNinjascriptService<BarsManagerOptions>, IBarsManager
     {
-        #region Consts
-
-        public const string ServicesDefaultName = "DEFAULT";
-
-        #endregion
-
         #region Private members
 
         private bool _isRunning;
@@ -48,45 +43,7 @@ namespace KrTrade.Nt.Services
 
         public int Count => _dataSeries == null ? -1 : _dataSeries.Count;
         public IBarsService this[string name] => _dataSeries[name];
-        //{
-        //    get
-        //    {
-        //        if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
-        //            return null;
-
-        //        string upperName = name.ToUpper();
-        //        if (upperName == "0" || upperName == "PRIMARY" || upperName == "DEFAULT")
-        //            return _dataSeries[0];
-
-        //        if (_dataSeries == null || _dataSeries.Count == 0 || !_dataSeries.ContainsKey(name))
-        //            return null;
-
-        //        return _dataSeries[name];
-        //    }
-        //}
         public IBarsService this[int idx] => _dataSeries[idx];
-        //{
-        //    get
-        //    {
-        //        if (idx == 0)
-        //            return _dataSeries[0];
-
-        //        if (_dataSeries == null || _dataSeries.Count == 0)
-        //            return null;
-
-        //        if (idx < 0 || idx >= _dataSeries.Count)
-        //            return null;
-
-        //        int count = 0;
-        //        foreach (var dataSeries in _dataSeries)
-        //        {
-        //            if (idx == count)
-        //                return dataSeries;
-        //            count++;
-        //        }
-        //        return null;
-        //    }
-        //}
 
         public bool IsUpdated => _dataSeries[0].IsUpdated;
         public bool IsClosed => _dataSeries[0].IsClosed;
@@ -99,13 +56,12 @@ namespace KrTrade.Nt.Services
 
         #region Constructors
 
-        internal BarsManager(NinjaScriptBase ninjascript, IPrintService printService, Action<BarsManagerOptions> configureOptions) : base(ninjascript, printService, configureOptions,null) 
+        internal BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, Action<BarsManagerOptions> configureOptions) : this(ninjascript, printService, configureOptions, null) { }
+        internal BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsManagerOptions options) : this(ninjascript, printService, null,options) { }
+        protected BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, Action<BarsManagerOptions> configureOptions, BarsManagerOptions options) : base(ninjascript, printService, configureOptions,options) 
         {
             _dataSeries = new BarsServiceCollection(Ninjascript, PrintService, new BarsServiceCollectionOptions());
-        }
-        internal BarsManager(NinjaScriptBase ninjascript, IPrintService printService, BarsManagerOptions options) : base(ninjascript, printService, null,options) 
-        {
-            _dataSeries = new BarsServiceCollection(Ninjascript, PrintService, new BarsServiceCollectionOptions());
+            Info = new List<DataSeriesInfo>();
         }
 
         #endregion
@@ -135,46 +91,31 @@ namespace KrTrade.Nt.Services
             }
         }
         public int BarsInProgress => Ninjascript.BarsInProgress;
+        public IList<DataSeriesInfo> Info { get; internal set; }
         //public int Capacity => throw new NotImplementedException();
         //public int RemovedCacheCapacity => throw new NotImplementedException();
-        //public DataSeriesInfo[] DataSeries => throw new NotImplementedException();
 
         internal override void Configure(out bool isConfigured)
         {
-            if (_dataSeries == null)
-                _dataSeries = new BarsServiceCollection(Ninjascript, PrintService, new BarsServiceCollectionOptions());
-
-            if (_dataSeries.Count == 0)
-                Add(new BarsService(this, new BarsServiceOptions()
-                {
-                    //InstrumentCode = Ninjascript.BarsArray[0].Instrument.MasterInstrument.Name.ToInstrumentCode(),
-                    //TimeFrame = Ninjascript.BarsPeriods[0].ToTimeFrame(),
-                    //MarketDataType = Ninjascript.BarsPeriods[0].MarketDataType.ToKrMarketDataType(),
-                    //TradringHoursCode = Ninjascript.BarsArray[0].TradingHours.Name.ToTradingHoursCode()
-                }));
-            else
-            {
-                //_dataSeries[0].InstrumentName = Ninjascript.BarsArray[0].Instrument.MasterInstrument.Name;
-            }
             _dataSeries.Configure();
             isConfigured = _dataSeries.IsConfigure;
         }
         internal override void DataLoaded(out bool isDataLoaded)
         {
-            if (_dataSeries == null)
-                _dataSeries = new BarsServiceCollection(Ninjascript);
+            isDataLoaded = true;
 
-            if (_dataSeries.Count == 0)
-                Add(new BarsService(this, new BarsServiceOptions()
-                {
-                    //InstrumentCode = Ninjascript.BarsArray[0].Instrument.MasterInstrument.Name.ToInstrumentCode(),
-                    //TimeFrame = Ninjascript.BarsPeriods[0].ToTimeFrame(),
-                    //MarketDataType = Ninjascript.BarsPeriods[0].MarketDataType.ToKrMarketDataType(),
-                    //TradringHoursCode = Ninjascript.BarsArray[0].TradingHours.Name.ToTradingHoursCode()
-                }));
+            if (Count == 0 || Count != Ninjascript.BarsArray.Length)
+                isDataLoaded = false;
+
+            DataSeriesInfo info = new DataSeriesInfo();
+            for (int i=0; i < Ninjascript.BarsArray.Length; i++)
+                if (Info[0] == info.GetNinjascriptValues(Ninjascript, i))
+                    (_dataSeries[i] as BarsService).Index = i;
+                else
+                    isDataLoaded = false;
 
             _dataSeries.DataLoaded();
-            isDataLoaded = _dataSeries.IsDataLoaded;
+            isDataLoaded = isDataLoaded && _dataSeries.IsDataLoaded;
 
             CurrentBars = new CurrentBarSeries[_dataSeries.Count];
             Times = new TimeSeries[_dataSeries.Count];
@@ -213,16 +154,7 @@ namespace KrTrade.Nt.Services
                 Update();
             }
         }
-        public override string ToLogString()
-        {
-            //if (_logLines == null || _logLines.Count == 0)
-            //    return string.Empty;
-            //string stateText = string.Empty;
-            //for (int i = 0; i < _logLines.Count; i++)
-            //    stateText += _logLines[i];
-
-            return string.Empty; // stateText;
-        }
+        public override string ToLogString() => Count > 0 ? _dataSeries[BarsInProgress].ToLogString() : string.Empty;
         public Bar GetBar(int barsAgo) => _dataSeries[0].GetBar(barsAgo);
         public Bar GetBar(int barsAgo, int period) => _dataSeries[0].GetBar(barsAgo, period);
         public IList<Bar> GetBars(int barsAgo, int period) => _dataSeries[0].GetBars(barsAgo, period);

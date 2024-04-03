@@ -1,6 +1,6 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using KrTrade.Nt.Core.DataSeries;
-using NinjaTrader.NinjaScript;
+using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Services.Series;
 using System;
 using System.Collections.Generic;
 
@@ -8,37 +8,10 @@ namespace KrTrade.Nt.Services
 {
     public class BarsServiceCollection : BaseNinjascriptServiceCollection<IBarsService, BarsServiceCollectionOptions>, IBarsServiceCollection
     {
-        public BarsServiceCollection(NinjaScriptBase ninjascript) : base(ninjascript)
-        {
-        }
-
-        public BarsServiceCollection(NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript, printService)
-        {
-        }
-
-        public BarsServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceOptions options) : base(ninjascript, printService, options)
-        {
-        }
-
-        public BarsServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, Action<NinjascriptServiceOptions> configureOptions, NinjascriptServiceOptions options) : base(ninjascript, printService, configureOptions, options)
-        {
-        }
-
-        internal override void Configure(out bool isConfigured)
-        {
-            isConfigured = true;
-        }
-
-        internal override void DataLoaded(out bool isDataLoaded)
-        {
-            isDataLoaded = true;
-        }
-
-        public override void Terminated()
-        {
-            _services.Clear();
-            _services = null;
-        }
+        public BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript) : this(ninjascript, null, null, null) { }
+        public BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService) : this(ninjascript, printService, null, null) { }
+        public BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceOptions options) : this(ninjascript, printService, null, options) { }
+        internal BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, Action<NinjascriptServiceOptions> configureOptions, NinjascriptServiceOptions options) : base(ninjascript, printService, configureOptions, options) { }
 
         public override string Key
         {
@@ -92,7 +65,7 @@ namespace KrTrade.Nt.Services
         public Bar GetBar(int barsAgo, int period, int barsIndex) => _services[barsIndex].GetBar(barsAgo,period);
         public IList<Bar> GetBars(int barsAgo, int period, int barsIndex) => _services[barsIndex].GetBars(barsAgo, period);
 
-        public DataSeriesOptions[] DataSeries { get; protected set; }
+        public DataSeriesInfo[] Info { get; protected set; }
         public IndicatorCollection[] Indicators { get; protected set; }
         public StatsCollection[] Stats { get; protected set; }
         public FiltersCollection[] Filters { get; protected set; }

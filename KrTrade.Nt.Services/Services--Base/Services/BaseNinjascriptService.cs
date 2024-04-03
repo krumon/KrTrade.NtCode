@@ -50,24 +50,8 @@ namespace KrTrade.Nt.Services
         /// <exception cref="ArgumentNullException">The <see cref="INinjascript"/> cannot be null.</exception>
         protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript)
         {
-            printService.LogTrace("BaseNinjascriptService constructor.");
             _printService = printService;
         }
-
-        ///// <summary>
-        ///// Create <see cref="BaseNinjascriptService"/> instance and configure it.
-        ///// This instance must be created in the 'Ninjascript.State == Configure'.
-        ///// </summary>
-        ///// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
-        ///// <param name="printService">The <see cref="IPrintService"/> to log.</param>
-        ///// <param name="configureOptions">The configure options of the service.</param>
-        ///// <exception cref="ArgumentNullException">The <see cref="INinjascript"/> cannot be null.</exception>
-        //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, IConfigureOptions<NinjascriptServiceOptions> configureOptions) : base(ninjascript)
-        //{
-        //    _printService = printService;
-        //    Options = new NinjascriptServiceOptions();
-        //    configureOptions?.Configure(Options);
-        //}
 
         /// <summary>
         /// Create <see cref="BaseNinjascriptService"/> instance and configure it.
@@ -105,13 +89,10 @@ namespace KrTrade.Nt.Services
 
         public void Configure()
         {
-
             if (IsOutOfConfigurationStates())
                 LoggingHelpers.ThrowIsNotConfigureException(Name);
-
             if (_isConfigure && _isDataLoaded)
                 return;
-
             if (Ninjascript.State == State.Configure && !_isConfigure)
                 Configure(out _isConfigure);
 
@@ -210,23 +191,10 @@ namespace KrTrade.Nt.Services
 
         protected BaseNinjascriptService(NinjaScriptBase ninjascript) : base(ninjascript) { }
         protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript, printService) { }
-        //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, IConfigureOptions<TOptions> configureOptions) : base(ninjascript, printService)
-        //{
-        //    Options = new TOptions();
-        //    configureOptions?.Configure(Options);
-        //}
-        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, Action<TOptions> configureOptions) : base(ninjascript, printService)
-        {
-            Options = new TOptions();
-            configureOptions?.Invoke(Options);
-        }
-        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, TOptions options) : base(ninjascript, printService)
-        {
-            Options = options ?? new TOptions();
-        }
+        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, Action<TOptions> configureOptions) : this(ninjascript, printService,configureOptions,null) { }
+        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, TOptions options) : base(ninjascript, printService,null,options) { }
         protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, Action<TOptions> configureOptions, TOptions options) : base(ninjascript,printService)
         {
-            printService.LogTrace("BaseNinjascriptService<TOptions> constructor.");
             Options = options ?? new TOptions();
             configureOptions?.Invoke(Options);
         }

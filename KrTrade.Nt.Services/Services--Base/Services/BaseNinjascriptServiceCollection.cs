@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Contexts;
 
 namespace KrTrade.Nt.Services
 {
@@ -54,9 +55,6 @@ namespace KrTrade.Nt.Services
             }
         }
 
-        public BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript) : base(ninjascript) { }
-        public BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript, printService) { }
-        public BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceOptions options) : base(ninjascript, printService, options) { }
         public BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, Action<NinjascriptServiceOptions> configureOptions, NinjascriptServiceOptions options) : base(ninjascript, printService, configureOptions, options) { }
 
         #region Implementation
@@ -82,6 +80,7 @@ namespace KrTrade.Nt.Services
                 isConfigured = false;
             else
             {
+                string logText = string.Empty;
                 isConfigured = true;
                 foreach (var service in _services)
                 {
@@ -112,6 +111,9 @@ namespace KrTrade.Nt.Services
                 return;
             foreach (var service in _services)
                 service.Terminated();
+
+            _services.Clear();
+            _services = null;
         }
 
         public void Add(TService service) => Add(null, service);
@@ -137,7 +139,9 @@ namespace KrTrade.Nt.Services
                 {
                     int i = _keys[service.Key];
                     _services[i] = service;
-                    logText = $"The {service.Name} service replace other service with the same key.";
+                    // Log warning
+                    logText = $"The key: {service.Key} already exists. The new '{service.Name}' service replace the old service added with the same key. The old configuration has been replaced for the new.";
+                    PrintService.LogWarning(logText);
                     // Añado una clave específica para el servicio.
                     if (service.Key != name)
                         _keys[name] = i;
@@ -147,19 +151,17 @@ namespace KrTrade.Nt.Services
                 {
                     _services.Add(service);
                     _keys.Add(service.Key, _services.Count - 1);
-                    logText = $"The {service.Name} service has been added successfully.";
                     // La clave específica ya existe.
                     if (service.Key != name && ContainsKey(name))
-                        throw new Exception($"The '{name}' name already exists. The name is being used by another service.");
+                        PrintService.LogError(new Exception($"The pseudo-name: '{name}' already exists. The pseudo-name is being used by another service and the service cannot be added."));
                     else if (service.Key != name)
                         _keys.Add(name, _services.Count - 1);
-
                 }
-                PrintService.LogInformation(logText);
+                
             }
             catch (Exception e)
             {
-                logText = $"The {service.Name} service name cannot be added.";
+                logText = $"The {service.Name} service cannot be added.";
                 PrintService.LogError(logText, e);
             }
         }
@@ -233,9 +235,6 @@ namespace KrTrade.Nt.Services
     {
         protected new TOptions _options;
 
-        public BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript) : base(ninjascript) { } 
-        public BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript, printService) { }
-        public BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceOptions options) : base(ninjascript, printService, options) { }
         public BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, Action<NinjascriptServiceOptions> configureOptions, NinjascriptServiceOptions options) : base(ninjascript, printService, configureOptions, options) { }
 
         public new TOptions Options { get => _options ?? new TOptions(); protected set { _options = value; } }

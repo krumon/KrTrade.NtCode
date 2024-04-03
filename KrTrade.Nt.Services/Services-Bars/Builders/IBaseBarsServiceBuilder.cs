@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Core.DataSeries;
+﻿using KrTrade.Nt.Core.Data;
 using System;
 
 namespace KrTrade.Nt.Services
@@ -19,7 +19,7 @@ namespace KrTrade.Nt.Services
         /// <param name="barsManager">The 'NinjaScript' used to configure <see cref="IBarsService"/> instance.</param>
         /// <returns>An initialized <see cref="IBarsService"/></returns>
         /// <exception cref="InvalidOperationException">The service can only be built once.</exception>
-        IBarsService Build(IBarsManager barsManager, DataSeriesOptions dataSeriesOptions);
+        IBarsService Build(IBarsManager barsManager, DataSeriesInfo dataSeriesOptions);
 
     }
 }

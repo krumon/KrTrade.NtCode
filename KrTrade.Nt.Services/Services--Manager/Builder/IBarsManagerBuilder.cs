@@ -1,4 +1,5 @@
-﻿using KrTrade.Nt.Core.DataSeries;
+﻿using KrTrade.Nt.Core.Data;
+using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
 using System;
 
@@ -53,7 +54,7 @@ namespace KrTrade.Nt.Services
         /// <param name="configureDataSeriesOptions">The delegate for configuring the <see cref="IBarsServiceBuilder"/> that will be used
         /// to construct the <see cref="IBarsService"/>.</param>
         /// <returns>The same instance of the <see cref="IBarsManagerBuilder"/> for chaining.</returns>
-        IBarsManagerBuilder AddDataSeries(Action<DataSeriesOptions> configureDataSeriesOptions, Action<IBarsServiceBuilder> configureBarsServiceBuilder);
+        IBarsManagerBuilder AddDataSeries(Action<DataSeriesInfo> configureDataSeriesOptions, Action<IBarsServiceBuilder> configureBarsServiceBuilder);
 
         /// <summary>
         /// Sets up the options and services for the <see cref="IBarsService"/> objects. This can be called multiple times and
@@ -63,7 +64,7 @@ namespace KrTrade.Nt.Services
         /// <param name="configureDataSeriesOptions">The delegate for configuring the <see cref="IBarsServiceBuilder"/> that will be used
         /// to construct the <see cref="IBarsService"/>.</param>
         /// <returns>The same instance of the <see cref="IBarsManagerBuilder"/> for chaining.</returns>
-        IBarsManagerBuilder AddDataSeries(string name, Action<DataSeriesOptions> configureDataSeriesOptions, Action<IBarsServiceBuilder> configureBarsServiceBuilder);
+        IBarsManagerBuilder AddDataSeries(string name, Action<DataSeriesInfo> configureDataSeriesOptions, Action<IBarsServiceBuilder> configureBarsServiceBuilder);
 
         //IBarsServicesBuilder AddFilters();
         
@@ -71,9 +72,11 @@ namespace KrTrade.Nt.Services
         /// Run the given actions to initialize the <see cref="IBarsService"/>. This can only be called once.
         /// </summary>
         /// <param name="ninjascript">The 'NinjaScript' used to configure <see cref="IBarsService"/> instance.</param>
+        /// <param name="addDataSeriesMethod">The NinjaScript.AddDataSeries method, used to configure <see cref="BarsManager"/> 
+        /// when we ar going to use plot reprentation in the chart panel.</param>
         /// <returns>An initialized <see cref="IBarsService"/></returns>
         /// <exception cref="InvalidOperationException">The service can only be built once.</exception>
-        IBarsManager Build(NinjaScriptBase ninjascript);
+        IBarsManager Configure(NinjaScriptBase ninjascript, Action<string,BarsPeriod,string> addDataSeriesMethod);
 
 
     }

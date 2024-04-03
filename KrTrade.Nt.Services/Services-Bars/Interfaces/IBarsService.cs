@@ -1,4 +1,6 @@
 ﻿using KrTrade.Nt.Core.Bars;
+using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Services.Series;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
@@ -9,6 +11,11 @@ namespace KrTrade.Nt.Services
     public interface IBarsService : INinjascriptService, IBarUpdate, IMarketData, IMarketDepth, IRender
     {
         bool IsWaitingFirstTick { get; }
+
+        /// <summary>
+        /// Get <see cref="BarsService"/> data series information.
+        /// </summary>
+        DataSeriesInfo Info { get; }
 
         /// <summary>
         /// Gets the capacity of bars cache.
@@ -120,12 +127,19 @@ namespace KrTrade.Nt.Services
         /// </summary>
         bool IsPriceChanged {get;}
 
-        ///// <summary>
-        ///// Method to be executed in 'NinjaScript.OnBarUpdate()' method.
-        ///// </summary>
-        //void OnBarUpdate();
+        /// <summary>
+        /// Gets the series from the 'SeriesCollection'. If don't find the series return null.
+        /// </summary>
+        /// <param name="options">The series options to get.</param>
+        /// <returns>The <see cref="ISeries"/> getted or null if not found.</returns>
+        ISeries GetSeries(BaseSeriesOptions options);
 
-        T GetSeries<T>();
+        /// <summary>
+        /// Gets the series from the 'SeriesCollection'. If is necesary add any series to get the series will be added.
+        /// </summary>
+        /// <param name="options">The series options to get.</param>
+        /// <returns>The <see cref="ISeries"/> getted.</returns>
+        ISeries GetOrAddSeries(BaseSeriesOptions options);
 
         /// <summary>
         /// Returns the <see cref="Bar"/> of the specified <paramref name="barsAgo"/>.

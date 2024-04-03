@@ -1,4 +1,6 @@
-﻿namespace KrTrade.Nt.Services
+﻿using KrTrade.Nt.Services.Series;
+
+namespace KrTrade.Nt.Services
 {
     /// <summary>
     /// Defines properties and methods that are necesary to create an indicator series service.

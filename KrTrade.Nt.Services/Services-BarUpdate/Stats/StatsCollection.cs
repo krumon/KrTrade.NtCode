@@ -15,5 +15,7 @@ namespace KrTrade.Nt.Services
         public StatsCollection(IBarsService barsService, StatsCollectionOptions options) : base(barsService, options)
         {
         }
+
+        public override string Key => throw new NotImplementedException();
     }
 }

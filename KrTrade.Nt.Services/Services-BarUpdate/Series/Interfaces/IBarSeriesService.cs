@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Core.Bars;
+using KrTrade.Nt.Services.Series;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services

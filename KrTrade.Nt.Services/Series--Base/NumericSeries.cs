@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KrTrade.Nt.Services
+namespace KrTrade.Nt.Services.Series
 {
     public abstract class NumericSeries<TElement> : BaseValueSeries<TElement>, INumericSeries<TElement>
         where TElement : struct

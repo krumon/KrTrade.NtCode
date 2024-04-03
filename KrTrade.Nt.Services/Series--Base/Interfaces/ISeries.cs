@@ -1,6 +1,6 @@
 ﻿using KrTrade.Nt.Core.Caches;
 
-namespace KrTrade.Nt.Services
+namespace KrTrade.Nt.Services.Series
 {
     public interface ISeries : ICache
     {

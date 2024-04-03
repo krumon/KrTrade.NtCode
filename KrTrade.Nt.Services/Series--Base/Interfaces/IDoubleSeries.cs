@@ -1,4 +1,4 @@
-﻿namespace KrTrade.Nt.Services
+﻿namespace KrTrade.Nt.Services.Series
 {
     public interface IDoubleSeries : INumericSeries<double> { }
     public interface IDoubleSeries<TInput> : IDoubleSeries, INumericSeries<double, TInput> { }

@@ -79,7 +79,7 @@ namespace KrTrade.Nt.Console.Console
 
                     });
                 })
-                .Build(null);
+                .Configure(null,null);
 
 
             //bars

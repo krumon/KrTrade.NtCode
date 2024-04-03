@@ -1,4 +1,4 @@
-﻿namespace KrTrade.Nt.Services
+﻿namespace KrTrade.Nt.Services.Series
 {
     public abstract class BaseValueSeries<TElement> : BaseSeries<TElement>, IValueSeries<TElement>
         where TElement : struct
