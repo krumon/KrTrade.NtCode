@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Core.Bars;
+using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Services.Series;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace KrTrade.Nt.Services
         /// </summary>
         /// <param name="barsService">The <see cref="IBarsService"/> necesary for updated <see cref="BarSeriesService"/>.</param>
         /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        public BarSeriesService(IBarsService barsService) : base(barsService, new SeriesOptions() /* new SeriesOptions(){ BarsIndex = barsService.Index }*/)
+        public BarSeriesService(IBarsService barsService) : base(barsService, new SeriesOptions(), new SeriesInfo()) /* new SeriesOptions(){ BarsIndex = barsService.Index }*/
         {
         }
 

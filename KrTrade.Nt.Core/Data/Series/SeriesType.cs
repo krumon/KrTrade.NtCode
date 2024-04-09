@@ -15,9 +15,6 @@
         HIGH,
         LOW,
         CLOSE,
-        MEDIAN,
-        TYPICAL,
-        WEIGHTED,
         // STATS SERIES
         MAX,
         MIN,
@@ -27,6 +24,12 @@
         // INDICATOR SERIES
         RANGE,
         SWING_HIGH,
-        SWING_LOW,
+        SWING_LOW
+
+
+
+        //MEDIAN,
+        //TYPICAL,
+        //WEIGHTED,
     }
 }

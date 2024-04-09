@@ -132,14 +132,21 @@ namespace KrTrade.Nt.Services
         /// </summary>
         /// <param name="options">The series options to get.</param>
         /// <returns>The <see cref="ISeries"/> getted or null if not found.</returns>
-        ISeries GetSeries(BaseSeriesOptions options);
+        ISeries GetSeries(BaseSeriesInfo options);
 
         /// <summary>
         /// Gets the series from the 'SeriesCollection'. If is necesary add any series to get the series will be added.
         /// </summary>
         /// <param name="options">The series options to get.</param>
         /// <returns>The <see cref="ISeries"/> getted.</returns>
-        ISeries GetOrAddSeries(BaseSeriesOptions options);
+        ISeries GetOrAddSeries(BaseSeriesInfo options);
+
+        /// <summary>
+        /// Adds the series to the 'SeriesCollection'. If is necesary add any series to add the series will be added.
+        /// </summary>
+        /// <param name="seriesInfo">The series information.</param>
+        /// <param name="seriesOptions">The series options.</param>
+        void AddSeries(BaseSeriesInfo seriesInfo, SeriesOptions seriesOptions);
 
         /// <summary>
         /// Returns the <see cref="Bar"/> of the specified <paramref name="barsAgo"/>.

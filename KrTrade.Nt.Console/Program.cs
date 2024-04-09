@@ -47,30 +47,51 @@ namespace KrTrade.Nt.Console.Console
                 })
                 .ConfigurePrimaryDataSeries((builder) =>
                 {
-                    //builder.BarsIndex = 0;
+                    builder.AddSeries(
+                        (max_info, max_op) => {
+                            max_op.IsEnable = true;
+                            max_op.IsLogEnable = true;
+                            max_info.Code = "Max5";
+                            max_info.Type = SeriesType.AVG;
+                            max_info.Period = 5;
+                            max_info.Capacity = 7;
+                            max_info.AddInputSeries<SwingSeriesInfo>(high =>
+                            {
+
+                            });
+                        });
                 })
+                // Add bars service.
                 .AddDataSeries(
-                options =>
+                // Configure the data series.
+                info =>
                 {
-                    options.InstrumentCode = InstrumentCode.MES;
-                    options.TradingHoursCode = TradingHoursCode.Default;
-                    options.TimeFrame = TimeFrame.m5;
-                    options.MarketDataType = MarketDataType.Last;
+                    info.InstrumentCode = InstrumentCode.MES;
+                    info.TradingHoursCode = TradingHoursCode.Default;
+                    info.TimeFrame = TimeFrame.m5;
+                    info.MarketDataType = MarketDataType.Last;
                 }, 
+                // Built the bars service.
                 builder =>
                 {
-                    builder.ConfigureOptions(bsOptions =>
+                    // Configure the BarsService options.
+                    builder.ConfigureOptions(op =>
                     {
 
                     });
+                    // Add series to the BarsService().
+                    builder.AddSeries((info,op) =>
+                    {
+
+                    }); 
                 })
                 .AddDataSeries(
-                options =>
+                info =>
                 {
-                    options.InstrumentCode = InstrumentCode.MES;
-                    options.TradingHoursCode = TradingHoursCode.Default;
-                    options.TimeFrame = TimeFrame.m5;
-                    options.MarketDataType = MarketDataType.Last;
+                    info.InstrumentCode = InstrumentCode.MES;
+                    info.TradingHoursCode = TradingHoursCode.Default;
+                    info.TimeFrame = TimeFrame.m5;
+                    info.MarketDataType = MarketDataType.Last;
                 }, 
                 builder =>
                 {

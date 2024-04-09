@@ -106,19 +106,19 @@
     <Compile Include="Services--Base\Interfaces\IBarUpdate.cs" />
     <Compile Include="Services-BarUpdate\Filters\IFiltersBuilder.cs" />
     <Compile Include="Services-BarUpdate\Series\IndicatorSeriesService.cs" />
-    <Compile Include="Services-BarUpdate\Series\Interfaces\IIndicatorSeriesService.cs" />
-    <Compile Include="Services-BarUpdate\Series\Interfaces\IBarSeriesService.cs" />
-    <Compile Include="Services-BarUpdate\Series\Interfaces\ISeriesService.cs" />
+    <Compile Include="Services-BarUpdate\Series\IIndicatorSeriesService.cs" />
+    <Compile Include="Services-BarUpdate\Series\Bars\IBarSeriesService.cs" />
+    <Compile Include="Services-BarUpdate\Series\ISeriesService.cs" />
     <Compile Include="Services-BarUpdate\Series\SeriesServiceCollection.cs" />
     <Compile Include="Services-BarUpdate\Series\SeriesServiceCollectionOptions.cs" />
     <Compile Include="Services-Indicators\IIndicatorsBuilder.cs" />
-    <Compile Include="Services-BarUpdate\Base\BarUpdateService.cs" />
-    <Compile Include="Services-BarUpdate\Base\BarUpdateServiceOptions.cs" />
-    <Compile Include="Services-BarUpdate\Base\IBarUpdateBuilder.cs" />
-    <Compile Include="Services-BarUpdate\Series\BarSeriesOptions.cs" />
+    <Compile Include="Services-BarUpdate\_Base\BarUpdateService.cs" />
+    <Compile Include="Services-BarUpdate\_Base\BarUpdateServiceOptions.cs" />
+    <Compile Include="Services-BarUpdate\_Base\IBarUpdateBuilder.cs" />
+    <Compile Include="Services-BarUpdate\Series\Bars\BarSeriesOptions.cs" />
     <Compile Include="Services-BarUpdate\Series\SeriesOptions.cs" />
-    <Compile Include="Services-BarUpdate\Base\BarUpdateServiceCollectionOptions.cs" />
-    <Compile Include="Services-BarUpdate\Base\BarUpdateServiceCollection.cs" />
+    <Compile Include="Services-BarUpdate\_Base\BarUpdateServiceCollectionOptions.cs" />
+    <Compile Include="Services-BarUpdate\_Base\BarUpdateServiceCollection.cs" />
     <Compile Include="Services-Bars\BarsServiceCollection.cs" />
     <Compile Include="Services-Bars\Options\BarsServiceCollectionOptions.cs" />
     <Compile Include="Services-BarUpdate\Stats\StatsCollection.cs" />
@@ -134,11 +134,11 @@
     <Compile Include="Services-Render\IRender.cs" />
     <Compile Include="Services-Render\IMarketDepthService.cs" />
     <Compile Include="zDataSeries\IDataSeriesService.cs" />
-    <Compile Include="Services-BarUpdate\Series\Interfaces\IBarsSeriesService.cs" />
+    <Compile Include="Services-BarUpdate\Series\Bars\IBarsSeriesService.cs" />
     <Compile Include="Services-Bars\BarsService.cs" />
     <Compile Include="Services-Bars\Interfaces\IBarsService.cs" />
     <Compile Include="Services-BarUpdate\Filters\IFiltersService.cs" />
-    <Compile Include="Services-BarUpdate\Base\IBarUpdateService.cs" />
+    <Compile Include="Services-BarUpdate\_Base\IBarUpdateService.cs" />
     <Compile Include="Services-Indicators\IIndicatorService.cs" />
     <Compile Include="Services-BarUpdate\Stats\IStatsService.cs" />
     <Compile Include="Services-BarUpdate\Stats\StatsOptions.cs" />
@@ -220,18 +220,18 @@
     <Compile Include="zHosting-Ninjascript\NinjascriptOptions.cs" />
     <Compile Include="Services--Base\Interfaces\IConfigure.cs" />
     <Compile Include="Services--Base\Interfaces\IDataLoaded.cs" />
-    <Compile Include="Services-BarUpdate\Base\IBarClosedService.cs" />
-    <Compile Include="Services-BarUpdate\Base\IEachTickService.cs" />
-    <Compile Include="Services-BarUpdate\Base\IFirstTickService.cs" />
-    <Compile Include="Services-BarUpdate\Base\ILastBarRemovedService.cs" />
+    <Compile Include="Services-BarUpdate\_Base\IBarClosedService.cs" />
+    <Compile Include="Services-BarUpdate\_Base\IEachTickService.cs" />
+    <Compile Include="Services-BarUpdate\_Base\IFirstTickService.cs" />
+    <Compile Include="Services-BarUpdate\_Base\ILastBarRemovedService.cs" />
     <Compile Include="Services--Base\Interfaces\IMarketDataService.cs" />
-    <Compile Include="Services-BarUpdate\Base\IPriceChangedService.cs" />
+    <Compile Include="Services-BarUpdate\_Base\IPriceChangedService.cs" />
     <Compile Include="zSessions\IOnSessionUpdateService.cs" />
     <Compile Include="zHosting-DependencyInjection\ServicesHost\NinjaHostOptions.cs" />
     <Compile Include="Services-Bars\Options\BarsServiceOptions.cs" />
     <Compile Include="zDataSeries\DataSeriesCollectionService.cs" />
     <Compile Include="Services-BarUpdate\Series\SeriesService.cs" />
-    <Compile Include="Services-BarUpdate\Series\BarSeriesService.cs" />
+    <Compile Include="Services-BarUpdate\Series\Bars\BarSeriesService.cs" />
     <Compile Include="Series-Bars\HighSeries.cs" />
     <Compile Include="Services-Logging\BaseLoggerOptions.cs" />
     <Compile Include="Services-Logging\BaseLoggerService.cs" />
@@ -267,8 +267,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Series-Stats\Base\" />
-    <Folder Include="Services-BarUpdate\Builders\" />
-    <Folder Include="Services-BarUpdate\Series\Builders\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -1,4 +1,5 @@
-﻿using KrTrade.Nt.Services.Series;
+﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Services.Series;
 using System;
 
 namespace KrTrade.Nt.Services
@@ -10,14 +11,7 @@ namespace KrTrade.Nt.Services
         /// </summary>
         /// <param name="barsService">The <see cref="IBarsService"/> necesary for updated <see cref="BarSeriesService"/>.</param>
         /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        public IndicatorSeriesService(IBarsService barsService) : base(barsService, new SeriesOptions()
-        {
-            //Capacity = barsService.CacheCapacity,
-            //OldValuesCapacity = barsService.RemovedCacheCapacity,
-            BarsIndex = barsService.Index
-
-        })
-        { }
+        public IndicatorSeriesService(IBarsService barsService) : base(barsService, new SeriesOptions(), new SeriesInfo()) { }
 
         public new double this[int index] => Series[index];
         public double Max(int displacement = 0, int period = 1) => Series.Max(displacement,period);

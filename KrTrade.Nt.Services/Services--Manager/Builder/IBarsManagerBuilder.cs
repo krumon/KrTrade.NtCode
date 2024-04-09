@@ -51,20 +51,20 @@ namespace KrTrade.Nt.Services
         /// Sets up the options and services for the <see cref="IBarsService"/> objects. This can be called multiple times and
         /// the results will be additive.
         /// </summary>
-        /// <param name="configureDataSeriesOptions">The delegate for configuring the <see cref="IBarsServiceBuilder"/> that will be used
+        /// <param name="configureDataSeriesInfo">The delegate for configuring the <see cref="IBarsServiceBuilder"/> that will be used
         /// to construct the <see cref="IBarsService"/>.</param>
         /// <returns>The same instance of the <see cref="IBarsManagerBuilder"/> for chaining.</returns>
-        IBarsManagerBuilder AddDataSeries(Action<DataSeriesInfo> configureDataSeriesOptions, Action<IBarsServiceBuilder> configureBarsServiceBuilder);
+        IBarsManagerBuilder AddDataSeries(Action<DataSeriesInfo> configureDataSeriesInfo, Action<IBarsServiceBuilder> configureBarsServiceBuilder);
 
         /// <summary>
         /// Sets up the options and services for the <see cref="IBarsService"/> objects. This can be called multiple times and
         /// the results will be additive.
         /// </summary>
         /// <param name="name">The pseudoname for called the <see cref="IBarsService"/> from <see cref="IBarsManager"/>.</param>
-        /// <param name="configureDataSeriesOptions">The delegate for configuring the <see cref="IBarsServiceBuilder"/> that will be used
+        /// <param name="configureDataSeriesInfo">The delegate for configuring the <see cref="IBarsServiceBuilder"/> that will be used
         /// to construct the <see cref="IBarsService"/>.</param>
         /// <returns>The same instance of the <see cref="IBarsManagerBuilder"/> for chaining.</returns>
-        IBarsManagerBuilder AddDataSeries(string name, Action<DataSeriesInfo> configureDataSeriesOptions, Action<IBarsServiceBuilder> configureBarsServiceBuilder);
+        IBarsManagerBuilder AddDataSeries(string name, Action<DataSeriesInfo> configureDataSeriesInfo, Action<IBarsServiceBuilder> configureBarsServiceBuilder);
 
         //IBarsServicesBuilder AddFilters();
         

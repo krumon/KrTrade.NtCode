@@ -1,5 +1,4 @@
-﻿using KrTrade.Nt.Core.Extensions;
-using NinjaTrader.NinjaScript;
+﻿using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Core.Data
 {

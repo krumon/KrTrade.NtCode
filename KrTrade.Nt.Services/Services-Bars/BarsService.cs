@@ -75,6 +75,10 @@ namespace KrTrade.Nt.Services
             return stateText;
         }
 
+        // TODO: Implementar SeriesCollection. De esta colección se obtendran todas las series necesarias
+        //       para cualquiera de nuestros servicios (SeriesService, StatsService, IndicatorService,...).
+        //       En esta colección se deben insertar las NinjaScriptSeries como punto de partida.
+
         public IndicatorCollection Indicators { get; private set; }
         public StatsCollection Stats { get; private set; }
         public FiltersCollection Filters { get; private set; }
@@ -271,15 +275,21 @@ namespace KrTrade.Nt.Services
         public Bar GetBar(int barsAgo, int period) => _barSeries.GetBar(barsAgo, period);
         public IList<Bar> GetBars(int barsAgo, int period) => _barSeries.GetBars(barsAgo, period);
 
-        public ISeries GetSeries(BaseSeriesOptions options)
-        {
-            return null;
-        }
-
-        public ISeries GetOrAddSeries(BaseSeriesOptions options)
+        public ISeries GetSeries(BaseSeriesInfo options)
         {
             throw new NotImplementedException();
         }
+
+        public ISeries GetOrAddSeries(BaseSeriesInfo options)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddSeries(BaseSeriesInfo seriesInfo, SeriesOptions seriesOptions)
+        {
+
+        }
+
 
         #endregion
 
@@ -293,34 +303,6 @@ namespace KrTrade.Nt.Services
         #endregion
 
         #region Private methods
-
-        //internal void SetDataSeriesInfo(DataSeriesInfo dataSeriesOptions)
-        //{
-        //    if (dataSeriesOptions == null)
-        //        throw new ArgumentNullException(nameof(dataSeriesOptions));
-
-        //    if (Info == null)
-        //        Info = new DataSeriesInfo();
-
-        //    Info.InstrumentCode = dataSeriesOptions.InstrumentCode;
-        //    Info.TimeFrame = dataSeriesOptions.TimeFrame;
-        //    Info.TradingHoursCode = dataSeriesOptions.TradingHoursCode;
-        //    Info.MarketDataType = dataSeriesOptions.MarketDataType;
-        //}
-
-        //internal void SetDefaultDataSeriesInfo(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript)
-        //{
-        //    if (ninjascript == null)
-        //        throw new ArgumentNullException(nameof(ninjascript));
-
-        //    if (Info == null)
-        //        Info = new DataSeriesInfo();
-
-        //    Info.InstrumentCode = ninjascript.BarsArray[0].Instrument.MasterInstrument.Name.ToInstrumentCode();
-        //    Info.TimeFrame = ninjascript.BarsArray[0].BarsPeriod.ToTimeFrame();
-        //    Info.TradingHoursCode = ninjascript.BarsArray[0].TradingHours.Name.ToTradingHoursCode();
-        //    Info.MarketDataType = ninjascript.BarsArray[0].BarsPeriod.MarketDataType.ToKrMarketDataType();
-        //}
 
         private void SetBarsEvents(bool updated, bool isLastBarRemoved, bool isBarClosed, bool isFirstTick, bool isPriceChanged, bool isNewTick)
         {
@@ -357,17 +339,17 @@ namespace KrTrade.Nt.Services
             where TOptions : BarUpdateServiceOptions, new()
         {
             IBarUpdateService service = null;
-            Type type = typeof(TService);
-            if (options == null)
-                options = new TOptions();
-            if ((type == typeof(BarSeriesService) || type == typeof(IBarSeriesService)))
-                service = new BarSeriesService(this);
-            else if (type == typeof(SeriesService<MaxSeries>))
-                if (options is SeriesOptions maxOptions) service = new SeriesService<MaxSeries>(this, maxOptions);
-            else if (type == typeof(SeriesService<MinSeries>))
-                if (options is SeriesOptions minOptions) service = new SeriesService<MinSeries>(this, minOptions);
-            else
-                throw new NotImplementedException($"The {type.Name} has not been created. Krumon...implemented it!!!!");
+            //Type type = typeof(TService);
+            //if (options == null)
+            //    options = new TOptions();
+            //if ((type == typeof(BarSeriesService) || type == typeof(IBarSeriesService)))
+            //    service = new BarSeriesService(this);
+            //else if (type == typeof(SeriesService<MaxSeries>))
+            //    if (options is SeriesInfo maxInfo) service = new SeriesService<MaxSeries>(this, maxInfo);
+            //else if (type == typeof(SeriesService<MinSeries>))
+            //    if (options is SeriesInfo minInfo) service = new SeriesService<MinSeries>(this, minInfo);
+            //else
+            //    throw new NotImplementedException($"The {type.Name} has not been created. Krumon...implemented it!!!!");
 
             return service;
         }
