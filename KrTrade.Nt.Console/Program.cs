@@ -48,14 +48,12 @@ namespace KrTrade.Nt.Console.Console
                 .ConfigurePrimaryDataSeries((builder) =>
                 {
                     builder.AddSeries(
-                        (max_info, max_op) => {
-                            max_op.IsEnable = true;
-                            max_op.IsLogEnable = true;
-                            max_info.Code = "Max5";
-                            max_info.Type = SeriesType.AVG;
-                            max_info.Period = 5;
-                            max_info.Capacity = 7;
-                            max_info.AddInputSeries<SwingSeriesInfo>(high =>
+                        (info) => {
+                            info.Name = "Max5";
+                            info.Type = SeriesType.AVG;
+                            info.Period = 5;
+                            info.Capacity = 7;
+                            info.AddInputSeries<SwingSeriesInfo>(high =>
                             {
 
                             });
@@ -80,7 +78,7 @@ namespace KrTrade.Nt.Console.Console
 
                     });
                     // Add series to the BarsService().
-                    builder.AddSeries((info,op) =>
+                    builder.AddSeries((info) =>
                     {
 
                     }); 

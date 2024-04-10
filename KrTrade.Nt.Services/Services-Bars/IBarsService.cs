@@ -145,8 +145,7 @@ namespace KrTrade.Nt.Services
         /// Adds the series to the 'SeriesCollection'. If is necesary add any series to add the series will be added.
         /// </summary>
         /// <param name="seriesInfo">The series information.</param>
-        /// <param name="seriesOptions">The series options.</param>
-        void AddSeries(BaseSeriesInfo seriesInfo, SeriesOptions seriesOptions);
+        void AddSeries(BaseSeriesInfo seriesInfo);
 
         /// <summary>
         /// Returns the <see cref="Bar"/> of the specified <paramref name="barsAgo"/>.

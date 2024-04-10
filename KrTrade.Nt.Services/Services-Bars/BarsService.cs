@@ -78,6 +78,7 @@ namespace KrTrade.Nt.Services
         // TODO: Implementar SeriesCollection. De esta colección se obtendran todas las series necesarias
         //       para cualquiera de nuestros servicios (SeriesService, StatsService, IndicatorService,...).
         //       En esta colección se deben insertar las NinjaScriptSeries como punto de partida.
+        public SeriesCollection<ISeries> Series {  get; set; }
 
         public IndicatorCollection Indicators { get; private set; }
         public StatsCollection Stats { get; private set; }
@@ -94,6 +95,7 @@ namespace KrTrade.Nt.Services
             Info = dataSeriesOptions ?? new DataSeriesInfo(barsManager.Ninjascript);
             _barSeries = new BarSeriesService(this);
 
+            //Series = new SeriesCollection<ISeries>(_barSeries);
             Indicators = new IndicatorCollection(this);
             Filters = new FiltersCollection(this);
             Stats = new StatsCollection(this);
@@ -285,7 +287,7 @@ namespace KrTrade.Nt.Services
             throw new NotImplementedException();
         }
 
-        public void AddSeries(BaseSeriesInfo seriesInfo, SeriesOptions seriesOptions)
+        public void AddSeries(BaseSeriesInfo seriesInfo)
         {
 
         }

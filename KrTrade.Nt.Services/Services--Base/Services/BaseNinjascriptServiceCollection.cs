@@ -2,7 +2,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Remoting.Contexts;
 
 namespace KrTrade.Nt.Services
 {
@@ -30,7 +29,7 @@ namespace KrTrade.Nt.Services
                     if (index == -1)
                         throw new KeyNotFoundException($"The {key} key DOESN`T EXISTIS.");
 
-                    return _services[index];
+                    return _services[index].Options.IsEnable ? _services[index] : default;
                 }
                 catch (Exception ex)
                 {
@@ -45,7 +44,7 @@ namespace KrTrade.Nt.Services
             {
                 try
                 {
-                    return _services[index];
+                    return _services[index].Options.IsEnable ? _services[index] : default;
                 }
                 catch (Exception ex)
                 {

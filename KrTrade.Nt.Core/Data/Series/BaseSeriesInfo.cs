@@ -1,5 +1,4 @@
-﻿using NinjaTrader.NinjaScript;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Core.Data
@@ -10,7 +9,7 @@ namespace KrTrade.Nt.Core.Data
         /// <summary>
         /// Gets or sets the code of the series.
         /// </summary>
-        public string Code { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the series.

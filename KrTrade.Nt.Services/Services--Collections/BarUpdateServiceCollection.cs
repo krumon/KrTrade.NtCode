@@ -25,8 +25,8 @@ namespace KrTrade.Nt.Services
 
         //public override string Key => throw new NotImplementedException();
 
-        public void Update() => Execute((service) => service.Update());
-        public void Update(IBarsService updatedBarsSeries) => Execute((service) => service.Update(updatedBarsSeries));
+        public void Update() => Execute((service) => { if (service.Options.IsEnable) service.Update(); });
+        public void Update(IBarsService updatedBarsSeries) => Execute((service) => { if (service.Options.IsEnable) service.Update(updatedBarsSeries); });
 
         #endregion
 
