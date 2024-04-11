@@ -11,16 +11,22 @@ namespace KrTrade.Nt.Services
 
         private readonly NinjaScriptBase _ninjascript;
         protected ServiceOptions _options;
+        private string _serviceName;
 
         #endregion
 
-        #region Properties
+        #region Implementation
 
         public NinjaScriptBase Ninjascript => _ninjascript;
-        public virtual string Name => ServiceOptions.DefaultName;
-        public abstract string Key { get; }
+        public virtual string Name // => ServiceOptions.DefaultName;
+        { 
+            get => string.IsNullOrEmpty(_serviceName) ? Key : _serviceName;
+            set => _serviceName = value;
+        } 
+        public string Key => GetKey();
         public bool IsEnable { get => _options.IsEnable; set { _options.IsEnable = value; } }
         public ServiceOptions Options { get => _options ?? new ServiceOptions(); protected set { _options = value; } }
+        public abstract string GetKey();
 
         #endregion
 
@@ -228,6 +234,7 @@ namespace KrTrade.Nt.Services
 
             return false;
         }
+
 
         #endregion
     }

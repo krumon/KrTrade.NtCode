@@ -1,26 +1,17 @@
-﻿using NinjaTrader.NinjaScript;
+﻿using KrTrade.Nt.Core.Caches;
+using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Services
 {
     /// <summary>
     /// Defines properties and methods for any ninjascript service.
     /// </summary>
-    public interface IService
+    public interface IService : IHasKey
     {
         /// <summary>
         /// Gets the Ninjatrader NinjaScript.
         /// </summary>
         NinjaScriptBase Ninjascript { get; }
-
-        /// <summary>
-        /// Gets the name of the service.
-        /// </summary>
-        string Name { get; }
-
-        /// <summary>
-        /// Gets the service key.
-        /// </summary>
-        string Key { get; }
 
         /// <summary>
         /// Indicates that the service is enabled.

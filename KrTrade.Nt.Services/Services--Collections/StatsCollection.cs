@@ -1,21 +1,19 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
-    public class StatsCollection : BarUpdateServiceCollection<IStatsService, StatsCollectionOptions>
+    public class StatsCollection : BarUpdateServiceCollection<IStatsService>
     {
         public StatsCollection(IBarsService barsService) : base(barsService)
         {
         }
 
-        public StatsCollection(IBarsService barsService, Action<StatsCollectionOptions> configureOptions) : base(barsService, configureOptions)
+        public StatsCollection(IBarsService barsService, IEnumerable<IStatsService> elements) : base(barsService, elements)
         {
         }
 
-        public StatsCollection(IBarsService barsService, StatsCollectionOptions options) : base(barsService, options)
+        public StatsCollection(IBarsService barsService, int capacity) : base(barsService, capacity)
         {
         }
-
-        public override string Key => throw new NotImplementedException();
     }
 }

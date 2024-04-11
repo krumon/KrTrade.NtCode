@@ -2,18 +2,8 @@
 
 namespace KrTrade.Nt.Services.Series
 {
-    public interface ISeries : ICache
+    public interface ISeries : ICache, IHasKey
     {
-
-        /// <summary>
-        /// Gets the series name.
-        /// </summary>
-        string Name { get; }
-
-        /// <summary>
-        /// Gets the series key.
-        /// </summary>
-        string Key { get; }
 
         /// <summary>
         /// Gets the series period.
@@ -32,6 +22,8 @@ namespace KrTrade.Nt.Services.Series
         /// <returns><c>true</c> if the last element has been replaced, otherwise <c>false</c>.</returns>
         bool Update();
 
+        void Configure(IBarsService barsService);
+        void DataLoaded(IBarsService barsService);
     }
 
     public interface ISeries<TElement> : ISeries, ICache<TElement>

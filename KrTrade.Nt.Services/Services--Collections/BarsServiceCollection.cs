@@ -6,44 +6,43 @@ using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
-    public class BarsServiceCollection : BaseNinjascriptServiceCollection<IBarsService, BarsServiceCollectionOptions>, IBarsServiceCollection
+    public class BarsServiceCollection : BaseNinjascriptServiceCollection<IBarsService>, IBarsServiceCollection
     {
-        public BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript) : this(ninjascript, null, null, null) { }
-        public BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService) : this(ninjascript, printService, null, null) { }
-        public BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceOptions options) : this(ninjascript, printService, null, options) { }
-        internal BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, Action<NinjascriptServiceOptions> configureOptions, NinjascriptServiceOptions options) : base(ninjascript, printService, configureOptions, options) { }
+        public NinjaTrader.NinjaScript.NinjaScriptBase Ninjascript { get; set; }
 
-        public override string Key
+        public BarsServiceCollection(IBarsManager barsManager) 
         {
-            get
-            {
-                string key = "Bars";
-                if (_services != null && _services.Count > 0)
-                {
-                    key += "[";
-                    for (int i = 0; i < _services.Count; i++) 
-                    { 
-                        key += _services[i].Key;
-                        if (i == _services.Count - 1)
-                            key += ",";
-                    }
-                    key += "]";
-                }
-                else
-                    key += "[EMPTY]";
-                return key;
-            }
+            if (barsManager == null)
+                throw new ArgumentNullException(nameof(barsManager));
+
+            Ninjascript = barsManager.Ninjascript;
         }
+        public BarsServiceCollection(IBarsManager barsManager, IEnumerable<IBarsService> elements) : base(elements) 
+        {
+            if (barsManager == null)
+                throw new ArgumentNullException(nameof(barsManager));
+
+            Ninjascript = barsManager.Ninjascript;
+        }
+        public BarsServiceCollection(IBarsManager barsManager, int capacity) : base(capacity)
+        {
+            if (barsManager == null)
+                throw new ArgumentNullException(nameof(barsManager));
+
+            Ninjascript = barsManager.Ninjascript;
+        }
+
+        public override string ToString() => GetKey();
         public int BarsInProgress => Ninjascript.BarsInProgress;
 
-        public CurrentBarSeries CurrentBar => IsValidIndex(0) ? _services[0].CurrentBar : null;
-        public TimeSeries Time => IsValidIndex(0) ? _services[0].Time : null;
-        public PriceSeries Open => IsValidIndex(0) ? _services[0].Open : null;
-        public PriceSeries High => IsValidIndex(0) ? _services[0].High : null;
-        public PriceSeries Low => IsValidIndex(0) ? _services[0].Low : null;
-        public PriceSeries Close => IsValidIndex(0) ? _services[0].Close : null;
-        public VolumeSeries Volume => IsValidIndex(0) ? _services[0].Volume : null;
-        public TickSeries Tick => IsValidIndex(0) ? _services[0].Tick : null;
+        public CurrentBarSeries CurrentBar => IsValidIndex(0) ? _collection[0].CurrentBar : null;
+        public TimeSeries Time => IsValidIndex(0) ? _collection[0].Time : null;
+        public PriceSeries Open => IsValidIndex(0) ? _collection[0].Open : null;
+        public PriceSeries High => IsValidIndex(0) ? _collection[0].High : null;
+        public PriceSeries Low => IsValidIndex(0) ? _collection[0].Low : null;
+        public PriceSeries Close => IsValidIndex(0) ? _collection[0].Close : null;
+        public VolumeSeries Volume => IsValidIndex(0) ? _collection[0].Volume : null;
+        public TickSeries Tick => IsValidIndex(0) ? _collection[0].Tick : null;
 
         public CurrentBarSeries[] CurrentBars { get; protected set; }
         public TimeSeries[] Times { get; protected set; }
@@ -54,16 +53,16 @@ namespace KrTrade.Nt.Services
         public VolumeSeries[] Volumes { get; protected set; }
         public TickSeries[] Ticks { get; protected set; }
 
-        public bool IsUpdated => IsValidIndex(0) && _services[0].IsUpdated;
-        public bool IsClosed => IsValidIndex(0) && _services[0].IsClosed;
-        public bool LastBarIsRemoved => IsValidIndex(0) && _services[0].LastBarIsRemoved;
-        public bool IsTick => IsValidIndex(0) && _services[0].IsTick;
-        public bool IsFirstTick => IsValidIndex(0) && _services[0].IsFirstTick;
-        public bool IsPriceChanged => IsValidIndex(0) && _services[0].IsPriceChanged;
+        public bool IsUpdated => IsValidIndex(0) && _collection[0].IsUpdated;
+        public bool IsClosed => IsValidIndex(0) && _collection[0].IsClosed;
+        public bool LastBarIsRemoved => IsValidIndex(0) && _collection[0].LastBarIsRemoved;
+        public bool IsTick => IsValidIndex(0) && _collection[0].IsTick;
+        public bool IsFirstTick => IsValidIndex(0) && _collection[0].IsFirstTick;
+        public bool IsPriceChanged => IsValidIndex(0) && _collection[0].IsPriceChanged;
 
-        public Bar GetBar(int barsAgo, int barsIndex) => _services[barsIndex].GetBar(barsAgo);
-        public Bar GetBar(int barsAgo, int period, int barsIndex) => _services[barsIndex].GetBar(barsAgo,period);
-        public IList<Bar> GetBars(int barsAgo, int period, int barsIndex) => _services[barsIndex].GetBars(barsAgo, period);
+        public Bar GetBar(int barsAgo, int barsIndex) => _collection[barsIndex].GetBar(barsAgo);
+        public Bar GetBar(int barsAgo, int period, int barsIndex) => _collection[barsIndex].GetBar(barsAgo,period);
+        public IList<Bar> GetBars(int barsAgo, int period, int barsIndex) => _collection[barsIndex].GetBars(barsAgo, period);
 
         public DataSeriesInfo[] Info { get; protected set; }
         public IndicatorCollection[] Indicators { get; protected set; }
@@ -73,43 +72,61 @@ namespace KrTrade.Nt.Services
         public void MarketData()
         {
             if (IsValidIndex(BarsInProgress))
-                _services[BarsInProgress].MarketData();
+                _collection[BarsInProgress].MarketData();
         }
         public void MarketData(IBarsService updatedBarsSeries)
         {
             if (IsValidIndex(BarsInProgress))
-                _services[BarsInProgress].MarketData(updatedBarsSeries);
+                _collection[BarsInProgress].MarketData(updatedBarsSeries);
         }
         public void MarketDepth()
         {
             if (IsValidIndex(BarsInProgress))
-                _services[BarsInProgress].MarketDepth();
+                _collection[BarsInProgress].MarketDepth();
         }
         public void MarketDepth(IBarsService updatedBarsSeries)
         {
             if (IsValidIndex(BarsInProgress))
-                _services[BarsInProgress].MarketDepth(updatedBarsSeries);
+                _collection[BarsInProgress].MarketDepth(updatedBarsSeries);
         }
         public void Render()
         {
             if (IsValidIndex(BarsInProgress))
-                _services[BarsInProgress].Render();
+                _collection[BarsInProgress].Render();
         }
         public void Render(IBarsService updatedBarsSeries)
         {
             if (IsValidIndex(BarsInProgress))
-                _services[BarsInProgress].Render(updatedBarsSeries);
+                _collection[BarsInProgress].Render(updatedBarsSeries);
         }
         public void Update()
         {
             if (IsValidIndex(BarsInProgress))
-                _services[BarsInProgress].Update();
+                _collection[BarsInProgress].Update();
         }
         public void Update(IBarsService updatedBarsSeries)
         {
             if (IsValidIndex(BarsInProgress))
-                _services[BarsInProgress].Update(updatedBarsSeries);
+                _collection[BarsInProgress].Update(updatedBarsSeries);
         }
 
+        private string GetKey()
+        {
+            string key = "Bars";
+            if (_collection != null && _collection.Count > 0)
+            {
+                key += "[";
+                for (int i = 0; i < _collection.Count; i++)
+                {
+                    key += _collection[i].Key;
+                    if (i == _collection.Count - 1)
+                        key += ",";
+                }
+                key += "]";
+            }
+            else
+                key += "[EMPTY]";
+            return key;
+        }
     }
 }

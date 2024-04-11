@@ -25,7 +25,7 @@ namespace KrTrade.Nt.Services
         // Cache
         private IBarSeriesService _barSeries;
         // Access
-        private Dictionary<int, string> _keys;
+        private readonly Dictionary<int, string> _keys;
 
         #endregion
 
@@ -59,7 +59,8 @@ namespace KrTrade.Nt.Services
         public bool IsPriceChanged => IsUpdated && _barEvents[BarEvent.PriceChanged];
 
         public override string Name => string.IsNullOrEmpty(Info.Name) ? $"Bars[{Index}]({InstrumentName},{BarsPeriod.ToShortString()})" : Info.Name;
-        public override string Key => $"{InstrumentName}({BarsPeriod.ToShortString()},{BarsPeriod.MarketDataType},{TradingHoursName})";
+        public override string GetKey() 
+            => $"{InstrumentName}({BarsPeriod.ToShortString()},{BarsPeriod.MarketDataType},{TradingHoursName})";
         public override string ToLogString()
         {
             if (_logLines == null || _logLines.Count == 0)

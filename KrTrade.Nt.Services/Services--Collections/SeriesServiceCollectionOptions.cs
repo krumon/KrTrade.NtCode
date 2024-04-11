@@ -1,6 +1,6 @@
-﻿namespace KrTrade.Nt.Services
-{
-    public class SeriesServiceCollectionOptions : BarUpdateServiceCollectionOptions
-    {
-    }
-}
+﻿//namespace KrTrade.Nt.Services
+//{
+//    public class SeriesServiceCollectionOptions : BarUpdateServiceCollectionOptions
+//    {
+//    }
+//}

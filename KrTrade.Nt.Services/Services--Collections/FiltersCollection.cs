@@ -1,21 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
-    public class FiltersCollection : BarUpdateServiceCollection<IFiltersService<FiltersOptions>, FiltersCollectionOptions>
+    public class FiltersCollection : BarUpdateServiceCollection<IFiltersService<FiltersOptions>>
     {
         public FiltersCollection(IBarsService barsService) : base(barsService)
         {
         }
 
-        public FiltersCollection(IBarsService barsService, Action<FiltersCollectionOptions> configureOptions) : base(barsService, configureOptions)
+        public FiltersCollection(IBarsService barsService, IEnumerable<IFiltersService<FiltersOptions>> elements) : base(barsService, elements)
         {
         }
 
-        public FiltersCollection(IBarsService barsService, FiltersCollectionOptions options) : base(barsService, options)
+        public FiltersCollection(IBarsService barsService, int capacity) : base(barsService, capacity)
         {
         }
-
-        public override string Key => throw new NotImplementedException();
     }
 }

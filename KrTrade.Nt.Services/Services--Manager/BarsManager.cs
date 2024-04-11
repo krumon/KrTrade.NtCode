@@ -60,7 +60,7 @@ namespace KrTrade.Nt.Services
         internal BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsManagerOptions options) : this(ninjascript, printService, null,options) { }
         protected BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, Action<BarsManagerOptions> configureOptions, BarsManagerOptions options) : base(ninjascript, printService, configureOptions,options) 
         {
-            _dataSeries = new BarsServiceCollection(Ninjascript, PrintService, new BarsServiceCollectionOptions());
+            _dataSeries = new BarsServiceCollection(this);
             Info = new List<DataSeriesInfo>();
         }
 
@@ -69,26 +69,24 @@ namespace KrTrade.Nt.Services
         #region Implementation
 
         public override string Name => "BarsManager";
-        public override string Key 
+        public override string GetKey()
         {
-            get
+            string key = "Bars";
+            if (_dataSeries.Count > 0)
             {
-                string key = "Bars";
-                if ( _dataSeries.Count > 0)
+                key += "(";
+                for (int i = 0; i < _dataSeries.Count; i++)
                 {
-                    key += "(";
-                    for (int i = 0; i < _dataSeries.Count; i++)
-                    {
-                        key += _dataSeries[i].Key;
-                        if (i == _dataSeries.Count - 1)
-                            key += ")";
-                        else
-                            key += ",";
-                    }
+                    key += _dataSeries[i].Key;
+                    if (i == _dataSeries.Count - 1)
+                        key += ")";
+                    else
+                        key += ",";
                 }
-                
-                return key;
             }
+
+            return key;
+
         }
         public int BarsInProgress => Ninjascript.BarsInProgress;
         public IList<DataSeriesInfo> Info { get; internal set; }

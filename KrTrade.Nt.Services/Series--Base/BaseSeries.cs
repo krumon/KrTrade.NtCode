@@ -25,5 +25,19 @@ namespace KrTrade.Nt.Services.Series
         public abstract bool Add();
         public abstract bool Update();
 
+        public void Configure(IBarsService barsService)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void DataLoaded(IBarsService barsService)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string GetKey()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

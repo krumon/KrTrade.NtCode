@@ -54,8 +54,9 @@
     <Compile Include="Bars\BarPattern.cs" />
     <Compile Include="Bars\BarType.cs" />
     <Compile Include="Caches\Cache.cs" />
-    <Compile Include="Caches\ICacheElement.cs" />
     <Compile Include="Caches\ICache.cs" />
+    <Compile Include="Collections\BaseKeyCollection.cs" />
+    <Compile Include="Collections\IHasKey.cs" />
     <Compile Include="Data\Series\SwingSeriesInfo.cs" />
     <Compile Include="Data\Series\SeriesInfo.cs" />
     <Compile Include="Data\Series\BaseSeriesInfo.cs" />
