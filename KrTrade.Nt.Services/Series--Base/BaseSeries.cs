@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Core.Caches;
+using KrTrade.Nt.Core.Elements;
 
 namespace KrTrade.Nt.Services.Series
 {
@@ -22,6 +23,8 @@ namespace KrTrade.Nt.Services.Series
 
         public abstract string Name { get; }
         public abstract string Key { get; }
+        public IElementInfo Info { get; set; }
+
         public abstract bool Add();
         public abstract bool Update();
 

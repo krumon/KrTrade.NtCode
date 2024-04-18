@@ -8,12 +8,14 @@
         /// <summary>
         /// Render the ninjascript when 'NinjaScript.OnRended' is called.
         /// </summary>
-        void Render();
+        /// <param name="barsInProgress">The bars in progress index.</param>
+        void Render(int barsInProgress = 0);
 
         /// <summary>
         /// Method to be executed to render the ninjascript when a <see cref="IBarsService"/> is rendering.
         /// </summary>
         /// <param name="updatedBarsSeries"><see cref="IBarsService"/> updated.</param>
-        void Render(IBarsService updatedBarsSeries);
+        /// <param name="barsInProgress">The bars in progress index.</param>
+        void Render(IBarsService updatedBarsSeries, int barsInProgress = 0);
     }
 }

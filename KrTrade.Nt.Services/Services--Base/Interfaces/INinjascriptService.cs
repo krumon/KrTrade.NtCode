@@ -1,8 +1,11 @@
 ﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Elements;
+using KrTrade.Nt.Core.Services;
 using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Services
 {
+
     /// <summary>
     /// Defines properties and methods for any ninjascript service.
     /// </summary>
@@ -53,7 +56,16 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Defines properties and methods for any ninjascript service.
     /// </summary>
-    public interface INinjascriptService<TOptions> : INinjascriptService
+    public interface INinjascriptService<TInfo> : INinjascriptService, IService<TInfo>
+        where TInfo : IElementInfo
+    {
+
+    }
+    /// <summary>
+    /// Defines properties and methods for any ninjascript service.
+    /// </summary>
+    public interface INinjascriptService<TInfo,TOptions> : INinjascriptService<TInfo>, IService<TInfo,TOptions>
+        where TInfo : IElementInfo
         where TOptions : NinjascriptServiceOptions, new()
     {
         /// <summary>

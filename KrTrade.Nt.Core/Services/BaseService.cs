@@ -1,8 +1,9 @@
-﻿using NinjaTrader.NinjaScript;
+﻿using KrTrade.Nt.Core.Elements;
+using NinjaTrader.NinjaScript;
 using System;
 using System.Collections.Generic;
 
-namespace KrTrade.Nt.Services
+namespace KrTrade.Nt.Core.Services
 {
     public abstract class BaseService : IService
     {
@@ -11,36 +12,38 @@ namespace KrTrade.Nt.Services
 
         private readonly NinjaScriptBase _ninjascript;
         protected ServiceOptions _options;
-        private string _serviceName;
+        protected IElementInfo _info;
 
         #endregion
 
         #region Implementation
 
         public NinjaScriptBase Ninjascript => _ninjascript;
-        public virtual string Name // => ServiceOptions.DefaultName;
-        { 
-            get => string.IsNullOrEmpty(_serviceName) ? Key : _serviceName;
-            set => _serviceName = value;
-        } 
-        public string Key => GetKey();
-        public bool IsEnable { get => _options.IsEnable; set { _options.IsEnable = value; } }
+        public IElementInfo Info { get => _info ?? new ServiceInfo(); protected set { _info = value; } }
         public ServiceOptions Options { get => _options ?? new ServiceOptions(); protected set { _options = value; } }
-        public abstract string GetKey();
+
+        public string Name => string.IsNullOrEmpty(_info.Name) ? Key : _info.Name; 
+        public string Key => _info.GetKey();
+        public bool IsEnable { get => _options.IsEnable; set { _options.IsEnable = value; } }
+        public bool IsLogEnable { get => _options.IsLogEnable; set { _options.IsLogEnable = value; } }
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Create <see cref="BaseNinjascriptService"/> instance and configure it.
+        /// Create <see cref="BaseService"/> instance with specified information and options.
         /// This instance must be created in the 'Ninjascript.State == Configure'.
         /// </summary>
-        /// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
-        /// <exception cref="ArgumentNullException">The <see cref="INinjascript"/> cannot be null.</exception>
-        protected BaseService(NinjaScriptBase ninjascript)
+        /// <param name="ninjascript">The <see cref="NinjaScriptBase"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
+        /// <param name="info">The service informartion.</param>
+        /// <param name="options">The service options.</param>
+        /// <exception cref="ArgumentNullException">The <see cref="NinjaScriptBase"/> cannot be null.</exception>
+        protected BaseService(NinjaScriptBase ninjascript, IElementInfo info, ServiceOptions options)
         {
             _ninjascript = ninjascript ?? throw new ArgumentNullException($"Error in 'BaseService' constructor. The {nameof(ninjascript)} argument cannot be null.");
+            _info = info;
+            _options = options;
         }
 
         #endregion
@@ -239,21 +242,51 @@ namespace KrTrade.Nt.Services
         #endregion
     }
 
-    public abstract class BaseService<TOptions> : BaseService, IService<TOptions>
+    public abstract class BaseService<TInfo> : BaseService, IService<TInfo>
+        where TInfo : ServiceInfo, new()
+    {
+
+        protected new TInfo _info;
+        public new TInfo Info { get => _info ?? new TInfo(); protected set { _info = value; } }
+
+        /// <summary>
+        /// Create <see cref="BaseService"/> instance with specified information and options.
+        /// This instance must be created in the 'Ninjascript.State == Configure'.
+        /// </summary>
+        /// <param name="ninjascript">The <see cref="NinjaScriptBase"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
+        /// <param name="info">The service informartion.</param>
+        /// <param name="options">The service options.</param>
+        /// <exception cref="ArgumentNullException">The <see cref="NinjaScriptBase"/> cannot be null.</exception>
+        protected BaseService(NinjaScriptBase ninjascript, TInfo info, ServiceOptions options) : base(ninjascript, info, options) { }
+
+    }
+
+    public abstract class BaseService<TInfo,TOptions> : BaseService<TInfo>, IService<TInfo,TOptions>
+        where TInfo : ServiceInfo, new()
         where TOptions : ServiceOptions, new()
     {
         protected new TOptions _options;
         public new TOptions Options { get => _options ?? new TOptions(); protected set { _options = value; } }
 
-        protected BaseService(NinjaScriptBase ninjascript) : this(ninjascript, null,null) { }
-        protected BaseService(NinjaScriptBase ninjascript, Action<TOptions> configureOptions) : this(ninjascript, configureOptions, null) { }
-        protected BaseService(NinjaScriptBase ninjascript, TOptions options) : this(ninjascript, null, options) { }
-        protected BaseService(NinjaScriptBase ninjascript, Action<TOptions> configureOptions, TOptions options) : base(ninjascript)
-        {
-            Options = options ?? new TOptions();
-            configureOptions?.Invoke(Options);
-        }
+        //protected BaseService(NinjaScriptBase ninjascript) : this(ninjascript, null,null) { }
+        ////protected BaseService(NinjaScriptBase ninjascript, Action<TOptions> configureOptions) : this(ninjascript, configureOptions, null) { }
+        //protected BaseService(NinjaScriptBase ninjascript, TOptions options) : this(ninjascript, null, options) { }
+        //protected BaseService(NinjaScriptBase ninjascript, TInfo info) : this(ninjascript, info, null) { }
+        //protected BaseService(NinjaScriptBase ninjascript, Action<TOptions> configureOptions, TOptions options) : base(ninjascript)
+        //{
+        //    Options = options ?? new TOptions();
+        //    configureOptions?.Invoke(Options);
+        //}
 
+        /// <summary>
+        /// Create <see cref="BaseService"/> instance with specified information and options.
+        /// This instance must be created in the 'Ninjascript.State == Configure'.
+        /// </summary>
+        /// <param name="ninjascript">The <see cref="NinjaScriptBase"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
+        /// <param name="info">The service informartion.</param>
+        /// <param name="options">The service options.</param>
+        /// <exception cref="ArgumentNullException">The <see cref="NinjaScriptBase"/> cannot be null.</exception>
+        protected BaseService(NinjaScriptBase ninjascript, TInfo info, TOptions options) : base(ninjascript, info, options) { }
 
     }
 }

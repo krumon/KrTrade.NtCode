@@ -1,14 +1,16 @@
-﻿using System;
+﻿using KrTrade.Nt.Core.Elements;
+using System;
 
 namespace KrTrade.Nt.Services
 {
     /// <summary>
     /// Defines properties and method to built any <see cref="IBarUpdateService{TOptions}"/> object. 
     /// </summary>
-    public interface IBarUpdateBuilder<TService,TOptions,TSelf> 
-        where TService : IBarUpdateService<TOptions>
+    public interface IBarUpdateBuilder<TService,TInfo,TOptions,TSelf> 
+        where TService : IBarUpdateService<TInfo,TOptions>
+        where TInfo : IElementInfo, new()
         where TOptions : BarUpdateServiceOptions, new()
-        where TSelf : IBarUpdateBuilder<TService,TOptions,TSelf>
+        where TSelf : IBarUpdateBuilder<TService,TInfo,TOptions,TSelf>
     {
 
         /// <summary>

@@ -30,7 +30,7 @@ namespace KrTrade.Nt.Console.Console
             IBarsManager bars = new BarsManagerBuilder()
                 .AddPrintService((printSvc) =>
                 {
-                    printSvc.IsEnable = true;
+                    //printSvc.IsEnable = true;
                     printSvc.IsLogInfoVisible = true;
                     printSvc.IsDataSeriesInfoVisible = true;
                     printSvc.IsNumOfBarVisible = true;
@@ -45,7 +45,7 @@ namespace KrTrade.Nt.Console.Console
                     options.DefaultCachesCapacity = 14;
                     options.DefaultRemovedCachesCapacity = 1;
                 })
-                .ConfigurePrimaryDataSeries((builder) =>
+                .ConfigurePrimaryBars((builder) =>
                 {
                     builder.AddSeries(
                         (info) => {
@@ -60,22 +60,20 @@ namespace KrTrade.Nt.Console.Console
                         });
                 })
                 // Add bars service.
-                .AddDataSeries(
-                // Configure the data series.
-                info =>
-                {
-                    info.InstrumentCode = InstrumentCode.MES;
-                    info.TradingHoursCode = TradingHoursCode.Default;
-                    info.TimeFrame = TimeFrame.m5;
-                    info.MarketDataType = MarketDataType.Last;
-                }, 
-                // Built the bars service.
-                builder =>
+                .AddBars(builder =>
                 {
                     // Configure the BarsService options.
-                    builder.ConfigureOptions(op =>
+                    builder.ConfigureOptions((info,op) =>
                     {
-
+                        // Configure the service
+                        op.IsEnable = true;
+                        op.IsLogEnable = true;
+                        op.CalculateMode = NinjaTrader.NinjaScript.Calculate.OnEachTick;
+                        // Configure the data series.
+                        info.InstrumentCode = InstrumentCode.MES;
+                        info.TradingHoursCode = TradingHoursCode.Default;
+                        info.TimeFrame = TimeFrame.m5;
+                        info.MarketDataType = MarketDataType.Last;
                     });
                     // Add series to the BarsService().
                     builder.AddSeries((info) =>
@@ -83,19 +81,14 @@ namespace KrTrade.Nt.Console.Console
 
                     }); 
                 })
-                .AddDataSeries(
-                info =>
-                {
-                    info.InstrumentCode = InstrumentCode.MES;
-                    info.TradingHoursCode = TradingHoursCode.Default;
-                    info.TimeFrame = TimeFrame.m5;
-                    info.MarketDataType = MarketDataType.Last;
-                }, 
-                builder =>
-                {
-                    builder.ConfigureOptions(bsOptions =>
+                .AddBars(builder =>
+                { 
+                    builder.ConfigureOptions((info,op) =>
                     {
-
+                        info.InstrumentCode = InstrumentCode.MES;
+                        info.TradingHoursCode = TradingHoursCode.Default;
+                        info.TimeFrame = TimeFrame.m5;
+                        info.MarketDataType = MarketDataType.Last;
                     });
                 })
                 .Configure(null,null);

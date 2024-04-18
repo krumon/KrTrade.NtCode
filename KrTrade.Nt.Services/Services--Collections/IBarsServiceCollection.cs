@@ -1,5 +1,4 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Services.Series;
 using System.Collections.Generic;
 
@@ -24,10 +23,10 @@ namespace KrTrade.Nt.Services
         /// <returns>Bars service with the specified name.</returns>
         IBarsService this[string name] { get; }
 
-        /// <summary>
-        /// The index of the data series that is running in the NinjaScript.
-        /// </summary>
-        int BarsInProgress { get; }
+        ///// <summary>
+        ///// The index of the data series that is running in the NinjaScript.
+        ///// </summary>
+        //int BarsInProgress { get; }
 
         // CalculateMode
         // MultiSeriesCalculateMode
@@ -37,7 +36,7 @@ namespace KrTrade.Nt.Services
         // Add(DataSeriesInfo info)
 
         // Data series information
-        DataSeriesInfo[] Info { get; }
+        BarsServiceInfo[] Info { get; }
 
         // Bars series
         CurrentBarSeries[] CurrentBars { get; }
@@ -49,30 +48,10 @@ namespace KrTrade.Nt.Services
         VolumeSeries[] Volumes { get; }
         TickSeries[] Ticks { get; }
 
-        // Services
-        IndicatorCollection[] Indicators { get; }
-        StatsCollection[] Stats { get; }
-        FiltersCollection[] Filters { get; }
-
-        ///// <summary>
-        ///// Gets or sets the trading hours name of the bars series.
-        ///// </summary>
-        //string TradingHoursName { get; }
-
-        ///// <summary>
-        ///// Gets or sets the market data type of the bars series.
-        ///// </summary>
-        //NinjaTrader.Data.MarketDataType MarketDataType { get; }
-
-        ///// <summary>
-        ///// Gets the instument name.
-        ///// </summary>
-        //string InstrumentName { get; }
-
-        ///// <summary>
-        ///// The bars period of the DataSeries.
-        ///// </summary>
-        //NinjaTrader.Data.BarsPeriod BarsPeriod { get; }
+        //// Services
+        //IndicatorCollection[] Indicators { get; }
+        //StatsCollection[] Stats { get; }
+        //FiltersCollection[] Filters { get; }
 
         /// <summary>
         /// Gets the index series.

@@ -1,16 +1,13 @@
-﻿namespace KrTrade.Nt.Core.Caches
+﻿using System;
+
+namespace KrTrade.Nt.Core.Elements
 {
-    public interface IHasKey
+    public interface IElementInfo : IEquatable<IElementInfo>
     {
         /// <summary>
         /// Gets the name of the service.
         /// </summary>
-        string Name { get; }
-
-        /// <summary>
-        /// Gets the service key.
-        /// </summary>
-        string Key { get; }
+        string Name { get; set; }
 
         /// <summary>
         /// Gets the unique key of the service.

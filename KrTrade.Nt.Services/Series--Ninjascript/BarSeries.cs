@@ -1,4 +1,5 @@
-﻿using NinjaTrader.NinjaScript;
+﻿using KrTrade.Nt.Core.Elements;
+using NinjaTrader.NinjaScript;
 using System.Collections.Generic;
 using Bar = KrTrade.Nt.Core.Bars.Bar;
 
@@ -61,6 +62,8 @@ namespace KrTrade.Nt.Services.Series
 
         public override string Name => "BarsSeries";
         public override string Key => $"{Name.ToUpper()}(Capacity:{Capacity})";
+
+        //public override IElementInfo Info => throw new System.NotImplementedException();
 
         public override NinjaTrader.NinjaScript.ISeries<double> GetInput(NinjaScriptBase entry)
             => entry.Inputs[BarsIndex];

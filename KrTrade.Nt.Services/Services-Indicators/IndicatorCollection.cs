@@ -2,7 +2,7 @@
 
 namespace KrTrade.Nt.Services
 {
-    public class IndicatorCollection : BarUpdateServiceCollection<IIndicatorService>
+    public class IndicatorCollection : BarUpdateServiceCollection<IIndicatorService, NinjascriptServiceInfo>
     {
         public IndicatorCollection(IBarsService barsService) : base(barsService)
         {
@@ -14,6 +14,11 @@ namespace KrTrade.Nt.Services
 
         public IndicatorCollection(IBarsService barsService, int capacity) : base(barsService, capacity)
         {
+        }
+
+        public override void Add<TOptions>(NinjascriptServiceInfo elementInfo, TOptions elementOptions)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using NinjaTrader.Gui.PropertiesTest;
-
-namespace KrTrade.Nt.Core.Data
+﻿namespace KrTrade.Nt.Core.Data
 {
     public class SwingSeriesInfo : BaseSeriesInfo
     {

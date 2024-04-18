@@ -2,29 +2,37 @@
 
 namespace KrTrade.Nt.Services
 {
-    public abstract class BarUpdateService<TOptions> : BaseNinjascriptService<TOptions>, IBarUpdateService<TOptions>
+    public abstract class BarUpdateService<TInfo,TOptions> : BaseNinjascriptService<TInfo, TOptions>, IBarUpdateService<TInfo, TOptions>
+        where TInfo : BarUpdateServiceInfo, new()
         where TOptions : BarUpdateServiceOptions, new()
     {
+        //protected BarUpdateService(IBarsService barsService) : this(barsService, null,null) { }
+        //protected BarUpdateService(IBarsService barsService, TInfo info) : this(barsService, info,null) { }
+        //protected BarUpdateService(IBarsService barsService, TOptions options) : this(barsService, null, options) { }
+        protected BarUpdateService(IBarsService barsService, TInfo info, TOptions options) : base(barsService.Ninjascript, barsService.PrintService, info, options)
+        {
+            Bars = barsService ?? throw new ArgumentNullException(nameof(barsService));
+        }
+
         public IBarsService Bars { get; protected set; }
         public int BarsIndex => Bars.Index;
 
-        protected BarUpdateService(IBarsService barsService) : this(barsService, new TOptions()) { }
-        protected BarUpdateService(IBarsService barsService, Action<TOptions> configureOptions) : base(barsService?.Ninjascript, barsService?.PrintService, configureOptions) 
-        {
-            Bars = barsService ?? throw new ArgumentNullException(nameof(barsService));
-            Options = new TOptions();
-            configureOptions?.Invoke(Options);
-            Options.BarsIndex = BarsIndex;
-        }
-        protected BarUpdateService(IBarsService barsService, TOptions options): base(barsService.Ninjascript, barsService.PrintService, null, options) 
-        {
-            Bars = barsService ?? throw new ArgumentNullException(nameof(barsService));
-            Options = options ?? new TOptions();
-            options.BarsIndex = barsService.Index;
-        }
+        //protected BarUpdateService(IBarsService barsService) : this(barsService, new TOptions()) { }
+        //protected BarUpdateService(IBarsService barsService, Action<TOptions> configureOptions) : base(barsService?.Ninjascript, barsService?.PrintService, configureOptions) 
+        //{
+        //    Bars = barsService ?? throw new ArgumentNullException(nameof(barsService));
+        //    Options = new TOptions();
+        //    configureOptions?.Invoke(Options);
+        //    Options.BarsIndex = BarsIndex;
+        //}
+        //protected BarUpdateService(IBarsService barsService, TOptions options): base(barsService.Ninjascript, barsService.PrintService, null, options) 
+        //{
+        //    Bars = barsService ?? throw new ArgumentNullException(nameof(barsService));
+        //    Options = options ?? new TOptions();
+        //    options.BarsIndex = barsService.Index;
+        //}
         
-        public abstract void Update();
-        public abstract void Update(IBarsService updatedSeries);
-
+        public abstract void Update(int barsInProgress = 0);
+        public abstract void Update(IBarsService updatedBarsSeries, int barsInProgress = 0);
     }
 }

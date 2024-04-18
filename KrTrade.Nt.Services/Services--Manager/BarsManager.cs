@@ -1,17 +1,16 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Services.Series;
-using System;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
-    public class BarsManager : BaseNinjascriptService<BarsManagerOptions>, IBarsManager
+    public class BarsManager : BaseNinjascriptService<BarsManagerInfo, BarsManagerOptions>, IBarsManager
     {
         #region Private members
 
         private bool _isRunning;
-        private BarsServiceCollection _dataSeries;
+        private readonly BarsServiceCollection _barsServices;
+
         //private IList<IIndicatorService> _indicators;
         //private IList<IStatisticsService> _stats;
         //private IList<IFilterService> _filters;
@@ -23,14 +22,14 @@ namespace KrTrade.Nt.Services
         public int DefaultCachesCapacity { get; protected set; }
         public int DefaultRemovedCachesCapacity { get; protected set; }
 
-        public CurrentBarSeries CurrentBar => _dataSeries[0].CurrentBar;
-        public TimeSeries Time => _dataSeries[0].Time;
-        public PriceSeries Open => _dataSeries[0].Open;
-        public PriceSeries High => _dataSeries[0].High;
-        public PriceSeries Low => _dataSeries[0].Low;
-        public PriceSeries Close => _dataSeries[0].Close;
-        public VolumeSeries Volume => _dataSeries[0].Volume;
-        public TickSeries Tick => _dataSeries[0].Tick;
+        public CurrentBarSeries CurrentBar => _barsServices[0].CurrentBar;
+        public TimeSeries Time => _barsServices[0].Time;
+        public PriceSeries Open => _barsServices[0].Open;
+        public PriceSeries High => _barsServices[0].High;
+        public PriceSeries Low => _barsServices[0].Low;
+        public PriceSeries Close => _barsServices[0].Close;
+        public VolumeSeries Volume => _barsServices[0].Volume;
+        public TickSeries Tick => _barsServices[0].Tick;
 
         public CurrentBarSeries[] CurrentBars { get; protected set; }
         public TimeSeries[] Times { get; protected set; }
@@ -41,44 +40,54 @@ namespace KrTrade.Nt.Services
         public VolumeSeries[] Volumes { get; protected set; }
         public TickSeries[] Ticks { get; protected set; }
 
-        public int Count => _dataSeries == null ? -1 : _dataSeries.Count;
-        public IBarsService this[string name] => _dataSeries[name];
-        public IBarsService this[int idx] => _dataSeries[idx];
+        public int Count => _barsServices == null ? -1 : _barsServices.Count;
+        public IBarsService this[string name] => _barsServices[name];
+        public IBarsService this[int idx] => _barsServices[idx];
 
-        public bool IsUpdated => _dataSeries[0].IsUpdated;
-        public bool IsClosed => _dataSeries[0].IsClosed;
-        public bool LastBarIsRemoved => _dataSeries[0].LastBarIsRemoved;
-        public bool IsTick => _dataSeries[0].IsTick;
-        public bool IsFirstTick => _dataSeries[0].IsFirstTick;
-        public bool IsPriceChanged => _dataSeries[0].IsPriceChanged;
+        public bool IsUpdated => _barsServices[0].IsUpdated;
+        public bool IsClosed => _barsServices[0].IsClosed;
+        public bool LastBarIsRemoved => _barsServices[0].LastBarIsRemoved;
+        public bool IsTick => _barsServices[0].IsTick;
+        public bool IsFirstTick => _barsServices[0].IsFirstTick;
+        public bool IsPriceChanged => _barsServices[0].IsPriceChanged;
 
         #endregion
 
         #region Constructors
 
-        internal BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, Action<BarsManagerOptions> configureOptions) : this(ninjascript, printService, configureOptions, null) { }
-        internal BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsManagerOptions options) : this(ninjascript, printService, null,options) { }
-        protected BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, Action<BarsManagerOptions> configureOptions, BarsManagerOptions options) : base(ninjascript, printService, configureOptions,options) 
+        public BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript) : this(ninjascript, null, null, null) { }
+        public BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService) : this(ninjascript, printService,null,null) { }
+        public BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsManagerInfo info) : this(ninjascript, printService, info,null) { }
+        public BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsManagerOptions options) : this(ninjascript, printService,null, options) { }
+        public BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsManagerInfo info, BarsManagerOptions options) : base(ninjascript, printService, info, options)
         {
-            _dataSeries = new BarsServiceCollection(this);
-            Info = new List<DataSeriesInfo>();
+            _barsServices = new BarsServiceCollection(this);
+            Info = new List<BarsServiceInfo>();
         }
+
+        //internal BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, Action<BarsManagerOptions> configureOptions) : this(ninjascript, printService, configureOptions, null) { }
+        //internal BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsManagerOptions options) : this(ninjascript, printService, null,options) { }
+        //protected BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, Action<BarsManagerOptions> configureOptions, BarsManagerOptions options) : base(ninjascript, printService, configureOptions,options) 
+        //{
+        //    _dataSeries = new BarsServiceCollection(this);
+        //    Info = new List<DataSeriesInfo>();
+        //}
 
         #endregion
 
         #region Implementation
 
-        public override string Name => "BarsManager";
-        public override string GetKey()
+        //public override string Name => "BarsManager";
+        public string GetKey()
         {
             string key = "Bars";
-            if (_dataSeries.Count > 0)
+            if (_barsServices.Count > 0)
             {
                 key += "(";
-                for (int i = 0; i < _dataSeries.Count; i++)
+                for (int i = 0; i < _barsServices.Count; i++)
                 {
-                    key += _dataSeries[i].Key;
-                    if (i == _dataSeries.Count - 1)
+                    key += _barsServices[i].Info.GetKey();
+                    if (i == _barsServices.Count - 1)
                         key += ")";
                     else
                         key += ",";
@@ -89,14 +98,14 @@ namespace KrTrade.Nt.Services
 
         }
         public int BarsInProgress => Ninjascript.BarsInProgress;
-        public IList<DataSeriesInfo> Info { get; internal set; }
+        public new IList<BarsServiceInfo> Info { get; internal set; }
         //public int Capacity => throw new NotImplementedException();
         //public int RemovedCacheCapacity => throw new NotImplementedException();
 
         internal override void Configure(out bool isConfigured)
         {
-            _dataSeries.Configure();
-            isConfigured = _dataSeries.IsConfigure;
+            _barsServices.Configure();
+            isConfigured = _barsServices.IsConfigure;
         }
         internal override void DataLoaded(out bool isDataLoaded)
         {
@@ -105,41 +114,44 @@ namespace KrTrade.Nt.Services
             if (Count == 0 || Count != Ninjascript.BarsArray.Length)
                 isDataLoaded = false;
 
-            DataSeriesInfo info = new DataSeriesInfo();
+            BarsServiceInfo info = new BarsServiceInfo();
             for (int i=0; i < Ninjascript.BarsArray.Length; i++)
-                if (Info[0] == info.GetNinjascriptValues(Ninjascript, i))
-                    (_dataSeries[i] as BarsService).Index = i;
+            {
+                info.SetNinjascriptValues(Ninjascript,i);
+                if (Info[0] == info)
+                    (_barsServices[i] as BarsService).Index = i;
                 else
                     isDataLoaded = false;
+            }
 
-            _dataSeries.DataLoaded();
-            isDataLoaded = isDataLoaded && _dataSeries.IsDataLoaded;
+            _barsServices.DataLoaded();
+            isDataLoaded = isDataLoaded && _barsServices.IsDataLoaded;
 
-            CurrentBars = new CurrentBarSeries[_dataSeries.Count];
-            Times = new TimeSeries[_dataSeries.Count];
-            Opens = new PriceSeries[_dataSeries.Count];
-            Highs = new HighSeries[_dataSeries.Count];
-            Lows = new PriceSeries[_dataSeries.Count];
-            Closes = new PriceSeries[_dataSeries.Count];
-            Volumes = new VolumeSeries[_dataSeries.Count];
-            Ticks = new TickSeries[_dataSeries.Count];
+            CurrentBars = new CurrentBarSeries[_barsServices.Count];
+            Times = new TimeSeries[_barsServices.Count];
+            Opens = new PriceSeries[_barsServices.Count];
+            Highs = new HighSeries[_barsServices.Count];
+            Lows = new PriceSeries[_barsServices.Count];
+            Closes = new PriceSeries[_barsServices.Count];
+            Volumes = new VolumeSeries[_barsServices.Count];
+            Ticks = new TickSeries[_barsServices.Count];
 
-            for (int i=0; i< _dataSeries.Count; i++)
+            for (int i=0; i< _barsServices.Count; i++)
             {
-                CurrentBars[i] = _dataSeries[i].CurrentBar;
-                Times[i] = _dataSeries[i].Time;
-                Opens[i] = _dataSeries[i].Open;
-                Highs[i] = _dataSeries[i].High;
-                Lows[i] = _dataSeries[i].Low;
-                Closes[i] = _dataSeries[i].Close;
-                Volumes[i] = _dataSeries[i].Volume;
-                Ticks[i] = _dataSeries[i].Tick;
+                CurrentBars[i] = _barsServices[i].CurrentBar;
+                Times[i] = _barsServices[i].Time;
+                Opens[i] = _barsServices[i].Open;
+                Highs[i] = _barsServices[i].High;
+                Lows[i] = _barsServices[i].Low;
+                Closes[i] = _barsServices[i].Close;
+                Volumes[i] = _barsServices[i].Volume;
+                Ticks[i] = _barsServices[i].Tick;
             }
         }
         public void OnBarUpdate()
         {
             if (_isRunning)
-                Update();
+                Update(BarsInProgress);
             else
             {
                 if (!IsConfigureAll)
@@ -149,20 +161,24 @@ namespace KrTrade.Nt.Services
                     LoggingHelpers.ThrowOutOfRunningStatesException(Name);
 
                 _isRunning = true;
-                Update();
+                Update(BarsInProgress);
             }
         }
-        public override string ToLogString() => Count > 0 ? _dataSeries[BarsInProgress].ToLogString() : string.Empty;
-        public Bar GetBar(int barsAgo) => _dataSeries[0].GetBar(barsAgo);
-        public Bar GetBar(int barsAgo, int period) => _dataSeries[0].GetBar(barsAgo, period);
-        public IList<Bar> GetBars(int barsAgo, int period) => _dataSeries[0].GetBars(barsAgo, period);
+        public override string ToLogString() => Count > 0 ? _barsServices[BarsInProgress].ToLogString() : string.Empty;
+        public Bar GetBar(int barsAgo) => _barsServices[0].GetBar(barsAgo);
+        public Bar GetBar(int barsAgo, int period) => _barsServices[0].GetBar(barsAgo, period);
+        public IList<Bar> GetBars(int barsAgo, int period) => _barsServices[0].GetBars(barsAgo, period);
 
         #endregion
 
         #region Public methods
 
-        internal void Add(IBarsService service) => _dataSeries.Add(service);
-        internal void Add(string key, IBarsService service) => _dataSeries.Add(key, service);
+        internal void Add(IBarsService service) 
+        {
+            _barsServices.Add(service);
+            Info.Add(service.Info);
+        }
+        //internal void Add(string key, IBarsService service) => _barsServices.Add(key, service);
 
         #endregion
 
@@ -177,41 +193,56 @@ namespace KrTrade.Nt.Services
 
         #region Implementation methods
 
-        public void Update()
+        public void Update(int barsInProgress = 0)
         {
-            if (!Options.IsEnable || Ninjascript.BarsInProgress != BarsInProgress)
+            if (!Options.IsEnable || BarsInProgress != barsInProgress)
                 return;
 
             // Check FILTERS
-            _dataSeries[BarsInProgress].Update();
+            _barsServices[BarsInProgress].Update(BarsInProgress);
         }
-        public void Update(IBarsService updatedBarsSeries)
+        public void Update(IBarsService updatedBarsSeries, int barsInProgress = 0)
         {
-            _dataSeries[BarsInProgress].Update(updatedBarsSeries);
+            if (!Options.IsEnable || BarsInProgress != barsInProgress)
+                return;
+
+            _barsServices[BarsInProgress].Update(updatedBarsSeries,BarsInProgress);
         }
-        public void MarketData()
+        public void MarketData(int barsInProgress = 0)
         {
-            _dataSeries[BarsInProgress].MarketData();
+            if (!Options.IsEnable || BarsInProgress != barsInProgress)
+                return;
+
+            _barsServices[BarsInProgress].MarketData(BarsInProgress);
         }
-        public void MarketData(IBarsService updatedBarsSeries)
+        public void MarketData(IBarsService updatedBarsSeries, int barsInProgress = 0)
         {
-            _dataSeries[BarsInProgress].MarketData(updatedBarsSeries);
+            if (!Options.IsEnable || BarsInProgress != barsInProgress)
+                return;
+
+            _barsServices[BarsInProgress].MarketData(updatedBarsSeries, BarsInProgress);
         }
-        public void MarketDepth()
+        public void MarketDepth(int barsInProgress = 0)
         {
-            _dataSeries[BarsInProgress].MarketDepth();
+            if (!Options.IsEnable || BarsInProgress != barsInProgress)
+                return;
+
+            _barsServices[BarsInProgress].MarketDepth(BarsInProgress);
         }
-        public void MarketDepth(IBarsService updatedBarsSeries)
+        public void MarketDepth(IBarsService updatedBarsSeries, int barsInProgress = 0)
         {
-            _dataSeries[BarsInProgress].MarketDepth(updatedBarsSeries);
+            if (!Options.IsEnable || BarsInProgress != barsInProgress)
+                return;
+
+            _barsServices[BarsInProgress].MarketDepth(updatedBarsSeries, BarsInProgress);
         }
-        public void Render()
+        public void Render(int barsInProgress = 0)
         {
-            _dataSeries[BarsInProgress].Render();
+            _barsServices[BarsInProgress].Render(BarsInProgress);
         }
-        public void Render(IBarsService updatedBarsSeries)
+        public void Render(IBarsService updatedBarsSeries, int barsInProgress = 0)
         {
-            _dataSeries[BarsInProgress].Render(updatedBarsSeries);
+            _barsServices[BarsInProgress].Render(updatedBarsSeries, BarsInProgress);
         }
 
         #endregion

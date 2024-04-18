@@ -3,7 +3,7 @@
     /// <summary>
     /// Defines properties and methods that are necesary to create a series service.
     /// </summary>
-    public interface ISeriesService<TSeries> : IBarUpdateService
+    public interface ISeriesService<TSeries> : IBarUpdateService<SeriesServiceInfo,SeriesServiceOptions>
     {
         /// <summary>
         /// Gets the element of a sepecific index.

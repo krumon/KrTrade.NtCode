@@ -8,14 +8,9 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Defines properties and methods that are necesary to create a data series service.
     /// </summary>
-    public interface IBarsService : INinjascriptService, IBarUpdate, IMarketData, IMarketDepth, IRender
+    public interface IBarsService : INinjascriptService<BarsServiceInfo>, IBarUpdate, IMarketData, IMarketDepth, IRender
     {
         bool IsWaitingFirstTick { get; }
-
-        /// <summary>
-        /// Get <see cref="BarsService"/> data series information.
-        /// </summary>
-        DataSeriesInfo Info { get; }
 
         /// <summary>
         /// Gets the capacity of bars cache.
@@ -26,6 +21,11 @@ namespace KrTrade.Nt.Services
         /// Gets the capacity of removed bars cache.
         /// </summary>
         int RemovedCacheCapacity { get; }
+
+        /// <summary>
+        /// Indicates if the service contains the 'NinjaScript' promary data series information.
+        /// </summary>
+        bool IsPrimaryBars { get; }
 
         /// <summary>
         /// Gets or sets the trading hours name of the bars series.

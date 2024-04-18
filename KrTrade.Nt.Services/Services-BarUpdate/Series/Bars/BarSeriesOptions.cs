@@ -1,6 +1,6 @@
 ﻿namespace KrTrade.Nt.Services
 {
-    public class BarSeriesOptions : SeriesOptions
+    public class BarSeriesOptions : SeriesServiceOptions
     {
     }
 }

@@ -15,12 +15,12 @@ namespace KrTrade.Nt.Services
         /// <param name="barsServiceOptions">The delegate for configuring the <see cref="BarsServiceOptions"/> that will be used
         /// to construct the <see cref="IBarsService"/>.</param>
         /// <returns>The same instance of the <see cref="IBarsServiceBuilder"/> for chaining.</returns>
-        IBarsServiceBuilder ConfigureOptions(Action<BarsServiceOptions> barsServiceOptions);
+        IBarsServiceBuilder ConfigureOptions(Action<BarsServiceInfo, BarsServiceOptions> barsServiceOptions);
 
         /// <summary>
         /// Adds new series to be used in the bars service.
         /// </summary>
-        /// <param name="configureSeries">The delegate for configuring the <see cref="SeriesInfo"/> and the <see cref="SeriesOptions"/> 
+        /// <param name="configureSeries">The delegate for configuring the <see cref="SeriesServiceInfo"/> and the <see cref="SeriesServiceOptions"/> 
         /// that will be usedto construct the <see cref="Series.ISeries"/></param>
         /// <returns>The same instance of the <see cref="IBarsServiceBuilder"/> for chaining.</returns>
         IBarsServiceBuilder AddSeries<TInfo>(Action<TInfo> configureSeries)
@@ -29,7 +29,7 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Adds new series to be used in the bars service.
         /// </summary>
-        /// <param name="configureSeries">The delegate for configuring the <see cref="SeriesInfo"/> and the <see cref="SeriesOptions"/> 
+        /// <param name="configureSeries">The delegate for configuring the <see cref="SeriesServiceInfo"/> and the <see cref="SeriesServiceOptions"/> 
         /// that will be usedto construct the <see cref="Series.ISeries"/></param>
         /// <returns>The same instance of the <see cref="IBarsServiceBuilder"/> for chaining.</returns>
         IBarsServiceBuilder AddSeries(Action<SeriesInfo> configureSeries);

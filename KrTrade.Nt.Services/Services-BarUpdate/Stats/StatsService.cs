@@ -1,12 +1,14 @@
 ﻿namespace KrTrade.Nt.Services
 {
-    public class StatsService : BarUpdateService<StatsOptions>, IStatsService
+    public class StatsService : BarUpdateService<StatsInfo,StatsOptions>, IStatsService
     {
-        public override string Key => throw new System.NotImplementedException();
-
-        public StatsService(IBarsService barsSeries) : base(barsSeries)
+        public StatsService(IBarsService barsService, StatsInfo info, StatsOptions options) : base(barsService, info, options)
         {
         }
+
+        //public StatsService(IBarsService barsSeries) : base(barsSeries)
+        //{
+        //}
 
         //public StatsService(IBarsService barsSeries, IConfigureOptions<StatsOptions> configureOptions) : base(barsSeries, configureOptions)
         //{
@@ -51,12 +53,12 @@
             throw new System.NotImplementedException();
         }
 
-        public override void Update()
+        public override void Update(int barsInProgress = 0)
         {
             throw new System.NotImplementedException();
         }
 
-        public override void Update(IBarsService updatedSeries)
+        public override void Update(IBarsService updatedBarsSeries, int barsInProgress = 0)
         {
             throw new System.NotImplementedException();
         }

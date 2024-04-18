@@ -20,7 +20,7 @@ namespace KrTrade.Nt.Services
         {
         }
 
-        public override string Key => throw new System.NotImplementedException();
+        //public override string Key => throw new System.NotImplementedException();
 
         public override void OnCalculate()
         {

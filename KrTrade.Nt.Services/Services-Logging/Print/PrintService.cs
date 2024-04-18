@@ -60,15 +60,15 @@ namespace KrTrade.Nt.Services
         {
         }
 
-        /// <summary>
-        /// Create <see cref="PrintService"/> instance and configure it.
-        /// This instance must be created in the 'Ninjascript.State == Configure'.
-        /// </summary>
-        /// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
-        /// <param name="configureOptions">The configure options of the service.</param>
-        public PrintService(NinjaScriptBase ninjascript, Action<PrintOptions> configureOptions) : base(ninjascript, configureOptions)
-        {
-        }
+        ///// <summary>
+        ///// Create <see cref="PrintService"/> instance and configure it.
+        ///// This instance must be created in the 'Ninjascript.State == Configure'.
+        ///// </summary>
+        ///// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
+        ///// <param name="configureOptions">The configure options of the service.</param>
+        //public PrintService(NinjaScriptBase ninjascript, Action<PrintOptions> configureOptions) : base(ninjascript, configureOptions)
+        //{
+        //}
 
         /// <summary>
         /// Create <see cref="PrintService"/> instance and configure it.
@@ -84,11 +84,11 @@ namespace KrTrade.Nt.Services
 
         #region Implementation
 
-        public override string Name => "PrintService";
+        //public override string Name => "PrintService";
         protected override Action<object> WriteMethod => Ninjascript.Print;
         protected override Action ClearMethod => Ninjascript.ClearOutputWindow;
 
-        public override string Key => throw new NotImplementedException();
+        //public override string Key => throw new NotImplementedException();
 
         #endregion
 

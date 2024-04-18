@@ -1,12 +1,13 @@
 ﻿using KrTrade.Nt.Core.Bars;
 using KrTrade.Nt.Core.Logging;
+using KrTrade.Nt.Core.Services;
 using NinjaTrader.NinjaScript;
 using System;
 using System.IO;
 
 namespace KrTrade.Nt.Services
 {
-    public abstract class BaseLoggerService<TOptions, TFormatter> : BaseService<TOptions>
+    public abstract class BaseLoggerService<TOptions, TFormatter> : BaseService<NinjascriptServiceInfo,TOptions>
         where TOptions : BaseLoggerOptions<TFormatter>, new()
         where TFormatter : BaseFormatter, new()
     {
@@ -18,19 +19,19 @@ namespace KrTrade.Nt.Services
         /// This instance must be created in the 'Ninjascript.State == Configure'.
         /// </summary>
         /// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
-        protected BaseLoggerService(NinjaScriptBase ninjascript) : base(ninjascript)
+        protected BaseLoggerService(NinjaScriptBase ninjascript) : base(ninjascript,null,null)
         {
         }
 
-        /// <summary>
-        /// Create <see cref="BaseLoggerService"/> instance and configure it.
-        /// This instance must be created in the 'Ninjascript.State == Configure'.
-        /// </summary>
-        /// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
-        /// <param name="configureOptions">The configure options of the service.</param>
-        protected BaseLoggerService(NinjaScriptBase ninjascript, Action<TOptions> configureOptions) : base(ninjascript,configureOptions)
-        {
-        }
+        ///// <summary>
+        ///// Create <see cref="BaseLoggerService"/> instance and configure it.
+        ///// This instance must be created in the 'Ninjascript.State == Configure'.
+        ///// </summary>
+        ///// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
+        ///// <param name="configureOptions">The configure options of the service.</param>
+        //protected BaseLoggerService(NinjaScriptBase ninjascript, Action<TOptions> configureOptions) : base(ninjascript,configureOptions)
+        //{
+        //}
 
         /// <summary>
         /// Create <see cref="BaseLoggerService"/> instance and configure it.
@@ -38,7 +39,7 @@ namespace KrTrade.Nt.Services
         /// </summary>
         /// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
         /// <param name="options">The configure options of the service.</param>
-        protected BaseLoggerService(NinjaScriptBase ninjascript, TOptions options) : base(ninjascript,options)
+        protected BaseLoggerService(NinjaScriptBase ninjascript, TOptions options) : base(ninjascript,null,options)
         {
         }
 

@@ -1,14 +1,16 @@
-﻿using System;
+﻿using KrTrade.Nt.Core.Elements;
+using System;
 
 namespace KrTrade.Nt.Services
 {
     /// <summary>
     /// Defines properties and method to built any <see cref="INinjascriptService"/> object. 
     /// </summary>
-    public interface INinjascriptServiceBuilder<TService,TOptions,TSelf> 
-        where TService : INinjascriptService
+    public interface INinjascriptServiceBuilder<TService,TInfo,TOptions,TSelf> 
+        where TService : INinjascriptService<TInfo>
+        where TInfo : IElementInfo, new()
         where TOptions : NinjascriptServiceOptions, new()
-        where TSelf : INinjascriptServiceBuilder<TService,TOptions,TSelf>
+        where TSelf : INinjascriptServiceBuilder<TService,TInfo,TOptions,TSelf>
     {
 
         /// <summary>

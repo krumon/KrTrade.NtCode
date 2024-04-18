@@ -1,4 +1,5 @@
-﻿using NinjaTrader.NinjaScript;
+﻿using KrTrade.Nt.Core.Elements;
+using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Services
 {
@@ -7,20 +8,9 @@ namespace KrTrade.Nt.Services
     /// </summary>
     public class PlotService : BaseNinjascriptService
     {
-        public PlotService(NinjaScriptBase ninjascript) : base(ninjascript)
+        public PlotService(NinjaScriptBase ninjascript, IPrintService printService, IElementInfo info, NinjascriptServiceOptions options) : base(ninjascript, printService, info, options)
         {
         }
-
-        public PlotService(NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript, printService)
-        {
-        }
-
-        /// <summary>
-        /// Gets the name of the service.
-        /// </summary>
-        public override string Name => nameof(PlotService);
-
-        public override string Key => throw new System.NotImplementedException();
 
         public override string ToLogString()
         {

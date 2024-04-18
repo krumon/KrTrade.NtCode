@@ -1,5 +1,4 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using KrTrade.Nt.Core.Data;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
@@ -7,13 +6,13 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Defines methods that are necesary to be executed when the bar is updated.
     /// </summary>
-    public interface IBarsManager : INinjascriptService<BarsManagerOptions>, IBarUpdate, IMarketData, IMarketDepth, IRender
+    public interface IBarsManager : INinjascriptService<BarsManagerInfo,BarsManagerOptions>, IBarUpdate, IMarketData, IMarketDepth, IRender
     {
 
         /// <summary>
-        /// Gets the list of <see cref="DataSeriesInfo"/>.
+        /// Gets the list of <see cref="BarsServiceInfo"/>.
         /// </summary>
-        IList<DataSeriesInfo> Info { get; }
+        new IList<BarsServiceInfo> Info { get; }
 
         /// <summary>
         /// Gets the bars service of a sepecific index.

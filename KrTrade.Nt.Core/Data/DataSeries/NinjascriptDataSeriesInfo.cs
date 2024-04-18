@@ -1,16 +1,11 @@
-﻿using KrTrade.Nt.Core.Extensions;
+﻿using KrTrade.Nt.Core.Elements;
 using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Core.Data
 {
-    public class NinjascriptDataSeriesInfo
+    public class NinjascriptDataSeriesInfo : BaseElementInfo
     {
-
-        /// <summary>
-        /// Gets the key of data series.
-        /// </summary>
-        public string Key => ToLongString();
 
         /// <summary>
         /// Gets or sets the Data Series instrument code.
@@ -66,19 +61,21 @@ namespace KrTrade.Nt.Core.Data
         /// <returns>Long string thats represents the actual object.</returns>
         public string ToLongString() => $"{InstrumentName},{BarsPeriod},{BarsPeriod.MarketDataType},{TradingHoursName}";
 
-        /// <summary>
-        /// Converts tha actual object to <see cref="DataSeriesInfo"/> object.
-        /// </summary>
-        /// <returns>The <see cref="DataSeriesInfo"/> object.</returns>
-        public DataSeriesInfo ToDataSeriesInfo()
-        {
-            return new DataSeriesInfo
-            {
-                InstrumentCode = InstrumentName.ToInstrumentCode(),
-                TimeFrame = BarsPeriod.ToTimeFrame(),
-                TradingHoursCode = TradingHoursName.ToTradingHoursCode(),
-                MarketDataType = BarsPeriod.MarketDataType.ToKrMarketDataType(),
-            };
-        }
+        public override string GetKey() => ToLongString();
+
+        ///// <summary>
+        ///// Converts tha actual object to <see cref="DataSeriesInfo"/> object.
+        ///// </summary>
+        ///// <returns>The <see cref="DataSeriesInfo"/> object.</returns>
+        //public DataSeriesInfo ToDataSeriesInfo()
+        //{
+        //    return new DataSeriesInfo
+        //    {
+        //        InstrumentCode = InstrumentName.ToInstrumentCode(),
+        //        TimeFrame = BarsPeriod.ToTimeFrame(),
+        //        TradingHoursCode = TradingHoursName.ToTradingHoursCode(),
+        //        MarketDataType = BarsPeriod.MarketDataType.ToKrMarketDataType(),
+        //    };
+        //}
     }
 }

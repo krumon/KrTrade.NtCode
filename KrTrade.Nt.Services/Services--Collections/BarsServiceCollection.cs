@@ -1,39 +1,17 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Services.Series;
-using System;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
-    public class BarsServiceCollection : BaseNinjascriptServiceCollection<IBarsService>, IBarsServiceCollection
+    public class BarsServiceCollection : BaseNinjascriptServiceCollection<IBarsService,BarsServiceInfo>, IBarsServiceCollection
     {
-        public NinjaTrader.NinjaScript.NinjaScriptBase Ninjascript { get; set; }
-
-        public BarsServiceCollection(IBarsManager barsManager) 
-        {
-            if (barsManager == null)
-                throw new ArgumentNullException(nameof(barsManager));
-
-            Ninjascript = barsManager.Ninjascript;
-        }
-        public BarsServiceCollection(IBarsManager barsManager, IEnumerable<IBarsService> elements) : base(elements) 
-        {
-            if (barsManager == null)
-                throw new ArgumentNullException(nameof(barsManager));
-
-            Ninjascript = barsManager.Ninjascript;
-        }
-        public BarsServiceCollection(IBarsManager barsManager, int capacity) : base(capacity)
-        {
-            if (barsManager == null)
-                throw new ArgumentNullException(nameof(barsManager));
-
-            Ninjascript = barsManager.Ninjascript;
-        }
+        public BarsServiceCollection() { }
+        public BarsServiceCollection(IEnumerable<IBarsService> elements) : base(elements) { }
+        public BarsServiceCollection(IBarsManager barsManager) : base() { }
+        public BarsServiceCollection(IBarsManager barsManager, int capacity) : base(capacity) { }
 
         public override string ToString() => GetKey();
-        public int BarsInProgress => Ninjascript.BarsInProgress;
 
         public CurrentBarSeries CurrentBar => IsValidIndex(0) ? _collection[0].CurrentBar : null;
         public TimeSeries Time => IsValidIndex(0) ? _collection[0].Time : null;
@@ -64,50 +42,55 @@ namespace KrTrade.Nt.Services
         public Bar GetBar(int barsAgo, int period, int barsIndex) => _collection[barsIndex].GetBar(barsAgo,period);
         public IList<Bar> GetBars(int barsAgo, int period, int barsIndex) => _collection[barsIndex].GetBars(barsAgo, period);
 
-        public DataSeriesInfo[] Info { get; protected set; }
-        public IndicatorCollection[] Indicators { get; protected set; }
-        public StatsCollection[] Stats { get; protected set; }
-        public FiltersCollection[] Filters { get; protected set; }
+        public override void Add<TOptions>(BarsServiceInfo info, TOptions options)
+        {
 
-        public void MarketData()
-        {
-            if (IsValidIndex(BarsInProgress))
-                _collection[BarsInProgress].MarketData();
         }
-        public void MarketData(IBarsService updatedBarsSeries)
+
+        public BarsServiceInfo[] Info { get; protected set; }
+        public IndicatorCollection[] Indicators { get; protected set; }
+        //public StatsCollection[] Stats { get; protected set; }
+        //public FiltersCollection[] Filters { get; protected set; }
+
+        public void MarketData(int barsInProgress)
         {
-            if (IsValidIndex(BarsInProgress))
-                _collection[BarsInProgress].MarketData(updatedBarsSeries);
+            if (IsValidIndex(barsInProgress))
+                _collection[barsInProgress].MarketData();
         }
-        public void MarketDepth()
+        public void MarketData(IBarsService updatedBarsSeries, int barsInProgress)
         {
-            if (IsValidIndex(BarsInProgress))
-                _collection[BarsInProgress].MarketDepth();
+            if (IsValidIndex(barsInProgress))
+                _collection[barsInProgress].MarketData(updatedBarsSeries);
         }
-        public void MarketDepth(IBarsService updatedBarsSeries)
+        public void MarketDepth(int barsInProgress)
         {
-            if (IsValidIndex(BarsInProgress))
-                _collection[BarsInProgress].MarketDepth(updatedBarsSeries);
+            if (IsValidIndex(barsInProgress))
+                _collection[barsInProgress].MarketDepth();
         }
-        public void Render()
+        public void MarketDepth(IBarsService updatedBarsSeries, int barsInProgress)
         {
-            if (IsValidIndex(BarsInProgress))
-                _collection[BarsInProgress].Render();
+            if (IsValidIndex(barsInProgress))
+                _collection[barsInProgress].MarketDepth(updatedBarsSeries);
         }
-        public void Render(IBarsService updatedBarsSeries)
+        public void Render(int barsInProgress)
         {
-            if (IsValidIndex(BarsInProgress))
-                _collection[BarsInProgress].Render(updatedBarsSeries);
+            if (IsValidIndex(barsInProgress))
+                _collection[barsInProgress].Render();
         }
-        public void Update()
+        public void Render(IBarsService updatedBarsSeries, int barsInProgress)
         {
-            if (IsValidIndex(BarsInProgress))
-                _collection[BarsInProgress].Update();
+            if (IsValidIndex(barsInProgress))
+                _collection[barsInProgress].Render(updatedBarsSeries);
         }
-        public void Update(IBarsService updatedBarsSeries)
+        public void Update(int barsInProgress)
         {
-            if (IsValidIndex(BarsInProgress))
-                _collection[BarsInProgress].Update(updatedBarsSeries);
+            if (IsValidIndex(barsInProgress))
+                _collection[barsInProgress].Update();
+        }
+        public void Update(IBarsService updatedBarsSeries, int barsInProgress)
+        {
+            if (IsValidIndex(barsInProgress))
+                _collection[barsInProgress].Update(updatedBarsSeries);
         }
 
         private string GetKey()
@@ -118,7 +101,7 @@ namespace KrTrade.Nt.Services
                 key += "[";
                 for (int i = 0; i < _collection.Count; i++)
                 {
-                    key += _collection[i].Key;
+                    key += _collection[i].Info.GetKey();
                     if (i == _collection.Count - 1)
                         key += ",";
                 }
@@ -128,5 +111,6 @@ namespace KrTrade.Nt.Services
                 key += "[EMPTY]";
             return key;
         }
+
     }
 }

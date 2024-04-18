@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Core.Collections;
+using KrTrade.Nt.Core.Elements;
 using KrTrade.Nt.Services.Series;
 using System;
 using System.Collections.Generic;
@@ -6,8 +7,8 @@ using System.Collections.Generic;
 namespace KrTrade.Nt.Services
 {
 
-    public abstract class BaseSeriesCollection<TService> : BaseKeyCollection<TService>, IConfigureSeries, IDataLoadedSeries, ITerminated
-    where TService : class, ISeries
+    public abstract class BaseSeriesCollection<TService> : BaseKeyCollection<TService,IElementInfo>, IConfigureSeries, IDataLoadedSeries, ITerminated
+    where TService : ISeries, IKeyCollectionItem<IElementInfo>
     {
 
         protected BaseSeriesCollection() { }

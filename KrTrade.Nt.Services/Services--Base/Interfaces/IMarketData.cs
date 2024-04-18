@@ -8,12 +8,14 @@
         /// <summary>
         /// Updates the service when market data changed.
         /// </summary>
-        void MarketData();
+        /// <param name="barsInProgress">The bars in progress index.</param>
+        void MarketData(int barsInProgress = 0);
 
         /// <summary>
         /// Method to be executed to update the service when a <see cref="IBarsService"/> market data is updated.
         /// </summary>
         /// <param name="updatedBarsSeries"><see cref="IBarsService"/> updated.</param>
-        void MarketData(IBarsService updatedBarsSeries);
+        /// <param name="barsInProgress">The bars in progress index.</param>
+        void MarketData(IBarsService updatedBarsSeries, int barsInProgress = 0);
     }
 }

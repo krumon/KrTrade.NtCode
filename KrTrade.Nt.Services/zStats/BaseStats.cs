@@ -12,7 +12,7 @@ namespace KrTrade.Nt.Services
         //public double[] NormalizeValues {  get; set; }
         //public double[] NormalizeStdValues {  get; set; }
 
-        protected BaseStats(NinjaScriptBase ninjascript) : base(ninjascript)
+        protected BaseStats(NinjaScriptBase ninjascript) : base(ninjascript,null,null,null)
         {
         }
 

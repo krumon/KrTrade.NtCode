@@ -55,7 +55,7 @@ namespace KrTrade.Nt.Services.Series
             }
         }
 
-        public SeriesCollection(NinjaScriptBase ninjascript, IPrintService printService, Action<NinjascriptServiceOptions> configureOptions, NinjascriptServiceOptions options) : base(ninjascript, printService, configureOptions, options) { }
+        public SeriesCollection(NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceOptions options) : base(ninjascript, printService, null, options) { }
 
         #region Implementation
 
@@ -67,7 +67,7 @@ namespace KrTrade.Nt.Services.Series
 
             string logText = string.Empty;
             foreach (var series in _series)
-                logText += series.Key + "NewLine";
+                logText += series.Info.GetKey() + "NewLine";
 
             logText.Remove(logText.Length - 7);
             logText.Replace("NewLine", Environment.NewLine);
@@ -131,24 +131,24 @@ namespace KrTrade.Nt.Services.Series
                     _keys = new Dictionary<string,int>();
 
                 if (string.IsNullOrEmpty(name))
-                    name = series.Key;
+                    name = series.Info.GetKey();
 
                 // El servicio no existe
-                if (!ContainsKey(series.Key))
+                if (!ContainsKey(series.Info.GetKey()))
                 {
                     _series.Add(series);
-                    _keys.Add(series.Key, _series.Count - 1);
+                    _keys.Add(series.Info.GetKey(), _series.Count - 1);
                     // El pseudónimo ya existe.
-                    if (series.Key != name && ContainsKey(name))
+                    if (series.Info.GetKey() != name && ContainsKey(name))
                         PrintService.LogError(new Exception($"The pseudo-name: '{name}' already exists. The pseudo-name is being used by another service and the service cannot be added."));
-                    else if (series.Key != name)
+                    else if (series.Info.GetKey() != name)
                         _keys.Add(name, _series.Count - 1);
                 }
                 
             }
             catch (Exception e)
             {
-                logText = $"The {series.Name} service cannot be added.";
+                logText = $"The {series.Info.Name} service cannot be added.";
                 PrintService.LogError(logText, e);
             }
         }
@@ -209,7 +209,7 @@ namespace KrTrade.Nt.Services.Series
                 }
                 catch (Exception e)
                 {
-                    string logText = $"The {service.Name} action has NOT been executed.";
+                    string logText = $"The {service.Info.Name} action has NOT been executed.";
                     PrintService.LogError(logText, e);
                 }
             }
@@ -222,11 +222,11 @@ namespace KrTrade.Nt.Services.Series
 
     public abstract class SeriesCollection<TSeries,TOptions> : SeriesCollection<TSeries>
         where TSeries : ISeries
-        where TOptions : SeriesOptions, new()
+        where TOptions : SeriesServiceOptions, new()
     {
         protected new TOptions _options;
 
-        public SeriesCollection(NinjaScriptBase ninjascript, IPrintService printService, Action<NinjascriptServiceOptions> configureOptions, NinjascriptServiceOptions options) : base(ninjascript, printService, configureOptions, options) { }
+        public SeriesCollection(NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceOptions options) : base(ninjascript, printService, options) { }
 
         public new TOptions Options { get => _options ?? new TOptions(); protected set { _options = value; } }
 

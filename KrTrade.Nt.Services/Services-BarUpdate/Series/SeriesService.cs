@@ -1,5 +1,4 @@
-﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Services.Series;
+﻿using KrTrade.Nt.Services.Series;
 using System;
 
 namespace KrTrade.Nt.Services
@@ -7,12 +6,11 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Base class for all caches.
     /// </summary>
-    public abstract class BaseSeriesService<TSeries,TOptions> : BarUpdateService<TOptions>, ISeriesService<TSeries>
+    public abstract class BaseSeriesService<TSeries> : BarUpdateService<SeriesServiceInfo,SeriesServiceOptions>, ISeriesService<TSeries>
         where TSeries : ISeries
-        where TOptions : SeriesOptions, new()
     {
         protected TSeries Series;
-        protected BaseSeriesInfo Info;
+        //protected BaseSeriesInfo Info;
 
         public object this[int index] => Series[index];
         public int Capacity => Series.Capacity;
@@ -22,26 +20,25 @@ namespace KrTrade.Nt.Services
         public bool IsFull => Series.IsFull;
 
         /// <summary>
-        /// Create <see cref="BaseSeriesService{TCache,TOptions}"/> instance with specified options.
+        /// Create <see cref="BaseSeriesService{TSeries}"/> instance with specified options.
         /// </summary>
         /// <param name="barsService">The <see cref="IBarsService"/> necesary to construct <see cref="BaseSeriesService{TCache,TOptions}"/>.</param>
-        /// <param name="seriesOptions">The specified options to configure the service.</param>
+        /// <param name="options">The specified options to configure the service.</param>
         /// <exception cref="ArgumentNullException">The <see cref="IBarsService"/> cannot be null.</exception>
-        public BaseSeriesService(IBarsService barsService, TOptions seriesOptions, BaseSeriesInfo seriesInfo) : base(barsService,seriesOptions)
+        public BaseSeriesService(IBarsService barsService, SeriesServiceInfo info, SeriesServiceOptions options) : base(barsService,info,options)
         {
-            Series = (TSeries)Bars.GetSeries(seriesInfo);
+            //Series = (TSeries)Bars.GetSeries(seriesInfo);
             if (Series == null)
-                Bars.PrintService?.LogWarning($"{Series.Name} series could NOT be created.");
+                Bars.PrintService?.LogWarning($"{Series.Info.Name} series could NOT be created.");
             else
             {
-                Info = seriesInfo;
-                Bars.PrintService?.LogTrace($"{Series.Name} series has been created.");
+                Bars.PrintService?.LogTrace($"{Series.Info.Name} series has been created.");
             }
 
         }
 
-        public override string Name => Info.Type.ToString();
-        public override string Key => Info.GetKey();
+        //public override string Name => Info.Type.ToString();
+        //public string Key => Info.GetKey();
 
         internal override void Configure(out bool isConfigured)
         {
@@ -53,7 +50,7 @@ namespace KrTrade.Nt.Services
             // isDataLoaded = Series.DataLoaded(Bars,options);
             isDataLoaded = true;
         }
-        public override void Update()
+        public override void Update(int barsInProgress = 0)
         {
             if (Bars.LastBarIsRemoved)
                 Series.RemoveLastElement();
@@ -64,7 +61,7 @@ namespace KrTrade.Nt.Services
             else if (Bars.IsTick)
                 Series.Update();
         }
-        public override void Update(IBarsService updatedSeries)
+        public override void Update(IBarsService updatedSeries, int barsInProgress = 0)
         {
             // ToDo: Revisar cuando desarrolle las multiseries.
             Update();
@@ -74,10 +71,10 @@ namespace KrTrade.Nt.Services
 
     }
 
-    public class SeriesService<TSeries> : BaseSeriesService<TSeries, SeriesOptions>
+    public class SeriesService<TSeries> : BaseSeriesService<TSeries>
         where TSeries : ISeries
     {
-        public SeriesService(IBarsService barsService,SeriesOptions seriesOptions, SeriesInfo seriesInfo) : base(barsService, seriesOptions, seriesInfo)
+        public SeriesService(IBarsService barsService, SeriesServiceInfo info, SeriesServiceOptions options) : base(barsService, info, options)
         {
         }
     }

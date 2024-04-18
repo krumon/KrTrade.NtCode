@@ -10,12 +10,12 @@ namespace KrTrade.Nt.Services
     public class BarsServiceBuilder : IBarsServiceBuilder
     {
 
-        private readonly List<Action<BarsServiceOptions>> _optionsDelegateActions = new List<Action<BarsServiceOptions>>();
+        private readonly List<Action<BarsServiceInfo,BarsServiceOptions>> _optionsDelegateActions = new List<Action<BarsServiceInfo, BarsServiceOptions>>();
         //private readonly Dictionary<BaseSeriesInfo, SeriesOptions> _seriesConfiguration = new Dictionary<BaseSeriesInfo,SeriesOptions>();
         private readonly Dictionary<string,BaseSeriesInfo> _seriesConfiguration = new Dictionary<string,BaseSeriesInfo>();
         //private readonly List<BaseSeriesInfo> _seriesConfiguration = new List<BaseSeriesInfo>();
 
-        public IBarsServiceBuilder ConfigureOptions(Action<BarsServiceOptions> configureBarsServiceOptions)
+        public IBarsServiceBuilder ConfigureOptions(Action<BarsServiceInfo,BarsServiceOptions> configureBarsServiceOptions)
         {
             _optionsDelegateActions.Add(configureBarsServiceOptions ?? throw new ArgumentNullException(nameof(configureBarsServiceOptions)));
             return this;
@@ -38,7 +38,7 @@ namespace KrTrade.Nt.Services
         public IBarsServiceBuilder AddSeries(Action<SeriesInfo> configureSeries)
         {
             SeriesInfo seriesInfo = new SeriesInfo();
-            SeriesOptions seriesOptions = new SeriesOptions();
+            SeriesServiceOptions seriesOptions = new SeriesServiceOptions();
             configureSeries(seriesInfo);
 
             if (!_seriesConfiguration.ContainsKey(seriesInfo.GetKey()))
@@ -46,6 +46,7 @@ namespace KrTrade.Nt.Services
 
             return this;
         }
+        
         //public IBarsServiceBuilder AddSeries<TInfo,TOptions>(Action<TInfo, TOptions> configureSeries)
         //    where TInfo : BaseSeriesInfo, new()
         //    where TOptions : SeriesOptions, new()
@@ -86,26 +87,26 @@ namespace KrTrade.Nt.Services
         //    return this;
         //}
 
-        public IBarsService Build(IBarsManager barsManager, DataSeriesInfo dataSeriesInfo)
+        public IBarsService Build(IBarsManager barsManager)
         {
 
             string logText = string.Empty;
 
             // Create service options
             BarsServiceOptions options = new BarsServiceOptions();
+            BarsServiceInfo info = new BarsServiceInfo();
 
             foreach (var action in _optionsDelegateActions)
-                action(options);
+                action(info,options);
 
             // Create the service with specified info
-            IBarsService barsService = new BarsService(barsManager, dataSeriesInfo, options);
+            IBarsService barsService = new BarsService(barsManager, info, options);
 
             // Log trace
             if (barsService != null)
-                logText = $"{barsService.Name} has been created succesfully.";
+                barsManager.PrintService.LogTrace($"{barsService.Name} has been created succesfully.");
             else
-                logText = "BarsService has NOT been created. The value is NULL.";
-            barsManager.PrintService.LogTrace(logText);
+                barsManager.PrintService.LogTrace("BarsService has NOT been created. The value is NULL.");
 
             // Add SERIES
             foreach (var series in _seriesConfiguration)

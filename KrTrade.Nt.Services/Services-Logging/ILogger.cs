@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Core.Logging;
+using KrTrade.Nt.Core.Services;
 using System;
 
 namespace KrTrade.Nt.Services
@@ -6,7 +7,7 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Represents properties and methods of the logging services.
     /// </summary>
-    public interface ILogger<TOptions,TFormatter> : IService<TOptions> 
+    public interface ILogger<TOptions,TFormatter> : IService<NinjascriptServiceInfo,TOptions> 
         where TOptions : BaseLoggerOptions<TFormatter>, new()
         where TFormatter : BaseFormatter, new()
     {
