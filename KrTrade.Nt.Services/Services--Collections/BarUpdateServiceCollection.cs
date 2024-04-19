@@ -1,12 +1,10 @@
-﻿using KrTrade.Nt.Core.Elements;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
-    public abstract class BarUpdateServiceCollection<TService,TInfo> : BaseNinjascriptServiceCollection<TService,TInfo>
-        where TService : IBarUpdateService<TInfo>
-        where TInfo : IElementInfo, new()
+    public abstract class BarUpdateServiceCollection<TService> : BaseNinjascriptServiceCollection<TService>
+        where TService : IBarUpdateService
     {
         protected BarUpdateServiceCollection(IBarsService barsService)
         {

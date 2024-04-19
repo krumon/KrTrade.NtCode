@@ -1,5 +1,6 @@
 ﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core.Elements;
+using KrTrade.Nt.Core.Info;
+using KrTrade.Nt.Core.Options;
 using KrTrade.Nt.Core.Services;
 using NinjaTrader.NinjaScript;
 
@@ -10,7 +11,7 @@ namespace KrTrade.Nt.Services
     {
         #region Private members
 
-        protected new IElementInfo _info;
+        protected new NinjascriptServiceInfo _info;
         protected new NinjascriptServiceOptions _options;
         private readonly IPrintService _printService;
         private bool _isConfigure = false;
@@ -20,13 +21,12 @@ namespace KrTrade.Nt.Services
 
         #region Properties
 
-        public new IElementInfo Info { get => _info ?? new NinjascriptServiceInfo(); protected set { _info = value; } }
+        public new NinjascriptServiceInfo Info { get => _info ?? new NinjascriptServiceInfo(); protected set { _info = value; } }
         public new NinjascriptServiceOptions Options { get => _options ?? new NinjascriptServiceOptions(); protected set { _options = value; } }
         
         public Calculate CalculateMode { get => _options.CalculateMode; internal set { _options.CalculateMode = value; } }
         public MultiSeriesCalculateMode MultiSeriesCalculateMode { get => _options.MultiSeriesCalculateMode; internal set { _options.MultiSeriesCalculateMode = value; } }
         
-        public bool IsLogEnable { get => _options.IsLogEnable; internal set { _options.IsLogEnable = value; } }
         public bool IsConfigure => _isConfigure;
         public bool IsDataLoaded => _isDataLoaded;
 
@@ -41,7 +41,7 @@ namespace KrTrade.Nt.Services
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService) : this(ninjascript, printService,null,null) { }
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, IElementInfo info) : this(ninjascript, printService, info,null) { }
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceOptions options) : this(ninjascript, printService,null, options) { }
-        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, IElementInfo info, NinjascriptServiceOptions options) : base(ninjascript, info, options) 
+        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, IInfo info, IOptions options) : base(ninjascript, info, options) 
         {
             _printService = printService;
         }
@@ -211,7 +211,7 @@ namespace KrTrade.Nt.Services
     }
 
     public abstract class BaseNinjascriptService<TInfo> : BaseNinjascriptService, INinjascriptService<TInfo>
-        where TInfo : IElementInfo, new()
+        where TInfo : IInfo, new()
     {
         protected new TInfo _info;
         public new TInfo Info { get => _info == null ? new TInfo() : _info; protected set { _info = value; } }
@@ -220,7 +220,7 @@ namespace KrTrade.Nt.Services
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript,printService) { }
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, TInfo info) : base(ninjascript,printService,info) { }
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceOptions options) : base(ninjascript,printService,options) { }
-        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, TInfo info, NinjascriptServiceOptions options) : base(ninjascript, printService, info, options) { }
+        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, TInfo info, IOptions options) : base(ninjascript, printService, info, options) { }
 
         ///// <summary>
         ///// Create <see cref="BaseNinjascriptService"/> instance and configure it.
@@ -252,7 +252,7 @@ namespace KrTrade.Nt.Services
     }
 
     public abstract class BaseNinjascriptService<TInfo,TOptions> : BaseNinjascriptService<TInfo>, INinjascriptService<TInfo,TOptions>
-        where TInfo : IElementInfo, new()
+        where TInfo : IInfo, new()
         where TOptions : NinjascriptServiceOptions, new()
     {
 

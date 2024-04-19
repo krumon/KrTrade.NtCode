@@ -1,4 +1,5 @@
-﻿using KrTrade.Nt.Core.Elements;
+﻿using KrTrade.Nt.Core.Info;
+using KrTrade.Nt.Core.Options;
 using NinjaTrader.NinjaScript;
 using System;
 using System.Collections.Generic;
@@ -11,21 +12,25 @@ namespace KrTrade.Nt.Core.Services
         #region Private members
 
         private readonly NinjaScriptBase _ninjascript;
-        protected ServiceOptions _options;
-        protected IElementInfo _info;
+        protected IOptions _options;
+        protected IInfo _info;
 
         #endregion
 
         #region Implementation
 
         public NinjaScriptBase Ninjascript => _ninjascript;
-        public IElementInfo Info { get => _info ?? new ServiceInfo(); protected set { _info = value; } }
-        public ServiceOptions Options { get => _options ?? new ServiceOptions(); protected set { _options = value; } }
+        public IInfo Info { get => _info ?? new ServiceInfo(); protected set { _info = value; } }
+        public IOptions Options { get => _options ?? new ServiceOptions(); protected set { _options = value; } }
 
-        public string Name => string.IsNullOrEmpty(_info.Name) ? Key : _info.Name; 
-        public string Key => _info.GetKey();
-        public bool IsEnable { get => _options.IsEnable; set { _options.IsEnable = value; } }
-        public bool IsLogEnable { get => _options.IsLogEnable; set { _options.IsLogEnable = value; } }
+        public string Key => GetKey();
+        public string Name { get => Info.Name; set { Info.Name = value; } }
+        public bool IsEnable { get => Options.IsEnable; set { Options.IsEnable = value; } }
+        public bool IsLogEnable { get => Options.IsLogEnable; set { Options.IsLogEnable = value; } }
+
+        public bool Equals(IHasKey other) => Info.Equals(other);
+
+        protected abstract string GetKey();
 
         #endregion
 
@@ -39,7 +44,7 @@ namespace KrTrade.Nt.Core.Services
         /// <param name="info">The service informartion.</param>
         /// <param name="options">The service options.</param>
         /// <exception cref="ArgumentNullException">The <see cref="NinjaScriptBase"/> cannot be null.</exception>
-        protected BaseService(NinjaScriptBase ninjascript, IElementInfo info, ServiceOptions options)
+        protected BaseService(NinjaScriptBase ninjascript, IInfo info, IOptions options)
         {
             _ninjascript = ninjascript ?? throw new ArgumentNullException($"Error in 'BaseService' constructor. The {nameof(ninjascript)} argument cannot be null.");
             _info = info;
@@ -238,7 +243,6 @@ namespace KrTrade.Nt.Core.Services
             return false;
         }
 
-
         #endregion
     }
 
@@ -257,7 +261,7 @@ namespace KrTrade.Nt.Core.Services
         /// <param name="info">The service informartion.</param>
         /// <param name="options">The service options.</param>
         /// <exception cref="ArgumentNullException">The <see cref="NinjaScriptBase"/> cannot be null.</exception>
-        protected BaseService(NinjaScriptBase ninjascript, TInfo info, ServiceOptions options) : base(ninjascript, info, options) { }
+        protected BaseService(NinjaScriptBase ninjascript, TInfo info, IOptions options) : base(ninjascript, info, options) { }
 
     }
 

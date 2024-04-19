@@ -1,19 +1,18 @@
-﻿using KrTrade.Nt.Core.Elements;
-using KrTrade.Nt.Core.Services;
+﻿using KrTrade.Nt.Core.Info;
+using KrTrade.Nt.Core.Options;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Core.Collections
 {
-    public abstract class BaseKeyCollection<TElement,TInfo> : IEnumerable, IEnumerable<TElement>
-        where TElement : IKeyCollectionItem
-        where TInfo : IElementInfo
+    public abstract class BaseKeyCollection<T> : IKeyCollection<T>, IEnumerable, IEnumerable<T>
+        where T : IKeyItem
     {
-        protected IList<TElement> _collection;
+        protected IList<T> _collection;
         private IDictionary<string, int> _keys;
 
-        public TElement this[string key]
+        public T this[string key]
         {
             get
             {
@@ -35,7 +34,7 @@ namespace KrTrade.Nt.Core.Collections
                 }
             }
         }
-        public TElement this[int index]
+        public T this[int index]
         {
             get
             {
@@ -52,15 +51,15 @@ namespace KrTrade.Nt.Core.Collections
 
         public BaseKeyCollection() 
         { 
-            _collection = new List<TElement>();
+            _collection = new List<T>();
         }
-        public BaseKeyCollection(IEnumerable<TElement> elements) 
+        public BaseKeyCollection(IEnumerable<T> items) 
         { 
-            _collection = new List<TElement>(elements);
+            _collection = new List<T>(items);
         }
         public BaseKeyCollection(int capacity) 
         { 
-            _collection = new List<TElement>(capacity);
+            _collection = new List<T>(capacity);
         }
 
         #region Implementation
@@ -72,8 +71,8 @@ namespace KrTrade.Nt.Core.Collections
                 return string.Empty;
 
             string text = string.Empty;
-            foreach (var element in _collection)
-                text += element.Info.GetKey() + "NewLine";
+            foreach (var item in _collection)
+                text += item.Key + "NewLine";
 
             text.Remove(text.Length - 7);
             text.Replace("NewLine", Environment.NewLine);
@@ -81,24 +80,23 @@ namespace KrTrade.Nt.Core.Collections
             return text;
         }
 
-        //public void Add(TElement series) => Add(null, series);
-        public void Add(TElement element)
+        public void Add(T item)
         {
             try
             {
-                if (element == null)
-                    throw new ArgumentNullException(nameof(element));
+                if (item == null)
+                    throw new ArgumentNullException(nameof(item));
 
                 if (_keys == null)
                     _keys = new Dictionary<string, int>();
 
-                string key = element.Info.GetKey();
-                string name = element.Info.Name;
+                string key = item.Key;
+                string name = item.Name;
 
                 // El servicio no existe
                 if (!ContainsKey(key))
                 {
-                    _collection.Add(element);
+                    _collection.Add(item);
                     _keys.Add(key, _collection.Count - 1);
                     // El pseudónimo ya existe.
                     if (key != name && ContainsKey(name))
@@ -111,27 +109,20 @@ namespace KrTrade.Nt.Core.Collections
             }
             catch (Exception e)
             {
-                throw new Exception($"The element with name:{element.Info.Name} and key:{element.Info.GetKey()} cannot be added.",e);
+                throw new Exception($"The element with name:{item.Name} and key:{item.Key} cannot be added.",e);
             }
         }
-        //public void TryAdd(TElement series)
-        //{
-        //    try
-        //    {
-        //        Add(series);
-        //    }
-        //    catch { }
-        //}
-        public void TryAdd(TElement element)
+        public void TryAdd(T item)
         {
             try
             {
-                Add(element);
+                Add(item);
             }
             catch { }
         }
-        public abstract void Add<TOptions>(TInfo elementInfo, TOptions elementOptions)
-            where TOptions : ServiceOptions;
+        public abstract void Add<TInfo,TOptions>(TInfo itemInfo, TOptions itemOptions)
+            where TInfo : IHasName
+            where TOptions : IOptions;
 
         public int Count => _collection.Count;
         public void Clear() => _collection?.Clear();
@@ -175,10 +166,10 @@ namespace KrTrade.Nt.Core.Collections
         public bool ContainsKey(string key) => _collection != null && _keys.ContainsKey(key);
         public bool TryGetValue(string key,out int index) => _keys.TryGetValue(key,out index);
 
-        public IEnumerator<TElement> GetEnumerator() => _collection.GetEnumerator();
+        public IEnumerator<T> GetEnumerator() => _collection.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        protected void ForEach(Action<TElement> action)
+        protected void ForEach(Action<T> action)
         {
             if (_collection == null || _collection.Count == 0)
                 return;
@@ -191,7 +182,7 @@ namespace KrTrade.Nt.Core.Collections
                 catch { }
             }
         }
-        protected void TryForEach(Action<TElement> action)
+        protected void TryForEach(Action<T> action)
         {
             try
             {

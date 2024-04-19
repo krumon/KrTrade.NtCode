@@ -1,19 +1,11 @@
-﻿namespace KrTrade.Nt.Core.Services
+﻿using KrTrade.Nt.Core.Options;
+
+namespace KrTrade.Nt.Core.Services
 {
     /// <summary>
-    /// Provides the options for any object.
+    /// Provides the options for any service.
     /// </summary>
-    public class ServiceOptions
+    public class ServiceOptions : BaseOptions
     {
-        /// <summary>
-        /// Indicates if the object is enabled.
-        /// </summary>
-        public bool IsEnable { get; set; } = true;
-
-        /// <summary>
-        /// Indicates if the object logger is enable.
-        /// </summary>
-        public bool IsLogEnable { get; set; } = true;
-
     }
 }

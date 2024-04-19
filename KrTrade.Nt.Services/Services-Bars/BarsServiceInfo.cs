@@ -1,10 +1,10 @@
 ﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core.Elements;
+using KrTrade.Nt.Core.Info;
 using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Services
 {
-    public class BarsServiceInfo : BaseElementInfo
+    public class BarsServiceInfo : BaseKeyInfo
     {
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace KrTrade.Nt.Services
         /// <returns>Long string thats represents the actual object.</returns>
         public string ToLongString() => $"{InstrumentCode}({TimeFrame},{MarketDataType},{TradingHoursCode})";
 
-        public override string GetKey() => ToLongString();
+        protected override string GetKey() => ToLongString();
 
         /// <summary>
         /// Create <see cref="BarsServiceInfo"/> default instance.

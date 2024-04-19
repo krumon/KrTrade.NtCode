@@ -29,10 +29,10 @@ namespace KrTrade.Nt.Services
         {
             //Series = (TSeries)Bars.GetSeries(seriesInfo);
             if (Series == null)
-                Bars.PrintService?.LogWarning($"{Series.Info.Name} series could NOT be created.");
+                Bars.PrintService?.LogWarning($"{Series.Name} series could NOT be created.");
             else
             {
-                Bars.PrintService?.LogTrace($"{Series.Info.Name} series has been created.");
+                Bars.PrintService?.LogTrace($"{Series.Name} series has been created.");
             }
 
         }
@@ -77,6 +77,9 @@ namespace KrTrade.Nt.Services
         public SeriesService(IBarsService barsService, SeriesServiceInfo info, SeriesServiceOptions options) : base(barsService, info, options)
         {
         }
+
+        protected override string GetKey() => Series.Key;
+
     }
 
 

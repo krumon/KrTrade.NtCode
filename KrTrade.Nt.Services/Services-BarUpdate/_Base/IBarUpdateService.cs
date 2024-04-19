@@ -1,12 +1,9 @@
-﻿using KrTrade.Nt.Core.Elements;
-
-namespace KrTrade.Nt.Services
+﻿namespace KrTrade.Nt.Services
 {
     /// <summary>
     /// Defines properties and methods that are necesary for ninjascript <see cref="IBarUpdate"/> services.
     /// </summary>
-    public interface IBarUpdateService<TInfo> : INinjascriptService<TInfo>, IBarUpdate
-        where TInfo : IElementInfo, new()
+    public interface IBarUpdateService : INinjascriptService, IBarUpdate
     {
 
         /// <summary>
@@ -24,8 +21,16 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Defines properties and methods that are necesary for ninjascript <see cref="IBarUpdate"/> services.
     /// </summary>
-    public interface IBarUpdateService<TInfo,TOptions> : INinjascriptService<TInfo,TOptions>, IBarUpdateService<TInfo>
-        where TInfo : IElementInfo, new()
+    public interface IBarUpdateService<TInfo> : IBarUpdateService, INinjascriptService<TInfo>
+        where TInfo : BarUpdateServiceInfo, new()
+    {
+    }
+
+    /// <summary>
+    /// Defines properties and methods that are necesary for ninjascript <see cref="IBarUpdate"/> services.
+    /// </summary>
+    public interface IBarUpdateService<TInfo,TOptions> : IBarUpdateService<TInfo>, INinjascriptService<TInfo,TOptions>
+        where TInfo : BarUpdateServiceInfo, new()
         where TOptions : BarUpdateServiceOptions, new()
     {
     }

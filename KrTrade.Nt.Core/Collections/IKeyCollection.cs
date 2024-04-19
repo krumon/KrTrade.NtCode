@@ -1,30 +1,28 @@
-﻿using KrTrade.Nt.Core.Elements;
-using KrTrade.Nt.Core.Services;
+﻿using KrTrade.Nt.Core.Info;
+using KrTrade.Nt.Core.Options;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Core.Collections
 {
-    public interface IKeyCollection<TElement, TInfo> : IEnumerable, IEnumerable<TElement>
-        where TElement : IKeyCollectionItem<TInfo>
-        where TInfo : IElementInfo
+    public interface IKeyCollection<T> : IEnumerable, IEnumerable<T>
+        where T : IKeyItem
     {
-        TElement this[string key] { get; }
-        TElement this[int index] { get; }
+        T this[string key] { get; }
+        T this[int index] { get; }
 
-        void Add(TElement series) ;
-        void Add(string name, TElement element);
-        void TryAdd(TElement series);
-        void TryAdd(string name, TElement element);
-        void Add<TOptions>(TInfo elementInfo, TOptions elementOptions)
-            where TOptions : ServiceOptions;
+        void Add(T item) ;
+        void TryAdd(T item);
+        void Add<TInfo,TOptions>(TInfo itemInfo, TOptions itemOptions)
+            where TInfo : IHasName
+            where TOptions : IOptions;
 
         int Count { get; }
-        //void Clear();
-        //void Remove(string key);
-        //void RemoveAt(int index);
-        //bool ContainsKey(string key);
-        //bool TryGetValue(string key, out int index);
+        void Clear();
+        void Remove(string key);
+        void RemoveAt(int index);
+        bool ContainsKey(string key);
+        bool TryGetValue(string key, out int index);
 
     }
 }

@@ -43,7 +43,7 @@ namespace KrTrade.Nt.Services.Series
         {
         }
 
-        public override string Name => $"High";
+        //public override string Name => $"High";
 
         public override NinjaTrader.NinjaScript.PriceSeries GetInput(NinjaScriptBase entry)
             => entry.Highs[BarsIndex];

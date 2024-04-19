@@ -61,7 +61,7 @@ namespace KrTrade.Nt.Services
         public BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsManagerOptions options) : this(ninjascript, printService,null, options) { }
         public BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsManagerInfo info, BarsManagerOptions options) : base(ninjascript, printService, info, options)
         {
-            _barsServices = new BarsServiceCollection(this);
+            _barsServices = new BarsServiceCollection();
             Info = new List<BarsServiceInfo>();
         }
 
@@ -78,7 +78,7 @@ namespace KrTrade.Nt.Services
         #region Implementation
 
         //public override string Name => "BarsManager";
-        public string GetKey()
+        protected override string GetKey()
         {
             string key = "Bars";
             if (_barsServices.Count > 0)
@@ -86,7 +86,7 @@ namespace KrTrade.Nt.Services
                 key += "(";
                 for (int i = 0; i < _barsServices.Count; i++)
                 {
-                    key += _barsServices[i].Info.GetKey();
+                    key += _barsServices[i].Key;
                     if (i == _barsServices.Count - 1)
                         key += ")";
                     else

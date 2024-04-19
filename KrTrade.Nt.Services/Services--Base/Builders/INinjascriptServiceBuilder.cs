@@ -1,5 +1,4 @@
-﻿using KrTrade.Nt.Core.Elements;
-using System;
+﻿using System;
 
 namespace KrTrade.Nt.Services
 {
@@ -8,7 +7,7 @@ namespace KrTrade.Nt.Services
     /// </summary>
     public interface INinjascriptServiceBuilder<TService,TInfo,TOptions,TSelf> 
         where TService : INinjascriptService<TInfo>
-        where TInfo : IElementInfo, new()
+        where TInfo : NinjascriptServiceInfo, new()
         where TOptions : NinjascriptServiceOptions, new()
         where TSelf : INinjascriptServiceBuilder<TService,TInfo,TOptions,TSelf>
     {

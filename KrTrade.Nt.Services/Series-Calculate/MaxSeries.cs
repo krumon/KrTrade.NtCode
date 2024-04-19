@@ -27,7 +27,7 @@
         {
         }
 
-        public override string Name => "Max";
+        //public override string Name => "Max";
 
         protected override double GetInitValuePreviousRecalculate() 
             => double.MinValue;

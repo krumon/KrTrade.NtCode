@@ -18,7 +18,7 @@ namespace KrTrade.Nt.Services.Series
         {
         }
 
-        public override string Name => "Avg";
+        //public override string Name => "Avg";
 
         protected override double GetCandidateValue(int barsAgo, bool isCandidateValueForUpdate) 
             => Input[0] / Math.Min(Count, Period);

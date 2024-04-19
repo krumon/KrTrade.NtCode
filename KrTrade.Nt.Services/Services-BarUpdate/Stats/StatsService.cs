@@ -62,5 +62,10 @@
         {
             throw new System.NotImplementedException();
         }
+
+        protected override string GetKey()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

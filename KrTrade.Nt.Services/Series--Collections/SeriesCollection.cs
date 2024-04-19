@@ -67,7 +67,7 @@ namespace KrTrade.Nt.Services.Series
 
             string logText = string.Empty;
             foreach (var series in _series)
-                logText += series.Info.GetKey() + "NewLine";
+                logText += series.Key + "NewLine";
 
             logText.Remove(logText.Length - 7);
             logText.Replace("NewLine", Environment.NewLine);
@@ -131,24 +131,24 @@ namespace KrTrade.Nt.Services.Series
                     _keys = new Dictionary<string,int>();
 
                 if (string.IsNullOrEmpty(name))
-                    name = series.Info.GetKey();
+                    name = series.Key;
 
                 // El servicio no existe
-                if (!ContainsKey(series.Info.GetKey()))
+                if (!ContainsKey(series.Key))
                 {
                     _series.Add(series);
-                    _keys.Add(series.Info.GetKey(), _series.Count - 1);
+                    _keys.Add(series.Key, _series.Count - 1);
                     // El pseudónimo ya existe.
-                    if (series.Info.GetKey() != name && ContainsKey(name))
+                    if (series.Key != name && ContainsKey(name))
                         PrintService.LogError(new Exception($"The pseudo-name: '{name}' already exists. The pseudo-name is being used by another service and the service cannot be added."));
-                    else if (series.Info.GetKey() != name)
+                    else if (series.Key != name)
                         _keys.Add(name, _series.Count - 1);
                 }
                 
             }
             catch (Exception e)
             {
-                logText = $"The {series.Info.Name} service cannot be added.";
+                logText = $"The {series.Name} service cannot be added.";
                 PrintService.LogError(logText, e);
             }
         }
@@ -209,7 +209,7 @@ namespace KrTrade.Nt.Services.Series
                 }
                 catch (Exception e)
                 {
-                    string logText = $"The {service.Info.Name} action has NOT been executed.";
+                    string logText = $"The {service.Name} action has NOT been executed.";
                     PrintService.LogError(logText, e);
                 }
             }

@@ -1,25 +1,23 @@
-﻿using KrTrade.Nt.Core.Elements;
-
-namespace KrTrade.Nt.Services
+﻿namespace KrTrade.Nt.Services
 {
     /// <summary>
     /// Defines properties and methods that are necesary to create an indicator service.
     /// </summary>
-    public interface IIndicatorService : IBarUpdateService<NinjascriptServiceInfo>
+    public interface IIndicatorService : IBarUpdateService
     {
     }
     /// <summary>
     /// Defines properties and methods that are necesary to create an indicator service.
     /// </summary>
     public interface IIndicatorService<TInfo> : IBarUpdateService<TInfo>
-        where TInfo : IElementInfo, new()
+        where TInfo : BarUpdateServiceInfo, new()
     {
     }
     /// <summary>
     /// Defines properties and methods that are necesary to create an indicator service.
     /// </summary>
     public interface IIndicatorService<TInfo,TOptions> : IIndicatorService<TInfo>
-        where TInfo : IElementInfo, new()
+        where TInfo : BarUpdateServiceInfo, new()
         where TOptions : IndicatorOptions, new()
     {
     }

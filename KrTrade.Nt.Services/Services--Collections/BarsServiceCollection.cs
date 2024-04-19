@@ -4,12 +4,11 @@ using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
-    public class BarsServiceCollection : BaseNinjascriptServiceCollection<IBarsService,BarsServiceInfo>, IBarsServiceCollection
+    public class BarsServiceCollection : BaseNinjascriptServiceCollection<IBarsService>, IBarsServiceCollection
     {
         public BarsServiceCollection() { }
         public BarsServiceCollection(IEnumerable<IBarsService> elements) : base(elements) { }
-        public BarsServiceCollection(IBarsManager barsManager) : base() { }
-        public BarsServiceCollection(IBarsManager barsManager, int capacity) : base(capacity) { }
+        public BarsServiceCollection(int capacity) : base(capacity) { }
 
         public override string ToString() => GetKey();
 
@@ -42,9 +41,9 @@ namespace KrTrade.Nt.Services
         public Bar GetBar(int barsAgo, int period, int barsIndex) => _collection[barsIndex].GetBar(barsAgo,period);
         public IList<Bar> GetBars(int barsAgo, int period, int barsIndex) => _collection[barsIndex].GetBars(barsAgo, period);
 
-        public override void Add<TOptions>(BarsServiceInfo info, TOptions options)
+        public override void Add<TInfo, TOptions>(TInfo itemInfo, TOptions itemOptions)
         {
-
+            throw new System.NotImplementedException();
         }
 
         public BarsServiceInfo[] Info { get; protected set; }
@@ -101,7 +100,7 @@ namespace KrTrade.Nt.Services
                 key += "[";
                 for (int i = 0; i < _collection.Count; i++)
                 {
-                    key += _collection[i].Info.GetKey();
+                    key += _collection[i].Key;
                     if (i == _collection.Count - 1)
                         key += ",";
                 }

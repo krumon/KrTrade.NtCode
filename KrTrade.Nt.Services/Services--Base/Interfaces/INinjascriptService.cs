@@ -1,5 +1,5 @@
 ﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core.Elements;
+using KrTrade.Nt.Core.Info;
 using KrTrade.Nt.Core.Services;
 using NinjaTrader.NinjaScript;
 
@@ -32,11 +32,6 @@ namespace KrTrade.Nt.Services
         IPrintService PrintService { get; }
 
         /// <summary>
-        /// Indicates that the service is enabled for printing on NinjaScript output window.
-        /// </summary>
-        bool IsLogEnable { get; }
-
-        /// <summary>
         /// Gets service log string.
         /// </summary>
         /// <returns></returns>
@@ -57,7 +52,7 @@ namespace KrTrade.Nt.Services
     /// Defines properties and methods for any ninjascript service.
     /// </summary>
     public interface INinjascriptService<TInfo> : INinjascriptService, IService<TInfo>
-        where TInfo : IElementInfo
+        where TInfo : IInfo
     {
 
     }
@@ -65,7 +60,7 @@ namespace KrTrade.Nt.Services
     /// Defines properties and methods for any ninjascript service.
     /// </summary>
     public interface INinjascriptService<TInfo,TOptions> : INinjascriptService<TInfo>, IService<TInfo,TOptions>
-        where TInfo : IElementInfo
+        where TInfo : IInfo
         where TOptions : NinjascriptServiceOptions, new()
     {
         /// <summary>

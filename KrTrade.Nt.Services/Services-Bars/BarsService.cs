@@ -39,7 +39,8 @@ namespace KrTrade.Nt.Services
         public bool IsWaitingFirstTick => false;
 
         public bool IsPrimaryBars 
-        { get => _isPrimaryBars; 
+        { 
+            get => _isPrimaryBars; 
             internal set 
             {
                 if (_isPrimaryBars == value) return;
@@ -69,8 +70,8 @@ namespace KrTrade.Nt.Services
         public bool IsPriceChanged => IsUpdated && _barEvents[BarEvent.PriceChanged];
 
         //public override string Name => string.IsNullOrEmpty(Info.Name) ? $"Bars[{Index}]({InstrumentName},{BarsPeriod.ToShortString()})" : Info.Name;
-        //public override string GetKey() 
         //    => $"{InstrumentName}({BarsPeriod.ToShortString()},{BarsPeriod.MarketDataType},{TradingHoursName})";
+        protected override string GetKey() => Info.Key;
         public override string ToLogString()
         {
             if (_logLines == null || _logLines.Count == 0)

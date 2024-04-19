@@ -1,5 +1,5 @@
 ﻿using KrTrade.Nt.Core.Caches;
-using KrTrade.Nt.Core.Elements;
+using KrTrade.Nt.Core.Info;
 
 namespace KrTrade.Nt.Services.Series
 {
@@ -21,9 +21,12 @@ namespace KrTrade.Nt.Services.Series
             BarsIndex = barsIndex < 0 ? 0 : barsIndex;
         }
 
-        public abstract string Name { get; }
+        // TODO: ****************** ARREGLAR!!!!!!!
+        public string Name { get; set; }
+        public bool Equals(IHasKey other) => other is IHasKey key && Key == key.Key;
+
         public abstract string Key { get; }
-        public IElementInfo Info { get; set; }
+        public IInfo Info { get; set; }
 
         public abstract bool Add();
         public abstract bool Update();
@@ -42,5 +45,6 @@ namespace KrTrade.Nt.Services.Series
         {
             throw new System.NotImplementedException();
         }
+
     }
 }

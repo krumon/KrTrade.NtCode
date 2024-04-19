@@ -141,7 +141,7 @@ namespace KrTrade.Nt.Services
                 {
                     addDataSeriesMethod?.Invoke(barsManager[i].InstrumentName, barsManager[i].BarsPeriod, barsManager[i].TradingHoursName);
                     // Log trace
-                    printService.LogTrace($"{barsManager[i].Info.Name}[{i}] has been added to the 'NinjaScript'.");
+                    printService.LogTrace($"{barsManager[i].Name}[{i}] has been added to the 'NinjaScript'.");
                 }
 
             barsManager.Configure();
@@ -154,7 +154,7 @@ namespace KrTrade.Nt.Services
                 $"++++++ {barsManager.Name} contains ({barsManager.Count}) 'BarsService'.\t\t\t\t++++++";
             for (int i = 0; i < barsManager.Count; i++)
                 logText += Environment.NewLine + 
-                    $"       * DataSeries {i}. {barsManager[i].Info.Name}.";
+                    $"       * DataSeries {i}. {barsManager[i].Name}.";
 
             printService.LogInformation(logText.ToUpper());
 

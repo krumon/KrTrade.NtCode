@@ -27,7 +27,7 @@
         {
         }
 
-        public override string Name => $"Sum";
+        //public override string Name => $"Sum";
         protected override double GetCandidateValue(int barsAgo, bool isCandidateValueForUpdate)
         {
             if (!isCandidateValueForUpdate)

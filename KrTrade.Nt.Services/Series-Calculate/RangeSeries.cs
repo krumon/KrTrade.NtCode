@@ -7,7 +7,7 @@ namespace KrTrade.Nt.Services.Series
     /// </summary>
     public class RangeSeries : IndicatorSeries<MaxSeries,MinSeries,INumericSeries<double>,INumericSeries<double>>
     {
-        public override string Name => "Range";
+        //public override string Name => "Range";
 
         public RangeSeries(IBarsService barsService, int period) : base(barsService, period)
         {

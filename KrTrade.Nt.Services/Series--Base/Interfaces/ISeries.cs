@@ -1,10 +1,9 @@
 ﻿using KrTrade.Nt.Core.Caches;
 using KrTrade.Nt.Core.Collections;
-using KrTrade.Nt.Core.Elements;
 
 namespace KrTrade.Nt.Services.Series
 {
-    public interface ISeries : ICache, IKeyCollectionItem<IElementInfo>
+    public interface ISeries : ICache, IKeyItem
     {
 
         /// <summary>

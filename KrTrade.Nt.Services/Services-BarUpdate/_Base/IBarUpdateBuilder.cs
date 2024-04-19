@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Core.Elements;
+﻿using KrTrade.Nt.Core.Info;
 using System;
 
 namespace KrTrade.Nt.Services
@@ -8,7 +8,7 @@ namespace KrTrade.Nt.Services
     /// </summary>
     public interface IBarUpdateBuilder<TService,TInfo,TOptions,TSelf> 
         where TService : IBarUpdateService<TInfo,TOptions>
-        where TInfo : IElementInfo, new()
+        where TInfo : BarUpdateServiceInfo, new()
         where TOptions : BarUpdateServiceOptions, new()
         where TSelf : IBarUpdateBuilder<TService,TInfo,TOptions,TSelf>
     {
