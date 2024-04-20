@@ -23,13 +23,14 @@ namespace KrTrade.Nt.Core.Services
         public IInfo Info { get => _info ?? new ServiceInfo(); protected set { _info = value; } }
         public IOptions Options { get => _options ?? new ServiceOptions(); protected set { _options = value; } }
 
+        // Quick access to properties
         public string Key => GetKey();
-        public string Name { get => Info.Name; set { Info.Name = value; } }
-        public bool IsEnable { get => Options.IsEnable; set { Options.IsEnable = value; } }
-        public bool IsLogEnable { get => Options.IsLogEnable; set { Options.IsLogEnable = value; } }
-
+        public string Name => Info.Name;
+        public bool IsEnable => Options.IsEnable;
+        public bool IsLogEnable => Options.IsLogEnable;  
+        // Equatable method necesary for dictionaries
         public bool Equals(IHasKey other) => Info.Equals(other);
-
+        // The services need unique key to be stored in the service collections.
         protected abstract string GetKey();
 
         #endregion

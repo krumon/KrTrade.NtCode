@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace KrTrade.Nt.Core.Caches
+namespace KrTrade.Nt.Core.Series
 {
     /// <summary>
     /// Base class for all caches.

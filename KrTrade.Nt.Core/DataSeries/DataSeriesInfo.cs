@@ -2,9 +2,9 @@
 using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
 
-namespace KrTrade.Nt.Core.Data
+namespace KrTrade.Nt.Core.DataSeries
 {
-    public class NinjascriptDataSeriesInfo : BaseKeyInfo
+    public class DataSeriesInfo : BaseKeyInfo
     {
 
         /// <summary>
@@ -23,19 +23,19 @@ namespace KrTrade.Nt.Core.Data
         public BarsPeriod BarsPeriod { get; set; }
 
         /// <summary>
-        /// Create <see cref="NinjascriptDataSeriesInfo"/> default instance.
+        /// Create <see cref="DataSeriesInfo"/> default instance.
         /// </summary>
-        public NinjascriptDataSeriesInfo()
+        public DataSeriesInfo()
         {
         }
 
         /// <summary>
-        /// Create <see cref="NinjascriptDataSeriesInfo"/> instance with specified properties.
+        /// Create <see cref="DataSeriesInfo"/> instance with specified properties.
         /// </summary>
         /// <param name="instrumentName">The date series instrument name.</param>
         /// <param name="tradingHoursName">The data series trading hours name.</param>
         /// <param name="barsPeriod">The data series bars period.</param>
-        public NinjascriptDataSeriesInfo(string instrumentName, string tradingHoursName, BarsPeriod barsPeriod)
+        public DataSeriesInfo(string instrumentName, string tradingHoursName, BarsPeriod barsPeriod)
         {
             InstrumentName = instrumentName;
             TradingHoursName = tradingHoursName;
@@ -43,10 +43,10 @@ namespace KrTrade.Nt.Core.Data
         }
 
         /// <summary>
-        /// Create <see cref="NinjascriptDataSeriesInfo"/> of the ninjascript promary data series.
+        /// Create <see cref="DataSeriesInfo"/> of the ninjascript promary data series.
         /// </summary>
         /// <param name="ninjascript">The 'Ninjatrader.NinjaScript' where the primary series is housed.</param>
-        public NinjascriptDataSeriesInfo(NinjaScriptBase ninjascript)
+        public DataSeriesInfo(NinjaScriptBase ninjascript)
         {
             InstrumentName = ninjascript.BarsArray[0].Instrument.MasterInstrument.Name;
             TradingHoursName = ninjascript.BarsArray[0].TradingHours.Name;

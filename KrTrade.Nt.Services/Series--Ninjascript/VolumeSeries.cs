@@ -42,7 +42,7 @@ namespace KrTrade.Nt.Services.Series
         }
 
         //public override string Name => "Volume";
-        public override string Key => $"{Name.ToUpper()}";
+        //public override string Key => $"{Name.ToUpper()}";
 
         public override NinjaTrader.NinjaScript.VolumeSeries GetInput(NinjaScriptBase entry)
             => entry.Volumes[BarsIndex];

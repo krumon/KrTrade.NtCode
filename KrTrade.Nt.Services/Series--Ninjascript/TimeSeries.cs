@@ -43,7 +43,7 @@ namespace KrTrade.Nt.Services.Series
         }
 
         //public override string Name => "Time";
-        public override string Key => $"{Name.ToUpper()}";
+        //public override string Key => $"{Name.ToUpper()}";
 
         public override NinjaTrader.NinjaScript.TimeSeries GetInput(NinjaScriptBase entry)
             => entry.Times[BarsIndex];

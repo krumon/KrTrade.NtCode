@@ -28,7 +28,7 @@ namespace KrTrade.Nt.Services.Series
         /// <exception cref="System.ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
         protected PriceSeries(NinjaTrader.NinjaScript.PriceSeries input, int capacity, int oldValuesCapacity, int barsIndex) : base(input, period: 1, capacity, oldValuesCapacity, barsIndex) { }
 
-        public override string Key => $"{Name.ToUpper()}";
+        //public override string Key => $"{Name.ToUpper()}";
 
         protected override double GetCandidateValue(int barsAgo, bool isCandidateValueForUpdate)
             => Input[barsAgo];

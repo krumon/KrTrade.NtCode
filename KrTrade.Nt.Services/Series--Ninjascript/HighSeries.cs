@@ -1,5 +1,4 @@
-﻿using KrTrade.Nt.Core.Caches;
-using NinjaTrader.NinjaScript;
+﻿using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Services.Series
 {

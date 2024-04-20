@@ -1,6 +1,6 @@
 ﻿namespace KrTrade.Nt.Services.Series
 {
-    public abstract class BaseValueSeries<TElement> : BaseSeries<TElement>, IValueSeries<TElement>
+    public abstract class BaseValueSeries<TElement> : Series<TElement>, IValueSeries<TElement>
         where TElement : struct
     {
         protected TElement _candidateValue;

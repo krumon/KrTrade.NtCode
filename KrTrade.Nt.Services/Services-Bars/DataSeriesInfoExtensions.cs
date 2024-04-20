@@ -1,11 +1,12 @@
 ﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.DataSeries;
 using KrTrade.Nt.Services;
 
 namespace KrTrade.Nt.Core.Extensions
 {
 
     /// <summary>
-    /// Helper methods of <see cref="NinjascriptDataSeriesInfo"/> structure.
+    /// Helper methods of <see cref="DataSeriesInfo"/> structure.
     /// </summary>
     public static class DataSeriesInfoExtensions
     {
@@ -13,7 +14,7 @@ namespace KrTrade.Nt.Core.Extensions
         /// Converts tha actual object to <see cref="BarsServiceInfo"/> object.
         /// </summary>
         /// <returns>The <see cref="BarsServiceInfo"/> object with ninjascript data series values.</returns>
-        public static BarsServiceInfo ToBarsServiceInfo(this NinjascriptDataSeriesInfo info)
+        public static BarsServiceInfo ToBarsServiceInfo(this DataSeriesInfo info)
         {
             return new BarsServiceInfo
             {

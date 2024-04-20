@@ -43,7 +43,7 @@ namespace KrTrade.Nt.Services.Series
         }
 
         //public override string Name => "Tick";
-        public override string Key => $"{Name.ToUpper()}";
+        //public override string Key => $"{Name.ToUpper()}";
 
         protected override double GetCandidateValue(int barsAgo, bool isCandidateValueForUpdate) 
             => Input.TickCount;

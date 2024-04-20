@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Core.Bars;
+using KrTrade.Nt.Core.Services;
 using KrTrade.Nt.Services.Series;
 using System.Collections.Generic;
 
@@ -41,9 +42,10 @@ namespace KrTrade.Nt.Services
         public Bar GetBar(int barsAgo, int period, int barsIndex) => _collection[barsIndex].GetBar(barsAgo,period);
         public IList<Bar> GetBars(int barsAgo, int period, int barsIndex) => _collection[barsIndex].GetBars(barsAgo, period);
 
-        public override void Add<TInfo, TOptions>(TInfo itemInfo, TOptions itemOptions)
+        public override void Add<TInfo, TOptions>(IService service, TInfo itemInfo, TOptions itemOptions)
         {
-            throw new System.NotImplementedException();
+            if (service is INinjascriptService ninjascriptService)
+                Add(new BarsService(ninjascriptService, itemInfo as BarsServiceInfo, itemOptions as BarsServiceOptions));
         }
 
         public BarsServiceInfo[] Info { get; protected set; }

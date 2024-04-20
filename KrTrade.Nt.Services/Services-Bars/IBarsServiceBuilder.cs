@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Core.Data;
+﻿using KrTrade.Nt.Core.Series;
 using System;
 
 namespace KrTrade.Nt.Services
@@ -32,7 +32,7 @@ namespace KrTrade.Nt.Services
         /// <param name="configureSeries">The delegate for configuring the <see cref="SeriesServiceInfo"/> and the <see cref="SeriesServiceOptions"/> 
         /// that will be usedto construct the <see cref="Series.ISeries"/></param>
         /// <returns>The same instance of the <see cref="IBarsServiceBuilder"/> for chaining.</returns>
-        IBarsServiceBuilder AddSeries(Action<SeriesInfo> configureSeries);
+        IBarsServiceBuilder AddSeries(Action<PeriodSeriesInfo> configureSeries);
 
     }
 }

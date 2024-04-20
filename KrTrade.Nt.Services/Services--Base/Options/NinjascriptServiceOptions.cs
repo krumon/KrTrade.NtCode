@@ -20,9 +20,5 @@ namespace KrTrade.Nt.Services
         /// </summary>
         public MultiSeriesCalculateMode MultiSeriesCalculateMode { get; set; } = MultiSeriesCalculateMode.None;
 
-        ///// <summary>
-        ///// Indicates if the log service is enable.
-        ///// </summary>
-        //public bool IsLogEnable { get; set; } = true;
     }
 }

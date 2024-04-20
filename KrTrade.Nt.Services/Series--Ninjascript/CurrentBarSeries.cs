@@ -30,7 +30,7 @@ namespace KrTrade.Nt.Services.Series
         }
 
         //public override string Name => "CurrentBar";
-        public override string Key => $"{Name.ToUpper()}";
+        //public override string Key => $"{Name.ToUpper()}";
 
         public override int[] GetInput(NinjaScriptBase entry)
             => entry.CurrentBars;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using KrTrade.Nt.Core.Services;
+using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
@@ -16,7 +17,7 @@ namespace KrTrade.Nt.Services
         {
         }
 
-        public override void Add<TInfo, TOptions>(TInfo itemInfo, TOptions itemOptions)
+        public override void Add<TInfo, TOptions>(IService service, TInfo itemInfo, TOptions itemOptions)
         {
             throw new System.NotImplementedException();
         }

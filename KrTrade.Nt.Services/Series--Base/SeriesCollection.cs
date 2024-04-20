@@ -6,13 +6,13 @@ using System.Collections.Generic;
 namespace KrTrade.Nt.Services
 {
 
-    public abstract class BaseSeriesCollection<TSeries> : BaseKeyCollection<TSeries>, IConfigureSeries, IDataLoadedSeries, ITerminated
+    public abstract class SeriesCollection<TSeries> : BaseKeyCollection<TSeries>, IConfigureSeries, IDataLoadedSeries, ITerminated
     where TSeries : ISeries
     {
 
-        protected BaseSeriesCollection() { }
-        protected BaseSeriesCollection(IEnumerable<TSeries> elements) : base(elements) { }
-        protected BaseSeriesCollection(int capacity) : base(capacity) { }
+        protected SeriesCollection() { }
+        protected SeriesCollection(IEnumerable<TSeries> elements) : base(elements) { }
+        protected SeriesCollection(int capacity) : base(capacity) { }
 
         #region Implementation
 

@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.DataSeries;
 using KrTrade.Nt.Core.Info;
 using NinjaTrader.NinjaScript;
 
@@ -106,9 +107,9 @@ namespace KrTrade.Nt.Services
         /// Converts the actual object to <see cref="NinjascriptDataSeriesInfo"/>
         /// </summary>
         /// <returns>The <see cref="NinjascriptDataSeriesInfo"/> object.</returns>
-        public NinjascriptDataSeriesInfo ToNinjascriptDataSeriesInfo()
+        public DataSeriesInfo ToNinjascriptDataSeriesInfo()
         {
-            return new NinjascriptDataSeriesInfo
+            return new DataSeriesInfo
             {
                 InstrumentName = InstrumentCode.ToString(),
                 BarsPeriod = TimeFrame.ToBarsPeriod(),

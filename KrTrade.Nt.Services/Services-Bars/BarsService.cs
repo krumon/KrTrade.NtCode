@@ -1,5 +1,6 @@
 ﻿using KrTrade.Nt.Core.Bars;
 using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Series;
 using KrTrade.Nt.Services.Series;
 using NinjaTrader.Core.FloatingPoint;
 using System;
@@ -69,8 +70,6 @@ namespace KrTrade.Nt.Services
         public bool IsFirstTick => IsUpdated && _barEvents[BarEvent.FirstTick];
         public bool IsPriceChanged => IsUpdated && _barEvents[BarEvent.PriceChanged];
 
-        //public override string Name => string.IsNullOrEmpty(Info.Name) ? $"Bars[{Index}]({InstrumentName},{BarsPeriod.ToShortString()})" : Info.Name;
-        //    => $"{InstrumentName}({BarsPeriod.ToShortString()},{BarsPeriod.MarketDataType},{TradingHoursName})";
         protected override string GetKey() => Info.Key;
         public override string ToLogString()
         {
@@ -90,7 +89,7 @@ namespace KrTrade.Nt.Services
         // TODO: Implementar SeriesCollection. De esta colección se obtendran todas las series necesarias
         //       para cualquiera de nuestros servicios (SeriesService, StatsService, IndicatorService,...).
         //       En esta colección se deben insertar las NinjaScriptSeries como punto de partida.
-        public SeriesCollection<ISeries> Series {  get; set; }
+        public Series.SeriesCollection<ISeries> Series {  get; set; }
 
         public IndicatorCollection Indicators { get; private set; }
         //public StatsCollection Stats { get; private set; }
@@ -100,15 +99,15 @@ namespace KrTrade.Nt.Services
 
         #region Constructors
 
-        internal BarsService(IBarsManager barsManager) : this(barsManager, null, new BarsServiceOptions()) { }
-        internal BarsService(IBarsManager barsManager, BarsServiceOptions options) : this(barsManager, null, options) { }
-        internal BarsService(IBarsManager barsManager, BarsServiceInfo barsServiceInfo, BarsServiceOptions barsServiceOptions) : base(barsManager?.Ninjascript, barsManager?.PrintService, barsServiceInfo, barsServiceOptions)
+        internal BarsService(INinjascriptService service) : this(service, null, new BarsServiceOptions()) { }
+        internal BarsService(INinjascriptService service, BarsServiceOptions options) : this(service, null, options) { }
+        internal BarsService(INinjascriptService service, BarsServiceInfo barsServiceInfo, BarsServiceOptions barsServiceOptions) : base(service?.Ninjascript, service?.PrintService, barsServiceInfo, barsServiceOptions)
         {
-            Info = barsServiceInfo ?? new BarsServiceInfo(barsManager.Ninjascript);
-            _barSeries = new BarSeriesService(this);
+            Info = barsServiceInfo ?? new BarsServiceInfo(service.Ninjascript);
+            //_barSeries = new BarSeriesService(this);
 
             //Series = new SeriesCollection<ISeries>(_barSeries);
-            Indicators = new IndicatorCollection(this);
+            //Indicators = new IndicatorCollection(this);
             //Filters = new FiltersCollection(this);
             //Stats = new StatsCollection(this);
         }
@@ -297,17 +296,14 @@ namespace KrTrade.Nt.Services
         {
             throw new NotImplementedException();
         }
-
         public ISeries GetOrAddSeries(BaseSeriesInfo options)
         {
             throw new NotImplementedException();
         }
-
         public void AddSeries(BaseSeriesInfo seriesInfo)
         {
-
+            //throw new NotImplementedException();
         }
-
 
         #endregion
 

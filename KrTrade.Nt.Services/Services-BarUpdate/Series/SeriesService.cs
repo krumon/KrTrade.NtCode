@@ -15,7 +15,7 @@ namespace KrTrade.Nt.Services
         public object this[int index] => Series[index];
         public int Capacity => Series.Capacity;
         public int OldValuesCapacity => Series.OldValuesCapacity;
-        public int Period => Series.Period;
+        public int Period => 20; // Series.Period;
         public int Count => Series.Count;
         public bool IsFull => Series.IsFull;
 

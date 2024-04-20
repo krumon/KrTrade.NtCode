@@ -1,7 +1,7 @@
-﻿namespace KrTrade.Nt.Core.Data
+﻿namespace KrTrade.Nt.Core.Series
 {
 
-    public class SeriesInfo : BaseSeriesInfo
+    public class PeriodSeriesInfo : BaseSeriesInfo
     {
 
         /// <summary>

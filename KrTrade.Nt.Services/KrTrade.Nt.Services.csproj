@@ -51,7 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Series--Base\BaseSeriesCollection.cs" />
+    <Compile Include="Series--Base\SeriesCollection.cs" />
     <Compile Include="Series--Base\Interfaces\IConfigureSeries.cs" />
     <Compile Include="Series--Base\Interfaces\IDataLoaded.cs" />
     <Compile Include="Series--Base\Interfaces\INinjaSeries.cs" />
@@ -87,7 +87,7 @@
     <Compile Include="Series--Base\Interfaces\IValueSeries.cs" />
     <Compile Include="Series--Base\DoubleSeries.cs" />
     <Compile Include="Series--Base\BaseValueSeries.cs" />
-    <Compile Include="Series--Base\BaseSeries.cs" />
+    <Compile Include="Series--Base\Series.cs" />
     <Compile Include="Series--Base\Interfaces\ISeries.cs" />
     <Compile Include="Series-Calculate\RangeSeries.cs" />
     <Compile Include="Series-Calculate\SumSeries.cs" />
@@ -120,8 +120,6 @@
     <Compile Include="Services-BarUpdate\Series\IIndicatorSeriesService.cs" />
     <Compile Include="Services-BarUpdate\Series\Bars\IBarSeriesService.cs" />
     <Compile Include="Services-BarUpdate\Series\ISeriesService.cs" />
-    <Compile Include="Services--Collections\SeriesServiceCollection.cs" />
-    <Compile Include="Services--Collections\SeriesServiceCollectionOptions.cs" />
     <Compile Include="Services-BarUpdate\Series\SeriesServiceInfo.cs" />
     <Compile Include="Services-BarUpdate\Stats\IStatsBuilder.cs" />
     <Compile Include="Services-BarUpdate\Stats\StatsInfo.cs" />
@@ -136,10 +134,6 @@
     <Compile Include="Services--Collections\BarUpdateServiceCollection.cs" />
     <Compile Include="Services--Collections\BarsServiceCollection.cs" />
     <Compile Include="Services--Collections\BarsServiceCollectionOptions.cs" />
-    <Compile Include="Services--Collections\StatsCollection.cs" />
-    <Compile Include="Services--Collections\StatsCollectionOptions.cs" />
-    <Compile Include="Services--Collections\FiltersCollection.cs" />
-    <Compile Include="Services--Collections\FiltersCollectionOptions.cs" />
     <Compile Include="Services-Indicators\IndicatorCollection.cs" />
     <Compile Include="Services-Indicators\IndicatorOptions.cs" />
     <Compile Include="Services-Indicators\IndicatorCollectionOptions.cs" />

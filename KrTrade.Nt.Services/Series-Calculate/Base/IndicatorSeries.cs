@@ -152,7 +152,7 @@ namespace KrTrade.Nt.Services.Series
         }
 
         public TInput Input { get; protected set; }
-        public override string Key => $"{Name}({Input.Name},{Period})";
+        //public override string Key => $"{Name}({Input.Name},{Period})";
 
     }
 
@@ -198,7 +198,7 @@ namespace KrTrade.Nt.Services.Series
 
         public TInput Input { get; protected set; }
         public abstract TInput GetInput(TEntry entry);
-        public override string Key => $"{Name}({Input.Name},{Period})";
+        //public override string Key => $"{Name}({Input.Name},{Period})";
 
     }
 
@@ -252,7 +252,7 @@ namespace KrTrade.Nt.Services.Series
         public TInput2 Input2 { get; protected set; }
         public abstract TInput1 GetInput1(TEntry entry);
         public abstract TInput2 GetInput2(TEntry entry);
-        public override string Key => $"{Name}({Input1.Name},{Input2.Name},{Period})";
+        //public override string Key => $"{Name}({Input1.Name},{Input2.Name},{Period})";
 
     }
 
@@ -306,7 +306,7 @@ namespace KrTrade.Nt.Services.Series
         public TInput2 Input2 { get; protected set; }
         public abstract TInput1 GetInput1(TEntry1 entry1);
         public abstract TInput2 GetInput2(TEntry2 entry2);
-        public override string Key => $"{Name}({Input1.Name},{Input2.Name},{Period})";
+        //public override string Key => $"{Name}({Input1.Name},{Input2.Name},{Period})";
 
     }
 }

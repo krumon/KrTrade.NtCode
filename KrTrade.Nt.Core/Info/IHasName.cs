@@ -4,9 +4,9 @@
     {
 
         /// <summary>
-        /// Gets the nickname of the object.
+        /// Gets the name of the object.
         /// </summary>
-        string Name { get; set; }
+        string Name { get; }
 
     }
 }

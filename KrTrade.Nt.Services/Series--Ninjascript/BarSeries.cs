@@ -60,7 +60,7 @@ namespace KrTrade.Nt.Services.Series
         #region Implementation
 
         //public override string Name => "BarsSeries";
-        public override string Key => $"{Name.ToUpper()}(Capacity:{Capacity})";
+        //public override string Key => $"{Name.ToUpper()}(Capacity:{Capacity})";
 
         //public override IElementInfo Info => throw new System.NotImplementedException();
 

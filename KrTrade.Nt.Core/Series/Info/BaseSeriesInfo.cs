@@ -1,15 +1,12 @@
-﻿using System;
+﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Info;
+using System;
 using System.Collections.Generic;
 
-namespace KrTrade.Nt.Core.Data
+namespace KrTrade.Nt.Core.Series
 {
-    public abstract class BaseSeriesInfo
+    public abstract class BaseSeriesInfo : BaseKeyInfo
     {
-
-        /// <summary>
-        /// Gets or sets the code of the series.
-        /// </summary>
-        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the series.
@@ -78,7 +75,7 @@ namespace KrTrade.Nt.Core.Data
         /// Gets the key of the series configured.
         /// </summary>
         /// <returns>The unique key of the series configured.</returns>
-        public string GetKey() => $"{GetRootKey()}({GetInputKey()}{GetParametersKey()})";
+        protected override string GetKey() => $"{GetRootKey()}({GetInputKey()}{GetParametersKey()})";
 
         protected string GetRootKey() => $"{Type}(";
         protected string GetInputKey()

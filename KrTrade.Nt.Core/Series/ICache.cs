@@ -1,6 +1,4 @@
-﻿using NinjaTrader.NinjaScript;
-
-namespace KrTrade.Nt.Core.Caches
+﻿namespace KrTrade.Nt.Core.Series
 {
     public interface ICache
     {
@@ -68,7 +66,7 @@ namespace KrTrade.Nt.Core.Caches
         object this[int index] { get; }
 
     }
-    public interface ICache<T> : ICache, ISeries<T>
+    public interface ICache<T> : ICache, NinjaTrader.NinjaScript.ISeries<T>
     {
         /// <summary>
         /// Gets the number of cache elements.

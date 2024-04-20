@@ -1,5 +1,6 @@
 ﻿using KrTrade.Nt.Core.Info;
 using KrTrade.Nt.Core.Options;
+using KrTrade.Nt.Core.Services;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -120,8 +121,8 @@ namespace KrTrade.Nt.Core.Collections
             }
             catch { }
         }
-        public abstract void Add<TInfo,TOptions>(TInfo itemInfo, TOptions itemOptions)
-            where TInfo : IHasName
+        public abstract void Add<TInfo,TOptions>(IService service, TInfo itemInfo, TOptions itemOptions)
+            where TInfo : IInfo
             where TOptions : IOptions;
 
         public int Count => _collection.Count;

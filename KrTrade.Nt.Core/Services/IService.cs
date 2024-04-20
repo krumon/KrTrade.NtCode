@@ -18,12 +18,12 @@ namespace KrTrade.Nt.Core.Services
         /// <summary>
         /// Indicates that the service is enabled.
         /// </summary>
-        bool IsEnable { get; set; }
+        bool IsEnable { get; }
 
         /// <summary>
         /// Indicates that the logger service is enabled.
         /// </summary>
-        bool IsLogEnable { get; set; }
+        bool IsLogEnable { get; }
 
     }
 

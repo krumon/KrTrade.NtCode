@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Core.Caches;
+﻿using KrTrade.Nt.Core.Series;
 
 namespace KrTrade.Nt.Services
 {
