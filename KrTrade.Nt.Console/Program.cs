@@ -1,8 +1,8 @@
 ﻿using KrTrade.Nt.Core.Bars;
 using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.Logging;
-using KrTrade.Nt.Core.Series;
 using KrTrade.Nt.Services;
+using KrTrade.Nt.Services.Series;
 
 namespace KrTrade.Nt.Console.Console
 {
@@ -61,7 +61,7 @@ namespace KrTrade.Nt.Console.Console
                         });
                 })
                 // Add bars service.
-                .AddBars(builder =>
+                .AddDataSeries(builder =>
                 {
                     // Configure the BarsService options.
                     builder.ConfigureOptions((info,op) =>
@@ -79,10 +79,10 @@ namespace KrTrade.Nt.Console.Console
                     // Add series to the BarsService().
                     builder.AddSeries((info) =>
                     {
-
+                        
                     }); 
                 })
-                .AddBars(builder =>
+                .AddDataSeries(builder =>
                 { 
                     builder.ConfigureOptions((info,op) =>
                     {

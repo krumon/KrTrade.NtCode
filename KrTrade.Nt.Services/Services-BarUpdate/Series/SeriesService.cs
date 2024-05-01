@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Services.Series;
+﻿using KrTrade.Nt.Core.Series;
 using System;
 
 namespace KrTrade.Nt.Services
@@ -50,21 +50,21 @@ namespace KrTrade.Nt.Services
             // isDataLoaded = Series.DataLoaded(Bars,options);
             isDataLoaded = true;
         }
-        public override void Update(int barsInProgress = 0)
+        public override void BarUpdate()
         {
-            if (Bars.LastBarIsRemoved)
-                Series.RemoveLastElement();
-            else if (Bars.IsClosed)
-                Series.Add();
-            else if (Bars.IsPriceChanged)
-                Series.Update();
-            else if (Bars.IsTick)
-                Series.Update();
+            //if (Bars.LastBarIsRemoved)
+            //    Series.RemoveLastElement();
+            //else if (Bars.IsClosed)
+            //    Series.Add();
+            //else if (Bars.IsPriceChanged)
+            //    Series.Update();
+            //else if (Bars.IsTick)
+            //    Series.Update();
         }
-        public override void Update(IBarsService updatedSeries, int barsInProgress = 0)
+        public override void BarUpdate(IBarsService updatedSeries)
         {
             // ToDo: Revisar cuando desarrolle las multiseries.
-            Update();
+            BarUpdate();
         }
 
         public override string ToLogString() => Key;

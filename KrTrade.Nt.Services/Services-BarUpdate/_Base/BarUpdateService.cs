@@ -32,7 +32,7 @@ namespace KrTrade.Nt.Services
         //    options.BarsIndex = barsService.Index;
         //}
         
-        public abstract void Update(int barsInProgress = 0);
-        public abstract void Update(IBarsService updatedBarsSeries, int barsInProgress = 0);
+        public abstract void BarUpdate();
+        public abstract void BarUpdate(IBarsService updatedBarsSeries);
     }
 }

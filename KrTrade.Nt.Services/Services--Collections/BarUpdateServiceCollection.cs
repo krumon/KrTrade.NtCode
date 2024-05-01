@@ -1,44 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
     public abstract class BarUpdateServiceCollection<TService> : BaseNinjascriptServiceCollection<TService>
         where TService : IBarUpdateService
     {
-        protected BarUpdateServiceCollection(IBarsService barsService)
+        protected BarUpdateServiceCollection(IBarsService barsService, string name, BarUpdateServiceCollectionOptions options) : base(barsService.Ninjascript, barsService.PrintService, name, options) 
         {
             Bars = barsService ?? throw new ArgumentNullException(nameof(barsService));
         }
-        protected BarUpdateServiceCollection(IBarsService barsService, IEnumerable<TService> elements) : base(elements)
-        {
-            Bars = barsService ?? throw new ArgumentNullException(nameof(barsService));
-        }
-        protected BarUpdateServiceCollection(IBarsService barsService, int capacity) : base(capacity)
+        protected BarUpdateServiceCollection(IBarsService barsService, string name, BarUpdateServiceCollectionOptions options, int capacity) : base(barsService.Ninjascript, barsService.PrintService, name, options, capacity) 
         {
             Bars = barsService ?? throw new ArgumentNullException(nameof(barsService));
         }
 
-        //protected new BarUpdateServiceCollectionOptions _options;
-        //public new BarUpdateServiceCollectionOptions Options { get => _options ?? new BarUpdateServiceCollectionOptions(); protected set { _options = value; } }
-
-        //protected BarUpdateServiceCollection(IBarsService barsService) : this(barsService, null, null) { }
-        //protected BarUpdateServiceCollection(IBarsService barsService, Action<NinjascriptServiceCollectionOptions> configureOptions) : this(barsService, configureOptions,null) { }
-        //protected BarUpdateServiceCollection(IBarsService barsService, NinjascriptServiceCollectionOptions options) : this(barsService, null, options) { }
-        //protected BarUpdateServiceCollection(IBarsService barsService, Action<NinjascriptServiceCollectionOptions> configureOptions, NinjascriptServiceCollectionOptions options) : base(barsService.Ninjascript, barsService.PrintService, null, null)
-        //{
-        //    Bars = barsService ?? throw new ArgumentNullException(nameof(barsService));
-        //    Options = options ?? new NinjascriptServiceCollectionOptions();
-        //    configureOptions?.Invoke(Options);
-        //}
+        protected new BarUpdateServiceCollectionOptions _options;
+        public new BarUpdateServiceCollectionOptions Options { get => _options ?? new BarUpdateServiceCollectionOptions(); protected set { _options = value; } }
 
         #region Implementation
 
         public int BarsIndex => Bars.Index;
         public IBarsService Bars { get; protected set; }
 
-        public void Update() => ForEach((service) => { if (service.IsEnable) service.Update(); });
-        public void Update(IBarsService updatedBarsSeries) => ForEach((service) => { if (service.IsEnable) service.Update(updatedBarsSeries); });
+        public void Update() => ForEach((service) => { if (service.IsEnable) service.BarUpdate(); });
+        public void Update(IBarsService updatedBarsSeries) => ForEach((service) => { if (service.IsEnable) service.BarUpdate(updatedBarsSeries); });
 
         #endregion
 

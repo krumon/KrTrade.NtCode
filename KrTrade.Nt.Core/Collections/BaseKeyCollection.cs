@@ -1,7 +1,4 @@
-﻿using KrTrade.Nt.Core.Info;
-using KrTrade.Nt.Core.Options;
-using KrTrade.Nt.Core.Services;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -11,7 +8,7 @@ namespace KrTrade.Nt.Core.Collections
         where T : IKeyItem
     {
         protected IList<T> _collection;
-        private IDictionary<string, int> _keys;
+        protected IDictionary<string, int> _keys;
 
         public T this[string key]
         {
@@ -121,9 +118,11 @@ namespace KrTrade.Nt.Core.Collections
             }
             catch { }
         }
-        public abstract void Add<TInfo,TOptions>(IService service, TInfo itemInfo, TOptions itemOptions)
-            where TInfo : IInfo
-            where TOptions : IOptions;
+
+        //public abstract void Add<TInfo>(TInfo info);
+        //public abstract void Add<TInfo,TOptions>(IService service, TInfo itemInfo, TOptions itemOptions)
+        //    where TInfo : IInfo
+        //    where TOptions : IOptions;
 
         public int Count => _collection.Count;
         public void Clear() => _collection?.Clear();

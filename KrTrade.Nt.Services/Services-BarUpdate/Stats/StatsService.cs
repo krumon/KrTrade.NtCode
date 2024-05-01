@@ -53,12 +53,12 @@
             throw new System.NotImplementedException();
         }
 
-        public override void Update(int barsInProgress = 0)
+        public override void BarUpdate()
         {
             throw new System.NotImplementedException();
         }
 
-        public override void Update(IBarsService updatedBarsSeries, int barsInProgress = 0)
+        public override void BarUpdate(IBarsService updatedBarsSeries)
         {
             throw new System.NotImplementedException();
         }

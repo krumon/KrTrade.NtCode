@@ -14,9 +14,9 @@ namespace KrTrade.Nt.Core.Collections
 
         void Add(T item) ;
         void TryAdd(T item);
-        void Add<TInfo,TOptions>(IService service, TInfo itemInfo, TOptions itemOptions)
-            where TInfo : IInfo
-            where TOptions : IOptions;
+        //void Add<TInfo,TOptions>(IService service, TInfo itemInfo, TOptions itemOptions)
+        //    where TInfo : IInfo
+        //    where TOptions : IOptions;
 
         int Count { get; }
         void Clear();

@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Core.Series;
+using KrTrade.Nt.Services.Series;
 using System;
 using System.Collections.Generic;
 
@@ -36,7 +37,7 @@ namespace KrTrade.Nt.Services
         public IBarsServiceBuilder AddSeries(Action<PeriodSeriesInfo> configureSeries)
         {
             PeriodSeriesInfo seriesInfo = new PeriodSeriesInfo();
-            SeriesServiceOptions seriesOptions = new SeriesServiceOptions();
+            //SeriesServiceOptions seriesOptions = new SeriesServiceOptions();
             configureSeries(seriesInfo);
 
             if (!_seriesConfiguration.ContainsKey(seriesInfo.Key))

@@ -95,7 +95,7 @@ namespace KrTrade.Nt.Services
         int Index { get; }
 
         /// <summary>
-        /// Indicates <see cref="IBarsManager"/> is updated.
+        /// Indicates <see cref="IBarsService"/> is updated.
         /// </summary>
         bool IsUpdated {get;} 
 

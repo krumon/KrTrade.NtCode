@@ -1,4 +1,6 @@
-﻿namespace KrTrade.Nt.Services
+﻿using NinjaTrader.Data;
+
+namespace KrTrade.Nt.Services
 {
     /// <summary>
     /// Defines methods that are necesary to execute when the market data changed.
@@ -8,14 +10,13 @@
         /// <summary>
         /// Updates the service when market data changed.
         /// </summary>
-        /// <param name="barsInProgress">The bars in progress index.</param>
-        void MarketData(int barsInProgress = 0);
+        /// <param name="args">The arguments of the 'MarketData' event.</param>
+        void MarketData(MarketDataEventArgs args);
 
         /// <summary>
         /// Method to be executed to update the service when a <see cref="IBarsService"/> market data is updated.
         /// </summary>
-        /// <param name="updatedBarsSeries"><see cref="IBarsService"/> updated.</param>
-        /// <param name="barsInProgress">The bars in progress index.</param>
-        void MarketData(IBarsService updatedBarsSeries, int barsInProgress = 0);
+        /// <param name="updatedBarsService">The <see cref="IBarsService"/> updated.</param>
+        void MarketData(IBarsService updatedBarsService);
     }
 }

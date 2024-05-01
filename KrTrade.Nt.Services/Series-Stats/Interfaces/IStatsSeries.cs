@@ -1,6 +1,6 @@
 ﻿namespace KrTrade.Nt.Services.Series
 {
-    public interface IStatsSeries : IIndicatorSeries
+    public interface IStatsSeries : INumericSeries
     {
     }
 }

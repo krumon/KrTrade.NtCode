@@ -1,25 +1,18 @@
 ﻿using KrTrade.Nt.Core.Services;
-using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
     public class IndicatorCollection : BarUpdateServiceCollection<IIndicatorService>
     {
-        public IndicatorCollection(IBarsService barsService) : base(barsService)
+        public IndicatorCollection(IBarsService barsService, string name, BarUpdateServiceCollectionOptions options) : base(barsService, name, options)
         {
         }
 
-        public IndicatorCollection(IBarsService barsService, IEnumerable<IIndicatorService> elements) : base(barsService, elements)
+        public IndicatorCollection(IBarsService barsService, string name, BarUpdateServiceCollectionOptions options, int capacity) : base(barsService, name, options, capacity)
         {
         }
 
-        public IndicatorCollection(IBarsService barsService, int capacity) : base(barsService, capacity)
-        {
-        }
+        public override string Name { get => throw new System.NotImplementedException(); protected set => throw new System.NotImplementedException(); }
 
-        public override void Add<TInfo, TOptions>(IService service, TInfo itemInfo, TOptions itemOptions)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

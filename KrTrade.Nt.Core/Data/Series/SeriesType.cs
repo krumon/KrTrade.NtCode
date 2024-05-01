@@ -5,12 +5,15 @@
     /// </summary>
     public enum SeriesType
     {
+        //// GENERIC (Any generic series)
+        //GENERIC,
         // BARS SERIES
-        INDEX,
+        CURRENT_BAR,
         TIME,
         VOLUME,
         TICK,
         // PRICE SERIES
+        INPUT,
         OPEN,
         HIGH,
         LOW,

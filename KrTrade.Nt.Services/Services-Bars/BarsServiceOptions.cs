@@ -11,12 +11,12 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Gets or sets the bars cache capacity.
         /// </summary>
-        public int CacheCapacity { get; set; } = Cache.DEFAULT_CAPACITY;
+        public int CacheCapacity { get; set; } = Core.Series.Series.DEFAULT_CAPACITY;
 
         /// <summary>
         /// Gets or sets the bars removed cache capacity.
         /// </summary>
-        public int RemovedCacheCapacity { get; set; } = Cache.DEFAULT_OLD_VALUES_CAPACITY;
+        public int RemovedCacheCapacity { get; set; } = Core.Series.Series.DEFAULT_OLD_VALUES_CAPACITY;
 
         ///// <summary>
         ///// Gets or sets the Data Series instrument code.

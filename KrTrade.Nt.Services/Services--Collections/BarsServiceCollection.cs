@@ -7,11 +7,24 @@ namespace KrTrade.Nt.Services
 {
     public class BarsServiceCollection : BaseNinjascriptServiceCollection<IBarsService>, IBarsServiceCollection
     {
-        public BarsServiceCollection() { }
-        public BarsServiceCollection(IEnumerable<IBarsService> elements) : base(elements) { }
-        public BarsServiceCollection(int capacity) : base(capacity) { }
+        private string _name;
 
+        public BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, string name, BarsServiceOptions options) : base(ninjascript, printService, name, options) { }
+        public BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, string name, BarsServiceOptions options, int capacity) : base(ninjascript, printService, name, options, capacity) { }
+        public BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsServiceOptions options) : base(ninjascript, printService, null, options) { }
+        public BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsServiceOptions options, int capacity) : base(ninjascript, printService, null, options, capacity) { }
+        public BarsServiceCollection(IBarsManager barsManager) : base(barsManager.Ninjascript, barsManager.PrintService, null, new BarsServiceOptions()) { }
+        public BarsServiceCollection(IBarsManager barsManager, BarsServiceOptions options) : base(barsManager.Ninjascript, barsManager.PrintService, null, options) { }
+
+        public int BarsInProgress => this.Ninjascript.BarsInProgress;
         public override string ToString() => GetKey();
+        public override string Name
+        {
+            get => _name;
+            protected set => _name = string.IsNullOrEmpty(value) ? GetKey() : value;
+        }
+        protected new BarsServiceCollectionOptions _options;
+        public new BarsServiceCollectionOptions Options { get => _options ?? new BarsServiceCollectionOptions(); protected set { _options = value; } }
 
         public CurrentBarSeries CurrentBar => IsValidIndex(0) ? _collection[0].CurrentBar : null;
         public TimeSeries Time => IsValidIndex(0) ? _collection[0].Time : null;
@@ -42,56 +55,50 @@ namespace KrTrade.Nt.Services
         public Bar GetBar(int barsAgo, int period, int barsIndex) => _collection[barsIndex].GetBar(barsAgo,period);
         public IList<Bar> GetBars(int barsAgo, int period, int barsIndex) => _collection[barsIndex].GetBars(barsAgo, period);
 
-        public override void Add<TInfo, TOptions>(IService service, TInfo itemInfo, TOptions itemOptions)
-        {
-            if (service is INinjascriptService ninjascriptService)
-                Add(new BarsService(ninjascriptService, itemInfo as BarsServiceInfo, itemOptions as BarsServiceOptions));
-        }
-
         public BarsServiceInfo[] Info { get; protected set; }
-        public IndicatorCollection[] Indicators { get; protected set; }
+        //public IndicatorCollection[] Indicators { get; protected set; }
         //public StatsCollection[] Stats { get; protected set; }
         //public FiltersCollection[] Filters { get; protected set; }
 
-        public void MarketData(int barsInProgress)
+        public void MarketData(NinjaTrader.Data.MarketDataEventArgs args)
         {
-            if (IsValidIndex(barsInProgress))
-                _collection[barsInProgress].MarketData();
+            if (IsValidIndex(BarsInProgress))
+                _collection[BarsInProgress].MarketData(args);
         }
-        public void MarketData(IBarsService updatedBarsSeries, int barsInProgress)
+        public void MarketData(IBarsService updatedBarsSeries)
         {
-            if (IsValidIndex(barsInProgress))
-                _collection[barsInProgress].MarketData(updatedBarsSeries);
+            if (IsValidIndex(BarsInProgress))
+                _collection[BarsInProgress].MarketData(updatedBarsSeries);
         }
-        public void MarketDepth(int barsInProgress)
+        public void MarketDepth(NinjaTrader.Data.MarketDepthEventArgs args)
         {
-            if (IsValidIndex(barsInProgress))
-                _collection[barsInProgress].MarketDepth();
+            if (IsValidIndex(BarsInProgress))
+                _collection[BarsInProgress].MarketDepth(args);
         }
-        public void MarketDepth(IBarsService updatedBarsSeries, int barsInProgress)
+        public void MarketDepth(IBarsService updatedBarsSeries)
         {
-            if (IsValidIndex(barsInProgress))
-                _collection[barsInProgress].MarketDepth(updatedBarsSeries);
+            if (IsValidIndex(BarsInProgress))
+                _collection[BarsInProgress].MarketDepth(updatedBarsSeries);
         }
-        public void Render(int barsInProgress)
+        public void Render()
         {
-            if (IsValidIndex(barsInProgress))
-                _collection[barsInProgress].Render();
+            if (IsValidIndex(BarsInProgress))
+                _collection[BarsInProgress].Render();
         }
-        public void Render(IBarsService updatedBarsSeries, int barsInProgress)
+        public void Render(IBarsService updatedBarsSeries)
         {
-            if (IsValidIndex(barsInProgress))
-                _collection[barsInProgress].Render(updatedBarsSeries);
+            if (IsValidIndex(BarsInProgress))
+                _collection[BarsInProgress].Render(updatedBarsSeries);
         }
-        public void Update(int barsInProgress)
+        public void BarUpdate()
         {
-            if (IsValidIndex(barsInProgress))
-                _collection[barsInProgress].Update();
+            if (IsValidIndex(BarsInProgress))
+                _collection[BarsInProgress].BarUpdate();
         }
-        public void Update(IBarsService updatedBarsSeries, int barsInProgress)
+        public void BarUpdate(IBarsService updatedBarsSeries)
         {
-            if (IsValidIndex(barsInProgress))
-                _collection[barsInProgress].Update(updatedBarsSeries);
+            if (IsValidIndex(BarsInProgress))
+                _collection[BarsInProgress].BarUpdate(updatedBarsSeries);
         }
 
         private string GetKey()
