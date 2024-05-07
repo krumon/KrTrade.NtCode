@@ -27,11 +27,8 @@ namespace KrTrade.Nt.Services.Series
         {
             if (info.Name != BarsSeriesType.CURRENT_BAR.ToString())
                 bars.PrintService.LogWarning($"Error configuring {Name} series. The series type must be {BarsSeriesType.CURRENT_BAR}. The series type is going to be changed from {info.Type} to {BarsSeriesType.CURRENT_BAR}.");
-            if (info.Inputs != null)
-                bars.PrintService.LogWarning($"Error configuring {Name} series. The series cannot have input series. The input series are going to be deleted.");
 
             info.Type = BarsSeriesType.CURRENT_BAR;
-            info.Inputs = null;
         }
 
         internal override void Configure(out bool isConfigured) => isConfigured = true;

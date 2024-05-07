@@ -26,11 +26,8 @@ namespace KrTrade.Nt.Services.Series
         {
             if (info.Name != BarsSeriesType.HIGH.ToString())
                 bars.PrintService.LogWarning($"Error configuring {Name} series. The series type must be {BarsSeriesType.HIGH}. The series type is going to be changed from {info.Type} to {BarsSeriesType.HIGH}.");
-            if (info.Inputs != null)
-                bars.PrintService.LogWarning($"Error configuring {Name} series. The series cannot have input series. The input series are going to be deleted.");
 
             info.Type = BarsSeriesType.HIGH;
-            info.Inputs = null;
         }
 
         internal override void DataLoaded(out bool isDataLoaded)

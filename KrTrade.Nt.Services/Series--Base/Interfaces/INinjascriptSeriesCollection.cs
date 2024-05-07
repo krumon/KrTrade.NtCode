@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Core.Collections;
+using KrTrade.Nt.Core.Series;
 using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Services.Series
@@ -21,24 +22,14 @@ namespace KrTrade.Nt.Services.Series
         IPrintService PrintService { get; }
 
         /// <summary>
-        /// Gets the options of the service.
+        /// Gets the information of the service.
         /// </summary>
-        SeriesCollectionOptions Options { get; }
+        SeriesCollectionInfo Info { get; }
 
         /// <summary>
         /// Gets the name of the service.
         /// </summary>
         string Name { get; }
-
-        /// <summary>
-        /// Indicates that the service is enabled.
-        /// </summary>
-        bool IsEnable { get; }
-
-        /// <summary>
-        /// Indicates that the logger service is enabled.
-        /// </summary>
-        bool IsLogEnable { get; }
 
         /// <summary>
         /// Dispose the series.

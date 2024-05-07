@@ -13,6 +13,12 @@ namespace KrTrade.Nt.Services.Series
 
         public AvgSeries(IBarsService bars, PeriodSeriesInfo info) : base(bars, info)
         {
+            if (bars is BarsService barsSvc)
+                if (info.Inputs != null && info.Inputs.Count > 0)
+                    Input = barsSvc.GetOrAddSeries(info.Inputs[0]);
+
+            if (Input == null)
+                bars.PrintService.LogError($"ERROR. The {nameof(AvgSeries)} could not be initialized.");
         }
 
         protected override double InitializeLastValue() 
@@ -26,7 +32,7 @@ namespace KrTrade.Nt.Services.Series
 
         internal override void Configure(out bool isConfigured)
         {
-            isConfigured = true;
+            isConfigured = Input != null;
         }
         internal override void DataLoaded(out bool isDataLoaded)
         {

@@ -1,5 +1,4 @@
-﻿using KrTrade.Nt.Core.Series;
-using System;
+﻿using System;
 
 namespace KrTrade.Nt.Services.Series
 {

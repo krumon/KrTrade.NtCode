@@ -3,6 +3,8 @@ using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.Series;
 using KrTrade.Nt.Services.Series;
 using NinjaTrader.Core.FloatingPoint;
+//using NinjaTrader.Data;
+//using NinjaTrader.NinjaScript;
 using System;
 using System.Collections.Generic;
 
@@ -25,8 +27,8 @@ namespace KrTrade.Nt.Services
         private Dictionary<BarEvent, bool> _barEvents;
         // Logging
         private List<string> _logLines;
-        // Cache
-        private readonly IBarsSeries _barsSeries;
+        // Bars Series
+        protected IBarsSeriesCollection BarsSeries;
         //// Access
         //private readonly Dictionary<int, string> _keys;
 
@@ -53,15 +55,15 @@ namespace KrTrade.Nt.Services
         public string TradingHoursName => Info.TradingHoursCode.ToName();
         public NinjaTrader.Data.BarsPeriod BarsPeriod => Info.TimeFrame.ToBarsPeriod();
 
-        public double this[int index] => _barsSeries.Close[index];
-        public CurrentBarSeries CurrentBar => _barsSeries.CurrentBar;
-        public TimeSeries Time => _barsSeries.Time;
-        public PriceSeries Open => _barsSeries.Open;
-        public PriceSeries High => _barsSeries.High;
-        public PriceSeries Low => _barsSeries.Low;
-        public PriceSeries Close => _barsSeries.Close;
-        public VolumeSeries Volume => _barsSeries.Volume;
-        public TickSeries Tick => _barsSeries.Tick;
+        public double this[int index] => BarsSeries.Close[index];
+        public CurrentBarSeries CurrentBar => BarsSeries.CurrentBar;
+        public TimeSeries Time => BarsSeries.Time;
+        public PriceSeries Open => BarsSeries.Open;
+        public PriceSeries High => BarsSeries.High;
+        public PriceSeries Low => BarsSeries.Low;
+        public PriceSeries Close => BarsSeries.Close;
+        public VolumeSeries Volume => BarsSeries.Volume;
+        public TickSeries Tick => BarsSeries.Tick;
 
         public bool IsUpdated => IsConfigureAll && _barEvents[BarEvent.Updated];
         public bool IsClosed => IsUpdated && _barEvents[BarEvent.Closed];
@@ -89,7 +91,7 @@ namespace KrTrade.Nt.Services
         // TODO: Implementar SeriesCollection. De esta colección se obtendran todas las series necesarias
         //       para cualquiera de nuestros servicios (SeriesService, StatsService, IndicatorService,...).
         //       En esta colección se deben insertar las NinjaScriptSeries como punto de partida.
-        public NumericSeriesCollection<INumericSeries> Series {  get; set; }
+        public SeriesCollection Series {  get; set; }
 
         //public IndicatorCollection Indicators { get; private set; }
         //public StatsCollection Stats { get; private set; }
@@ -104,11 +106,10 @@ namespace KrTrade.Nt.Services
         internal BarsService(INinjascriptService service, BarsServiceInfo barsServiceInfo, BarsServiceOptions barsServiceOptions) : base(service?.Ninjascript, service?.PrintService, barsServiceInfo, barsServiceOptions)
         {
             Info = barsServiceInfo ?? new BarsServiceInfo(service.Ninjascript);
-            _barsSeries = new BarsSeries(this);
-            Series = new NumericSeriesCollection<INumericSeries>(
+            BarsSeries = new BarsSeriesCollection(this);
+            Series = new SeriesCollection(
                 barsService: this, 
-                name: string.Empty, 
-                options: new SeriesCollectionOptions());
+                info: new SeriesCollectionInfo());
 
             //Indicators = new IndicatorCollection(this);
             //Filters = new FiltersCollection(this);
@@ -140,19 +141,16 @@ namespace KrTrade.Nt.Services
             if (Info == null)
                 PrintService.LogError(new Exception("The 'DataSeriesOptions' must be loaded before the service will be configured."));
 
-            //_barSeries = new BarSeriesService(this);
-
             // Configure series
+            BarsSeries.Configure();
             Series.Configure();
-
-            //_barSeries.Configure();
             //Indicators?.Configure();
             //Filters?.Configure();
             //Stats?.Configure();
 
             //isConfigured = Info != null && _barSeries.IsConfigure && Indicators.IsConfigure && Filters.IsConfigure && Stats.IsConfigure;
 
-            isConfigured = Series.IsConfigure;
+            isConfigured = Info != null && BarsSeries.IsConfigure && Series.IsConfigure;
         }
         internal override void DataLoaded(out bool isDataLoaded)
         {
@@ -167,23 +165,19 @@ namespace KrTrade.Nt.Services
                 PrintService.LogError(new Exception($"{Name} cannot be loaded because the 'DataSeriesOptions' don't mutch with any 'NinjaScript.DataSeries'."));
 
             // Configure series.
+            BarsSeries.DataLoaded();
             Series.DataLoaded();
-
-            //// Configure services
-            //_barSeries.DataLoaded();
             //Indicators?.DataLoaded();
             //Filters?.DataLoaded();
             //Stats?.DataLoaded();
 
-            //isDataLoaded =
-            //    Index != -1 &&
-            //    _barSeries.IsDataLoaded &&
-            //    Indicators != null ? Indicators.IsDataLoaded : true &&
-            //    Filters != null ? Filters.IsDataLoaded : true &&
-            //    Stats != null ? Stats.IsDataLoaded : true
-            //    ;
-
-            isDataLoaded = Series.IsDataLoaded;
+            isDataLoaded =
+                Index != -1
+                && BarsSeries.IsDataLoaded 
+                && Series.IsDataLoaded;
+                //&& Indicators != null ? Indicators.IsDataLoaded : true
+                //&& Filters != null ? Filters.IsDataLoaded : true
+                //&& Stats != null ? Stats.IsDataLoaded : true;
         }
 
         public void OnBarUpdate()
@@ -260,7 +254,7 @@ namespace KrTrade.Nt.Services
 
             ////// Check FILTERS
             ////Filters.Update();
-            _barsSeries.BarUpdate();
+            BarsSeries.BarUpdate();
             Series.BarUpdate();
             //Stats.Update();
             //Indicators.Update();
@@ -271,23 +265,28 @@ namespace KrTrade.Nt.Services
         }
         public void BarUpdate(IBarsService updatedBarsSeries)
         {
-            throw new NotImplementedException();
+            BarsSeries.BarUpdate(updatedBarsSeries);
+            Series.BarUpdate(updatedBarsSeries);
         }
         public void MarketData(NinjaTrader.Data.MarketDataEventArgs args)
         {
-            throw new NotImplementedException();
+            BarsSeries.MarketData(args);
+            Series.MarketData(args);
         }
         public void MarketData(IBarsService updatedBarsSeries)
         {
-            throw new NotImplementedException();
+            BarsSeries.MarketData(updatedBarsSeries);
+            Series.MarketData(updatedBarsSeries);
         }
         public void MarketDepth(NinjaTrader.Data.MarketDepthEventArgs args)
         {
-            throw new NotImplementedException();
+            BarsSeries.MarketDepth(args);
+            Series.MarketDepth(args);
         }
         public void MarketDepth(IBarsService updatedBarsSeries)
         {
-            throw new NotImplementedException();
+            BarsSeries.MarketDepth(updatedBarsSeries);
+            Series.MarketDepth(updatedBarsSeries);
         }
         public void Render()
         {
@@ -298,21 +297,292 @@ namespace KrTrade.Nt.Services
             throw new NotImplementedException();
         }
 
-        public Bar GetBar(int barsAgo) => _barsSeries.GetBar(barsAgo);
-        public Bar GetBar(int barsAgo, int period) => _barsSeries.GetBar(barsAgo, period);
-        public IList<Bar> GetBars(int barsAgo, int period) => _barsSeries.GetBars(barsAgo, period);
+        public Bar GetBar(int barsAgo) => BarsSeries.GetBar(barsAgo);
+        public Bar GetBar(int barsAgo, int period) => BarsSeries.GetBar(barsAgo, period);
+        public IList<Bar> GetBars(int barsAgo, int period) => BarsSeries.GetBars(barsAgo, period);
 
-        public ISeries GetSeries(BaseSeriesInfo options)
+        //public ISeries GetSeries(BaseSeriesInfo options)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //public ISeries GetOrAddSeries(BaseSeriesInfo options)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //public void AddSeries(BaseSeriesInfo seriesInfo)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        #endregion
+
+        #region Internal methods
+
+        internal void AddSeries(ISeriesInfo info)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (info == null)
+                    throw new ArgumentNullException(nameof(info));
+
+                // El servicio no existe
+                if (!Series.ContainsKey(info.Key))
+                {
+                    INumericSeries series = GetOrAddSeries(info) ?? throw new Exception($"The series with key:{info.Key} could not be added to the collection");
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"The series with key:{info.Key} could not be added to the collection.", e);
+            }
         }
-        public ISeries GetOrAddSeries(BaseSeriesInfo options)
+        internal void AddSeries<TInfo>(TInfo info)
+            where TInfo : ISeriesInfo
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (info == null)
+                    throw new ArgumentNullException(nameof(info));
+
+                // El servicio no existe
+                if (!Series.ContainsKey(info.Key))
+                {
+                    INumericSeries series = GetOrAddSeries(info);
+                    if (series == null)
+                        throw new Exception($"The series with key:{info.Key} could not be added to the collection");
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"The series with key:{info.Key} could not be added to the collection.", e);
+            }
         }
-        public void AddSeries(BaseSeriesInfo seriesInfo)
+
+        internal void TryAdd(ISeriesInfo info)
         {
-            //throw new NotImplementedException();
+            try
+            {
+                AddSeries(info);
+            }
+            catch
+            {
+                PrintService.LogWarning($"The series with key:{info.Key} could not be added to the collection");
+            }
+        }
+        internal void TryAdd<TInfo>(TInfo info)
+            where TInfo : ISeriesInfo
+        {
+            try
+            {
+                AddSeries(info);
+            }
+            catch
+            {
+                PrintService.LogWarning($"The series with key:{info.Key} could not be added to the collection");
+            }
+        }
+
+        internal INumericSeries GetOrAddSeries(ISeriesInfo info)
+        {
+            if (info == null)
+                return default;
+
+            if (Series.ContainsKey(info.Key))
+                return Series[info.Key];
+            else if (BarsSeries.ContainsKey(info.Key))
+            {
+                switch(info.Type)
+                {
+                    //case SeriesNames.INPUT:
+                    //    return Input;
+                    case SeriesNames.OPEN:
+                        return Open;
+                    case SeriesNames.HIGH:
+                        return High;
+                    case SeriesNames.LOW:
+                        return Low;
+                    case SeriesNames.CLOSE:
+                        return Close;
+                    case SeriesNames.VOLUME:
+                        return Volume;
+                    case SeriesNames.TICK:
+                        return Tick;
+                    case SeriesNames.CURRENT_BAR:
+                    case SeriesNames.TIME:
+                        return default;
+                }
+            }
+            INumericSeries series = CreateSeries(info.Type, info.Inputs);
+            if (series == null)
+                return null;
+            Series.Add(series);
+            return Series[info.Key];
+        }
+        internal INumericSeries GetOrAddSeries<TInfo>(TInfo info)
+            where TInfo : ISeriesInfo
+        {
+            if (info == null)
+                return default;
+
+            if (Series.ContainsKey(info.Key))
+                return Series[info.Key];
+            else if (BarsSeries.ContainsKey(info.Key))
+            {
+                switch(info.Type)
+                {
+                    //case SeriesNames.INPUT:
+                    //    return Input;
+                    case SeriesNames.OPEN:
+                        return Open;
+                    case SeriesNames.HIGH:
+                        return High;
+                    case SeriesNames.LOW:
+                        return Low;
+                    case SeriesNames.CLOSE:
+                        return Close;
+                    case SeriesNames.VOLUME:
+                        return Volume;
+                    case SeriesNames.TICK:
+                        return Tick;
+                    case SeriesNames.CURRENT_BAR:
+                    case SeriesNames.TIME:
+                        return default;
+                }
+            }
+            INumericSeries series = CreateSeries(info.Type, info.Inputs);
+            if (series == null)
+                return null;
+            Series.Add(series);
+            return Series[info.Key];
+        }
+
+        private INumericSeries CreateSeries(SeriesNames type, List<ISeriesInfo> inputs)
+        {
+            switch (type)
+            {
+                case SeriesNames.MAX:
+                    if (inputs == null || inputs.Count == 0)
+                    {
+                        PrintService.LogWarning(
+                            $"The {type} series nedds one Input series to calculate the values. " +
+                            $"The {type} series could not be created.");
+                        return default;
+                    }
+                    else if (inputs.Count > 1)
+                    {
+                        PrintService.LogWarning(
+                            $"The {type} series only nedds one Input series to calculate the values. " +
+                            $"The rest of the series will be eliminated and will not be taken into consideration.");
+                        inputs.RemoveRange(1, inputs.Count - 2);
+                    }
+                    if (inputs[0] is PeriodSeriesInfo maxInfo)
+                        return new MaxSeries(this, maxInfo);
+                    else
+                    {
+                        PrintService.LogWarning(
+                            $"The {type} series nedds 'PeriodSeriesInfo' information to be created." +
+                            $"The {type} series could not be created.");
+                        return default;
+                    }
+                case SeriesNames.MIN:
+                    if (inputs == null || inputs.Count == 0)
+                    {
+                        PrintService.LogWarning(
+                            $"The {type} series nedds one Input series to calculate the values. " +
+                            $"The {type} series could not be created.");
+                        return null;
+                    }
+                    else if (inputs.Count > 1)
+                    {
+                        PrintService.LogWarning(
+                            $"The {type} series only nedds one Input series to calculate the values. " +
+                            $"The rest of the series will be eliminated and will not be taken into consideration.");
+                        inputs.RemoveRange(1, inputs.Count - 2);
+                    }
+                    if (inputs[0] is PeriodSeriesInfo minInfo)
+                        return new MinSeries(this, minInfo);
+                    else
+                    {
+                        PrintService.LogWarning(
+                            $"The {type} series nedds 'PeriodSeriesInfo' information to be created." +
+                            $"The {type} series could not be created.");
+                        return null;
+                    }
+                case SeriesNames.SUM:
+                    if (inputs == null || inputs.Count == 0)
+                    {
+                        PrintService.LogWarning(
+                            $"The {type} series nedds one Input series to calculate the values. " +
+                            $"The {type} series could not be created.");
+                        return null;
+                    }
+                    else if (inputs.Count > 1)
+                    {
+                        PrintService.LogWarning(
+                            $"The {type} series only nedds one Input series to calculate the values. " +
+                            $"The rest of the series will be eliminated and will not be taken into consideration.");
+                        inputs.RemoveRange(1, inputs.Count - 2);
+                    }
+                    if (inputs[0] is PeriodSeriesInfo sumInfo)
+                        return new SumSeries(this, sumInfo);
+                    else
+                    {
+                        PrintService.LogWarning(
+                            $"The {type} series nedds 'PeriodSeriesInfo' information to be created." +
+                            $"The {type} series could not be created.");
+                        return null;
+                    }
+                case SeriesNames.AVG:
+                    if (inputs == null || inputs.Count == 0)
+                    {
+                        PrintService.LogWarning(
+                            $"The {type} series nedds one Input series to calculate the values. " +
+                            $"The {type} series could not be created.");
+                        return null;
+                    }
+                    else if (inputs.Count > 1)
+                    {
+                        PrintService.LogWarning(
+                            $"The {type} series only nedds one Input series to calculate the values. " +
+                            $"The rest of the series will be eliminated and will not be taken into consideration.");
+                        inputs.RemoveRange(1, inputs.Count - 2);
+                    }
+                    if (inputs[0] is PeriodSeriesInfo avgInfo)
+                        return new AvgSeries(this, avgInfo);
+                    else
+                    {
+                        PrintService.LogWarning(
+                            $"The {type} series nedds 'PeriodSeriesInfo' information to be created." +
+                            $"The {type} series could not be created.");
+                        return null;
+                    }
+                case SeriesNames.RANGE:
+                    if (inputs == null || inputs.Count < 2)
+                    {
+                        PrintService.LogWarning(
+                            $"The {type} series nedds two Input series to calculate the values. " +
+                            $"The {type} series could not be created.");
+                        return null;
+                    }
+                    else if (inputs.Count > 2)
+                    {
+                        PrintService.LogWarning(
+                            $"The {type} series only nedds two Input series to calculate the values. " +
+                            $"The rest of the series will be eliminated and will not be taken into consideration.");
+                        inputs.RemoveRange(1, inputs.Count - 2);
+                    }
+                    if (inputs[0] is PeriodSeriesInfo rangeInfo)
+                        return new RangeSeries(this, rangeInfo);
+                    else
+                    {
+                        PrintService.LogWarning(
+                            $"The {type} series nedds 'PeriodSeriesInfo' information to be created." +
+                            $"The {type} series could not be created.");
+                        return null;
+                    }
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         #endregion

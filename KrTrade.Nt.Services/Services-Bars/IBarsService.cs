@@ -127,25 +127,25 @@ namespace KrTrade.Nt.Services
         /// </summary>
         bool IsPriceChanged {get;}
 
-        /// <summary>
-        /// Gets the series from the 'SeriesCollection'. If don't find the series return null.
-        /// </summary>
-        /// <param name="options">The series options to get.</param>
-        /// <returns>The <see cref="ISeries"/> getted or null if not found.</returns>
-        ISeries GetSeries(BaseSeriesInfo options);
+        ///// <summary>
+        ///// Gets the series from the 'SeriesCollection'. If don't find the series return null.
+        ///// </summary>
+        ///// <param name="options">The series options to get.</param>
+        ///// <returns>The <see cref="ISeries"/> getted or null if not found.</returns>
+        //ISeries GetSeries(BaseSeriesInfo options);
 
-        /// <summary>
-        /// Gets the series from the 'SeriesCollection'. If is necesary add any series to get the series will be added.
-        /// </summary>
-        /// <param name="options">The series options to get.</param>
-        /// <returns>The <see cref="ISeries"/> getted.</returns>
-        ISeries GetOrAddSeries(BaseSeriesInfo options);
+        ///// <summary>
+        ///// Gets the series from the 'SeriesCollection'. If is necesary add any series to get the series will be added.
+        ///// </summary>
+        ///// <param name="options">The series options to get.</param>
+        ///// <returns>The <see cref="ISeries"/> getted.</returns>
+        //ISeries GetOrAddSeries(BaseSeriesInfo options);
 
-        /// <summary>
-        /// Adds the series to the 'SeriesCollection'. If is necesary add any series to add the series will be added.
-        /// </summary>
-        /// <param name="seriesInfo">The series information.</param>
-        void AddSeries(BaseSeriesInfo seriesInfo);
+        ///// <summary>
+        ///// Adds the series to the 'SeriesCollection'. If is necesary add any series to add the series will be added.
+        ///// </summary>
+        ///// <param name="seriesInfo">The series information.</param>
+        //void AddSeries(BaseSeriesInfo seriesInfo);
 
         /// <summary>
         /// Returns the <see cref="Bar"/> of the specified <paramref name="barsAgo"/>.

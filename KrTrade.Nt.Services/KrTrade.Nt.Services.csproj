@@ -53,7 +53,7 @@
   <ItemGroup>
     <Compile Include="Series--Base\Collections\BaseNinjascriptSeriesCollection.cs" />
     <Compile Include="Series--Base\Info\PeriodSeriesInfo.cs" />
-    <Compile Include="Series--Base\Info\SeriesInfo.cs" />
+    <Compile Include="Series--Base\Info\NinjascriptSeriesInfo.cs" />
     <Compile Include="Series--Base\Info\SwingSeriesInfo.cs" />
     <Compile Include="Series--Base\Series\BaseNumericPeriodSeries.cs" />
     <Compile Include="Series--Base\Interfaces\INumericSeriesCollection.cs" />
@@ -68,19 +68,21 @@
     <Compile Include="Series--Base\Interfaces\IIntSeries.cs" />
     <Compile Include="Series--Base\Interfaces\INumericSeries.cs" />
     <Compile Include="Series--Base\Info\SeriesCollectionOptions.cs" />
-    <Compile Include="Series--Base\Collections\NumericSeriesCollection.cs" />
+    <Compile Include="Series-Series\_SeriesCollection.cs" />
+    <Compile Include="Series-Bars\Interfaces\IBarsSeries.cs" />
     <Compile Include="Series-Bars\Interfaces\ICurrentBarSeries.cs" />
     <Compile Include="Series-Bars\Interfaces\ITimeSeries.cs" />
     <Compile Include="Series-Bars\Interfaces\ITickSeries.cs" />
     <Compile Include="Series-Bars\Interfaces\IVolumeSeries.cs" />
     <Compile Include="Series-Bars\Interfaces\IPriceSeries.cs" />
-    <Compile Include="Series-Numeric\AvgSeries.cs" />
+    <Compile Include="Series-Bars\BarsSeriesCollectionInfo.cs" />
+    <Compile Include="Series-Series\AvgSeries.cs" />
     <Compile Include="Series-Bars\PriceSeries.cs" />
-    <Compile Include="Series-Bars\Interfaces\IBarsSeries.cs" />
-    <Compile Include="Series-Numeric\Base\IndicatorSeries.cs" />
-    <Compile Include="Series-Numeric\Interfaces\IIndicatorSeries.cs" />
-    <Compile Include="Series-Numeric\MinSeries.cs" />
-    <Compile Include="Series-Numeric\MaxSeries.cs" />
+    <Compile Include="Series-Bars\Interfaces\IBarsSeriesCollection.cs" />
+    <Compile Include="Series-Series\IndicatorSeries.cs" />
+    <Compile Include="Series-Series\IIndicatorSeries.cs" />
+    <Compile Include="Series-Series\MinSeries.cs" />
+    <Compile Include="Series-Series\MaxSeries.cs" />
     <Compile Include="Series-Bars\CurrentBarSeries.cs" />
     <Compile Include="Series-Bars\TickSeries.cs" />
     <Compile Include="Series-Bars\TimeSeries.cs" />
@@ -95,8 +97,8 @@
     <Compile Include="Series--Base\Series\BaseValueSeries.cs" />
     <Compile Include="Series--Base\Series\BaseNinjascriptSeries.cs" />
     <Compile Include="Series--Base\Interfaces\INinjascriptSeries.cs" />
-    <Compile Include="Series-Numeric\RangeSeries.cs" />
-    <Compile Include="Series-Numeric\SumSeries.cs" />
+    <Compile Include="Series-Series\RangeSeries.cs" />
+    <Compile Include="Series-Series\SumSeries.cs" />
     <Compile Include="Series-Stats\Interfaces\IStatsSeries.cs" />
     <Compile Include="Services--Base\Builders\INinjascriptServiceBuilder.cs" />
     <Compile Include="Services--Base\Info\MarketDepthServiceInfo.cs" />
@@ -111,7 +113,7 @@
     <Compile Include="Services--Manager\BarsManagerInfo.cs" />
     <Compile Include="Services--Manager\BarsManagerOptions.cs" />
     <Compile Include="Services--Manager\IBarsManager.cs" />
-    <Compile Include="Series-Bars\BarsSeries.cs" />
+    <Compile Include="Series-Bars\BarsSeriesCollection.cs" />
     <Compile Include="Services--Manager\BarsManagerBuilder.cs" />
     <Compile Include="Services--Manager\IBarsManagerBuilder.cs" />
     <Compile Include="Services-Bars\BarsServiceInfo.cs" />

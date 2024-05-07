@@ -14,7 +14,15 @@ namespace KrTrade.Nt.Services.Series
 
         public RangeSeries(IBarsService bars, PeriodSeriesInfo info) : base(bars, info)
         {
-            // Comprobar la Info
+            if (bars is BarsService barsSvc)
+                if (info.Inputs != null && info.Inputs.Count > 1)
+                {
+                    Input1 = barsSvc.GetOrAddSeries(info.Inputs[0]);
+                    Input2 = barsSvc.GetOrAddSeries(info.Inputs[1]);
+                }
+            if (Input1 == null || Input2 == null)
+                bars.PrintService.LogError($"ERROR. The {nameof(RangeSeries)} could not be initialized.");
+
         }
 
         protected override double InitializeLastValue()

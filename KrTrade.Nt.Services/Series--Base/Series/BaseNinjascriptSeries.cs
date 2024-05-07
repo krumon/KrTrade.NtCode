@@ -15,7 +15,7 @@ namespace KrTrade.Nt.Services.Series
         public int Capacity { get => Info.Capacity; protected internal set { Info.Capacity = value; } }
         public int OldValuesCapacity { get => Info.Capacity; protected internal set { Info.Capacity = value; } }
         public string Name { get => Info.Name; internal set { Info.Name = value; } }
-        public ISeriesInfo Info { get; internal set; }
+        public IBaseSeriesInfo Info { get; internal set; }
         public string Key => Info.Key;
 
         public bool Equals(IHasKey other) => other is IHasKey key && Key == key.Key;
@@ -37,7 +37,7 @@ namespace KrTrade.Nt.Services.Series
         protected BaseNinjascriptSeries(IBarsService bars, BaseSeriesInfo info) //: base(info)
         {
             Bars = bars ?? throw new ArgumentNullException(nameof(bars));
-            Info = info ?? new SeriesInfo()
+            Info = info ?? new Core.Series.BarsSeriesInfo()
             {
                 Capacity = Core.Series.Series.DEFAULT_CAPACITY,
                 OldValuesCapacity = Core.Series.Series.DEFAULT_OLD_VALUES_CAPACITY,

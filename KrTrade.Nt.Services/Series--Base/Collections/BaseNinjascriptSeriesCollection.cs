@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Core.Collections;
+using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.Series;
 using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
@@ -12,40 +13,31 @@ namespace KrTrade.Nt.Services.Series
         where TSeries : INinjascriptSeries
     {
 
-        private readonly NinjaScriptBase _ninjascript;
-        private readonly IPrintService _printService;
-        protected SeriesCollectionOptions _options;
+        //private readonly NinjaScriptBase _ninjascript;
+        //private readonly IPrintService _printService;
+        protected SeriesCollectionInfo _info;
+        protected IBarsService Bars { get; set; }
 
-        public NinjaScriptBase Ninjascript => _ninjascript;
-        public IPrintService PrintService => _printService;
-        public SeriesCollectionOptions Options { get => _options ?? new SeriesCollectionOptions(); protected set { _options = value; } }
+        public NinjaScriptBase Ninjascript => Bars.Ninjascript;
+        public IPrintService PrintService => Bars.PrintService;
+        public SeriesCollectionInfo Info { get => _info ?? new SeriesCollectionInfo(); protected set { _info = value; } }
 
         public bool IsConfigure { get;protected set; }
         public bool IsDataLoaded { get; protected set; }
 
-        public string Name { get; protected set; }
-        public bool IsEnable => Options.IsEnable;
-        public bool IsLogEnable => Options.IsLogEnable;
+        public string Name { get => string.IsNullOrEmpty(Info.Name) ? Info.Key : Info.Name; internal set { Info.Name = value; } }
 
-
-        protected BaseNinjascriptSeriesCollection(IBarsService barsService) : this(barsService.Ninjascript, barsService.PrintService, null, new SeriesCollectionOptions()) { }
-        protected BaseNinjascriptSeriesCollection(IBarsService barsService, string name) : this(barsService.Ninjascript, barsService.PrintService, name, new SeriesCollectionOptions()) { }
-        protected BaseNinjascriptSeriesCollection(IBarsService barsService, string name, SeriesCollectionOptions options) : this(barsService.Ninjascript, barsService.PrintService, name, options) { }
-        protected BaseNinjascriptSeriesCollection(IBarsService barsService, string name, SeriesCollectionOptions options, int capacity) : this(barsService.Ninjascript, barsService.PrintService, name, options, capacity) { }
-        
-        protected BaseNinjascriptSeriesCollection(NinjaScriptBase ninjascript, IPrintService printService, string name, SeriesCollectionOptions options)
+        protected BaseNinjascriptSeriesCollection(IBarsService barsService) : this(barsService, new SeriesCollectionInfo()) { }
+        protected BaseNinjascriptSeriesCollection(IBarsService barsService,SeriesCollectionInfo info) : base() 
         {
-            _ninjascript = ninjascript ?? throw new ArgumentNullException($"Error in 'BaseNinjascriptServiceCollection' constructor. The {nameof(ninjascript)} argument cannot be null.");
-            Name = name;
-            _options = options;
-            _printService = printService;
+            this.Bars = barsService ?? throw new ArgumentNullException($"Error in 'BaseNinjascriptServiceCollection' constructor. The {nameof(barsService)} argument cannot be null.");
+            Info = info;
+            
         }
-        protected BaseNinjascriptSeriesCollection(NinjaScriptBase ninjascript, IPrintService printService, string name, SeriesCollectionOptions options, int capacity) : base(capacity) 
+        protected BaseNinjascriptSeriesCollection(IBarsService barsService, SeriesCollectionInfo info, int capacity) : base(capacity) 
         {
-            _ninjascript = ninjascript ?? throw new ArgumentNullException($"Error in 'BaseNinjascriptServiceCollection' constructor. The {nameof(ninjascript)} argument cannot be null.");
-            Name = string.IsNullOrEmpty(name) ? "SeriesCollection" : name;
-            _options = options;
-            _printService = printService;
+            this.Bars = barsService ?? throw new ArgumentNullException($"Error in 'BaseNinjascriptServiceCollection' constructor. The {nameof(barsService)} argument cannot be null.");
+            Info = info;
         }
 
         #region Implementation
@@ -103,57 +95,82 @@ namespace KrTrade.Nt.Services.Series
                 series.Reset();
         }
 
-        public void Add<TInfo>(TInfo info)
-            where TInfo : ISeriesInfo
-        {
-            try
-            {
-                if (info == null)
-                    throw new ArgumentNullException(nameof(info));
+        //public void Add<TInfo>(TInfo info)
+        //    where TInfo : ISeriesInfo
+        //{
+        //    try
+        //    {
+        //        if (info == null)
+        //            throw new ArgumentNullException(nameof(info));
 
-                string key = info.Key;
-                string name = info.Name;
+        //        // El servicio no existe
+        //        if (!ContainsKey(info.Key))
+        //        {
+        //            TSeries series = GetSeries(info);
+        //            if (series == null)
+        //                throw new Exception($"The series with key:{info.Key} could not be added to the collection");
+        //            else
+        //                base.Add(series);
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw new Exception($"The series with key:{info.Key} could not be added to the collection.", e);
+        //    }
+        //}
+        //public void TryAdd<TInfo>(TInfo info)
+        //    where TInfo : ISeriesInfo
+        //{
+        //    try
+        //    {
+        //        Add(info);
+        //    }
+        //    catch 
+        //    {
+        //        PrintService.LogWarning($"The series with key:{info.Key} could not be added to the collection");
+        //    }
+        //}
 
-                // El servicio no existe
-                if (!ContainsKey(key))
-                {
-                    TSeries series = GetSeries(info);
-                    if (series == null)
-                        throw new Exception($"The series with key:{info.Key} could not be added to the collection");
-                    else
-                        base.Add(series);
-                }
-            }
-            catch (Exception e)
-            {
-                throw new Exception($"The series with name:{info.Name} and key:{info.Key} could not be added to the collection.", e);
-            }
-        }
-        public void TryAdd<TInfo>(TInfo info)
-            where TInfo : ISeriesInfo
-        {
-            try
-            {
-                Add(info);
-            }
-            catch 
-            {
-                PrintService.LogWarning($"The series with key:{info.Key} could not be added to the collection");
-            }
-        }
+        //// TODO: IMPLEMETAR GET SERIES METHOD.
+        //public TSeries GetSeries<TInfo>(TInfo info)
+        //    where TInfo : ISeriesInfo
+        //{
+        //    if (info == null)
+        //        return default;
+        //    INinjascriptSeries series = null;
+        //    if (info.Type == SeriesType.MAX)
+        //    {
+        //        if (info.Inputs == null || info.Inputs.Count == 0)
+        //        {
+        //            PrintService.LogWarning(
+        //                $"The {info.Type} series nedds one Input series to calculate the values. " +
+        //                $"The {info.Type} series could not be created.");
+        //        }
+        //        else if (info.Inputs.Count > 1)
+        //        {
+        //            PrintService.LogWarning(
+        //                $"The {info.Type} series only nedds one Input series to calculate the values. " +
+        //                $"The rest of the series will be eliminated and will not be taken into consideration.");
+        //            info.Inputs.RemoveRange(1, info.Inputs.Count - 2);
+        //        }
+        //        else if (info.Inputs[0] is PeriodSeriesInfo periodInfo)
+        //            series = new MaxSeries(Bars, periodInfo);
+        //    }
+        //    base.Add(series);
+        //    return this[info.Key];
+        //}
+        //public TSeries GetOrAdd<TInfo>(TInfo info)
+        //    where TInfo : ISeriesInfo
+        //{
+        //    return default;
+        //}
 
-        // TODO: IMPLEMETAR GET SERIES METHOD.
-        public TSeries GetSeries(ISeriesInfo info)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void BarUpdate() => ForEach(x => { if (x is IBarUpdate ok) ok.BarUpdate(); });
-        public void BarUpdate(IBarsService updatedBarsService) => ForEach(x => { if (x is IBarUpdate ok) ok.BarUpdate(updatedBarsService); });
-        public void MarketData(MarketDataEventArgs args) => ForEach(x => { if (x is IMarketData ok) ok.MarketData(args); });
-        public void MarketData(IBarsService updatedBarsService) => ForEach(x => { if (x is IMarketData ok) ok.MarketData(updatedBarsService); });
-        public void MarketDepth(MarketDepthEventArgs args) => ForEach(x => { if (x is IMarketDepth ok) ok.MarketDepth(args); });
-        public void MarketDepth(IBarsService updatedBarsService) => ForEach(x => { if (x is IMarketDepth ok) ok.MarketDepth(updatedBarsService); });
+        public virtual void BarUpdate() => ForEach(x => { if (x is IBarUpdate ok) ok.BarUpdate(); });
+        public virtual void BarUpdate(IBarsService updatedBarsService) => ForEach(x => { if (x is IBarUpdate ok) ok.BarUpdate(updatedBarsService); });
+        public virtual void MarketData(MarketDataEventArgs args) => ForEach(x => { if (x is IMarketData ok) ok.MarketData(args); });
+        public virtual void MarketData(IBarsService updatedBarsService) => ForEach(x => { if (x is IMarketData ok) ok.MarketData(updatedBarsService); });
+        public virtual void MarketDepth(MarketDepthEventArgs args) => ForEach(x => { if (x is IMarketDepth ok) ok.MarketDepth(args); });
+        public virtual void MarketDepth(IBarsService updatedBarsService) => ForEach(x => { if (x is IMarketDepth ok) ok.MarketDepth(updatedBarsService); });
 
         #endregion
 

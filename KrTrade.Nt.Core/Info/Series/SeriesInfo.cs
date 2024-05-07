@@ -1,17 +1,13 @@
 ﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core.Info;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace KrTrade.Nt.Core.Series
 {
-    public abstract class BaseSeriesInfo : BaseKeyInfo, ISeriesInfo
+    public abstract class SeriesInfo : BaseSeriesInfo<SeriesType>, ISeriesInfo
     {
 
-        public SeriesType Type { get; set; }
-        public int Capacity { get; set; }
-        public int OldValuesCapacity { get; set; }
         public List<ISeriesInfo> Inputs { get; set; }
         public void AddInputSeries<TInfo>(Action<TInfo> configureSeriesInfo)
             where TInfo : ISeriesInfo, new()
@@ -49,19 +45,19 @@ namespace KrTrade.Nt.Core.Series
 
             Inputs.Add(info);
         }
-        public void AddInputSeries(Action<SeriesInfo> configureSeriesInfo)
-        {
-            if (configureSeriesInfo == null)
-                throw new ArgumentNullException(nameof(configureSeriesInfo));
+        //public void AddInputSeries(Action<BarsSeriesInfo> configureSeriesInfo)
+        //{
+        //    if (configureSeriesInfo == null)
+        //        throw new ArgumentNullException(nameof(configureSeriesInfo));
 
-            SeriesInfo info = new SeriesInfo();
-            configureSeriesInfo(info);
+        //    BarsSeriesInfo info = new BarsSeriesInfo();
+        //    configureSeriesInfo(info);
 
-            if (Inputs == null)
-                Inputs = new List<ISeriesInfo>();
+        //    if (Inputs == null)
+        //        Inputs = new List<ISeriesInfo>();
 
-            Inputs.Add(info);
-        }
+        //    Inputs.Add(info);
+        //}
 
         protected override string GetKey() 
         { 
@@ -74,8 +70,7 @@ namespace KrTrade.Nt.Core.Series
             return key;
         } 
 
-        protected string GetRootKey() => Type.ToString();
-        protected string GetInputsKey()
+        protected override string GetInputsKey()
         {
             if (Inputs == null || Inputs.Count == 0)
                 return string.Empty;
@@ -88,24 +83,6 @@ namespace KrTrade.Nt.Core.Series
             }
             return inputKey;
         }
-        protected string GetParametersKey()
-        {
-            object[] parameters = GetParameters();
-            string key = string.Empty;
-            if (parameters != null && parameters.Length > 0)
-            {
-                key += ",";
-                for (int i = 0; i < parameters.Length; i++)
-                {
-                    key += parameters[i].ToString();
-                    if (i != parameters.Length - 1) 
-                        key += ",";
-                }
-            }
-            return key;
-        }
-
-        protected abstract object[] GetParameters();
 
         protected IEnumerable<string> GetKeys(bool orderByAscending = true)
         {
@@ -124,7 +101,7 @@ namespace KrTrade.Nt.Core.Series
                 .Select(key => key)
                 .ToList();
         }
-        private void AddKey(IList<string> keys, ISeriesInfo info, bool orderByAscending)
+        private void AddKey(IList<string> keys, IBaseSeriesInfo info, bool orderByAscending)
         {
             keys.Add(info.Key);
 
@@ -133,19 +110,13 @@ namespace KrTrade.Nt.Core.Series
                     AddKey(keys, Inputs[i], orderByAscending);
         }
 
-        public static bool operator ==(BaseSeriesInfo series1, BaseSeriesInfo series2) => 
+        public static bool operator ==(SeriesInfo series1, SeriesInfo series2) => 
             (series1 is null && series2 is null) || 
             (!(series1 is null) && !(series2 is null) && series1.GetKey() == series2.GetKey());
-        public static bool operator !=(BaseSeriesInfo series1, BaseSeriesInfo series2) => !(series1 == series2);
+        public static bool operator !=(SeriesInfo series1, SeriesInfo series2) => !(series1 == series2);
 
         public override bool Equals(object obj) => obj is ISeriesInfo other && this == other;
         public override int GetHashCode() => GetKey().GetHashCode();
 
-    }
-
-    public abstract class BaseSeriesInfo<T> : BaseSeriesInfo, ISeriesInfo<T>
-        where T : Enum
-    {
-        public new T Type { get; set; }
     }
 }

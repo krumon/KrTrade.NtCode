@@ -1,8 +1,8 @@
-﻿namespace KrTrade.Nt.Services.Series
-{
+﻿//namespace KrTrade.Nt.Services.Series
+//{
 
-    public class SeriesCollectionOptions : NinjascriptServiceOptions
-    {
+//    public class SeriesCollectionOptions : NinjascriptServiceOptions
+//    {
 
-    }
-}
+//    }
+//}

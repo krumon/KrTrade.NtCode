@@ -12,7 +12,7 @@ namespace KrTrade.Nt.Services
     {
 
         private readonly List<Action<BarsServiceInfo,BarsServiceOptions>> _optionsDelegateActions = new List<Action<BarsServiceInfo, BarsServiceOptions>>();
-        private readonly Dictionary<string,BaseSeriesInfo> _seriesConfiguration = new Dictionary<string,BaseSeriesInfo>();
+        private readonly Dictionary<string,ISeriesInfo> _seriesConfiguration = new Dictionary<string,ISeriesInfo>();
 
         public IBarsServiceBuilder ConfigureOptions(Action<BarsServiceInfo,BarsServiceOptions> configureBarsServiceOptions)
         {
@@ -21,7 +21,7 @@ namespace KrTrade.Nt.Services
         }
 
         public IBarsServiceBuilder AddSeries<TInfo>(Action<TInfo> configureSeries)
-            where TInfo : BaseSeriesInfo, new()
+            where TInfo : ISeriesInfo, new()
         {
             if (configureSeries == null)
                 throw new ArgumentNullException(nameof(configureSeries));
@@ -99,7 +99,7 @@ namespace KrTrade.Nt.Services
                 action(info,options);
 
             // Create the service with specified info
-            IBarsService barsService = new BarsService(barsManager, info, options);
+            BarsService barsService = new BarsService(barsManager, info, options);
 
             // Log trace
             if (barsService != null)

@@ -1,5 +1,4 @@
 ﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core.Series;
 using NinjaTrader.Data;
 
 namespace KrTrade.Nt.Services.Series
@@ -7,7 +6,7 @@ namespace KrTrade.Nt.Services.Series
     /// <summary>
     /// Series thats stored the lastest market data ticks.
     /// </summary>
-    public class TickSeries : BaseLongSeries, ITickSeries
+    public class TickSeries : BaseNumericSeries, ITickSeries
     {
 
         public Bars Input {  get; set; }
@@ -30,11 +29,8 @@ namespace KrTrade.Nt.Services.Series
         {
             if (info.Name != BarsSeriesType.TICK.ToString())
                 bars.PrintService.LogWarning($"Error configuring {nameof(TickSeries)}. The bars series type must be {BarsSeriesType.TICK}. The series type is going to be changed from {info.Type} to {BarsSeriesType.TICK}.");
-            if (info.Inputs != null)
-                bars.PrintService.LogWarning($"Error configuring {Name} series. The series cannot have input series. The input series are going to be deleted.");
 
             info.Type = BarsSeriesType.TICK;
-            info.Inputs = null;
         }
 
         internal override void Configure(out bool isConfigured) => isConfigured = true;
@@ -43,9 +39,9 @@ namespace KrTrade.Nt.Services.Series
             Input = Bars.Ninjascript.BarsArray[Bars.Index];
             isDataLoaded = Input != null;
         }
-        protected override long GetCandidateValue(bool isCandidateValueForUpdate) => Input.TickCount;
-        protected override bool IsValidValueToAdd(long candidateValue, bool isFirstValueToAdd) => true;
-        protected override bool IsValidValueToUpdate(long candidateValue) => candidateValue != CurrentValue;
+        protected override double GetCandidateValue(bool isCandidateValueForUpdate) => Input.TickCount;
+        protected override bool IsValidValueToAdd(double candidateValue, bool isFirstValueToAdd) => true;
+        protected override bool IsValidValueToUpdate(double candidateValue) => candidateValue != CurrentValue;
 
     }
 }

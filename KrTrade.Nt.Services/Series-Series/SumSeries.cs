@@ -11,8 +11,14 @@ namespace KrTrade.Nt.Services.Series
 
         public ISeries<double> Input { get; protected set; }
 
-        public SumSeries(IBarsService bars, PeriodSeriesInfo info) : base(bars, info)
+        internal SumSeries(IBarsService bars, PeriodSeriesInfo info) : base(bars, info)
         {
+            if (bars is BarsService barsSvc)
+                if (info.Inputs != null && info.Inputs.Count > 0)
+                    Input = barsSvc.GetOrAddSeries(info.Inputs[0]);
+
+            if (Input == null)
+                bars.PrintService.LogError($"ERROR. The {nameof(SumSeries)} could not be initialized.");
         }
 
         protected override double InitializeLastValue()

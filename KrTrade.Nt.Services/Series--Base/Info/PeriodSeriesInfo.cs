@@ -3,7 +3,7 @@
 namespace KrTrade.Nt.Services.Series
 {
 
-    public class PeriodSeriesInfo : BaseSeriesInfo
+    public class PeriodSeriesInfo : SeriesInfo
     {
 
         /// <summary>

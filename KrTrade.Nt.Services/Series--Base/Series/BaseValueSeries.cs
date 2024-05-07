@@ -60,7 +60,7 @@ namespace KrTrade.Nt.Services.Series
         protected BaseValueSeries(IBarsService bars, BaseSeriesInfo info) : base(info)
         {
             Bars = bars ?? throw new ArgumentNullException(nameof(bars));
-            Info = info ?? new SeriesInfo()
+            Info = info ?? new Core.Series.BarsSeriesInfo()
             {
                 Capacity = DEFAULT_CAPACITY,
                 OldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY,

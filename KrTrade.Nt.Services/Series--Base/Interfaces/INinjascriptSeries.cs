@@ -18,7 +18,7 @@ namespace KrTrade.Nt.Services.Series
         /// <summary>
         /// Gets the series information.
         /// </summary>
-        ISeriesInfo Info { get; }
+        IBaseSeriesInfo Info { get; }
 
         ///// <summary>
         ///// Add new element to the series.

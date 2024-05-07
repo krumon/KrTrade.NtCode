@@ -2,7 +2,7 @@
 
 namespace KrTrade.Nt.Services.Series
 {
-    public class SwingSeriesInfo : BaseSeriesInfo
+    public class SwingSeriesInfo : SeriesInfo
     {
 
         /// <summary>

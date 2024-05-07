@@ -1,21 +1,10 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using KrTrade.Nt.Services.Series;
 using System.Collections.Generic;
 
-namespace KrTrade.Nt.Services
+namespace KrTrade.Nt.Services.Series
 {
-    /// <summary>
-    /// Defines properties and methods that are necesary to create a series service.
-    /// </summary>
-    public interface IBarSeriesService : ISeriesService<BarsSeriesCollection>
+    public interface IBarsSeriesCollection : INinjascriptSeriesCollection<IBarsSeries>, IBarUpdate // INumericSeries
     {
-
-        /// <summary>
-        /// Gets the element of a sepecific index.
-        /// </summary>
-        /// <param name="index">The specific index.</param>
-        /// <returns>Series element located at specified index.</returns>
-        new double this[int index] { get; }
 
         /// <summary>
         /// Gets the index series.

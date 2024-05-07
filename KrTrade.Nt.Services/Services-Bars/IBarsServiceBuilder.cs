@@ -25,7 +25,7 @@ namespace KrTrade.Nt.Services
         /// that will be usedto construct the <see cref="Series.ISeries"/></param>
         /// <returns>The same instance of the <see cref="IBarsServiceBuilder"/> for chaining.</returns>
         IBarsServiceBuilder AddSeries<TInfo>(Action<TInfo> configureSeries)
-            where TInfo : BaseSeriesInfo, new();
+            where TInfo : ISeriesInfo, new();
 
         /// <summary>
         /// Adds new series to be used in the bars service.

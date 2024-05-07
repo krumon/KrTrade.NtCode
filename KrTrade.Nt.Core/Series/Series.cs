@@ -17,9 +17,9 @@ namespace KrTrade.Nt.Core.Series
         // ISeries implementation
         public int Capacity { get => Info.Capacity; protected internal set { Info.Capacity = value; } }
         public int OldValuesCapacity { get => Info.Capacity; protected internal set { Info.Capacity = value; } }
-        public string Name { get => Info.Name; internal set { Info.Name = value; } }
+        public string Name { get => string.IsNullOrEmpty(Info.Name) ? Key : Info.Name; internal set { Info.Name = value; } }
         public string Key => Info.Key;
-        public ISeriesInfo Info { get; protected set; }
+        public IBaseSeriesInfo Info { get; protected set; }
         public bool Equals(IHasKey other) => other is IHasKey key && Key == key.Key;
         public bool Equals(ISeries other) => Equals(other as IHasKey);
         // Properties
@@ -35,9 +35,9 @@ namespace KrTrade.Nt.Core.Series
         /// <summary>
         /// Create <see cref="ISeries"/> instance with specified information.
         /// <param name="info">The specified information of the series.</param>
-        public Series(ISeriesInfo info)
+        public Series(IBaseSeriesInfo info)
         {
-            Info = info ?? new SeriesInfo()
+            Info = info ?? new BarsSeriesInfo()
             {
                 Capacity = DEFAULT_CAPACITY,
                 OldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY,
@@ -198,7 +198,7 @@ namespace KrTrade.Nt.Core.Series
         /// <summary>
         /// Create <see cref="ISeries{T}"/> instance with specified information.
         /// <param name="info">The specified information of the series.</param>
-        public Series(ISeriesInfo info) : base(info)
+        public Series(IBaseSeriesInfo info) : base(info)
         {
         }
 

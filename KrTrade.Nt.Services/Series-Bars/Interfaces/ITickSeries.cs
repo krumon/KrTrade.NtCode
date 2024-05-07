@@ -2,7 +2,7 @@
 
 namespace KrTrade.Nt.Services.Series
 {
-    public interface ITickSeries : ILongSeries<Bars>, IBarUpdate
+    public interface ITickSeries : INumericSeries<Bars>, IBarsSeries
     {
     }
 }

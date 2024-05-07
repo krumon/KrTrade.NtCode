@@ -2,7 +2,7 @@
 
 namespace KrTrade.Nt.Services.Series
 {
-    public interface IVolumeSeries : INumericSeries<ISeries<double>>, IBarUpdate
+    public interface IVolumeSeries : INumericSeries<ISeries<double>>, IBarsSeries
     {
     }
 }
