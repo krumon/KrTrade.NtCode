@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace KrTrade.Nt.Core.Series
 {
+
     public abstract class SeriesInfo : BaseSeriesInfo<SeriesType>, ISeriesInfo
     {
 
@@ -45,19 +46,6 @@ namespace KrTrade.Nt.Core.Series
 
             Inputs.Add(info);
         }
-        //public void AddInputSeries(Action<BarsSeriesInfo> configureSeriesInfo)
-        //{
-        //    if (configureSeriesInfo == null)
-        //        throw new ArgumentNullException(nameof(configureSeriesInfo));
-
-        //    BarsSeriesInfo info = new BarsSeriesInfo();
-        //    configureSeriesInfo(info);
-
-        //    if (Inputs == null)
-        //        Inputs = new List<ISeriesInfo>();
-
-        //    Inputs.Add(info);
-        //}
 
         protected override string GetKey() 
         { 
@@ -119,4 +107,11 @@ namespace KrTrade.Nt.Core.Series
         public override int GetHashCode() => GetKey().GetHashCode();
 
     }
+
+    public abstract class SeriesInfo<T> : SeriesInfo, ISeriesInfo<T>
+        where T : Enum
+    {
+        public new T Type { get; set; }
+    }
+
 }

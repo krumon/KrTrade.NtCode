@@ -33,7 +33,7 @@ namespace KrTrade.Nt.Services
         /// <param name="configureSeries">The delegate for configuring the <see cref="SeriesServiceInfo"/> and the <see cref="SeriesServiceOptions"/> 
         /// that will be usedto construct the <see cref="Series.ISeries"/></param>
         /// <returns>The same instance of the <see cref="IBarsServiceBuilder"/> for chaining.</returns>
-        IBarsServiceBuilder AddSeries(Action<PeriodSeriesInfo> configureSeries);
+        IBarsServiceBuilder AddSeries_Period(Action<PeriodSeriesInfo> configureSeries);
 
     }
 }

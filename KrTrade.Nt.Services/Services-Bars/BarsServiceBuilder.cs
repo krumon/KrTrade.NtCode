@@ -34,7 +34,7 @@ namespace KrTrade.Nt.Services
 
             return this;
         }
-        public IBarsServiceBuilder AddSeries(Action<PeriodSeriesInfo> configureSeries)
+        public IBarsServiceBuilder AddSeries_Period(Action<PeriodSeriesInfo> configureSeries)
         {
             PeriodSeriesInfo seriesInfo = new PeriodSeriesInfo();
             //SeriesServiceOptions seriesOptions = new SeriesServiceOptions();

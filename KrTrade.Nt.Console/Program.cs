@@ -31,7 +31,7 @@ namespace KrTrade.Nt.Console.Console
             IBarsManager bars = new BarsManagerBuilder()
                 .AddPrintService((printSvc) =>
                 {
-                    //printSvc.IsEnable = true;
+                    printSvc.IsEnable = true;
                     printSvc.IsLogInfoVisible = true;
                     printSvc.IsDataSeriesInfoVisible = true;
                     printSvc.IsNumOfBarVisible = true;
@@ -43,20 +43,35 @@ namespace KrTrade.Nt.Console.Console
                 })
                 .ConfigureOptions((options) =>
                 {
-                    options.DefaultCachesCapacity = 14;
+                    options.DefaultCachesCapacity = 2;
                     options.DefaultRemovedCachesCapacity = 1;
                 })
                 .ConfigurePrimaryBars((builder) =>
                 {
-                    builder.AddSeries(
+                    builder.AddSeries_Period(
                         (info) => {
                             info.Name = "Max5";
-                            info.Type = SeriesType.AVG;
+                            info.Type = PeriodSeriesType.AVG;
                             info.Period = 5;
                             info.Capacity = 7;
+                            info.AddInputSeries_Period(max =>
+                            {
+                                max.Type = PeriodSeriesType.MAX;
+                            });
+                            info.AddInputSeries_Swing(swing =>
+                            {
+                                swing.AddInputSeries<PeriodSeriesInfo>(min =>
+                                {
+                                    min.Type = PeriodSeriesType.MIN;
+                                    min.OldValuesCapacity = 5;
+                                    min.Period = 5;
+                                });
+                            });
                             info.AddInputSeries<SwingSeriesInfo>(high =>
                             {
-
+                                high.Type = SwingSeriesType.SWING_HIGH;
+                                high.LeftStrength = 3;
+                                high.RightStrength = 3;
                             });
                         });
                 })
@@ -66,20 +81,21 @@ namespace KrTrade.Nt.Console.Console
                     // Configure the BarsService options.
                     builder.ConfigureOptions((info,op) =>
                     {
-                        // Configure the service
-                        op.IsEnable = true;
-                        op.IsLogEnable = true;
-                        op.CalculateMode = NinjaTrader.NinjaScript.Calculate.OnEachTick;
                         // Configure the data series.
                         info.InstrumentCode = InstrumentCode.MES;
                         info.TradingHoursCode = TradingHoursCode.Default;
                         info.TimeFrame = TimeFrame.m5;
                         info.MarketDataType = MarketDataType.Last;
+                        // Configure the service
+                        op.IsEnable = true;
+                        op.IsLogEnable = true;
+                        op.CalculateMode = NinjaTrader.NinjaScript.Calculate.OnEachTick;
                     });
                     // Add series to the BarsService().
-                    builder.AddSeries((info) =>
+                    builder.AddSeries_Period((info) =>
                     {
-                        
+                        info.Type = PeriodSeriesType.DEVSTD;
+                        info.Period = 20;
                     }); 
                 })
                 .AddDataSeries(builder =>
@@ -95,18 +111,6 @@ namespace KrTrade.Nt.Console.Console
                 .Configure(null,null);
 
 
-            //bars
-            //.AddService<CacheService<MaxCache>, CacheServiceOptions>("MAX",(options) =>
-            //{
-            //    options.IsLogEnable = true;
-            //    options.Capacity = 5;
-            //},bars.Ninjascript.High)
-            //.AddService<CacheService<MaxCache>, CacheServiceOptions>("MIN",(options) =>
-            //{
-            //    options.IsLogEnable = true;
-            //    options.Capacity = 5;
-            //});
-
             bars.Configure();
 
             // DataLoaded
@@ -114,44 +118,6 @@ namespace KrTrade.Nt.Console.Console
 
             // OnBarUpdate
             bars.OnBarUpdate();
-
-            //var displacement = 0;
-            //var strength = 4;
-
-            //double swingHighValue = bars.Series.Close.SwingHigh(displacement, strength);
-            //var max = bars.GetCache<MaxCache>();
-            //var currentMax = max[0];
-            //if (swingHighValue > 0)
-            //    bars.GetBars(displacement, strength * 2 + 1);
-
-            //var high = bars.Series.High[0];
-
-            //NinjaScriptBase ninjascript = null;
-            //PrintService printService;
-            //BarsService barsSvc = new BarsService(ninjascript, printService);
-            //barsSvc.LogOptions.BarsLogLevel = Core.Bars.BarsLogLevel.PriceChanged;
-
-            //int capacity = 10;
-            //DoubleCache cache = new DoubleCache(capacity);
-            //Random random = new Random();
-
-            //for (int i = 0; i < capacity*2; i++)
-            //{
-            //    cache.Add(random.Next(0,1000));
-            //}
-
-            //for (int i = 0; i < capacity; i++)
-            //    System.Console.WriteLine(string.Format("Cache[{0}]: {1}", i, cache[i]));
-
-            //System.Console.WriteLine();
-
-            //System.Console.WriteLine(string.Format("Last: {0}", cache.Last));
-            //System.Console.WriteLine(string.Format("High: {0}", cache.High));
-            //System.Console.WriteLine(string.Format("Low: {0}", cache.Low));
-
-            //cache.Replace(69, 0);
-            //for (int i = 0; i < capacity; i++)
-            //    System.Console.WriteLine(string.Format("Cache[{0}]: {1}", i, cache[i]));
 
             System.Console.ReadKey();
 

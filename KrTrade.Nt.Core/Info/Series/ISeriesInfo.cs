@@ -1,15 +1,16 @@
-﻿using System;
+﻿using KrTrade.Nt.Core.Data;
+using System;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Core.Series
 {
-    public interface ISeriesInfo : IBaseSeriesInfo
+    public interface ISeriesInfo : IBaseSeriesInfo<SeriesType>
     {
 
         /// <summary>
-        /// Gets the inputs series.
+        /// Gets or sets the inputs series.
         /// </summary>
-        List<ISeriesInfo> Inputs { get; }
+        List<ISeriesInfo> Inputs { get; set; }
 
         /// <summary>
         /// Adds the input series to the series object.
@@ -20,16 +21,16 @@ namespace KrTrade.Nt.Core.Series
         void AddInputSeries<TInfo>(Action<TInfo> configureSeriesInfo)
             where TInfo : ISeriesInfo, new();
 
-        ///// <summary>
-        ///// Adds the input series to the series object.
-        ///// </summary>
-        ///// <param name="configureSeriesInfo">Delegate to configure the series info.</param>
-        ///// <exception cref="ArgumentNullException">The <paramref name="configureSeriesInfo"/> cannot be null.</exception>
-        //void AddInputSeries(Action<BarsSeriesInfo> configureSeriesInfo);
-
     }
-    public interface ISeriesInfo<T> : ISeriesInfo, IBaseSeriesInfo<T>
+
+    public interface ISeriesInfo<T> : ISeriesInfo
         where T : Enum
     {
+
+        /// <summary>
+        /// Gets or sets the type of the series.
+        /// </summary>
+        new T Type { get; set; }
+
     }
 }

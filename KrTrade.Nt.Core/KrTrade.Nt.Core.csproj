@@ -53,8 +53,9 @@
     <Compile Include="Bars\BarEventExtensions.cs" />
     <Compile Include="Bars\BarPattern.cs" />
     <Compile Include="Bars\BarType.cs" />
+    <Compile Include="Data\Series\SwingSeriesType.cs" />
     <Compile Include="Data\Series\SeriesCollectionType.cs" />
-    <Compile Include="Data\Series\SeriesType.cs" />
+    <Compile Include="Data\Series\PeriodSeriesType.cs" />
     <Compile Include="Data\Series\BarsSeriesType.cs" />
     <Compile Include="Info\Series\IBarsSeriesInfo.cs" />
     <Compile Include="Info\Series\ISeriesCollectionInfo.cs" />
@@ -86,7 +87,7 @@
     <Compile Include="Data\Calculate\MultiSeriesCalculateMode.cs" />
     <Compile Include="Data\Formats\TimeFormat.cs" />
     <Compile Include="Data\MarketData\MarketDataTypeExtensions.cs" />
-    <Compile Include="Data\Series\SeriesNames.cs" />
+    <Compile Include="Data\Series\SeriesType.cs" />
     <Compile Include="Data\Intervals\BarsPeriodExtensions.cs" />
     <Compile Include="Data\Intervals\PeriodType.cs" />
     <Compile Include="Data\Brokers\Broker.cs" />

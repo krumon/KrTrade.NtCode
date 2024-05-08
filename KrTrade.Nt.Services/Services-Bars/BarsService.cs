@@ -395,20 +395,20 @@ namespace KrTrade.Nt.Services
                 {
                     //case SeriesNames.INPUT:
                     //    return Input;
-                    case SeriesNames.OPEN:
+                    case SeriesType.OPEN:
                         return Open;
-                    case SeriesNames.HIGH:
+                    case SeriesType.HIGH:
                         return High;
-                    case SeriesNames.LOW:
+                    case SeriesType.LOW:
                         return Low;
-                    case SeriesNames.CLOSE:
+                    case SeriesType.CLOSE:
                         return Close;
-                    case SeriesNames.VOLUME:
+                    case SeriesType.VOLUME:
                         return Volume;
-                    case SeriesNames.TICK:
+                    case SeriesType.TICK:
                         return Tick;
-                    case SeriesNames.CURRENT_BAR:
-                    case SeriesNames.TIME:
+                    case SeriesType.CURRENT_BAR:
+                    case SeriesType.TIME:
                         return default;
                 }
             }
@@ -432,20 +432,20 @@ namespace KrTrade.Nt.Services
                 {
                     //case SeriesNames.INPUT:
                     //    return Input;
-                    case SeriesNames.OPEN:
+                    case SeriesType.OPEN:
                         return Open;
-                    case SeriesNames.HIGH:
+                    case SeriesType.HIGH:
                         return High;
-                    case SeriesNames.LOW:
+                    case SeriesType.LOW:
                         return Low;
-                    case SeriesNames.CLOSE:
+                    case SeriesType.CLOSE:
                         return Close;
-                    case SeriesNames.VOLUME:
+                    case SeriesType.VOLUME:
                         return Volume;
-                    case SeriesNames.TICK:
+                    case SeriesType.TICK:
                         return Tick;
-                    case SeriesNames.CURRENT_BAR:
-                    case SeriesNames.TIME:
+                    case SeriesType.CURRENT_BAR:
+                    case SeriesType.TIME:
                         return default;
                 }
             }
@@ -456,11 +456,11 @@ namespace KrTrade.Nt.Services
             return Series[info.Key];
         }
 
-        private INumericSeries CreateSeries(SeriesNames type, List<ISeriesInfo> inputs)
+        private INumericSeries CreateSeries(SeriesType type, List<ISeriesInfo> inputs)
         {
             switch (type)
             {
-                case SeriesNames.MAX:
+                case SeriesType.MAX:
                     if (inputs == null || inputs.Count == 0)
                     {
                         PrintService.LogWarning(
@@ -484,7 +484,7 @@ namespace KrTrade.Nt.Services
                             $"The {type} series could not be created.");
                         return default;
                     }
-                case SeriesNames.MIN:
+                case SeriesType.MIN:
                     if (inputs == null || inputs.Count == 0)
                     {
                         PrintService.LogWarning(
@@ -508,7 +508,7 @@ namespace KrTrade.Nt.Services
                             $"The {type} series could not be created.");
                         return null;
                     }
-                case SeriesNames.SUM:
+                case SeriesType.SUM:
                     if (inputs == null || inputs.Count == 0)
                     {
                         PrintService.LogWarning(
@@ -532,7 +532,7 @@ namespace KrTrade.Nt.Services
                             $"The {type} series could not be created.");
                         return null;
                     }
-                case SeriesNames.AVG:
+                case SeriesType.AVG:
                     if (inputs == null || inputs.Count == 0)
                     {
                         PrintService.LogWarning(
@@ -556,7 +556,7 @@ namespace KrTrade.Nt.Services
                             $"The {type} series could not be created.");
                         return null;
                     }
-                case SeriesNames.RANGE:
+                case SeriesType.RANGE:
                     if (inputs == null || inputs.Count < 2)
                     {
                         PrintService.LogWarning(

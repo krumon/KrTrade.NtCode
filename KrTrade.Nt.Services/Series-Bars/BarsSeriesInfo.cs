@@ -16,6 +16,7 @@ namespace KrTrade.Nt.Services.Series
             OldValuesCapacity = oldValuesCapacity;
         }
 
+        protected override string GetInputsKey() => string.Empty;
         protected override object[] GetParameters() => null;
 
     }

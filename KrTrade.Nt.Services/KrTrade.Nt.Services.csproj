@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Series--Base\Collections\BaseNinjascriptSeriesCollection.cs" />
+    <Compile Include="Series--Base\Info\SeriesInfoExtensions.cs" />
     <Compile Include="Series--Base\Info\PeriodSeriesInfo.cs" />
     <Compile Include="Series--Base\Info\NinjascriptSeriesInfo.cs" />
     <Compile Include="Series--Base\Info\SwingSeriesInfo.cs" />
@@ -67,7 +68,6 @@
     <Compile Include="Series--Base\Interfaces\ILongSeries.cs" />
     <Compile Include="Series--Base\Interfaces\IIntSeries.cs" />
     <Compile Include="Series--Base\Interfaces\INumericSeries.cs" />
-    <Compile Include="Series--Base\Info\SeriesCollectionOptions.cs" />
     <Compile Include="Series-Series\_SeriesCollection.cs" />
     <Compile Include="Series-Bars\Interfaces\IBarsSeries.cs" />
     <Compile Include="Series-Bars\Interfaces\ICurrentBarSeries.cs" />

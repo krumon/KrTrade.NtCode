@@ -10,7 +10,7 @@ namespace KrTrade.Nt.Core.Series
         /// <summary>
         /// Gets or sets the type of the series.
         /// </summary>
-        SeriesNames Type { get; set; }
+        SeriesType Type { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="ISeries"/> capacity.
@@ -31,5 +31,6 @@ namespace KrTrade.Nt.Core.Series
         /// Gets or sets the type of the series.
         /// </summary>
         new T Type { get; set; }
+
     }
 }
