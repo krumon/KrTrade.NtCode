@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Series;
 using NinjaTrader.Data;
 
 namespace KrTrade.Nt.Services.Series
@@ -27,10 +28,11 @@ namespace KrTrade.Nt.Services.Series
 
         public TickSeries(IBarsService bars, BarsSeriesInfo info) : base(bars, info)
         {
-            if (info.Name != BarsSeriesType.TICK.ToString())
-                bars.PrintService.LogWarning($"Error configuring {nameof(TickSeries)}. The bars series type must be {BarsSeriesType.TICK}. The series type is going to be changed from {info.Type} to {BarsSeriesType.TICK}.");
-
-            info.Type = BarsSeriesType.TICK;
+            if (info.Type != BarsSeriesType.TICK)
+            {
+                bars.PrintService.LogWarning($"Error configuring {Name} series. The series type must be {BarsSeriesType.TICK}. The series type is going to be changed from {info.Type} to {BarsSeriesType.TICK}.");
+                info.Type = BarsSeriesType.TICK;
+            }
         }
 
         internal override void Configure(out bool isConfigured) => isConfigured = true;

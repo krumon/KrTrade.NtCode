@@ -1,5 +1,4 @@
 ﻿using KrTrade.Nt.Core.Info;
-using KrTrade.Nt.Core.Options;
 using NinjaTrader.NinjaScript;
 using System;
 using System.Collections.Generic;
@@ -12,26 +11,30 @@ namespace KrTrade.Nt.Core.Services
         #region Private members
 
         private readonly NinjaScriptBase _ninjascript;
-        protected IOptions _options;
-        protected IInfo _info;
+        protected IServiceOptions _options;
+        protected IServiceInfo _info;
 
         #endregion
 
         #region Implementation
 
         public NinjaScriptBase Ninjascript => _ninjascript;
-        public IInfo Info { get => _info ?? new ServiceInfo(); protected set { _info = value; } }
-        public IOptions Options { get => _options ?? new ServiceOptions(); protected set { _options = value; } }
+        public IServiceInfo Info { get; protected set; }
+        public IServiceOptions Options { get; protected set; }
+        //public IServiceInfo Info { get => _info ?? new ServiceInfo(); protected set { _info = value; } }
+        //public IServiceOptions Options { get => _options ?? new ServiceOptions(); protected set { _options = value; } }
 
         // Quick access to properties
         public string Key => GetKey();
-        public string Name => Info.Name;
+        public string Name => string.IsNullOrEmpty(Info.Name) ? Info.Type.ToString() : Info.Name;
         public bool IsEnable => Options.IsEnable;
         public bool IsLogEnable => Options.IsLogEnable;  
         // Equatable method necesary for dictionaries
         public bool Equals(IHasKey other) => Info.Equals(other);
         // The services need unique key to be stored in the service collections.
         protected abstract string GetKey();
+        // Gets the type of the service
+        protected abstract ServiceType GetServiceType();
 
         #endregion
 
@@ -45,11 +48,15 @@ namespace KrTrade.Nt.Core.Services
         /// <param name="info">The service informartion.</param>
         /// <param name="options">The service options.</param>
         /// <exception cref="ArgumentNullException">The <see cref="NinjaScriptBase"/> cannot be null.</exception>
-        protected BaseService(NinjaScriptBase ninjascript, IInfo info, IOptions options)
+        protected BaseService(NinjaScriptBase ninjascript, IServiceInfo info, IServiceOptions options)
         {
             _ninjascript = ninjascript ?? throw new ArgumentNullException($"Error in 'BaseService' constructor. The {nameof(ninjascript)} argument cannot be null.");
-            _info = info;
-            _options = options;
+            //_info = info;
+            //_options = options;
+            Info = info ?? new ServiceInfo();
+            Options = options ?? new ServiceOptions();
+
+            Info.Type = GetServiceType();
         }
 
         #endregion
@@ -248,11 +255,12 @@ namespace KrTrade.Nt.Core.Services
     }
 
     public abstract class BaseService<TInfo> : BaseService, IService<TInfo>
-        where TInfo : ServiceInfo, new()
+        where TInfo : IServiceInfo, new()
     {
 
         protected new TInfo _info;
-        public new TInfo Info { get => _info ?? new TInfo(); protected set { _info = value; } }
+        public new TInfo Info { get; protected set; }
+        //public new TInfo Info { get => _info ?? new TInfo(); protected set { _info = value; } }
 
         /// <summary>
         /// Create <see cref="BaseService"/> instance with specified information and options.
@@ -262,16 +270,19 @@ namespace KrTrade.Nt.Core.Services
         /// <param name="info">The service informartion.</param>
         /// <param name="options">The service options.</param>
         /// <exception cref="ArgumentNullException">The <see cref="NinjaScriptBase"/> cannot be null.</exception>
-        protected BaseService(NinjaScriptBase ninjascript, TInfo info, IOptions options) : base(ninjascript, info, options) { }
+        protected BaseService(NinjaScriptBase ninjascript, TInfo info, IServiceOptions options) : base(ninjascript, info, options) 
+        {
+        }
 
     }
 
     public abstract class BaseService<TInfo,TOptions> : BaseService<TInfo>, IService<TInfo,TOptions>
-        where TInfo : ServiceInfo, new()
-        where TOptions : ServiceOptions, new()
+        where TInfo : IServiceInfo, new()
+        where TOptions : IServiceOptions, new()
     {
         protected new TOptions _options;
-        public new TOptions Options { get => _options ?? new TOptions(); protected set { _options = value; } }
+        public new TOptions Options { get; protected set; }
+        //public new TOptions Options { get => _options ?? new TOptions(); protected set { _options = value; } }
 
         //protected BaseService(NinjaScriptBase ninjascript) : this(ninjascript, null,null) { }
         ////protected BaseService(NinjaScriptBase ninjascript, Action<TOptions> configureOptions) : this(ninjascript, configureOptions, null) { }
@@ -291,7 +302,9 @@ namespace KrTrade.Nt.Core.Services
         /// <param name="info">The service informartion.</param>
         /// <param name="options">The service options.</param>
         /// <exception cref="ArgumentNullException">The <see cref="NinjaScriptBase"/> cannot be null.</exception>
-        protected BaseService(NinjaScriptBase ninjascript, TInfo info, TOptions options) : base(ninjascript, info, options) { }
+        protected BaseService(NinjaScriptBase ninjascript, TInfo info, TOptions options) : base(ninjascript, info, options) 
+        {
+        }
 
     }
 }

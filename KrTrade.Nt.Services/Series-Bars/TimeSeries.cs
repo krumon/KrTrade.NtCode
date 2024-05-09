@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Core.Data;
+﻿using KrTrade.Nt.Core.Series;
 using System;
 
 namespace KrTrade.Nt.Services.Series
@@ -26,10 +26,11 @@ namespace KrTrade.Nt.Services.Series
 
         public TimeSeries(IBarsService bars, BarsSeriesInfo info) : base(bars, info)
         {
-            if (info.Name != BarsSeriesType.TIME.ToString())
-                bars.PrintService.LogWarning($"Error configuring {nameof(TickSeries)}. The bars series type must be {BarsSeriesType.TIME}. The series type is going to be changed from {info.Type} to {BarsSeriesType.TIME}.");
-
-            info.Type = BarsSeriesType.TIME;
+            if (info.Type != BarsSeriesType.TIME)
+            {
+                bars.PrintService.LogWarning($"Error configuring {Name} series. The series type must be {BarsSeriesType.TIME}. The series type is going to be changed from {info.Type} to {BarsSeriesType.TIME}.");
+                info.Type = BarsSeriesType.TIME;
+            }
         }
 
         internal override void Configure(out bool isConfigured) => isConfigured = true;

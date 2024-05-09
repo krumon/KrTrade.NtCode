@@ -1,5 +1,4 @@
-﻿using KrTrade.Nt.Core.Data;
-using NinjaTrader.NinjaScript;
+﻿using KrTrade.Nt.Core.Series;
 
 namespace KrTrade.Nt.Services.Series
 {
@@ -9,7 +8,7 @@ namespace KrTrade.Nt.Services.Series
     public class VolumeSeries : BaseNumericSeries, IVolumeSeries
     {
 
-        public ISeries<double> Input {  get; set; }
+        public NinjaTrader.NinjaScript.ISeries<double> Input {  get; set; }
 
         public VolumeSeries(IBarsService bars)
             : this(bars,
@@ -27,10 +26,11 @@ namespace KrTrade.Nt.Services.Series
 
         public VolumeSeries(IBarsService bars, BarsSeriesInfo info) : base(bars, info)
         {
-            if (info.Name != BarsSeriesType.VOLUME.ToString())
-                bars.PrintService.LogWarning($"Error configuring {nameof(TickSeries)}. The bars series type must be {BarsSeriesType.VOLUME}. The series type is going to be changed from {info.Type} to {BarsSeriesType.VOLUME}.");
-
-            info.Type = BarsSeriesType.VOLUME;
+            if (info.Type != BarsSeriesType.VOLUME)
+            {
+                bars.PrintService.LogWarning($"Error configuring {Name} series. The series type must be {BarsSeriesType.VOLUME}. The series type is going to be changed from {info.Type} to {BarsSeriesType.VOLUME}.");
+                info.Type = BarsSeriesType.VOLUME;
+            }
         }
 
         internal override void Configure(out bool isConfigured) => isConfigured = true;

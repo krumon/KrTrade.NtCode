@@ -1,11 +1,12 @@
 ﻿using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.DataSeries;
 using KrTrade.Nt.Core.Info;
+using KrTrade.Nt.Core.Services;
 using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Services
 {
-    public class BarsServiceInfo : BaseKeyInfo
+    public class BarsServiceInfo : BaseServiceKeyInfo
     {
 
         /// <summary>

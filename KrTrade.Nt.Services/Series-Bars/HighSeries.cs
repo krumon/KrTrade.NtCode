@@ -24,10 +24,11 @@ namespace KrTrade.Nt.Services.Series
 
         public HighSeries(IBarsService bars, BarsSeriesInfo info) : base(bars, info)
         {
-            if (info.Name != BarsSeriesType.HIGH.ToString())
+            if (info.Type != BarsSeriesType.HIGH)
+            {
                 bars.PrintService.LogWarning($"Error configuring {Name} series. The series type must be {BarsSeriesType.HIGH}. The series type is going to be changed from {info.Type} to {BarsSeriesType.HIGH}.");
-
-            info.Type = BarsSeriesType.HIGH;
+                info.Type = BarsSeriesType.HIGH;
+            }
         }
 
         internal override void DataLoaded(out bool isDataLoaded)

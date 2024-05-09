@@ -1,4 +1,5 @@
-﻿using NinjaTrader.NinjaScript;
+﻿using KrTrade.Nt.Core.Services;
+using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Services
 {
@@ -15,6 +16,8 @@ namespace KrTrade.Nt.Services
         protected BaseStats(NinjaScriptBase ninjascript) : base(ninjascript,null,null,null)
         {
         }
+
+        protected override ServiceType GetServiceType() => ServiceType.STATS;
 
     }
 }

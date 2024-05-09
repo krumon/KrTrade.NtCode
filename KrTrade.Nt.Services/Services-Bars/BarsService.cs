@@ -1,6 +1,7 @@
 ﻿using KrTrade.Nt.Core.Bars;
 using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.Series;
+using KrTrade.Nt.Core.Services;
 using KrTrade.Nt.Services.Series;
 using NinjaTrader.Core.FloatingPoint;
 //using NinjaTrader.Data;
@@ -120,6 +121,7 @@ namespace KrTrade.Nt.Services
 
         #region Implementation
 
+        protected override ServiceType GetServiceType() => ServiceType.BARS;
         internal override void Configure(out bool isConfigured)
         {
             _barEvents = new Dictionary<BarEvent, bool>()

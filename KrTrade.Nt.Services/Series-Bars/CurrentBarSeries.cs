@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Core.Data;
+﻿using KrTrade.Nt.Core.Series;
 
 namespace KrTrade.Nt.Services.Series
 {
@@ -25,10 +25,11 @@ namespace KrTrade.Nt.Services.Series
 
         public CurrentBarSeries(IBarsService bars, BarsSeriesInfo info) : base(bars, info)
         {
-            if (info.Name != BarsSeriesType.CURRENT_BAR.ToString())
+            if (info.Type != BarsSeriesType.CURRENT_BAR)
+            {
                 bars.PrintService.LogWarning($"Error configuring {Name} series. The series type must be {BarsSeriesType.CURRENT_BAR}. The series type is going to be changed from {info.Type} to {BarsSeriesType.CURRENT_BAR}.");
-
-            info.Type = BarsSeriesType.CURRENT_BAR;
+                info.Type = BarsSeriesType.CURRENT_BAR;
+            }
         }
 
         internal override void Configure(out bool isConfigured) => isConfigured = true;

@@ -1,4 +1,6 @@
-﻿namespace KrTrade.Nt.Services
+﻿using KrTrade.Nt.Core.Services;
+
+namespace KrTrade.Nt.Services
 {
     public class StatsService : BarUpdateService<StatsInfo,StatsOptions>, IStatsService
     {
@@ -37,6 +39,8 @@
         //public BaseSeriesCache Avg => throw new System.NotImplementedException();
 
         //public BaseSeriesCache StdDev => throw new System.NotImplementedException();
+
+        protected override ServiceType GetServiceType() => ServiceType.STATS;
 
         public override string ToLogString()
         {

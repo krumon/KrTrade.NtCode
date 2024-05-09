@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Core.Data;
+﻿using KrTrade.Nt.Core.Series;
 using System.Collections.Generic;
 using Bar = KrTrade.Nt.Core.Bars.Bar;
 

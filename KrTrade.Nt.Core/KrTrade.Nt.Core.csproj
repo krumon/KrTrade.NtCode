@@ -53,10 +53,10 @@
     <Compile Include="Bars\BarEventExtensions.cs" />
     <Compile Include="Bars\BarPattern.cs" />
     <Compile Include="Bars\BarType.cs" />
-    <Compile Include="Data\Series\SwingSeriesType.cs" />
-    <Compile Include="Data\Series\SeriesCollectionType.cs" />
-    <Compile Include="Data\Series\PeriodSeriesType.cs" />
-    <Compile Include="Data\Series\BarsSeriesType.cs" />
+    <Compile Include="Series\DataTypes\SwingSeriesType.cs" />
+    <Compile Include="Series\DataTypes\SeriesCollectionType.cs" />
+    <Compile Include="Series\DataTypes\PeriodSeriesType.cs" />
+    <Compile Include="Series\DataTypes\BarsSeriesType.cs" />
     <Compile Include="Info\Series\IBarsSeriesInfo.cs" />
     <Compile Include="Info\Series\ISeriesCollectionInfo.cs" />
     <Compile Include="Info\Series\SeriesCollectionInfo.cs" />
@@ -87,7 +87,7 @@
     <Compile Include="Data\Calculate\MultiSeriesCalculateMode.cs" />
     <Compile Include="Data\Formats\TimeFormat.cs" />
     <Compile Include="Data\MarketData\MarketDataTypeExtensions.cs" />
-    <Compile Include="Data\Series\SeriesType.cs" />
+    <Compile Include="Series\DataTypes\SeriesType.cs" />
     <Compile Include="Data\Intervals\BarsPeriodExtensions.cs" />
     <Compile Include="Data\Intervals\PeriodType.cs" />
     <Compile Include="Data\Brokers\Broker.cs" />
@@ -142,9 +142,12 @@
     <Compile Include="Options\IOptions.cs" />
     <Compile Include="Options\BaseOptions.cs" />
     <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\BaseServiceKeyInfo.cs" />
     <Compile Include="Services\BaseServiceInfo.cs" />
     <Compile Include="Services\IService.cs" />
+    <Compile Include="Services\IServiceOptions.cs" />
     <Compile Include="Services\IServiceInfo.cs" />
+    <Compile Include="Services\ServiceType.cs" />
     <Compile Include="Services\ServiceInfo.cs" />
     <Compile Include="Services\ServiceOptions.cs" />
     <Compile Include="Services\BarUpdateServiceType.cs" />

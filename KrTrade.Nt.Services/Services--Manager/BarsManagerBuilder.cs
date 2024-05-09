@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Services;
 using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
 using System;
@@ -51,25 +52,38 @@ namespace KrTrade.Nt.Services
             if (ninjascript.State != State.Configure)
                 throw new Exception("'BarsManager' must be built when 'NinjaScript.State' is 'State.Configure'.");
 
+            // Log trace
+            ninjascript.Print("'PrintOptions' is going to be created...");
             // Configure PrintService
             PrintOptions printOptions = new PrintOptions();
             foreach (var action in _printDelegateActions)
                 action(printOptions);
-            IPrintService printService = new PrintService(ninjascript, printOptions);
-
             // Log trace
-            printService.LogTrace($"{printService.Name} has been created succesfully.");
+            ninjascript.Print("'PrintOptions' has been created succesfully.");
 
+            ninjascript.Print("'PrintService' is going to be created...");
+            IPrintService printService = new PrintService(ninjascript, printOptions);
+            ninjascript.Print("'PrintService' has been created succesfully.");
+            // Log trace
+            //printService.LogTrace("'PrintService'has been created succesfully (2).");
+            //printService.LogTrace($"{printService.Info.Type.ToLongString()} has been created succesfully.");
+            //printService.LogTrace($"{printService.Name} has been created succesfully.");
+
+            ninjascript.Print("'BarsManagerOptions' is going to be created...");
             // Configure Options
             BarsManagerOptions options = new BarsManagerOptions();
             foreach (var action in _optionsDelegateActions)
                 action(options);
+            ninjascript.Print("'BarsManagerOptions' has been created succesfully.");
 
+            ninjascript.Print("'BarsManager' is going to be created...");
             // Initialize 'BarsManager' with the configure parameters.
             BarsManager barsManager = new BarsManager(ninjascript, printService, options);
+            ninjascript.Print("'BarsManager' has been created succesfully.");
 
             // Log initialized trace.
-            printService.LogTrace($"{barsManager.Name} has been created succesfully.");
+            printService.LogTrace("'BarsManager' has been created succesfully (2).");
+            //printService.LogTrace($"{barsManager.Name} has been created succesfully.");
 
             // ++++++++++ CONFIGURE AND ADD DATA SERIES ++++++++++++++  //
 

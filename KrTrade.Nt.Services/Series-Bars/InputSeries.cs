@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Core.Data;
+﻿using KrTrade.Nt.Core.Series;
 
 namespace KrTrade.Nt.Services.Series
 {
@@ -10,23 +10,25 @@ namespace KrTrade.Nt.Services.Series
         public InputSeries(IBarsService bars)
             : this(bars,
                   new BarsSeriesInfo(
-                      BarsSeriesType.HIGH,
+                      BarsSeriesType.INPUT,
                       bars?.CacheCapacity ?? DEFAULT_CAPACITY,
                       bars?.RemovedCacheCapacity ?? DEFAULT_OLD_VALUES_CAPACITY))
         {
         }
 
         public InputSeries(IBarsService bars, int capacity, int oldValuesCapacity)
-            : this(bars, new BarsSeriesInfo(BarsSeriesType.HIGH, capacity, oldValuesCapacity))
+            : this(bars, new BarsSeriesInfo(BarsSeriesType.INPUT, capacity, oldValuesCapacity))
         {
         }
 
         public InputSeries(IBarsService bars, BarsSeriesInfo info) : base(bars, info)
         {
-            if (info.Name != BarsSeriesType.HIGH.ToString())
-                bars.PrintService.LogWarning($"Error configuring {Name} series. The series type must be {BarsSeriesType.HIGH}. The series type is going to be changed from {info.Type} to {BarsSeriesType.HIGH}.");
+            if (info.Type != BarsSeriesType.INPUT)
+            {
+                bars.PrintService.LogWarning($"Error configuring {Name} series. The series type must be {BarsSeriesType.INPUT}. The series type is going to be changed from {info.Type} to {BarsSeriesType.INPUT}.");
+                info.Type = BarsSeriesType.INPUT;
+            }
 
-            info.Type = BarsSeriesType.HIGH;
         }
 
         internal override void DataLoaded(out bool isDataLoaded)

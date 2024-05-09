@@ -1,4 +1,4 @@
-﻿namespace KrTrade.Nt.Core.Data
+﻿namespace KrTrade.Nt.Core.Series
 {
     /// <summary>
     /// The type of the 'NinjaScript.ISeries'.

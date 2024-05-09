@@ -3,9 +3,9 @@
 namespace KrTrade.Nt.Core.Services
 {
     /// <summary>
-    /// Provides the options for any service.
+    /// Defines the options of the service.
     /// </summary>
-    public class ServiceOptions : BaseOptions, IServiceOptions
+    public interface IServiceOptions : IOptions
     {
     }
 }

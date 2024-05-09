@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Core.Bars;
+using KrTrade.Nt.Core.Services;
 using KrTrade.Nt.Services.Series;
 using System.Collections.Generic;
 
@@ -97,6 +98,7 @@ namespace KrTrade.Nt.Services
             return key;
 
         }
+        protected override ServiceType GetServiceType() => ServiceType.BARS_MANAGER;
         public int BarsInProgress => Ninjascript.BarsInProgress;
         public new IList<BarsServiceInfo> Info { get; internal set; }
         //public int Capacity => throw new NotImplementedException();

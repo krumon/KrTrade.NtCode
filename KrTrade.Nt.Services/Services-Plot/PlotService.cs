@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Core.Info;
+using KrTrade.Nt.Core.Services;
 using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Services
@@ -8,9 +9,11 @@ namespace KrTrade.Nt.Services
     /// </summary>
     public class PlotService : BaseNinjascriptService
     {
-        public PlotService(NinjaScriptBase ninjascript, IPrintService printService, IInfo info, NinjascriptServiceOptions options) : base(ninjascript, printService, info, options)
+        public PlotService(NinjaScriptBase ninjascript, IPrintService printService, IServiceInfo info, NinjascriptServiceOptions options) : base(ninjascript, printService, info, options)
         {
         }
+
+        protected override ServiceType GetServiceType() => ServiceType.PLOT;
 
         public override string ToLogString()
         {

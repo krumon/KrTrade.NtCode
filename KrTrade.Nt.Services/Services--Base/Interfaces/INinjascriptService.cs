@@ -52,7 +52,7 @@ namespace KrTrade.Nt.Services
     /// Defines properties and methods for any ninjascript service.
     /// </summary>
     public interface INinjascriptService<TInfo> : INinjascriptService, IService<TInfo>
-        where TInfo : IInfo
+        where TInfo : IServiceInfo
     {
 
     }
@@ -60,7 +60,7 @@ namespace KrTrade.Nt.Services
     /// Defines properties and methods for any ninjascript service.
     /// </summary>
     public interface INinjascriptService<TInfo,TOptions> : INinjascriptService<TInfo>, IService<TInfo,TOptions>
-        where TInfo : IInfo
+        where TInfo : IServiceInfo
         where TOptions : NinjascriptServiceOptions, new()
     {
         /// <summary>

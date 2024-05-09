@@ -1,5 +1,6 @@
 ﻿using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.Extensions;
+using KrTrade.Nt.Core.Services;
 using NinjaTrader.NinjaScript;
 using System;
 
@@ -89,6 +90,7 @@ namespace KrTrade.Nt.Services
         protected override Action ClearMethod => Ninjascript.ClearOutputWindow;
 
         protected override string GetKey() => nameof(PrintService);
+        protected override ServiceType GetServiceType() => ServiceType.PRINT;
 
         #endregion
 

@@ -41,7 +41,7 @@ namespace KrTrade.Nt.Services
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService) : this(ninjascript, printService,null,null) { }
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, IElementInfo info) : this(ninjascript, printService, info,null) { }
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceOptions options) : this(ninjascript, printService,null, options) { }
-        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, IInfo info, IOptions options) : base(ninjascript, info, options) 
+        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, IServiceInfo info, IServiceOptions options) : base(ninjascript, info, options) 
         {
             _printService = printService;
         }
@@ -211,7 +211,7 @@ namespace KrTrade.Nt.Services
     }
 
     public abstract class BaseNinjascriptService<TInfo> : BaseNinjascriptService, INinjascriptService<TInfo>
-        where TInfo : IInfo, new()
+        where TInfo : IServiceInfo, new()
     {
         protected new TInfo _info;
         public new TInfo Info { get => _info == null ? new TInfo() : _info; protected set { _info = value; } }
@@ -220,7 +220,7 @@ namespace KrTrade.Nt.Services
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript,printService) { }
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, TInfo info) : base(ninjascript,printService,info) { }
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceOptions options) : base(ninjascript,printService,options) { }
-        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, TInfo info, IOptions options) : base(ninjascript, printService, info, options) { }
+        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, TInfo info, IServiceOptions options) : base(ninjascript, printService, info, options) { }
 
         ///// <summary>
         ///// Create <see cref="BaseNinjascriptService"/> instance and configure it.
@@ -252,7 +252,7 @@ namespace KrTrade.Nt.Services
     }
 
     public abstract class BaseNinjascriptService<TInfo,TOptions> : BaseNinjascriptService<TInfo>, INinjascriptService<TInfo,TOptions>
-        where TInfo : IInfo, new()
+        where TInfo : IServiceInfo, new()
         where TOptions : NinjascriptServiceOptions, new()
     {
 

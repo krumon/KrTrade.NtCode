@@ -8,7 +8,7 @@ namespace KrTrade.Nt.Core.Services
     /// <summary>
     /// Defines properties and methods for any ninjascript service.
     /// </summary>
-    public interface IService : IHasInfo, IHasOptions, IKeyItem
+    public interface IService : IHasInfo<IServiceInfo>, IHasOptions<IServiceOptions>, IKeyItem
     {
         /// <summary>
         /// Gets the Ninjatrader NinjaScript.
@@ -31,7 +31,7 @@ namespace KrTrade.Nt.Core.Services
     /// Defines properties and methods for any ninjascript service.
     /// </summary>
     public interface IService<TInfo> : IService
-        where TInfo : IInfo
+        where TInfo : IServiceInfo
     {
         /// <summary>
         /// Gets the information of the service.
@@ -41,8 +41,8 @@ namespace KrTrade.Nt.Core.Services
     }
 
     public interface IService<TInfo,TOptions> : IService<TInfo>
-        where TInfo : IInfo
-        where TOptions : ServiceOptions
+        where TInfo : IServiceInfo
+        where TOptions : IServiceOptions
     {
         /// <summary>
         /// Gets the options of the service.

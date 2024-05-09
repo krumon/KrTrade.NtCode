@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Core.Series;
+using KrTrade.Nt.Core.Services;
 using System;
 
 namespace KrTrade.Nt.Services
@@ -78,6 +79,7 @@ namespace KrTrade.Nt.Services
         {
         }
 
+        protected override ServiceType GetServiceType() => ServiceType.SERIES;
         protected override string GetKey() => Series.Key;
 
     }
