@@ -15,8 +15,8 @@ namespace KrTrade.Nt.Services.Series
     public abstract class SeriesCollection<TInfo> : SeriesCollection
         where TInfo : SeriesCollectionInfo, new()
     {
-        protected new TInfo _info;
-        public new TInfo Info { get => _info ?? new TInfo(); protected set { _info = value; } }
+        //protected new TInfo _info;
+        public new TInfo Info => (TInfo)base.Info;
 
         protected SeriesCollection(IBarsService barsService) : this(barsService, new TInfo()) { }
         protected SeriesCollection(IBarsService barsService, TInfo info) : base(barsService, info) { }

@@ -13,8 +13,6 @@ namespace KrTrade.Nt.Services
         {
         }
 
-        protected override ServiceType GetServiceType() => ServiceType.PLOT;
-
         public override string ToLogString()
         {
             throw new System.NotImplementedException();

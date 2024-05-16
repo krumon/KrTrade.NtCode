@@ -40,8 +40,6 @@ namespace KrTrade.Nt.Services
 
         //public BaseSeriesCache StdDev => throw new System.NotImplementedException();
 
-        protected override ServiceType GetServiceType() => ServiceType.STATS;
-
         public override string ToLogString()
         {
             throw new System.NotImplementedException();

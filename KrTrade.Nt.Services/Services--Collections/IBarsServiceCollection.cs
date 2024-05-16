@@ -11,7 +11,7 @@ namespace KrTrade.Nt.Services
     {
 
         // Data series information
-        BarsServiceInfo[] Info { get; }
+        BarsServiceInfo[] Infos { get; }
         int BarsInProgress { get; }
 
         // Bars series

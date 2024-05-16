@@ -90,7 +90,6 @@ namespace KrTrade.Nt.Services
         protected override Action ClearMethod => Ninjascript.ClearOutputWindow;
 
         protected override string GetKey() => nameof(PrintService);
-        protected override ServiceType GetServiceType() => ServiceType.PRINT;
 
         #endregion
 

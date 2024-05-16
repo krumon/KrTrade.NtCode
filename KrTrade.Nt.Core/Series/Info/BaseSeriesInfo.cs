@@ -1,5 +1,4 @@
-﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core.Info;
+﻿using KrTrade.Nt.Core.Info;
 using System;
 
 namespace KrTrade.Nt.Core.Series
@@ -16,13 +15,10 @@ namespace KrTrade.Nt.Core.Series
             // Represento la clave con "SeriesType(Input1.Key,Input2.Key,...,Parameter1,Parameter2,...)"
             string key = $"{GetRootKey()}({GetInputsKey()}{GetParametersKey()})";
             // Compruebo si los paréntesis de la clave están vacíos. En caso de que así sea los elimino
-            if (key.Substring(key.Length - 2, key.Length - 1) == "()")
-                key.Remove(key.Length - 2);
-
-            return key;
+            return (key.Substring(key.Length - 2) == "()") ? key.Remove(key.Length - 2) : key;
         }
-
-        protected abstract string GetRootKey(); // => Type.ToString();
+        
+        protected virtual string GetRootKey() => Type.ToString();
         protected abstract string GetInputsKey(); // => string.Empty;
         protected string GetParametersKey()
         {
@@ -63,10 +59,7 @@ namespace KrTrade.Nt.Core.Series
             // Represento la clave con "SeriesType(Input1.Key,Input2.Key,...,Parameter1,Parameter2,...)"
             string key = $"{GetRootKey()}({GetInputsKey()}{GetParametersKey()})";
             // Compruebo si los paréntesis de la clave están vacíos. En caso de que así sea los elimino
-            if (key.Substring(key.Length - 2, key.Length - 1) == "()")
-                key.Remove(key.Length - 2);
-
-            return key;
+            return (key.Substring(key.Length - 2) == "()") ? key.Remove(key.Length - 2) : key;
         }
 
         protected override string GetRootKey() => Type.ToString();

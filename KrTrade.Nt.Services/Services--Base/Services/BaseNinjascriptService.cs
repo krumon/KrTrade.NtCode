@@ -1,8 +1,7 @@
 ﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core.Info;
-using KrTrade.Nt.Core.Options;
 using KrTrade.Nt.Core.Services;
 using NinjaTrader.NinjaScript;
+using System.Runtime.CompilerServices;
 
 namespace KrTrade.Nt.Services
 {
@@ -11,8 +10,6 @@ namespace KrTrade.Nt.Services
     {
         #region Private members
 
-        protected new NinjascriptServiceInfo _info;
-        protected new NinjascriptServiceOptions _options;
         private readonly IPrintService _printService;
         private bool _isConfigure = false;
         private bool _isDataLoaded = false;
@@ -21,11 +18,12 @@ namespace KrTrade.Nt.Services
 
         #region Properties
 
-        public new NinjascriptServiceInfo Info { get => _info ?? new NinjascriptServiceInfo(); protected set { _info = value; } }
-        public new NinjascriptServiceOptions Options { get => _options ?? new NinjascriptServiceOptions(); protected set { _options = value; } }
+        //new public INinjascriptServiceInfo Info => (INinjascriptServiceInfo)base.Info;
+        new public INinjascriptServiceInfo Info { get => (INinjascriptServiceInfo)base.Info; protected set => base.Info = value; }
+        new public INinjascriptServiceOptions Options => (INinjascriptServiceOptions)base.Options;
         
-        public Calculate CalculateMode { get => _options.CalculateMode; internal set { _options.CalculateMode = value; } }
-        public MultiSeriesCalculateMode MultiSeriesCalculateMode { get => _options.MultiSeriesCalculateMode; internal set { _options.MultiSeriesCalculateMode = value; } }
+        public Calculate CalculateMode { get => Options.CalculateMode; internal set { Options.CalculateMode = value; } }
+        public MultiSeriesCalculateMode MultiSeriesCalculateMode { get => Options.MultiSeriesCalculateMode; internal set { Options.MultiSeriesCalculateMode = value; } }
         
         public bool IsConfigure => _isConfigure;
         public bool IsDataLoaded => _isDataLoaded;
@@ -33,6 +31,8 @@ namespace KrTrade.Nt.Services
         public bool IsConfigureAll => _isConfigure && _isDataLoaded;
         public IPrintService PrintService => _printService;
 
+        protected bool IsPrintServiceAvailable => _printService != null && IsLogEnable;
+        
         #endregion
 
         #region Constructors
@@ -41,7 +41,8 @@ namespace KrTrade.Nt.Services
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService) : this(ninjascript, printService,null,null) { }
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, IElementInfo info) : this(ninjascript, printService, info,null) { }
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceOptions options) : this(ninjascript, printService,null, options) { }
-        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, IServiceInfo info, IServiceOptions options) : base(ninjascript, info, options) 
+        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, IServiceInfo info, IServiceOptions options) : 
+            base(ninjascript, info ?? new NinjascriptServiceInfo(), options ?? new NinjascriptServiceOptions()) 
         {
             _printService = printService;
         }
@@ -187,40 +188,51 @@ namespace KrTrade.Nt.Services
         /// </summary>
         protected void LogConfigurationState()
         {
-            if (_printService == null || !Options.IsLogEnable)
+            if (!IsPrintServiceAvailable)
                 return;
 
             if (IsDataLoaded && Ninjascript.State == State.DataLoaded)
-                _printService?.LogInformation($"The {Name} has been loaded succesfully.");
+                _printService?.LogInformation($"The {Name} has been loaded successfully.");
             else if (IsConfigure && Ninjascript.State == State.Configure)
-                _printService?.LogInformation($"The {Name} has been configured succesfully.");
+                _printService?.LogInformation($"The {Name} has been configured successfully.");
             else if (!IsConfigureAll && Ninjascript.State == State.DataLoaded)
                 _printService?.LogError($"The '{Name}' has NOT been configured. The service will not work.");
             else
                 _printService?.LogError($"The '{Name}' has NOT been configured. You are configuring the service out of configure or data loaded states.");
         }
 
-        protected bool IsPrintServiceAvailable()
+        protected void LogInitStart([CallerMemberName] string memberName = "")
         {
-            return
-                _printService != null &&
-                IsLogEnable;
+            if (!IsPrintServiceAvailable)
+                return;
+
+            _printService.LogTrace($"Service with name: {Name} is being initialized in {memberName}.");
+            _printService.LogTrace($"Service with key: {Key} is being initialized in {memberName}.");
+        }
+        protected void LogInitEnd()
+        {
+            if (!IsPrintServiceAvailable)
+                return;
+
+             _printService.LogTrace($"Service with name: {Name} has been initialized successfully");
+             _printService.LogTrace($"Service with key: {Key} has been initialized successfully");
         }
 
         #endregion
     }
 
     public abstract class BaseNinjascriptService<TInfo> : BaseNinjascriptService, INinjascriptService<TInfo>
-        where TInfo : IServiceInfo, new()
+        where TInfo : INinjascriptServiceInfo, new()
     {
-        protected new TInfo _info;
-        public new TInfo Info { get => _info == null ? new TInfo() : _info; protected set { _info = value; } }
+        //new public TInfo Info => (TInfo)base.Info;
+        new public TInfo Info { get => (TInfo)base.Info; protected set => base.Info = value; }
 
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript) : base(ninjascript) { }
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript,printService) { }
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, TInfo info) : base(ninjascript,printService,info) { }
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceOptions options) : base(ninjascript,printService,options) { }
-        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, TInfo info, IServiceOptions options) : base(ninjascript, printService, info, options) { }
+        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, TInfo info, IServiceOptions options) : 
+            base(ninjascript, printService, info == null ? new TInfo() : info, options == null ? new NinjascriptServiceOptions() : options) { }
 
         ///// <summary>
         ///// Create <see cref="BaseNinjascriptService"/> instance and configure it.
@@ -252,18 +264,18 @@ namespace KrTrade.Nt.Services
     }
 
     public abstract class BaseNinjascriptService<TInfo,TOptions> : BaseNinjascriptService<TInfo>, INinjascriptService<TInfo,TOptions>
-        where TInfo : IServiceInfo, new()
-        where TOptions : NinjascriptServiceOptions, new()
+        where TInfo : INinjascriptServiceInfo, new()
+        where TOptions : INinjascriptServiceOptions, new()
     {
 
-        protected new TOptions _options;
-        public new TOptions Options { get => _options ?? new TOptions(); protected set { _options = value; } }
+        new public TOptions Options => (TOptions)base.Options;
 
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript) : base(ninjascript) { }
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript, printService) { }
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, TInfo info) : base(ninjascript, printService, info) { }
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, TOptions options) : base(ninjascript, printService, options) { }
-        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, TInfo info, TOptions options) : base(ninjascript, printService, info, options) { }
+        protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, TInfo info, TOptions options) : 
+            base(ninjascript, printService, info == null ? new TInfo() : info, options == null ? new TOptions() : options) { }
 
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript) : base(ninjascript) { }
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript, printService) { }

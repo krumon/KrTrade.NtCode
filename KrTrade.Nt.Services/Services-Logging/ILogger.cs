@@ -7,7 +7,7 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Represents properties and methods of the logging services.
     /// </summary>
-    public interface ILogger<TOptions,TFormatter> : IService<NinjascriptServiceInfo,TOptions> 
+    public interface ILogger<TOptions,TFormatter> : IService<ServiceInfo,TOptions> 
         where TOptions : BaseLoggerOptions<TFormatter>, new()
         where TFormatter : BaseFormatter, new()
     {

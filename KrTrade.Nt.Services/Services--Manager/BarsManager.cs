@@ -56,14 +56,43 @@ namespace KrTrade.Nt.Services
 
         #region Constructors
 
-        public BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript) : this(ninjascript, null, null, null) { }
-        public BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService) : this(ninjascript, printService,null,null) { }
-        public BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsManagerInfo info) : this(ninjascript, printService, info,null) { }
-        public BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsManagerOptions options) : this(ninjascript, printService,null, options) { }
-        public BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsManagerInfo info, BarsManagerOptions options) : base(ninjascript, printService, info, options)
+        public BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript) : 
+            this(
+                ninjascript: ninjascript, 
+                printService: null, 
+                info: new BarsManagerInfo(ServiceType.BARS_MANAGER), 
+                options: null) 
+        { }
+        public BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService) : 
+            this(
+                ninjascript: ninjascript,
+                printService: printService,
+                info: new BarsManagerInfo(ServiceType.BARS_MANAGER),
+                options: null) 
+        { }
+        public BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsManagerInfo info) : 
+            this(
+                ninjascript: ninjascript, 
+                printService: printService, 
+                info: info,
+                options: null
+                ) 
+        { }
+        public BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsManagerOptions options) : 
+            this(
+                ninjascript: ninjascript,
+                printService: printService,
+                info: new BarsManagerInfo(ServiceType.BARS_MANAGER),
+                options: options
+                ) 
+        { }
+        public BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsManagerInfo info, BarsManagerOptions options) : 
+            base(ninjascript, printService, info, options)
         {
+            LogInitStart();
             _barsServiceCollection = new BarsServiceCollection(this);
             Info = new List<BarsServiceInfo>();
+            LogInitEnd();
         }
 
         //internal BarsManager(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, Action<BarsManagerOptions> configureOptions) : this(ninjascript, printService, configureOptions, null) { }
@@ -81,8 +110,8 @@ namespace KrTrade.Nt.Services
         //public override string Name => "BarsManager";
         protected override string GetKey()
         {
-            string key = "Bars";
-            if (_barsServiceCollection.Count > 0)
+            string key = ServiceType.BARS_MANAGER.ToString();
+            if (_barsServiceCollection != null && _barsServiceCollection.Count > 0)
             {
                 key += "(";
                 for (int i = 0; i < _barsServiceCollection.Count; i++)
@@ -98,9 +127,8 @@ namespace KrTrade.Nt.Services
             return key;
 
         }
-        protected override ServiceType GetServiceType() => ServiceType.BARS_MANAGER;
         public int BarsInProgress => Ninjascript.BarsInProgress;
-        public new IList<BarsServiceInfo> Info { get; internal set; }
+        new public IList<BarsServiceInfo> Info { get; internal set; }
         //public int Capacity => throw new NotImplementedException();
         //public int RemovedCacheCapacity => throw new NotImplementedException();
 

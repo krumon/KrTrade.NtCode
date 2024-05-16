@@ -11,8 +11,8 @@ namespace KrTrade.Nt.Core.Services
         #region Private members
 
         private readonly NinjaScriptBase _ninjascript;
-        protected IServiceOptions _options;
-        protected IServiceInfo _info;
+        //protected IServiceOptions _options;
+        //protected IServiceInfo _info;
 
         #endregion
 
@@ -27,14 +27,15 @@ namespace KrTrade.Nt.Core.Services
         // Quick access to properties
         public string Key => GetKey();
         public string Name => string.IsNullOrEmpty(Info.Name) ? Info.Type.ToString() : Info.Name;
+        //public string Name => Info.Name;
         public bool IsEnable => Options.IsEnable;
-        public bool IsLogEnable => Options.IsLogEnable;  
+        public bool IsLogEnable => Options.IsLogEnable;
         // Equatable method necesary for dictionaries
         public bool Equals(IHasKey other) => Info.Equals(other);
         // The services need unique key to be stored in the service collections.
         protected abstract string GetKey();
-        // Gets the type of the service
-        protected abstract ServiceType GetServiceType();
+        //// Gets the type of the service
+        //protected abstract ServiceType GetServiceType();
 
         #endregion
 
@@ -51,12 +52,12 @@ namespace KrTrade.Nt.Core.Services
         protected BaseService(NinjaScriptBase ninjascript, IServiceInfo info, IServiceOptions options)
         {
             _ninjascript = ninjascript ?? throw new ArgumentNullException($"Error in 'BaseService' constructor. The {nameof(ninjascript)} argument cannot be null.");
-            //_info = info;
-            //_options = options;
-            Info = info ?? new ServiceInfo();
-            Options = options ?? new ServiceOptions();
+            Info = info ?? throw new ArgumentNullException(nameof(info));
+            Options = options ?? throw new ArgumentNullException(nameof(options));
 
-            Info.Type = GetServiceType();
+            //Info.Type = GetServiceType();
+            //if (string.IsNullOrEmpty(Info.Name))
+            //    Info.Name = Info.Type.ToString();
         }
 
         #endregion
@@ -258,9 +259,7 @@ namespace KrTrade.Nt.Core.Services
         where TInfo : IServiceInfo, new()
     {
 
-        protected new TInfo _info;
-        public new TInfo Info { get; protected set; }
-        //public new TInfo Info { get => _info ?? new TInfo(); protected set { _info = value; } }
+        new public TInfo Info => (TInfo)base.Info;
 
         /// <summary>
         /// Create <see cref="BaseService"/> instance with specified information and options.
@@ -270,7 +269,8 @@ namespace KrTrade.Nt.Core.Services
         /// <param name="info">The service informartion.</param>
         /// <param name="options">The service options.</param>
         /// <exception cref="ArgumentNullException">The <see cref="NinjaScriptBase"/> cannot be null.</exception>
-        protected BaseService(NinjaScriptBase ninjascript, TInfo info, IServiceOptions options) : base(ninjascript, info, options) 
+        protected BaseService(NinjaScriptBase ninjascript, TInfo info, IServiceOptions options) : 
+            base(ninjascript, info == null ? new TInfo() : info, options ?? new ServiceOptions()) 
         {
         }
 
@@ -280,19 +280,7 @@ namespace KrTrade.Nt.Core.Services
         where TInfo : IServiceInfo, new()
         where TOptions : IServiceOptions, new()
     {
-        protected new TOptions _options;
-        public new TOptions Options { get; protected set; }
-        //public new TOptions Options { get => _options ?? new TOptions(); protected set { _options = value; } }
-
-        //protected BaseService(NinjaScriptBase ninjascript) : this(ninjascript, null,null) { }
-        ////protected BaseService(NinjaScriptBase ninjascript, Action<TOptions> configureOptions) : this(ninjascript, configureOptions, null) { }
-        //protected BaseService(NinjaScriptBase ninjascript, TOptions options) : this(ninjascript, null, options) { }
-        //protected BaseService(NinjaScriptBase ninjascript, TInfo info) : this(ninjascript, info, null) { }
-        //protected BaseService(NinjaScriptBase ninjascript, Action<TOptions> configureOptions, TOptions options) : base(ninjascript)
-        //{
-        //    Options = options ?? new TOptions();
-        //    configureOptions?.Invoke(Options);
-        //}
+        new public TOptions Options => (TOptions)base.Options;
 
         /// <summary>
         /// Create <see cref="BaseService"/> instance with specified information and options.
@@ -302,9 +290,9 @@ namespace KrTrade.Nt.Core.Services
         /// <param name="info">The service informartion.</param>
         /// <param name="options">The service options.</param>
         /// <exception cref="ArgumentNullException">The <see cref="NinjaScriptBase"/> cannot be null.</exception>
-        protected BaseService(NinjaScriptBase ninjascript, TInfo info, TOptions options) : base(ninjascript, info, options) 
+        protected BaseService(NinjaScriptBase ninjascript, TInfo info, TOptions options) : 
+            base(ninjascript, info == null ? new TInfo() : info, options == null ? new TOptions() : options) 
         {
         }
-
     }
 }

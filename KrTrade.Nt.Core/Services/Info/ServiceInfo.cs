@@ -5,5 +5,11 @@
     /// </summary>
     public class ServiceInfo : BaseServiceInfo
     {
+        public ServiceInfo() : base()
+        {
+        }
+        public ServiceInfo(ServiceType type) : base(type)
+        {
+        }
     }
 }

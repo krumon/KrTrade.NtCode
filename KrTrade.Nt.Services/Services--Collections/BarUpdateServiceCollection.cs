@@ -5,17 +5,20 @@ namespace KrTrade.Nt.Services
     public abstract class BarUpdateServiceCollection<TService> : BaseNinjascriptServiceCollection<TService>
         where TService : IBarUpdateService
     {
-        protected BarUpdateServiceCollection(IBarsService barsService, string name, BarUpdateServiceCollectionOptions options) : base(barsService.Ninjascript, barsService.PrintService, name, options) 
+        protected BarUpdateServiceCollection(IBarsService barsService, NinjascriptServiceInfo info, BarUpdateServiceCollectionOptions options) : base(barsService.Ninjascript, barsService.PrintService, info, options) 
         {
+            LogInitStart();
             Bars = barsService ?? throw new ArgumentNullException(nameof(barsService));
+            LogInitEnd();
         }
-        protected BarUpdateServiceCollection(IBarsService barsService, string name, BarUpdateServiceCollectionOptions options, int capacity) : base(barsService.Ninjascript, barsService.PrintService, name, options, capacity) 
+        protected BarUpdateServiceCollection(IBarsService barsService, NinjascriptServiceInfo info, BarUpdateServiceCollectionOptions options, int capacity) : base(barsService.Ninjascript, barsService.PrintService, info, options, capacity) 
         {
+            LogInitStart();
             Bars = barsService ?? throw new ArgumentNullException(nameof(barsService));
+            LogInitEnd();
         }
 
-        protected new BarUpdateServiceCollectionOptions _options;
-        public new BarUpdateServiceCollectionOptions Options { get => _options ?? new BarUpdateServiceCollectionOptions(); protected set { _options = value; } }
+        new public BarUpdateServiceCollectionOptions Options => (BarUpdateServiceCollectionOptions)base.Options;
 
         #region Implementation
 

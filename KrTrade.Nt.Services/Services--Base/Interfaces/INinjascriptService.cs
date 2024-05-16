@@ -1,5 +1,4 @@
 ﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core.Info;
 using KrTrade.Nt.Core.Services;
 using NinjaTrader.NinjaScript;
 
@@ -24,7 +23,7 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Gets the options of the service.
         /// </summary>
-        new NinjascriptServiceOptions Options {  get; }
+        new INinjascriptServiceOptions Options {  get; }
 
         /// <summary>
         /// Get the <see cref="IPrintService"/> for print in 'Ninjatrader.Output.Window'.
@@ -52,7 +51,7 @@ namespace KrTrade.Nt.Services
     /// Defines properties and methods for any ninjascript service.
     /// </summary>
     public interface INinjascriptService<TInfo> : INinjascriptService, IService<TInfo>
-        where TInfo : IServiceInfo
+        where TInfo : INinjascriptServiceInfo
     {
 
     }
@@ -60,8 +59,8 @@ namespace KrTrade.Nt.Services
     /// Defines properties and methods for any ninjascript service.
     /// </summary>
     public interface INinjascriptService<TInfo,TOptions> : INinjascriptService<TInfo>, IService<TInfo,TOptions>
-        where TInfo : IServiceInfo
-        where TOptions : NinjascriptServiceOptions, new()
+        where TInfo : INinjascriptServiceInfo
+        where TOptions : INinjascriptServiceOptions, new()
     {
         /// <summary>
         /// Gets the options of the service.

@@ -14,7 +14,8 @@ namespace KrTrade.Nt.Services.Series
 
         public int Capacity { get => Info.Capacity; protected internal set { Info.Capacity = value; } }
         public int OldValuesCapacity { get => Info.Capacity; protected internal set { Info.Capacity = value; } }
-        public string Name { get => Info.Name; internal set { Info.Name = value; } }
+        //public string Name { get => Info.Name; internal set { Info.Name = value; } }
+        public string Name { get => string.IsNullOrEmpty(Info.Name) ? Key : Info.Name; internal set { Info.Name = value; } }
         public IBaseSeriesInfo Info { get; internal set; }
         public string Key => Info.Key;
 

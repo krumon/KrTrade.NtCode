@@ -94,12 +94,24 @@ namespace KrTrade.Nt.Services
             // Create service options
             BarsServiceOptions options = new BarsServiceOptions();
             BarsServiceInfo info = new BarsServiceInfo();
+            BarsServiceInfo primaryDataSeriesInfo = new BarsServiceInfo(barsManager.Ninjascript);
 
+            barsManager.PrintService.LogTrace($"'BarsService.Options' and 'BarsService.Info' is going to be created...");
             foreach (var action in _optionsDelegateActions)
                 action(info,options);
 
+            barsManager.PrintService.LogDebug($"Info Type: {info.Type}");
+            barsManager.PrintService.LogDebug($"Info Instrument: {info.InstrumentCode}");
+            barsManager.PrintService.LogDebug($"Info Time Frame: {info.TimeFrame}");
             // Create the service with specified info
-            BarsService barsService = new BarsService(barsManager, info, options);
+            primaryDataSeriesInfo.Name = info.Name;
+            primaryDataSeriesInfo.Name = info.Name;
+            barsManager.PrintService.LogDebug($"Info Type: {primaryDataSeriesInfo.Type}");
+            barsManager.PrintService.LogDebug($"Info Instrument: {primaryDataSeriesInfo.InstrumentCode}");
+            barsManager.PrintService.LogDebug($"Info Time Frame: {primaryDataSeriesInfo.TimeFrame}");
+
+            barsManager.PrintService.LogTrace($"'BarsService is going to be created...");
+            IBarsService barsService = new BarsService(barsManager, primaryDataSeriesInfo, options);
 
             // Log trace
             if (barsService != null)
@@ -107,9 +119,9 @@ namespace KrTrade.Nt.Services
             else
                 barsManager.PrintService.LogTrace("BarsService has NOT been created. The value is NULL.");
 
-            // Add SERIES
-            foreach (var series in _seriesConfiguration)
-                barsService.AddSeries(series.Value);
+            //// Add SERIES
+            //foreach (var series in _seriesConfiguration)
+            //    barsService.AddSeries(series.Value);
 
             return barsService;
         }

@@ -5,20 +5,18 @@ using NinjaTrader.NinjaScript;
 namespace KrTrade.Nt.Services
 {
     /// <summary>
-    /// Provides the options for any <see cref="INinjascriptService"/>.
+    /// Defines the options of the ninjascript service.
     /// </summary>
-    public class NinjascriptServiceOptions : ServiceOptions, INinjascriptServiceOptions
+    public interface INinjascriptServiceOptions : IServiceOptions
     {
-
         /// <summary>
         /// Gets the calculate mode of the service.
         /// </summary>
-        public Calculate CalculateMode { get; set; } = Calculate.OnBarClose;
+        Calculate CalculateMode { get; set; }
 
         /// <summary>
         /// Gets the service calculation mode when another series is updated. 
         /// </summary>
-        public MultiSeriesCalculateMode MultiSeriesCalculateMode { get; set; } = MultiSeriesCalculateMode.None;
-
+        MultiSeriesCalculateMode MultiSeriesCalculateMode { get; set; }
     }
 }

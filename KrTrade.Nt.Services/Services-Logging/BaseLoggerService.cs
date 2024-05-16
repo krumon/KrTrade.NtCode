@@ -7,7 +7,7 @@ using System.IO;
 
 namespace KrTrade.Nt.Services
 {
-    public abstract class BaseLoggerService<TOptions, TFormatter> : BaseService<NinjascriptServiceInfo,TOptions>
+    public abstract class BaseLoggerService<TOptions, TFormatter> : BaseService<ServiceInfo,TOptions>
         where TOptions : BaseLoggerOptions<TFormatter>, new()
         where TFormatter : BaseFormatter, new()
     {
@@ -15,7 +15,7 @@ namespace KrTrade.Nt.Services
         private static StringWriter stringWriter;
 
         /// <summary>
-        /// Create <see cref="BaseLoggerService"/> instance and configure it.
+        /// Create <see cref="BaseLoggerService{TOptions,TFormatter}"/> instance and configure it.
         /// This instance must be created in the 'Ninjascript.State == Configure'.
         /// </summary>
         /// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
@@ -34,7 +34,7 @@ namespace KrTrade.Nt.Services
         //}
 
         /// <summary>
-        /// Create <see cref="BaseLoggerService"/> instance and configure it.
+        /// Create <see cref="BaseLoggerService{TOptions,TFormatter}"/> instance and configure it.
         /// This instance must be created in the 'Ninjascript.State == Configure'.
         /// </summary>
         /// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>

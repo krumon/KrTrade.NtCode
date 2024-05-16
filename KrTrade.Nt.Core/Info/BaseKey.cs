@@ -5,7 +5,7 @@ namespace KrTrade.Nt.Core.Info
     public abstract class BaseKey : IHasKey
     {
         protected abstract string GetKey();
-        public string Key => GetKey() ?? $"NOT_KEY({Guid.NewGuid()})";
+        public string Key => GetKey() ?? $"AUTO_KEY({Guid.NewGuid()})";
 
         public static bool operator ==(BaseKey key1, IHasKey key2) =>
             (key1 is null && key2 is null) ||

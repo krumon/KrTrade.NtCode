@@ -22,6 +22,7 @@ namespace KrTrade.Nt.Core.Series
         public IBaseSeriesInfo Info { get; protected set; }
         public bool Equals(IHasKey other) => other is IHasKey key && Key == key.Key;
         public bool Equals(ISeries other) => Equals(other as IHasKey);
+
         // Properties
         /// <summary>
         /// Gets the difference between int.MaxValue and OldValuesCapacity.
@@ -57,6 +58,7 @@ namespace KrTrade.Nt.Core.Series
 
         public object GetValue(int valuesAgo) { return null; }
         public object[] ToArray(int fromValuesAgo, int numOfValues) => null;
+
     }
 
     /// <summary>
@@ -74,9 +76,8 @@ namespace KrTrade.Nt.Core.Series
 
         // ICache<T> implementation
         public override bool IsFull => Count > MaxLength;
-        //public new T CurrentValue { get => _cache == null || Count == 0 ? default : _cache[0]; protected set => _cache[0] = value; }
-        public new T CurrentValue { get; protected set; }
-        public new T LastValue { get; protected set; }
+        public new T CurrentValue { get => (T)base.CurrentValue; protected set => base.CurrentValue = value; }
+        public new T LastValue { get => (T)base.LastValue; protected set => base.LastValue = value; }
 
         public override void RemoveLastElement()
         {
@@ -141,14 +142,8 @@ namespace KrTrade.Nt.Core.Series
         public bool IsValidDataPointAt(int valueIndex) => IsValidDataPoint(Count - valueIndex);
 
         // IEnumerable implementation
-        public IEnumerator<T> GetEnumerator()
-        {
-            return _cache.GetEnumerator();
-        }
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        public IEnumerator<T> GetEnumerator() => _cache.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         
         // Private and protected methods
         //protected abstract bool IsValidValue(T value);

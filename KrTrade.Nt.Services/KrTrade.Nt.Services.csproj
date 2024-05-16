@@ -106,6 +106,8 @@
     <Compile Include="Services--Base\Info\NinjascriptServiceInfo.cs" />
     <Compile Include="Series--Base\Interfaces\INinjascriptSeriesCollection.cs" />
     <Compile Include="Services--Base\Interfaces\INinjascriptServiceCollection.cs" />
+    <Compile Include="Services--Base\Interfaces\INinjascriptServiceOptions.cs" />
+    <Compile Include="Services--Base\Interfaces\INinjascriptServiceInfo.cs" />
     <Compile Include="Services--Base\Options\MarketDepthServiceOptions.cs" />
     <Compile Include="Services--Base\Options\NinjascriptServiceCollectionOptions.cs" />
     <Compile Include="Services--Base\Options\MarketDataServiceOptions.cs" />

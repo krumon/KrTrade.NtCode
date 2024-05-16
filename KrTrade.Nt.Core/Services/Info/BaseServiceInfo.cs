@@ -6,5 +6,13 @@ namespace KrTrade.Nt.Core.Services
     {
         public ServiceType Type { get; set; }
 
+        protected BaseServiceInfo()
+        {
+        }
+        protected BaseServiceInfo(ServiceType type)
+        {
+            Type = type;
+        }
+
     }
 }

@@ -107,7 +107,7 @@ namespace KrTrade.Nt.Core.Collections
             }
             catch (Exception e)
             {
-                throw new Exception($"The element with name:{item.Name} and key:{item.Key} cannot be added.",e);
+                throw new Exception($"The element with name: {item.Name} and key: {item.Key} cannot be added. {e.Message}",e);
             }
         }
         public void TryAdd(T item)

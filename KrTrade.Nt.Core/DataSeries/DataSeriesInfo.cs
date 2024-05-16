@@ -54,7 +54,7 @@ namespace KrTrade.Nt.Core.DataSeries
         }
 
         public override string ToString() => $"{InstrumentName},{BarsPeriod}";
-
+        
         /// <summary>
         /// Converts the actual object to long string.
         /// </summary>

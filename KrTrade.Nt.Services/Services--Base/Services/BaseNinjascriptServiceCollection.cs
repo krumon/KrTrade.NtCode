@@ -1,6 +1,8 @@
 ﻿using KrTrade.Nt.Core.Collections;
+using KrTrade.Nt.Core.Services;
 using NinjaTrader.NinjaScript;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace KrTrade.Nt.Services
 {
@@ -11,32 +13,51 @@ namespace KrTrade.Nt.Services
 
         private readonly NinjaScriptBase _ninjascript;
         private readonly IPrintService _printService;
-        protected readonly NinjascriptServiceOptions _options;
 
         public NinjaScriptBase Ninjascript => _ninjascript;
         public IPrintService PrintService => _printService;
-        public NinjascriptServiceOptions Options => _options;
+
+        public IServiceInfo Info { get; protected set; }
+        public IServiceOptions Options { get; protected set; }
 
         public bool IsConfigure { get;protected set; }
         public bool IsDataLoaded { get; protected set; }
 
-        public abstract string Name { get; protected set; }
+        public bool IsConfigureAll => IsConfigure && IsDataLoaded;
+
+        public string Name => Info.Name;
         public bool IsEnable => Options.IsEnable;
         public bool IsLogEnable => Options.IsLogEnable;
 
-        protected BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, string name, NinjascriptServiceOptions options) 
+        protected bool IsPrintServiceAvailable => _printService != null && IsLogEnable;
+
+        protected BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceInfo info, NinjascriptServiceOptions options) 
         {
             _ninjascript = ninjascript ?? throw new ArgumentNullException($"Error in 'BaseNinjascriptServiceCollection' constructor. The {nameof(ninjascript)} argument cannot be null.");
-            Name = name;
-            _options = options;
             _printService = printService;
+            //Name = name;
+            //_options = options;
+            Info = info ?? new NinjascriptServiceInfo();
+            Options = options ?? new NinjascriptServiceOptions();
+
+            Info.Type = GetServiceType();
+            if (string.IsNullOrEmpty(Info.Name))
+                Info.Name = Info.Type.ToString();
         }
-        protected BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, string name, NinjascriptServiceOptions options, int capacity) : base(capacity) 
+        protected BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceInfo info, NinjascriptServiceOptions options, int capacity) : base(capacity) 
         {
             _ninjascript = ninjascript ?? throw new ArgumentNullException($"Error in 'BaseNinjascriptServiceCollection' constructor. The {nameof(ninjascript)} argument cannot be null.");
-            Name = name;
-            _options = options;
             _printService = printService;
+            //Name = name;
+            //_options = options;
+
+            Info = info ?? new NinjascriptServiceInfo();
+            Options = options ?? new NinjascriptServiceOptions();
+
+            Info.Type = GetServiceType();
+            if (string.IsNullOrEmpty(Info.Name))
+                Info.Name = Info.Type.ToString();
+
         }
 
         #region Implementation
@@ -86,6 +107,7 @@ namespace KrTrade.Nt.Services
             _collection = null;
         }
 
+        protected abstract ServiceType GetServiceType();
         public string ToLogString()
         {
             if (_collection == null)
@@ -100,12 +122,45 @@ namespace KrTrade.Nt.Services
         }
         public void Log()
         {
-            if (_printService == null || !Options.IsLogEnable)
+            if (!IsPrintServiceAvailable)
                 return;
             _printService?.LogValue(ToLogString());
         }
 
         #endregion
+
+        /// <summary>
+        /// Print in NinjaScript putput window the configuration state. If the configuration has been ok or error.
+        /// </summary>
+        protected void LogConfigurationState()
+        {
+            if (!IsPrintServiceAvailable)
+                return;
+
+            if (IsDataLoaded && Ninjascript.State == State.DataLoaded)
+                _printService?.LogInformation($"The {Name} has been loaded successfully.");
+            else if (IsConfigure && Ninjascript.State == State.Configure)
+                _printService?.LogInformation($"The {Name} has been configured successfully.");
+            else if (!IsConfigureAll && Ninjascript.State == State.DataLoaded)
+                _printService?.LogError($"The '{Name}' has NOT been configured. The service will not work.");
+            else
+                _printService?.LogError($"The '{Name}' has NOT been configured. You are configuring the service out of configure or data loaded states.");
+        }
+
+        protected void LogInitStart([CallerMemberName] string memberName = "")
+        {
+            if (!IsPrintServiceAvailable)
+                return;
+
+            _printService.LogTrace($"The {Name} is being initialized in {memberName} constructor.");
+        }
+        protected void LogInitEnd()
+        {
+            if (!IsPrintServiceAvailable)
+                return;
+
+            _printService.LogTrace($"The {Name} has been initialized successfully");
+        }
 
     }
 }

@@ -19,25 +19,25 @@
         ///// </summary>
         //public int LengthOfRemovedValuesCache { get; set; } = Cache.DEFAULT_OLD_VALUES_CAPACITY;
 
-        /// <summary>
-        /// Gets the index of the bars thats raised the updated signal.
-        /// </summary>
-        public int BarsIndex { get; set; } = 0;
+        ///// <summary>
+        ///// Gets the index of the bars thats raised the updated signal.
+        ///// </summary>
+        //public int BarsIndex { get; set; } = 0;
 
-        /// <summary>
-        /// Create <see cref="BarUpdateServiceOptions"/> default instance.
-        /// </summary>
-        public BarUpdateServiceOptions()
-        {
-        }
+        ///// <summary>
+        ///// Create <see cref="BarUpdateServiceOptions"/> default instance.
+        ///// </summary>
+        //public BarUpdateServiceOptions()
+        //{
+        //}
 
-        /// <summary>
-        /// Create <see cref="BarUpdateServiceOptions"/> instance with specified properties.
-        /// </summary>
-        public BarUpdateServiceOptions(int barsIndex)
-        {
-            BarsIndex = barsIndex;
-        }
+        ///// <summary>
+        ///// Create <see cref="BarUpdateServiceOptions"/> instance with specified properties.
+        ///// </summary>
+        //public BarUpdateServiceOptions(int barsIndex)
+        //{
+        //    BarsIndex = barsIndex;
+        //}
         
         ///// <summary>
         ///// Create <see cref="BarUpdateServiceOptions"/> instance with specified properties.

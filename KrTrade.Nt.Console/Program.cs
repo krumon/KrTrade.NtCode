@@ -49,6 +49,10 @@ namespace KrTrade.Nt.Console.Console
                 })
                 .ConfigurePrimaryBars((builder) =>
                 {
+                    //builder.ConfigureOptions((info, options) =>
+                    //{
+                    //    info.InstrumentCode = InstrumentCode.MES;
+                    //});
                     builder.AddSeries_Period(
                         (info) => {
                             info.Name = "Max5";

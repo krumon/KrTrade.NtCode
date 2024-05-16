@@ -1,5 +1,4 @@
 ﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core.Services;
 using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
 using System;
@@ -43,6 +42,7 @@ namespace KrTrade.Nt.Services
         public IBarsManager Configure(NinjaScriptBase ninjascript, Action<string, BarsPeriod, string> addDataSeriesMethod = null)
         {
             string logText = string.Empty;
+            int count = 0;
 
             // Make sure ninjascript is NOT NULL.
             if (ninjascript == null)
@@ -52,52 +52,40 @@ namespace KrTrade.Nt.Services
             if (ninjascript.State != State.Configure)
                 throw new Exception("'BarsManager' must be built when 'NinjaScript.State' is 'State.Configure'.");
 
-            // Log trace
-            ninjascript.Print("'PrintOptions' is going to be created...");
             // Configure PrintService
             PrintOptions printOptions = new PrintOptions();
             foreach (var action in _printDelegateActions)
                 action(printOptions);
-            // Log trace
-            ninjascript.Print("'PrintOptions' has been created succesfully.");
-
-            ninjascript.Print("'PrintService' is going to be created...");
             IPrintService printService = new PrintService(ninjascript, printOptions);
-            ninjascript.Print("'PrintService' has been created succesfully.");
-            // Log trace
-            //printService.LogTrace("'PrintService'has been created succesfully (2).");
-            //printService.LogTrace($"{printService.Info.Type.ToLongString()} has been created succesfully.");
-            //printService.LogTrace($"{printService.Name} has been created succesfully.");
+            printService.LogTrace("'PrintService' has been created succesfully.");
 
-            ninjascript.Print("'BarsManagerOptions' is going to be created...");
-            // Configure Options
             BarsManagerOptions options = new BarsManagerOptions();
             foreach (var action in _optionsDelegateActions)
                 action(options);
-            ninjascript.Print("'BarsManagerOptions' has been created succesfully.");
+            printService.LogTrace("'BarsManagerOptions' has been created succesfully.");
 
-            ninjascript.Print("'BarsManager' is going to be created...");
             // Initialize 'BarsManager' with the configure parameters.
             BarsManager barsManager = new BarsManager(ninjascript, printService, options);
-            ninjascript.Print("'BarsManager' has been created succesfully.");
-
-            // Log initialized trace.
-            printService.LogTrace("'BarsManager' has been created succesfully (2).");
-            //printService.LogTrace($"{barsManager.Name} has been created succesfully.");
+            printService.LogTrace($"{barsManager.Name} has been created succesfully.");
 
             // ++++++++++ CONFIGURE AND ADD DATA SERIES ++++++++++++++  //
 
+            // Log trace
+            printService.LogTrace($"Primary data series is going to be initialized...");
             // Configure primary data series
             IBarsServiceBuilder primaryBarsServiceBuilder = new BarsServiceBuilder();
-            //_primaryBarsInfo = new BarsServiceInfo(ninjascript, _primaryBarsName);
             _primaryBarsServiceDelegateBuilder?.Invoke(primaryBarsServiceBuilder);
 
-            BarsService primaryBarsService = (BarsService)primaryBarsServiceBuilder.Build(barsManager);
-            primaryBarsService.IsPrimaryBars = true;
+            IBarsService primaryBarsService = primaryBarsServiceBuilder.Build(barsManager);
+            //primaryBarsService.IsPrimaryBars = true;
+            printService.LogTrace($"BarsServiceCollection Count: {barsManager.Count} - Theoric Count: {count}.");
             barsManager.Add(primaryBarsService);
+            count++;
+            printService.LogTrace($"BarsServiceCollection Count: {barsManager.Count} - Theoric Count: {count}.");
 
-            // Log trace
-            printService.LogTrace($"{primaryBarsService.Name} has been initialized and added to {barsManager.Name} succesfully.");
+
+            //// Log trace
+            //printService.LogTrace($"{primaryBarsService.Name} has been initialized and added to {barsManager.Name} succesfully.");
 
             // Configure all data series
             foreach (var barsServiceDelegateBuilder in _barsServiceDelegateBuilders)
@@ -105,7 +93,7 @@ namespace KrTrade.Nt.Services
                 IBarsServiceBuilder barsServiceBuilder = new BarsServiceBuilder();
                 barsServiceDelegateBuilder(barsServiceBuilder);
                 
-                BarsService barsService = (BarsService)barsServiceBuilder.Build(barsManager);
+                IBarsService barsService = barsServiceBuilder.Build(barsManager);
 
                 if (barsService.Info.InstrumentCode == InstrumentCode.Default)
                     barsService.Info.InstrumentCode = barsManager.Info[0].InstrumentCode;
@@ -115,6 +103,8 @@ namespace KrTrade.Nt.Services
                     barsService.Info.TimeFrame = barsManager.Info[0].TimeFrame;
 
                 barsManager.Add(barsService);
+                count++;
+                printService.LogTrace($"BarsServiceCollection Count: {barsManager.Count} - Theoric Count: {count}.");
 
                 // Log trace
                 printService.LogTrace($"{barsService.Name} has been initialized and added to {barsManager.Name} succesfully.");
@@ -128,6 +118,7 @@ namespace KrTrade.Nt.Services
                     printService.LogTrace($"{barsManager[i].Name}[{i}] has been added to the 'NinjaScript'.");
                 }
 
+            printService.LogTrace($"{barsManager.Name} is going to be configured.");
             barsManager.Configure();
 
             // Log info

@@ -28,22 +28,25 @@ namespace KrTrade.Nt.Services.Series
             }) { }
         public BarsSeriesCollection(IBarsService bars, BarsSeriesCollectionInfo info) : base(bars, info)
         {
+            bars.PrintService.LogTrace($"The {Name} is going to create the bars series.");
             CurrentBar = new CurrentBarSeries(Bars, info.Capacity, info.OldValuesCapacity);
             Time = new TimeSeries(Bars, info.Capacity, info.OldValuesCapacity);
-            Open = new HighSeries(Bars, info.Capacity, info.OldValuesCapacity);
+            //Open = new HighSeries(Bars, info.Capacity, info.OldValuesCapacity);
             High = new HighSeries(Bars, info.Capacity, info.OldValuesCapacity);
-            Low = new HighSeries(Bars, info.Capacity, info.OldValuesCapacity);
-            Close = new HighSeries(Bars, info.Capacity, info.OldValuesCapacity);
+            //Low = new HighSeries(Bars, info.Capacity, info.OldValuesCapacity);
+            //Close = new HighSeries(Bars, info.Capacity, info.OldValuesCapacity);
             Volume = new VolumeSeries(Bars, info.Capacity, info.OldValuesCapacity);
             Tick = new TickSeries(Bars, info.Capacity, info.OldValuesCapacity);
+            bars.PrintService.LogTrace($"The bars series has been created.");
             Add(CurrentBar);
             Add(Time);
-            Add(Open);
+            //Add(Open);
             Add(High);
-            Add(Low);
-            Add(Close);
+            //Add(Low);
+            //Add(Close);
             Add(Volume);
             Add(Tick);
+            bars.PrintService.LogTrace($"The bars series has been added.");
         }
 
         //public void Add()

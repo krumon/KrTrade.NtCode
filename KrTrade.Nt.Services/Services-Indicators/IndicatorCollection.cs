@@ -4,15 +4,17 @@ namespace KrTrade.Nt.Services
 {
     public class IndicatorCollection : BarUpdateServiceCollection<IIndicatorService>
     {
-        public IndicatorCollection(IBarsService barsService, string name, BarUpdateServiceCollectionOptions options) : base(barsService, name, options)
+        public IndicatorCollection(IBarsService barsService, NinjascriptServiceInfo info, BarUpdateServiceCollectionOptions options) : base(barsService, info, options)
         {
         }
 
-        public IndicatorCollection(IBarsService barsService, string name, BarUpdateServiceCollectionOptions options, int capacity) : base(barsService, name, options, capacity)
+        public IndicatorCollection(IBarsService barsService, NinjascriptServiceInfo info, BarUpdateServiceCollectionOptions options, int capacity) : base(barsService, info, options, capacity)
         {
         }
 
-        public override string Name { get => throw new System.NotImplementedException(); protected set => throw new System.NotImplementedException(); }
-
+        protected override ServiceType GetServiceType()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

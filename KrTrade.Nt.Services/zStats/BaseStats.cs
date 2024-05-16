@@ -17,7 +17,5 @@ namespace KrTrade.Nt.Services
         {
         }
 
-        protected override ServiceType GetServiceType() => ServiceType.STATS;
-
     }
 }

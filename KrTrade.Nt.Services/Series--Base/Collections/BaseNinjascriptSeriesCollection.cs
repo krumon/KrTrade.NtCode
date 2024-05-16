@@ -1,5 +1,4 @@
 ﻿using KrTrade.Nt.Core.Collections;
-using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.Series;
 using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
@@ -30,9 +29,10 @@ namespace KrTrade.Nt.Services.Series
         protected BaseNinjascriptSeriesCollection(IBarsService barsService) : this(barsService, new SeriesCollectionInfo()) { }
         protected BaseNinjascriptSeriesCollection(IBarsService barsService,SeriesCollectionInfo info) : base() 
         {
+            barsService.PrintService.LogTrace("NinjascriptSeriesCollection constructor. Init...");
             this.Bars = barsService ?? throw new ArgumentNullException($"Error in 'BaseNinjascriptServiceCollection' constructor. The {nameof(barsService)} argument cannot be null.");
             Info = info;
-            
+            barsService.PrintService.LogTrace("NinjascriptSeriesCollection constructor. ...End");
         }
         protected BaseNinjascriptSeriesCollection(IBarsService barsService, SeriesCollectionInfo info, int capacity) : base(capacity) 
         {

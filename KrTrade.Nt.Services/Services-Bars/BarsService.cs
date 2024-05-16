@@ -1,7 +1,6 @@
 ﻿using KrTrade.Nt.Core.Bars;
 using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.Series;
-using KrTrade.Nt.Core.Services;
 using KrTrade.Nt.Services.Series;
 using NinjaTrader.Core.FloatingPoint;
 //using NinjaTrader.Data;
@@ -29,7 +28,7 @@ namespace KrTrade.Nt.Services
         // Logging
         private List<string> _logLines;
         // Bars Series
-        protected IBarsSeriesCollection BarsSeries;
+        protected IBarsSeriesCollection BarsSeriesCollection;
         //// Access
         //private readonly Dictionary<int, string> _keys;
 
@@ -56,15 +55,15 @@ namespace KrTrade.Nt.Services
         public string TradingHoursName => Info.TradingHoursCode.ToName();
         public NinjaTrader.Data.BarsPeriod BarsPeriod => Info.TimeFrame.ToBarsPeriod();
 
-        public double this[int index] => BarsSeries.Close[index];
-        public CurrentBarSeries CurrentBar => BarsSeries.CurrentBar;
-        public TimeSeries Time => BarsSeries.Time;
-        public PriceSeries Open => BarsSeries.Open;
-        public PriceSeries High => BarsSeries.High;
-        public PriceSeries Low => BarsSeries.Low;
-        public PriceSeries Close => BarsSeries.Close;
-        public VolumeSeries Volume => BarsSeries.Volume;
-        public TickSeries Tick => BarsSeries.Tick;
+        public double this[int index] => BarsSeriesCollection.Close[index];
+        public CurrentBarSeries CurrentBar => BarsSeriesCollection.CurrentBar;
+        public TimeSeries Time => BarsSeriesCollection.Time;
+        public PriceSeries Open => BarsSeriesCollection.Open;
+        public PriceSeries High => BarsSeriesCollection.High;
+        public PriceSeries Low => BarsSeriesCollection.Low;
+        public PriceSeries Close => BarsSeriesCollection.Close;
+        public VolumeSeries Volume => BarsSeriesCollection.Volume;
+        public TickSeries Tick => BarsSeriesCollection.Tick;
 
         public bool IsUpdated => IsConfigureAll && _barEvents[BarEvent.Updated];
         public bool IsClosed => IsUpdated && _barEvents[BarEvent.Closed];
@@ -104,24 +103,29 @@ namespace KrTrade.Nt.Services
 
         internal BarsService(INinjascriptService service) : this(service, null, new BarsServiceOptions()) { }
         internal BarsService(INinjascriptService service, BarsServiceOptions options) : this(service, null, options) { }
-        internal BarsService(INinjascriptService service, BarsServiceInfo barsServiceInfo, BarsServiceOptions barsServiceOptions) : base(service?.Ninjascript, service?.PrintService, barsServiceInfo, barsServiceOptions)
+        internal BarsService(INinjascriptService service, BarsServiceInfo barsServiceInfo, BarsServiceOptions barsServiceOptions) : 
+            base(service?.Ninjascript, service?.PrintService, barsServiceInfo, barsServiceOptions)
         {
-            Info = barsServiceInfo ?? new BarsServiceInfo(service.Ninjascript);
-            BarsSeries = new BarsSeriesCollection(this);
+
+            LogInitStart();
+            PrintService.LogTrace($"BarsServiceInfo instrument: {Info.InstrumentCode}.");
+            BarsSeriesCollection = new BarsSeriesCollection(this);
             Series = new SeriesCollection(
                 barsService: this, 
                 info: new SeriesCollectionInfo());
-
+            PrintService.LogTrace("SeriesCollection has been created.");
+            //
             //Indicators = new IndicatorCollection(this);
             //Filters = new FiltersCollection(this);
             //Stats = new StatsCollection(this);
+
+            LogInitEnd();
         }
 
         #endregion
 
         #region Implementation
 
-        protected override ServiceType GetServiceType() => ServiceType.BARS;
         internal override void Configure(out bool isConfigured)
         {
             _barEvents = new Dictionary<BarEvent, bool>()
@@ -144,7 +148,7 @@ namespace KrTrade.Nt.Services
                 PrintService.LogError(new Exception("The 'DataSeriesOptions' must be loaded before the service will be configured."));
 
             // Configure series
-            BarsSeries.Configure();
+            BarsSeriesCollection.Configure();
             Series.Configure();
             //Indicators?.Configure();
             //Filters?.Configure();
@@ -152,7 +156,7 @@ namespace KrTrade.Nt.Services
 
             //isConfigured = Info != null && _barSeries.IsConfigure && Indicators.IsConfigure && Filters.IsConfigure && Stats.IsConfigure;
 
-            isConfigured = Info != null && BarsSeries.IsConfigure && Series.IsConfigure;
+            isConfigured = Info != null && BarsSeriesCollection.IsConfigure && Series.IsConfigure;
         }
         internal override void DataLoaded(out bool isDataLoaded)
         {
@@ -167,7 +171,7 @@ namespace KrTrade.Nt.Services
                 PrintService.LogError(new Exception($"{Name} cannot be loaded because the 'DataSeriesOptions' don't mutch with any 'NinjaScript.DataSeries'."));
 
             // Configure series.
-            BarsSeries.DataLoaded();
+            BarsSeriesCollection.DataLoaded();
             Series.DataLoaded();
             //Indicators?.DataLoaded();
             //Filters?.DataLoaded();
@@ -175,7 +179,7 @@ namespace KrTrade.Nt.Services
 
             isDataLoaded =
                 Index != -1
-                && BarsSeries.IsDataLoaded 
+                && BarsSeriesCollection.IsDataLoaded 
                 && Series.IsDataLoaded;
                 //&& Indicators != null ? Indicators.IsDataLoaded : true
                 //&& Filters != null ? Filters.IsDataLoaded : true
@@ -256,7 +260,7 @@ namespace KrTrade.Nt.Services
 
             ////// Check FILTERS
             ////Filters.Update();
-            BarsSeries.BarUpdate();
+            BarsSeriesCollection.BarUpdate();
             Series.BarUpdate();
             //Stats.Update();
             //Indicators.Update();
@@ -267,27 +271,27 @@ namespace KrTrade.Nt.Services
         }
         public void BarUpdate(IBarsService updatedBarsSeries)
         {
-            BarsSeries.BarUpdate(updatedBarsSeries);
+            BarsSeriesCollection.BarUpdate(updatedBarsSeries);
             Series.BarUpdate(updatedBarsSeries);
         }
         public void MarketData(NinjaTrader.Data.MarketDataEventArgs args)
         {
-            BarsSeries.MarketData(args);
+            BarsSeriesCollection.MarketData(args);
             Series.MarketData(args);
         }
         public void MarketData(IBarsService updatedBarsSeries)
         {
-            BarsSeries.MarketData(updatedBarsSeries);
+            BarsSeriesCollection.MarketData(updatedBarsSeries);
             Series.MarketData(updatedBarsSeries);
         }
         public void MarketDepth(NinjaTrader.Data.MarketDepthEventArgs args)
         {
-            BarsSeries.MarketDepth(args);
+            BarsSeriesCollection.MarketDepth(args);
             Series.MarketDepth(args);
         }
         public void MarketDepth(IBarsService updatedBarsSeries)
         {
-            BarsSeries.MarketDepth(updatedBarsSeries);
+            BarsSeriesCollection.MarketDepth(updatedBarsSeries);
             Series.MarketDepth(updatedBarsSeries);
         }
         public void Render()
@@ -299,9 +303,9 @@ namespace KrTrade.Nt.Services
             throw new NotImplementedException();
         }
 
-        public Bar GetBar(int barsAgo) => BarsSeries.GetBar(barsAgo);
-        public Bar GetBar(int barsAgo, int period) => BarsSeries.GetBar(barsAgo, period);
-        public IList<Bar> GetBars(int barsAgo, int period) => BarsSeries.GetBars(barsAgo, period);
+        public Bar GetBar(int barsAgo) => BarsSeriesCollection.GetBar(barsAgo);
+        public Bar GetBar(int barsAgo, int period) => BarsSeriesCollection.GetBar(barsAgo, period);
+        public IList<Bar> GetBars(int barsAgo, int period) => BarsSeriesCollection.GetBars(barsAgo, period);
 
         //public ISeries GetSeries(BaseSeriesInfo options)
         //{
@@ -391,7 +395,7 @@ namespace KrTrade.Nt.Services
 
             if (Series.ContainsKey(info.Key))
                 return Series[info.Key];
-            else if (BarsSeries.ContainsKey(info.Key))
+            else if (BarsSeriesCollection.ContainsKey(info.Key))
             {
                 switch(info.Type)
                 {
@@ -428,7 +432,7 @@ namespace KrTrade.Nt.Services
 
             if (Series.ContainsKey(info.Key))
                 return Series[info.Key];
-            else if (BarsSeries.ContainsKey(info.Key))
+            else if (BarsSeriesCollection.ContainsKey(info.Key))
             {
                 switch(info.Type)
                 {

@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Core.Collections;
+using KrTrade.Nt.Core.Services;
 using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Services
@@ -23,7 +24,12 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Gets the options of the service.
         /// </summary>
-        NinjascriptServiceOptions Options { get; }
+        IServiceOptions Options { get; }
+
+        /// <summary>
+        /// Gets the info of the service.
+        /// </summary>
+        IServiceInfo Info { get; }
 
         /// <summary>
         /// Gets the name of the service.
