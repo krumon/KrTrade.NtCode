@@ -75,7 +75,7 @@ namespace KrTrade.Nt.Services
         /// when we ar going to use plot reprentation in the chart panel.</param>
         /// <returns>An initialized <see cref="IBarsService"/></returns>
         /// <exception cref="InvalidOperationException">The service can only be built once.</exception>
-        IBarsManager Configure(NinjaScriptBase ninjascript, Action<string,BarsPeriod,string> addDataSeriesMethod);
+        IBarsManager Build(NinjaScriptBase ninjascript, Action<string,BarsPeriod,string> addDataSeriesMethod);
 
 
     }

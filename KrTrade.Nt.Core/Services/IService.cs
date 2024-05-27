@@ -16,6 +16,11 @@ namespace KrTrade.Nt.Core.Services
         NinjaScriptBase Ninjascript { get; }
 
         /// <summary>
+        /// Gets the type of the service
+        /// </summary>
+        ServiceType Type { get; }
+
+        /// <summary>
         /// Indicates that the service is enabled.
         /// </summary>
         bool IsEnable { get; }

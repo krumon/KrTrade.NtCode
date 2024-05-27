@@ -12,7 +12,17 @@ namespace KrTrade.Nt.Services
         {
         }
 
-        protected override ServiceType GetServiceType()
+        protected override ServiceCollectionType GetServiceType()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        internal override void Configure(out bool isConfigured)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        internal override void DataLoaded(out bool isDataLoaded)
         {
             throw new System.NotImplementedException();
         }

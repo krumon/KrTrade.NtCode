@@ -7,7 +7,7 @@ namespace KrTrade.Nt.Services.Series
         protected int _lastValueBar;
         protected int _currentValueBar;
 
-        public new PeriodSeriesInfo Info { get;set; }
+        new public PeriodSeriesInfo Info { get => (PeriodSeriesInfo)base.Info; }
         public int Period 
         {
             get => Info.Period;

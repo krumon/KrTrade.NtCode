@@ -23,6 +23,34 @@ namespace KrTrade.Nt.Core.Series
         public bool Equals(IHasKey other) => other is IHasKey key && Key == key.Key;
         public bool Equals(ISeries other) => Equals(other as IHasKey);
 
+        public string ToKeyString(int tabOrder) => ToString(tabOrder, true);
+        protected virtual string ToString(int tabOrder, bool isKeyString)
+        {
+            string text = string.Empty;
+            string tab = string.Empty;
+            for (int i = 0; i < tabOrder; i++)
+                tab += "\t";
+
+            if (!string.IsNullOrEmpty(Name))
+                text += tab + (isKeyString ? Key : ToString());
+
+            return text;
+        }
+
+        public override string ToString() => Key;
+        public string ToString(int tabOrder)
+        {
+            string text = string.Empty;
+            string tab = string.Empty;
+            for (int i = 0; i < tabOrder; i++)
+                tab += "\t";
+
+            if (!string.IsNullOrEmpty(Name))
+                text += tab + ToString();
+
+            return text;
+        }
+
         // Properties
         /// <summary>
         /// Gets the difference between int.MaxValue and OldValuesCapacity.
@@ -38,13 +66,13 @@ namespace KrTrade.Nt.Core.Series
         /// <param name="info">The specified information of the series.</param>
         public Series(IBaseSeriesInfo info)
         {
-            Info = info ?? new BarsSeriesInfo()
-            {
-                Capacity = DEFAULT_CAPACITY,
-                OldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY,
-            };
-            OldValuesCapacity = OldValuesCapacity < 1 ? DEFAULT_OLD_VALUES_CAPACITY : OldValuesCapacity;
-            Capacity = Capacity <= 0 ? DEFAULT_CAPACITY : Capacity > MaxCapacity ? MaxCapacity : Capacity;
+            Info = info ?? throw new ArgumentNullException(nameof(info));
+            //{
+            //    Capacity = DEFAULT_CAPACITY,
+            //    OldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY,
+            //};
+            Info.OldValuesCapacity = OldValuesCapacity < 1 ? DEFAULT_OLD_VALUES_CAPACITY : OldValuesCapacity;
+            Info.Capacity = Capacity <= 0 ? DEFAULT_CAPACITY : Capacity > MaxCapacity ? MaxCapacity : Capacity;
         }
 
         public object this[int index] => null;
@@ -76,8 +104,8 @@ namespace KrTrade.Nt.Core.Series
 
         // ICache<T> implementation
         public override bool IsFull => Count > MaxLength;
-        public new T CurrentValue { get => (T)base.CurrentValue; protected set => base.CurrentValue = value; }
-        public new T LastValue { get => (T)base.LastValue; protected set => base.LastValue = value; }
+        new public T CurrentValue { get => (T)base.CurrentValue; protected set => base.CurrentValue = value; }
+        new public T LastValue { get => (T)base.LastValue; protected set => base.LastValue = value; }
 
         public override void RemoveLastElement()
         {

@@ -68,8 +68,6 @@ namespace KrTrade.Nt.Services
             BarUpdate();
         }
 
-        public override string ToLogString() => Key;
-
     }
 
     public class SeriesService<TSeries> : BaseSeriesService<TSeries>
@@ -79,8 +77,17 @@ namespace KrTrade.Nt.Services
         {
         }
 
+        public override string ToString(int tabOrder)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override string GetKey() => Series.Key;
 
+        protected override ServiceType GetServiceType()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 

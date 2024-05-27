@@ -14,13 +14,87 @@ namespace KrTrade.Nt.Services.Series
 
         public int Capacity { get => Info.Capacity; protected internal set { Info.Capacity = value; } }
         public int OldValuesCapacity { get => Info.Capacity; protected internal set { Info.Capacity = value; } }
-        //public string Name { get => Info.Name; internal set { Info.Name = value; } }
         public string Name { get => string.IsNullOrEmpty(Info.Name) ? Key : Info.Name; internal set { Info.Name = value; } }
         public IBaseSeriesInfo Info { get; internal set; }
         public string Key => Info.Key;
+        public SeriesType Type { get => Info.Type; protected set => Info.Type = value; }
 
         public bool Equals(IHasKey other) => other is IHasKey key && Key == key.Key;
         public bool Equals(ISeries other) => Equals(other as IHasKey);
+
+        public override string ToString() => ToString(true, ": ", 0, null);
+        public string ToString(int tabOrder) => ToString(
+            includeOwner: true,
+            separator: ": ",
+            tabOrder: tabOrder,
+            value: null);
+        public string ToString(int tabOrder, int barsAgo) => ToString(
+            includeOwner: true,
+            separator: ": ",
+            tabOrder: tabOrder,
+            value: null);
+        internal string ToString(int tabOrder, object value) => ToString(
+            includeOwner: true,
+            separator: ": ",
+            tabOrder: tabOrder,
+            value: value);
+        internal string ToString(bool includeOwner, string separator, int tabOrder, object value)
+        {
+            string text = includeOwner ? Info.ToString(Bars.ToString()) : Info.ToString();
+            string tab = string.Empty;
+
+            if (tabOrder > 0)
+                for (int i = 0; i < tabOrder; i++)
+                    tab += "\t";
+            text += tab;
+
+            text += includeOwner ? Info.ToString(Bars.ToString()) : Info.ToString();
+
+            if (value != null)
+            {
+                separator = string.IsNullOrEmpty(separator) ? ": " : separator;
+                text += separator + value.ToString();
+            }
+
+            return text;
+        }
+
+        public void Log()
+        {
+            if (Bars.PrintService == null || !Bars.Options.IsLogEnable)
+                return;
+            Bars.PrintService.LogValue(ToString());
+        }
+        public void Log(int barsAgo)
+        {
+            if (Bars.PrintService == null || !Bars.Options.IsLogEnable)
+                return;
+            Bars.PrintService.LogValue(ToString());
+        }
+
+        //protected string ToLogString(string header, object value) => $"{header}: {value}";
+
+        //public virtual string ToLogString() => ToLogString(Type.ToString(), 0, 0);
+        //public virtual string ToLogString(int barsAgo) => ToLogString(Type.ToString(), barsAgo, 0);
+        //public virtual string ToLogString(int barsAgo, int tabOrder) => ToLogString(Type.ToString(), barsAgo, tabOrder);
+        //protected virtual string ToLogString(string header, int barsAgo) => ToLogString(header, barsAgo,0);
+        //protected virtual string ToLogString(string header, int barsAgo, int tabOrder)
+        //{
+        //    string text = string.Empty;
+        //    string tab = string.Empty;
+        //    for (int i = 0; i < tabOrder; i++)
+        //        tab += "\t";
+
+        //    text += tab;
+
+        //    if (barsAgo >= 0)
+        //        text += $"{header}({Bars})[{barsAgo}]: {ToString()}";
+        //    else
+        //        text += $"{header}({Bars})[{barsAgo}]: 'barsAgo': {barsAgo} is out of range.";
+
+        //    return text;
+
+        //}
 
         /// <summary>
         /// Gets the difference between int.MaxValue and OldValuesCapacity.
@@ -32,19 +106,16 @@ namespace KrTrade.Nt.Services.Series
         protected int MaxLength => Capacity + OldValuesCapacity;
 
         /// <summary>
-        /// Create <see cref="BaseNinjascriptSeries{T}"/> default instance with specified parameters.
+        /// Create <see cref="BaseNinjascriptSeries"/> default instance with specified parameters.
         /// </summary>
         /// <param name="info">The series information necesary to construct it.</param>
         protected BaseNinjascriptSeries(IBarsService bars, BaseSeriesInfo info) //: base(info)
         {
             Bars = bars ?? throw new ArgumentNullException(nameof(bars));
-            Info = info ?? new Core.Series.BarsSeriesInfo()
-            {
-                Capacity = Core.Series.Series.DEFAULT_CAPACITY,
-                OldValuesCapacity = Core.Series.Series.DEFAULT_OLD_VALUES_CAPACITY,
-            };
-            OldValuesCapacity = OldValuesCapacity < 1 ? Core.Series.Series.DEFAULT_OLD_VALUES_CAPACITY : OldValuesCapacity;
-            Capacity = Capacity <= 0 ? Core.Series.Series.DEFAULT_CAPACITY : Capacity > MaxCapacity ? MaxCapacity : Capacity;
+            Info = info ?? throw new ArgumentNullException(nameof(info));
+            
+            Info.OldValuesCapacity = OldValuesCapacity < 1 ? Core.Series.Series.DEFAULT_OLD_VALUES_CAPACITY : OldValuesCapacity;
+            Info.Capacity = Capacity <= 0 ? Core.Series.Series.DEFAULT_CAPACITY : Capacity > MaxCapacity ? MaxCapacity : Capacity;
         }
 
         public bool IsConfigure => _isConfigure;

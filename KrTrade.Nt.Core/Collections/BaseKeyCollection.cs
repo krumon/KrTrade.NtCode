@@ -62,18 +62,40 @@ namespace KrTrade.Nt.Core.Collections
 
         #region Implementation
 
-        public override string ToString()
+        public override string ToString() => ToString(string.Empty,0,false);
+        public string ToString(string header) => ToString(header,0,false);
+        protected string ToString(string header, int tabOrder, bool isMultiLine) => ToString(header, tabOrder, isMultiLine ? Environment.NewLine : ", ");
+
+        public virtual string ToLongString() => ToString(string.Empty, 0, true);
+        public virtual string ToLongString(int tabOrder) => ToLongString(string.Empty, tabOrder);
+        public string ToLongString(string header, int tabOrder) => ToString(header, tabOrder, true);
+
+        protected string ToString(string header, int tabOrder, string separator)
         {
-
-            if (_collection == null || _collection.Count == 0)
-                return string.Empty;
-
             string text = string.Empty;
-            foreach (var item in _collection)
-                text += item.Key + "NewLine";
+            string tab = string.Empty;
+            separator = string.IsNullOrEmpty(separator) ? ", " : separator;
 
-            text.Remove(text.Length - 7);
-            text.Replace("NewLine", Environment.NewLine);
+            for (int i = 0; i < tabOrder; i++)
+                tab += "\t";
+
+            if (!string.IsNullOrEmpty(header))
+                text += tab + header;
+            
+            if (_collection != null && _collection.Count > 0)
+            {
+                text += (separator == Environment.NewLine ? Environment.NewLine + tab : string.Empty) + "[" + (separator == Environment.NewLine ? Environment.NewLine + tab : string.Empty);
+                for (int i = 0; i < _collection.Count; i++)
+                {
+                    text += _collection[i].ToString(tabOrder + 1);
+                    if (i == _collection.Count - 1)
+                        text += (separator == Environment.NewLine ? Environment.NewLine + tab : string.Empty) + "]";
+                    else
+                        text += (separator != Environment.NewLine ? separator : string.Empty) + (separator == Environment.NewLine ? Environment.NewLine : string.Empty);
+                }
+            }
+            else
+                text += "[EMPTY]";
 
             return text;
         }
@@ -119,12 +141,7 @@ namespace KrTrade.Nt.Core.Collections
             catch { }
         }
 
-        //public abstract void Add<TInfo>(TInfo info);
-        //public abstract void Add<TInfo,TOptions>(IService service, TInfo itemInfo, TOptions itemOptions)
-        //    where TInfo : IInfo
-        //    where TOptions : IOptions;
-
-        public int Count => _collection.Count;
+        public int Count => _collection == null ? -1 : _collection.Count;
         public void Clear() => _collection?.Clear();
         public void Remove(string key)
         {
@@ -163,11 +180,12 @@ namespace KrTrade.Nt.Core.Collections
                 throw new Exception($"The element cannot be removed.", e);
             }
         }
-        public bool ContainsKey(string key) => _collection != null && _keys.ContainsKey(key);
+        public bool ContainsKey(string key) => _collection != null && _keys != null && _keys.ContainsKey(key);
         public bool TryGetValue(string key,out int index) => _keys.TryGetValue(key,out index);
 
         public IEnumerator<T> GetEnumerator() => _collection.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
 
         protected void ForEach(Action<T> action)
         {

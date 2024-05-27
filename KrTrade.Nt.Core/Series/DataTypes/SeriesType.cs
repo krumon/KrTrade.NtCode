@@ -5,8 +5,8 @@
     /// </summary>
     public enum SeriesType
     {
-        //// GENERIC (Any generic series)
-        //GENERIC,
+        // UNKNOWN TYPE
+        UNKNOWN,
         // BARS SERIES
         CURRENT_BAR,
         TIME,
@@ -26,10 +26,10 @@
         DEVSTD,
         // INDICATOR SERIES
         RANGE,
-        
-        
-        //SWING_HIGH,
-        //SWING_LOW
+
+
+        SWING_HIGH,
+        SWING_LOW
 
 
 

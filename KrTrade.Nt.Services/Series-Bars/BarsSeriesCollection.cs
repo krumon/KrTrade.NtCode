@@ -28,7 +28,6 @@ namespace KrTrade.Nt.Services.Series
             }) { }
         public BarsSeriesCollection(IBarsService bars, BarsSeriesCollectionInfo info) : base(bars, info)
         {
-            bars.PrintService.LogTrace($"The {Name} is going to create the bars series.");
             CurrentBar = new CurrentBarSeries(Bars, info.Capacity, info.OldValuesCapacity);
             Time = new TimeSeries(Bars, info.Capacity, info.OldValuesCapacity);
             //Open = new HighSeries(Bars, info.Capacity, info.OldValuesCapacity);
@@ -37,7 +36,6 @@ namespace KrTrade.Nt.Services.Series
             //Close = new HighSeries(Bars, info.Capacity, info.OldValuesCapacity);
             Volume = new VolumeSeries(Bars, info.Capacity, info.OldValuesCapacity);
             Tick = new TickSeries(Bars, info.Capacity, info.OldValuesCapacity);
-            bars.PrintService.LogTrace($"The bars series has been created.");
             Add(CurrentBar);
             Add(Time);
             //Add(Open);
@@ -46,7 +44,6 @@ namespace KrTrade.Nt.Services.Series
             //Add(Close);
             Add(Volume);
             Add(Tick);
-            bars.PrintService.LogTrace($"The bars series has been added.");
         }
 
         //public void Add()
@@ -163,8 +160,8 @@ namespace KrTrade.Nt.Services.Series
             return bars;
         }
 
-        public override string ToString() => 
-            $"{Name}[0]: Open:{Open[0]:#,0.00} - High:{High[0]:#,0.00} - Low:{Low[0]:#,0.00} - Close:{Close[0]:#,0.00} - Volume:{Volume[0]:#,0.##} - Ticks:{Tick[0]:#,0.##}";
+        public string ToLogString(int barsAgo) =>
+            $"{Name}[{barsAgo}]: Open:{Open[barsAgo]:#,0.00} - High:{High[barsAgo]:#,0.00} - Low:{Low[barsAgo]:#,0.00} - Close:{Close[barsAgo]:#,0.00} - Volume:{Volume[barsAgo]:#,0.##} - Ticks:{Tick[barsAgo]:#,0.##}";
 
         protected bool IsValidIndex(int barsAgo, int period)
             => CurrentBar.IsValidIndex(barsAgo, period)

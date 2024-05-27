@@ -2,7 +2,7 @@
 
 namespace KrTrade.Nt.Services
 {
-    public class StatsService : BarUpdateService<StatsInfo,StatsOptions>, IStatsService
+    public class StatsService : BarUpdateService<StatsInfo, StatsOptions>, IStatsService
     {
         public StatsService(IBarsService barsService, StatsInfo info, StatsOptions options) : base(barsService, info, options)
         {
@@ -40,11 +40,6 @@ namespace KrTrade.Nt.Services
 
         //public BaseSeriesCache StdDev => throw new System.NotImplementedException();
 
-        public override string ToLogString()
-        {
-            throw new System.NotImplementedException();
-        }
-
         internal override void Configure(out bool isConfigured)
         {
             throw new System.NotImplementedException();
@@ -66,6 +61,16 @@ namespace KrTrade.Nt.Services
         }
 
         protected override string GetKey()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override ServiceType GetServiceType()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override string ToString(int tabOrder)
         {
             throw new System.NotImplementedException();
         }

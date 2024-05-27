@@ -144,7 +144,7 @@
     <Compile Include="Services-BarUpdate\Series\SeriesServiceOptions.cs" />
     <Compile Include="Services--Collections\BarUpdateServiceCollectionOptions.cs" />
     <Compile Include="Services--Collections\BarUpdateServiceCollection.cs" />
-    <Compile Include="Services--Collections\BarsServiceCollection.cs" />
+    <Compile Include="Services-Bars\BarsServiceCollection.cs" />
     <Compile Include="Services--Collections\BarsServiceCollectionOptions.cs" />
     <Compile Include="Services-Indicators\IndicatorCollection.cs" />
     <Compile Include="Services-Indicators\IndicatorOptions.cs" />

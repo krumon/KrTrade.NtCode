@@ -1,5 +1,4 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using KrTrade.Nt.Core.Series;
 using KrTrade.Nt.Services.Series;
 using System.Collections.Generic;
 
@@ -127,26 +126,6 @@ namespace KrTrade.Nt.Services
         /// </summary>
         bool IsPriceChanged {get;}
 
-        ///// <summary>
-        ///// Gets the series from the 'SeriesCollection'. If don't find the series return null.
-        ///// </summary>
-        ///// <param name="options">The series options to get.</param>
-        ///// <returns>The <see cref="ISeries"/> getted or null if not found.</returns>
-        //ISeries GetSeries(BaseSeriesInfo options);
-
-        ///// <summary>
-        ///// Gets the series from the 'SeriesCollection'. If is necesary add any series to get the series will be added.
-        ///// </summary>
-        ///// <param name="options">The series options to get.</param>
-        ///// <returns>The <see cref="ISeries"/> getted.</returns>
-        //ISeries GetOrAddSeries(BaseSeriesInfo options);
-
-        ///// <summary>
-        ///// Adds the series to the 'SeriesCollection'. If is necesary add any series to add the series will be added.
-        ///// </summary>
-        ///// <param name="seriesInfo">The series information.</param>
-        //void AddSeries(BaseSeriesInfo seriesInfo);
-
         /// <summary>
         /// Returns the <see cref="Bar"/> of the specified <paramref name="barsAgo"/>.
         /// </summary>
@@ -170,79 +149,10 @@ namespace KrTrade.Nt.Services
         /// <returns>The <see cref="Bar"/> collection result from bars stored in the cache between the <paramref name="barsAgo"/> to and the <paramref name="period"/> specified.</returns>
         IList<Bar> GetBars(int barsAgo, int period);
 
-        ///// <summary>
-        ///// Adds new <see cref="IBarUpdateService"/> to <see cref="IBarsService"/>.
-        ///// </summary>
-        ///// <typeparam name="TService">The generic type of the service.</typeparam>
-        ///// <typeparam name="TOptions">The generic type of the service options.</typeparam>
-        ///// <param name="key">The key of the service.</param>
-        ///// <param name="configureOptions">The options to configure the service.</param>
-        ///// <param name="input1">Input serie to construct the service.</param>
-        ///// <param name="input2">Input serie to construct the service.</param>
-        //IBarsService AddService<TService, TOptions>(string key, Action<TOptions> configureOptions = null, object input1 = null, object input2 = null)
-        //    where TService : IBarUpdateService
-        //    where TOptions : BarUpdateServiceOptions, new();
-
-        ///// <summary>
-        ///// Adds new <see cref="IBarUpdateService"/> to <see cref="IBarsService"/>.
-        ///// </summary>
-        ///// <typeparam name="TService">The generic type of the service.</typeparam>
-        ///// <typeparam name="TOptions">The generic type of the service options.</typeparam>
-        ///// <param name="key">The key of the service.</param>
-        ///// <param name="options">The options to configure the service.</param>
-        ///// <param name="input1">Input serie to construct the service.</param>
-        ///// <param name="input2">Input serie to construct the service.</param>
-        //IBarsService AddService<TService, TOptions>(string key, TOptions options, object input1 = null, object input2 = null)
-        //    where TService : IBarUpdateService
-        //    where TOptions : BarUpdateServiceOptions, new();
-
-        ///// <summary>
-        ///// Add <typeparamref name="TService"/> to the <see cref="IBarsService"./>
-        ///// </summary>
-        ///// <typeparam name="TService">The <typeparamref name="TService"/> to add.</typeparam>
-        ///// <param name="service">The <typeparamref name="TService"/> instance to add.</param>
-        ///// <param name="key">The key of the service.</param>
-        ///// <returns>The <see cref="IBarsService"/> to continue chaining services.</returns>
-        //IBarsService AddService<TService>(string key, TService service)
-        //    where TService : IBarUpdateService;
-
-        ///// <summary>
-        ///// Gets <typeparamref name="TService"/> thats exist in <see cref="IBarsService"./>
-        ///// </summary>
-        ///// <typeparam name="TService">The <typeparamref name="TService"/> to add.</typeparam>
-        ///// <param name="key">The optional name of the service.</param>
-        ///// <returns>The <typeparamref name="TService"/> instance or null if doesn't exist.</returns>
-        //TService Get<TService>(string key = "")
-        //    where TService : class, IBarUpdateService;
-
-        ///// <summary>
-        ///// Gets <typeparamref name="TCache"/> cache thats exists in <see cref="IBarsService"/>.
-        ///// </summary>
-        ///// <typeparam name="TCache">The <typeparamref name="TCache"/> to add.</typeparam>
-        ///// <param name="key">The key of the service.</param>
-        ///// <returns>The <typeparamref name="TService"/> instance or null if doesn't exist.</returns>
-        //CacheService<TCache> GetCache<TCache>(string key = "")
-        //    where TCache : class, IBarUpdateCache;
-
-        ///// <summary>
-        ///// Gets service with specified <paramref name="name"/> thats exist in <see cref="IBarsService"./>
-        ///// </summary>
-        ///// <param name="name">The specified name of the service.</param>
-        ///// <returns>The <see cref="IBarUpdateService"/> instance or null if doesn't exist.</returns>
-        //IBarUpdateService Get(string name);
-
-        ///// <summary>
-        ///// Method to be executed when 'Ninjatrader.ChartBars' is updated.
-        ///// </summary>
-        //void Update();
-
-        ///// <summary>
-        ///// Adds new <see cref="IBarUpdateService"/> to <see cref="IBarsService"/>.
-        ///// This services needs <see cref="IBarsService"/> to be executed because they are executed in <see cref="IBarsService"/>
-        ///// after the bars have been updated.
-        ///// </summary>
-        //void Add(IBarUpdateService service);
-
+        /// <summary>
+        /// Print in NinjaScript output window the state of the service.
+        /// </summary>
+        void LogState();
 
     }
 }

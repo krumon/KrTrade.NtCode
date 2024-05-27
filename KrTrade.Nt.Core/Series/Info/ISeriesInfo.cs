@@ -9,7 +9,7 @@ namespace KrTrade.Nt.Core.Series
         /// <summary>
         /// Gets or sets the inputs series.
         /// </summary>
-        List<ISeriesInfo> Inputs { get; set; }
+        List<IBaseSeriesInfo> Inputs { get; set; }
 
         /// <summary>
         /// Adds the input series to the series object.
@@ -18,7 +18,7 @@ namespace KrTrade.Nt.Core.Series
         /// <param name="configureSeriesInfo">Delegate to configure the series info.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="configureSeriesInfo"/> cannot be null.</exception>
         void AddInputSeries<TInfo>(Action<TInfo> configureSeriesInfo)
-            where TInfo : ISeriesInfo, new();
+            where TInfo : IBaseSeriesInfo, new();
 
     }
 

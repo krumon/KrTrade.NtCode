@@ -6,20 +6,19 @@ using System;
 
 namespace KrTrade.Nt.Services.Series
 {
-    // TODO: IMPLEMETAR GET SERIES METHOD. LINE:145.
 
     public abstract class BaseNinjascriptSeriesCollection<TSeries> : BaseKeyCollection<TSeries>, INinjascriptSeriesCollection<TSeries>
         where TSeries : INinjascriptSeries
     {
 
-        //private readonly NinjaScriptBase _ninjascript;
-        //private readonly IPrintService _printService;
         protected SeriesCollectionInfo _info;
         protected IBarsService Bars { get; set; }
 
         public NinjaScriptBase Ninjascript => Bars.Ninjascript;
         public IPrintService PrintService => Bars.PrintService;
         public SeriesCollectionInfo Info { get => _info ?? new SeriesCollectionInfo(); protected set { _info = value; } }
+
+        public SeriesCollectionType Type { get => Info.Type; protected set => Info.Type = value; }
 
         public bool IsConfigure { get;protected set; }
         public bool IsDataLoaded { get; protected set; }
@@ -29,10 +28,8 @@ namespace KrTrade.Nt.Services.Series
         protected BaseNinjascriptSeriesCollection(IBarsService barsService) : this(barsService, new SeriesCollectionInfo()) { }
         protected BaseNinjascriptSeriesCollection(IBarsService barsService,SeriesCollectionInfo info) : base() 
         {
-            barsService.PrintService.LogTrace("NinjascriptSeriesCollection constructor. Init...");
             this.Bars = barsService ?? throw new ArgumentNullException($"Error in 'BaseNinjascriptServiceCollection' constructor. The {nameof(barsService)} argument cannot be null.");
             Info = info;
-            barsService.PrintService.LogTrace("NinjascriptSeriesCollection constructor. ...End");
         }
         protected BaseNinjascriptSeriesCollection(IBarsService barsService, SeriesCollectionInfo info, int capacity) : base(capacity) 
         {
@@ -45,9 +42,12 @@ namespace KrTrade.Nt.Services.Series
         public void Configure()
         {
             if (_collection == null)
-                throw new NullReferenceException($"The service collection is null.");
+                throw new NullReferenceException($"{Name} inner collection is null.");
             if (_collection.Count == 0)
-                throw new Exception($"The service collection is empty.");
+            {
+                if (_collection is BarsSeriesCollection)
+                    throw new Exception($"{Name} inner collection is empty.");
+            }
 
             IsConfigure = true;
             foreach (var series in _collection)
@@ -56,13 +56,22 @@ namespace KrTrade.Nt.Services.Series
                 if (!series.IsConfigure)
                     IsConfigure = false;
             }
+
+            if (!IsConfigure)
+                PrintService.LogError($"'{Name}' cannot be configured because one 'Series' could not be configured.");
         }
         public void DataLoaded()
         {
             if (_collection == null)
-                throw new NullReferenceException($"The service collection is null.");
+                throw new NullReferenceException($"{Name} inner collection is null.");
             if (_collection.Count == 0)
-                throw new Exception($"The service collection is empty.");
+            {
+                if (_collection is BarsSeriesCollection)
+                {
+                    if (_collection is BarsSeriesCollection)
+                        throw new Exception($"{Name} inner collection is empty.");
+                }
+            }
 
             IsDataLoaded = true;
             foreach (var series in _collection)
@@ -71,6 +80,9 @@ namespace KrTrade.Nt.Services.Series
                 if (!series.IsDataLoaded)
                     IsDataLoaded = false;
             }
+
+            if (!IsDataLoaded)
+                PrintService.LogError($"'{Name}' cannot be configured when data loaded because one 'Series' could not be configured.");
         }
         public void Terminated()
         {
@@ -95,75 +107,43 @@ namespace KrTrade.Nt.Services.Series
                 series.Reset();
         }
 
-        //public void Add<TInfo>(TInfo info)
-        //    where TInfo : ISeriesInfo
-        //{
-        //    try
-        //    {
-        //        if (info == null)
-        //            throw new ArgumentNullException(nameof(info));
+        public virtual string ToLogString() => ToLogString(Name, 0, ", ",0);
+        public virtual string ToLogString(string header, int tabOrder, string separator, int barsAgo)
+        {
+            string text = string.Empty;
+            string tab = string.Empty;
+            separator = string.IsNullOrEmpty(separator) ? ", " : separator;
 
-        //        // El servicio no existe
-        //        if (!ContainsKey(info.Key))
-        //        {
-        //            TSeries series = GetSeries(info);
-        //            if (series == null)
-        //                throw new Exception($"The series with key:{info.Key} could not be added to the collection");
-        //            else
-        //                base.Add(series);
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw new Exception($"The series with key:{info.Key} could not be added to the collection.", e);
-        //    }
-        //}
-        //public void TryAdd<TInfo>(TInfo info)
-        //    where TInfo : ISeriesInfo
-        //{
-        //    try
-        //    {
-        //        Add(info);
-        //    }
-        //    catch 
-        //    {
-        //        PrintService.LogWarning($"The series with key:{info.Key} could not be added to the collection");
-        //    }
-        //}
+            for (int i = 0; i < tabOrder; i++)
+                tab += "\t";
 
-        //// TODO: IMPLEMETAR GET SERIES METHOD.
-        //public TSeries GetSeries<TInfo>(TInfo info)
-        //    where TInfo : ISeriesInfo
-        //{
-        //    if (info == null)
-        //        return default;
-        //    INinjascriptSeries series = null;
-        //    if (info.Type == SeriesType.MAX)
-        //    {
-        //        if (info.Inputs == null || info.Inputs.Count == 0)
-        //        {
-        //            PrintService.LogWarning(
-        //                $"The {info.Type} series nedds one Input series to calculate the values. " +
-        //                $"The {info.Type} series could not be created.");
-        //        }
-        //        else if (info.Inputs.Count > 1)
-        //        {
-        //            PrintService.LogWarning(
-        //                $"The {info.Type} series only nedds one Input series to calculate the values. " +
-        //                $"The rest of the series will be eliminated and will not be taken into consideration.");
-        //            info.Inputs.RemoveRange(1, info.Inputs.Count - 2);
-        //        }
-        //        else if (info.Inputs[0] is PeriodSeriesInfo periodInfo)
-        //            series = new MaxSeries(Bars, periodInfo);
-        //    }
-        //    base.Add(series);
-        //    return this[info.Key];
-        //}
-        //public TSeries GetOrAdd<TInfo>(TInfo info)
-        //    where TInfo : ISeriesInfo
-        //{
-        //    return default;
-        //}
+            if (!string.IsNullOrEmpty(header))
+                text += tab + header;
+
+            if (_collection == null)
+                return $"{text}[NULL]";
+            if (_collection.Count == 0)
+                return $"{text}[EMPTY]";
+
+            text += (separator == Environment.NewLine ? Environment.NewLine + tab : string.Empty) + "[" + (separator == Environment.NewLine ? Environment.NewLine + tab : string.Empty);
+            for (int i = 0; i < _collection.Count; i++)
+            {
+                text += _collection[i].ToString(tabOrder + 1, barsAgo);
+                if (i == _collection.Count - 1)
+                    text += (separator == Environment.NewLine ? Environment.NewLine + tab : string.Empty) + "]";
+                else
+                    text += (separator != Environment.NewLine ? separator : string.Empty) + (separator == Environment.NewLine ? Environment.NewLine : string.Empty);
+            }
+
+            return text;
+        }
+        
+        public virtual string ToLogString(bool isMultiline) => ToLogString(Name, 0, isMultiline ? Environment.NewLine : ", ",0);
+        public virtual string ToLogString(int tabOrder, string separator) => ToLogString(Name, tabOrder, separator,0);
+
+        public override string ToString() => ToString(Type.ToString(), 0, false);
+        public override string ToLongString() => ToString(Type.ToString(), 0, true);
+        public override string ToLongString(int tabOrder) => ToString(Type.ToString(), tabOrder, true);
 
         public virtual void BarUpdate() => ForEach(x => { if (x is IBarUpdate ok) ok.BarUpdate(); });
         public virtual void BarUpdate(IBarsService updatedBarsService) => ForEach(x => { if (x is IBarUpdate ok) ok.BarUpdate(updatedBarsService); });

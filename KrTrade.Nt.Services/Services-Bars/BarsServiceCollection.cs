@@ -8,16 +8,15 @@ namespace KrTrade.Nt.Services
     public class BarsServiceCollection : BaseNinjascriptServiceCollection<IBarsService>, IBarsServiceCollection
     {
 
-        public BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceInfo info, BarsServiceCollectionOptions options) : base(ninjascript, printService, info, options) { }
-        public BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceInfo info, BarsServiceCollectionOptions options, int capacity) : base(ninjascript, printService, info, options, capacity) { }
-        public BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsServiceCollectionOptions options) : base(ninjascript, printService, null, options) { }
-        public BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsServiceCollectionOptions options, int capacity) : base(ninjascript, printService, null, options, capacity) { }
-        public BarsServiceCollection(IBarsManager barsManager) : this(barsManager.Ninjascript, barsManager.PrintService, null, null) { }
-        public BarsServiceCollection(IBarsManager barsManager, BarsServiceCollectionOptions options) : base(barsManager.Ninjascript, barsManager.PrintService, null, options) { LogInitEnd(); }
+        internal BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceInfo info, BarsServiceCollectionOptions options) : base(ninjascript, printService, info, options) { }
+        internal BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceInfo info, BarsServiceCollectionOptions options, int capacity) : base(ninjascript, printService, info, options, capacity) { }
+        internal BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsServiceCollectionOptions options) : base(ninjascript, printService, null, options) { }
+        internal BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsServiceCollectionOptions options, int capacity) : base(ninjascript, printService, null, options, capacity) { }
+        internal BarsServiceCollection(IBarsManager barsManager) : this(barsManager.Ninjascript, barsManager.PrintService, null, null) { }
+        internal BarsServiceCollection(IBarsManager barsManager, BarsServiceCollectionOptions options) : base(barsManager.Ninjascript, barsManager.PrintService, null, options) { }
 
-        public int BarsInProgress => this.Ninjascript.BarsInProgress;
-        public override string ToString() => GetKey();
-        protected override ServiceType GetServiceType() => ServiceType.BARS_COLLECTION;
+        public int BarsInProgress => Ninjascript.BarsInProgress < 0 || Ninjascript.BarsInProgress > Count ? 0 : Ninjascript.BarsInProgress;
+        protected override ServiceCollectionType GetServiceType() => ServiceCollectionType.BARS_COLLECTION;
 
         new public BarsServiceCollectionOptions Options => (BarsServiceCollectionOptions)base.Options;
         
@@ -46,11 +45,53 @@ namespace KrTrade.Nt.Services
         public bool IsFirstTick => IsValidIndex(0) && _collection[0].IsFirstTick;
         public bool IsPriceChanged => IsValidIndex(0) && _collection[0].IsPriceChanged;
 
+        internal override void Configure(out bool isConfigured) => isConfigured = true;
+        internal override void DataLoaded(out bool isDataLoaded)
+        {
+            isDataLoaded = true;
+
+            if (Count == 0)
+            {
+                isDataLoaded = false;
+                PrintService.LogError($"'{Name}' Count: 0. '{Name}' must contain at least the primary series.");
+                PrintService.LogError($"'{Name}' cannot be configured when data loaded.");
+                return;
+            }
+            if (Count != Ninjascript.BarsArray.Length)
+            {
+                isDataLoaded = false;
+                PrintService.LogError($"'{Name}' Count: {Count} and 'NinjaScript.BarsArray.Length': {Ninjascript.BarsArray.Length} must be the same. ");
+                PrintService.LogError($"'{Name}' cannot be configured when data loaded.");
+                return;
+            }
+
+            CurrentBars = new CurrentBarSeries[Count];
+            Times = new TimeSeries[Count];
+            Opens = new PriceSeries[Count];
+            Highs = new HighSeries[Count];
+            Lows = new PriceSeries[Count];
+            Closes = new PriceSeries[Count];
+            Volumes = new VolumeSeries[Count];
+            Ticks = new TickSeries[Count];
+
+            for (int i = 0; i < Count; i++)
+            {
+                CurrentBars[i] = this[i].CurrentBar;
+                Times[i] = this[i].Time;
+                Opens[i] = this[i].Open;
+                Highs[i] = this[i].High;
+                Lows[i] = this[i].Low;
+                Closes[i] = this[i].Close;
+                Volumes[i] = this[i].Volume;
+                Ticks[i] = this[i].Tick;
+            }
+        }
+
         public Bar GetBar(int barsAgo, int barsIndex) => _collection[barsIndex].GetBar(barsAgo);
         public Bar GetBar(int barsAgo, int period, int barsIndex) => _collection[barsIndex].GetBar(barsAgo,period);
         public IList<Bar> GetBars(int barsAgo, int period, int barsIndex) => _collection[barsIndex].GetBars(barsAgo, period);
 
-        public BarsServiceInfo[] Infos { get; protected set; }
+        public BarsServiceInfo[] InfoArray { get; protected set; }
         //public IndicatorCollection[] Indicators { get; protected set; }
         //public StatsCollection[] Stats { get; protected set; }
         //public FiltersCollection[] Filters { get; protected set; }
@@ -96,24 +137,10 @@ namespace KrTrade.Nt.Services
                 _collection[BarsInProgress].BarUpdate(updatedBarsSeries);
         }
 
-        private string GetKey()
-        {
-            string key = "Bars";
-            if (_collection != null && _collection.Count > 0)
-            {
-                key += "[";
-                for (int i = 0; i < _collection.Count; i++)
-                {
-                    key += _collection[i].Key;
-                    if (i == _collection.Count - 1)
-                        key += ",";
-                }
-                key += "]";
-            }
-            else
-                key += "[EMPTY]";
-            return key;
-        }
+        //public override string ToLogString() => this[BarsInProgress].ToLogString();
+        public override string ToLogString(int tabOrder) => this[BarsInProgress].ToString(tabOrder);
+
+        //private string GetKey() => ToString(ServiceType.BARS_COLLECTION.ToString());
 
     }
 }

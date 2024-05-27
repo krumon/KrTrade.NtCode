@@ -1,6 +1,7 @@
 ﻿using KrTrade.Nt.Core.Series;
 using NinjaTrader.Data;
 using System;
+using System.Diagnostics;
 
 namespace KrTrade.Nt.Services.Series
 {
@@ -19,26 +20,33 @@ namespace KrTrade.Nt.Services.Series
         public bool IsConfigure => _isConfigure;
         public bool IsDataLoaded => _isDataLoaded;
 
+        public SeriesType Type { get => Info.Type; protected set => Info.Type = value; }
+
         public void Configure()
         {
+
+            // TODO: Delete this line
+            Debugger.Break();
+
             if (IsOutOfConfigurationStates())
                 LoggingHelpers.ThrowIsNotConfigureException(Name);
+            
             if (_isConfigure && _isDataLoaded)
                 return;
+            
             if (Bars.Ninjascript.State == NinjaTrader.NinjaScript.State.Configure && !_isConfigure)
                 Configure(out _isConfigure);
 
             else if (Bars.Ninjascript.State == NinjaTrader.NinjaScript.State.DataLoaded && !_isConfigure)
-            {
                 Configure(out _isConfigure);
-                DataLoaded(out _isDataLoaded);
-            }
-            else if (Bars.Ninjascript.State == NinjaTrader.NinjaScript.State.DataLoaded && _isConfigure)
-                DataLoaded(out _isDataLoaded);
-
+            
         }
         public void DataLoaded()
         {
+
+            // TODO: Delete this line
+            Debugger.Break();
+
             if (Bars.Ninjascript.State != NinjaTrader.NinjaScript.State.DataLoaded)
                 LoggingHelpers.ThrowIsNotConfigureException(Name);
 
@@ -60,14 +68,76 @@ namespace KrTrade.Nt.Services.Series
         protected BaseValueSeries(IBarsService bars, BaseSeriesInfo info) : base(info)
         {
             Bars = bars ?? throw new ArgumentNullException(nameof(bars));
-            Info = info ?? new Core.Series.BarsSeriesInfo()
-            {
-                Capacity = DEFAULT_CAPACITY,
-                OldValuesCapacity = DEFAULT_OLD_VALUES_CAPACITY,
-            };
-            OldValuesCapacity = OldValuesCapacity < 1 ? Core.Series.Series.DEFAULT_OLD_VALUES_CAPACITY : OldValuesCapacity;
-            Capacity = Capacity <= 0 ? Core.Series.Series.DEFAULT_CAPACITY : Capacity > MaxCapacity ? MaxCapacity : Capacity;
+            Info = info ?? throw new ArgumentNullException(nameof(info));
+
+            Info.OldValuesCapacity = OldValuesCapacity < 1 ? Core.Series.Series.DEFAULT_OLD_VALUES_CAPACITY : OldValuesCapacity;
+            Info.Capacity = Capacity <= 0 ? Core.Series.Series.DEFAULT_CAPACITY : Capacity > MaxCapacity ? MaxCapacity : Capacity;
         }
+
+        public override string ToString() => ToString(true, ": ", 0);
+        public string ToString(int tabOrder, int barsAgo) => ToString(
+            includeOwner: true,
+            separator: ": ",
+            tabOrder: tabOrder,
+            barsAgo: barsAgo);
+        internal string ToString(bool includeOwner, string separator, int tabOrder, int barsAgo = -1)
+        {
+            string text = includeOwner ? Info.ToString(Bars.ToString()) : Info.ToString();
+            string tab = string.Empty;
+            separator = string.IsNullOrEmpty(separator) ? ": " : separator;
+
+            if (tabOrder > 0)
+                for (int i = 0; i < tabOrder; i++)
+                    tab += "\t";
+            text += tab;
+
+            text += includeOwner ? Info.ToString(Bars.ToString()) : Info.ToString();
+
+            if (barsAgo > 0 && barsAgo < Count)
+            {
+                text += $"[{barsAgo}]";
+                if (string.IsNullOrEmpty(separator))
+                    separator = ": ";
+                text += $"{separator}{this[barsAgo]}";
+            }
+
+            return text;
+        }
+        protected abstract string GetValueString(int barsAgo);
+        public void Log()
+        {
+            if (Bars.PrintService == null || !Bars.Options.IsLogEnable)
+                return;
+            Bars.PrintService.LogValue(ToString());
+        }
+        public void Log(int barsAgo)
+        {
+            if (Bars.PrintService == null || !Bars.Options.IsLogEnable)
+                return;
+            Bars.PrintService.LogValue(ToString(0,barsAgo));
+        }
+
+        //public virtual string ToLogString() => ToLogString(Type.ToString(), 0, 0);
+        //public virtual string ToLogString(int barsAgo) => ToLogString(Type.ToString(), barsAgo, 0);
+        //public virtual string ToLogString(int barsAgo, int tabOrder) => ToLogString(Type.ToString(), barsAgo, tabOrder);
+        //protected string ToLogString(string header, int barsAgo) => ToLogString(header, barsAgo, 0);
+        //protected virtual string ToLogString(string header, int barsAgo, int tabOrder)
+        //{
+        //    string text = string.Empty;
+        //    string tab = string.Empty;
+        //    for (int i = 0; i < tabOrder; i++)
+        //        tab += "\t";
+
+        //    text += tab;
+
+        //    if (IsValidIndex(barsAgo))
+        //        text += $"{header}({Bars})[{barsAgo}]: {this[barsAgo]}";
+        //    else
+        //        text += $"{header}({Bars})[{barsAgo}]: 'barsAgo': {barsAgo} is out of range.";
+
+        //    return text;
+
+        //}
 
         public virtual void Add()
         {

@@ -1,6 +1,5 @@
 ﻿using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.DataSeries;
-using KrTrade.Nt.Core.Series;
 using KrTrade.Nt.Core.Services;
 using NinjaTrader.NinjaScript;
 
@@ -135,7 +134,7 @@ namespace KrTrade.Nt.Services
             MarketDataType == ninjascript.BarsArray[index].BarsPeriod.MarketDataType.ToKrMarketDataType()
             ;
         }
-        public override bool Equals(object obj) => obj is BarsSeriesInfo other && this == other;
+        public override bool Equals(object obj) => obj is BarsServiceInfo other && this == other;
         public override int GetHashCode() => ((int)InstrumentCode * 1000) + ((int)TimeFrame * 100) + ((int)TradingHoursCode * 10) + ((int)MarketDataType);
 
     }

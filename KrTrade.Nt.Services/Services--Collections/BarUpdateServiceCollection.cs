@@ -7,15 +7,11 @@ namespace KrTrade.Nt.Services
     {
         protected BarUpdateServiceCollection(IBarsService barsService, NinjascriptServiceInfo info, BarUpdateServiceCollectionOptions options) : base(barsService.Ninjascript, barsService.PrintService, info, options) 
         {
-            LogInitStart();
             Bars = barsService ?? throw new ArgumentNullException(nameof(barsService));
-            LogInitEnd();
         }
         protected BarUpdateServiceCollection(IBarsService barsService, NinjascriptServiceInfo info, BarUpdateServiceCollectionOptions options, int capacity) : base(barsService.Ninjascript, barsService.PrintService, info, options, capacity) 
         {
-            LogInitStart();
             Bars = barsService ?? throw new ArgumentNullException(nameof(barsService));
-            LogInitEnd();
         }
 
         new public BarUpdateServiceCollectionOptions Options => (BarUpdateServiceCollectionOptions)base.Options;

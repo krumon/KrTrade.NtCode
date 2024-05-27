@@ -23,24 +23,18 @@ namespace KrTrade.Nt.Services.Series
 
         public DateTime Max(int displacement = 0, int period = 1)
         {
-            IsValidIndex(displacement, period);
-
             DateTime value = DateTime.MinValue;
-            for (int i = displacement; i < displacement + period; i++)
-                value = this[i] > value ? this[i] : value;
-
+            if(IsValidIndex(displacement, period))
+                for (int i = displacement; i < displacement + period; i++)
+                    value = this[i] > value ? this[i] : value;
             return value;
         }
         public DateTime Min(int displacement = 0, int period = 1)
         {
-            IsValidIndex(displacement, period);
-
             DateTime value = DateTime.MaxValue;
-
-            for (int i = displacement; i < displacement + period; i++)
-            {
-                value = this[i] < value ? this[i] : value;
-            }
+            if(IsValidIndex(displacement, period))
+                for (int i = displacement; i < displacement + period; i++)
+                    value = this[i] < value ? this[i] : value;
             return value;
         }
         public TimeSpan Sum(int displacement = 0, int period = 1)
@@ -53,8 +47,7 @@ namespace KrTrade.Nt.Services.Series
         }
 
         protected sealed override bool IsValidValue(DateTime value) => value != default;
-        public override string ToString() => $"{Name}[0]: {this[0].ToShortDateString()}";
-
+        protected override string GetValueString(int barsAgo) => IsValidIndex(barsAgo) ? $"{this[barsAgo].ToShortDateString()}" : DateTime.MinValue.ToShortDateString();
     }
 
     //public abstract class DateTimeSeries : BaseValueSeries<DateTime>, IDateTimeSeries

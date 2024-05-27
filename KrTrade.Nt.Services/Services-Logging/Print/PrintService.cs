@@ -59,6 +59,7 @@ namespace KrTrade.Nt.Services
         /// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
         public PrintService(NinjaScriptBase ninjascript) : base(ninjascript)
         {
+            Info.Type = ServiceType.PRINT;
         }
 
         ///// <summary>
@@ -79,13 +80,14 @@ namespace KrTrade.Nt.Services
         /// <param name="options">The configure options of the service.</param>
         public PrintService(NinjaScriptBase ninjascript, PrintOptions options) : base(ninjascript, options)
         {
+            Info.Type = ServiceType.PRINT;
         }
 
         #endregion
 
         #region Implementation
 
-        //public override string Name => "PrintService";
+        protected override ServiceType GetServiceType() => ServiceType.PRINT;
         protected override Action<object> WriteMethod => Ninjascript.Print;
         protected override Action ClearMethod => Ninjascript.ClearOutputWindow;
 

@@ -1,7 +1,4 @@
-﻿using KrTrade.Nt.Core.Info;
-using KrTrade.Nt.Core.Options;
-using KrTrade.Nt.Core.Services;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Core.Collections
@@ -24,6 +21,8 @@ namespace KrTrade.Nt.Core.Collections
         void RemoveAt(int index);
         bool ContainsKey(string key);
         bool TryGetValue(string key, out int index);
+
+        string ToLongString(int tabOrder);
 
     }
 }

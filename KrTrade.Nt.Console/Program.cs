@@ -62,6 +62,10 @@ namespace KrTrade.Nt.Console.Console
                             info.AddInputSeries_Period(max =>
                             {
                                 max.Type = PeriodSeriesType.MAX;
+                                max.AddInputSeries<BarsSeriesInfo>(high =>
+                                {
+                                    high.Type = BarsSeriesType.HIGH;
+                                });
                             });
                             info.AddInputSeries_Swing(swing =>
                             {
@@ -113,7 +117,7 @@ namespace KrTrade.Nt.Console.Console
                         info.MarketDataType = MarketDataType.Last;
                     });
                 })
-                .Configure(null,null);
+                .Build(null,null);
 
 
             bars.Configure();

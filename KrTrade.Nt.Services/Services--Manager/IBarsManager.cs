@@ -1,4 +1,6 @@
 ﻿using KrTrade.Nt.Core.Bars;
+using KrTrade.Nt.Services.Series;
+using NinjaTrader.Data;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
@@ -6,7 +8,7 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Defines methods that are necesary to be executed when the bar is updated.
     /// </summary>
-    public interface IBarsManager : INinjascriptService<BarsManagerInfo,BarsManagerOptions>, IBarUpdate, IMarketData, IMarketDepth, IRender
+    public interface IBarsManager : INinjascriptService<BarsManagerInfo,BarsManagerOptions>
     {
 
         /// <summary>
@@ -37,32 +39,86 @@ namespace KrTrade.Nt.Services
         /// Gets the number of bars services hosted in it.
         /// </summary>
         int Count { get; }
-        
-        ///// <summary>
-        ///// Gets the capacity of the service. The number of bars stored.
-        ///// </summary>
-        //int Capacity { get; }
 
-        ///// <summary>
-        ///// Gets the capacity of the revemoved values cache.
-        ///// </summary>
-        //int RemovedCacheCapacity { get; }
+        /// <summary>
+        /// Gets all index series
+        /// </summary>
+        CurrentBarSeries[] CurrentBars { get; }
 
-        ///// <summary>
-        ///// Gets <see cref="IBarsSeriesCache"/>.
-        ///// </summary>
-        //IBarsCacheService Series { get; }
+        /// <summary>
+        /// Gets all index series
+        /// </summary>
+        TimeSeries[] Times { get; }
 
+        /// <summary>
+        /// Gets all index series
+        /// </summary>
+        PriceSeries[] Opens { get; }
 
-        ///// <summary>
-        ///// Gets <see cref="ICache{T}"/> period.
-        ///// </summary>
-        //int CachePeriod { get; }
+        /// <summary>
+        /// Gets all index series
+        /// </summary>
+        PriceSeries[] Highs { get; }
 
-        ///// <summary>
-        ///// Gets the displacement of <see cref="ICache{T}"/> respect NinjaScript <see cref="ISeries{double}"/>.
-        ///// </summary>
-        //int CacheDisplacement { get; }
+        /// <summary>
+        /// Gets all index series
+        /// </summary>
+        PriceSeries[] Lows { get; }
+
+        /// <summary>
+        /// Gets all index series
+        /// </summary>
+        PriceSeries[] Closes { get; }
+
+        /// <summary>
+        /// Gets all index series
+        /// </summary>
+        VolumeSeries[] Volumes { get; }
+
+        /// <summary>
+        /// Gets all index series
+        /// </summary>
+        TickSeries[] Ticks { get; }
+
+        /// <summary>
+        /// Gets the index series.
+        /// </summary>
+        CurrentBarSeries CurrentBar { get; }
+
+        /// <summary>
+        /// Gets the time series.
+        /// </summary>
+        TimeSeries Time { get; }
+
+        /// <summary>
+        /// Gets the open series.
+        /// </summary>
+        PriceSeries Open { get; }
+
+        /// <summary>
+        /// Gets the high series.
+        /// </summary>
+        PriceSeries High { get; }
+
+        /// <summary>
+        /// Gets the low series.
+        /// </summary>
+        PriceSeries Low { get; }
+
+        /// <summary>
+        /// Gets the close series.
+        /// </summary>
+        PriceSeries Close { get; }
+
+        /// <summary>
+        /// Gets the volume series.
+        /// </summary>
+        VolumeSeries Volume { get; }
+
+        /// <summary>
+        /// Gets the tick count series.
+        /// </summary>
+        TickSeries Tick { get; }
 
         /// <summary>
         /// Indicates <see cref="IBarsManager"/> is updated.
@@ -103,11 +159,21 @@ namespace KrTrade.Nt.Services
         void OnBarUpdate();
 
         /// <summary>
+        /// Method to be executed in 'NinjaScript.OnMarketData()' method.
+        /// </summary>
+        void OnMarketData(MarketDataEventArgs args);
+
+        /// <summary>
+        /// Method to be executed in 'NinjaScript.OnMarketDepth()' method.
+        /// </summary>
+        void OnMarketDepth(MarketDepthEventArgs args);
+
+        /// <summary>
         /// Returns the <see cref="Bar"/> of the specified <paramref name="barsAgo"/>.
         /// </summary>
         /// <param name="barsAgo">The index specified. 0 is the most recent value in the cache.</param>
         /// <returns>The <see cref="Bar"/> value result from bars stored in the cache between the <paramref name="barsAgo"/> to and the <paramref name="period"/> specified.</returns>
-        Bar GetBar(int barsAgo);
+        Core.Bars.Bar GetBar(int barsAgo);
 
         /// <summary>
         /// Returns the <see cref="Bar"/> result from <paramref name="barsAgo"/> to <paramref name="period"/> specified.
@@ -115,7 +181,7 @@ namespace KrTrade.Nt.Services
         /// <param name="barsAgo">The initial index from most recent bar. 0 is the most recent value in the cache.</param>
         /// <param name="period">The number of bars to calculate the <see cref="Bar"/> value.</param>
         /// <returns>The <see cref="Bar"/> value result from bars stored in the cache between the <paramref name="barsAgo"/> to and the <paramref name="period"/> specified.</returns>
-        Bar GetBar(int barsAgo, int period);
+        Core.Bars.Bar GetBar(int barsAgo, int period);
 
         /// <summary>
         /// Returns the <see cref="Bar"/> collection result from <paramref name="barsAgo"/> to <paramref name="period"/> specified.
@@ -123,81 +189,7 @@ namespace KrTrade.Nt.Services
         /// <param name="barsAgo">The initial index from most recent bar. 0 is the most recent value in the cache.</param>
         /// <param name="period">The number of bars to calculate the <see cref="Bar"/> value.</param>
         /// <returns>The <see cref="Bar"/> collection result from bars stored in the cache between the <paramref name="barsAgo"/> to and the <paramref name="period"/> specified.</returns>
-        IList<Bar> GetBars(int barsAgo, int period);
-
-        ///// <summary>
-        ///// Adds new <see cref="IBarUpdateService"/> to <see cref="IBarsService"/>.
-        ///// </summary>
-        ///// <typeparam name="TService">The generic type of the service.</typeparam>
-        ///// <typeparam name="TOptions">The generic type of the service options.</typeparam>
-        ///// <param name="key">The key of the service.</param>
-        ///// <param name="configureOptions">The options to configure the service.</param>
-        ///// <param name="input1">Input serie to construct the service.</param>
-        ///// <param name="input2">Input serie to construct the service.</param>
-        //IBarsService AddService<TService, TOptions>(string key, Action<TOptions> configureOptions = null, object input1 = null, object input2 = null)
-        //    where TService : IBarUpdateService
-        //    where TOptions : BarUpdateServiceOptions, new();
-
-        ///// <summary>
-        ///// Adds new <see cref="IBarUpdateService"/> to <see cref="IBarsService"/>.
-        ///// </summary>
-        ///// <typeparam name="TService">The generic type of the service.</typeparam>
-        ///// <typeparam name="TOptions">The generic type of the service options.</typeparam>
-        ///// <param name="key">The key of the service.</param>
-        ///// <param name="options">The options to configure the service.</param>
-        ///// <param name="input1">Input serie to construct the service.</param>
-        ///// <param name="input2">Input serie to construct the service.</param>
-        //IBarsService AddService<TService, TOptions>(string key, TOptions options, object input1 = null, object input2 = null)
-        //    where TService : IBarUpdateService
-        //    where TOptions : BarUpdateServiceOptions, new();
-
-        ///// <summary>
-        ///// Add <typeparamref name="TService"/> to the <see cref="IBarsService"./>
-        ///// </summary>
-        ///// <typeparam name="TService">The <typeparamref name="TService"/> to add.</typeparam>
-        ///// <param name="service">The <typeparamref name="TService"/> instance to add.</param>
-        ///// <param name="key">The key of the service.</param>
-        ///// <returns>The <see cref="IBarsService"/> to continue chaining services.</returns>
-        //IBarsService AddService<TService>(string key, TService service)
-        //    where TService : IBarUpdateService;
-
-        ///// <summary>
-        ///// Gets <typeparamref name="TService"/> thats exist in <see cref="IBarsService"./>
-        ///// </summary>
-        ///// <typeparam name="TService">The <typeparamref name="TService"/> to add.</typeparam>
-        ///// <param name="key">The optional name of the service.</param>
-        ///// <returns>The <typeparamref name="TService"/> instance or null if doesn't exist.</returns>
-        //TService Get<TService>(string key = "")
-        //    where TService : class, IBarUpdateService;
-
-        ///// <summary>
-        ///// Gets <typeparamref name="TCache"/> cache thats exists in <see cref="IBarsService"/>.
-        ///// </summary>
-        ///// <typeparam name="TCache">The <typeparamref name="TCache"/> to add.</typeparam>
-        ///// <param name="key">The key of the service.</param>
-        ///// <returns>The <typeparamref name="TService"/> instance or null if doesn't exist.</returns>
-        //CacheService<TCache> GetCache<TCache>(string key = "")
-        //    where TCache : class, IBarUpdateCache;
-
-        ///// <summary>
-        ///// Gets service with specified <paramref name="name"/> thats exist in <see cref="IBarsService"./>
-        ///// </summary>
-        ///// <param name="name">The specified name of the service.</param>
-        ///// <returns>The <see cref="IBarUpdateService"/> instance or null if doesn't exist.</returns>
-        //IBarUpdateService Get(string name);
-
-        ///// <summary>
-        ///// Method to be executed when 'Ninjatrader.ChartBars' is updated.
-        ///// </summary>
-        //void Update();
-
-        ///// <summary>
-        ///// Adds new <see cref="IBarUpdateService"/> to <see cref="IBarsService"/>.
-        ///// This services needs <see cref="IBarsService"/> to be executed because they are executed in <see cref="IBarsService"/>
-        ///// after the bars have been updated.
-        ///// </summary>
-        //void Add(IBarUpdateService service);
-
+        IList<Core.Bars.Bar> GetBars(int barsAgo, int period);
 
     }
 }

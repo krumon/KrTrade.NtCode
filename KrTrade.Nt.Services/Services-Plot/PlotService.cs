@@ -13,12 +13,17 @@ namespace KrTrade.Nt.Services
         {
         }
 
-        public override string ToLogString()
+        public override string ToString(int tabOrder)
         {
             throw new System.NotImplementedException();
         }
 
         protected override string GetKey()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override ServiceType GetServiceType()
         {
             throw new System.NotImplementedException();
         }

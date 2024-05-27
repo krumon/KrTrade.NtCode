@@ -21,6 +21,12 @@ namespace KrTrade.Nt.Core.Series
         /// </summary>
         int OldValuesCapacity { get; set; }
 
+        /// <summary>
+        /// Represents the instance including the owner.
+        /// </summary>
+        /// <param name="owner">The owner string.</param>
+        /// <returns>String thats represents the instance.</returns>
+        string ToString(string owner);
     }
 
     public interface IBaseSeriesInfo<T> : IBaseSeriesInfo

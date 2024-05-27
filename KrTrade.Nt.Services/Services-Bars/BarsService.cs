@@ -1,12 +1,12 @@
 ﻿using KrTrade.Nt.Core.Bars;
 using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.Series;
+using KrTrade.Nt.Core.Services;
 using KrTrade.Nt.Services.Series;
 using NinjaTrader.Core.FloatingPoint;
-//using NinjaTrader.Data;
-//using NinjaTrader.NinjaScript;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace KrTrade.Nt.Services
 {
@@ -72,8 +72,50 @@ namespace KrTrade.Nt.Services
         public bool IsFirstTick => IsUpdated && _barEvents[BarEvent.FirstTick];
         public bool IsPriceChanged => IsUpdated && _barEvents[BarEvent.PriceChanged];
 
+        protected override ServiceType GetServiceType() => ServiceType.BARS;
         protected override string GetKey() => Info.Key;
-        public override string ToLogString()
+
+        public SeriesCollection Series {  get; set; }
+        //public IndicatorCollection Indicators { get; private set; }
+        //public StatsCollection Stats { get; private set; }
+        //public FiltersCollection Filters { get; private set; }
+
+        public override string ToString() => Info.ToString();
+        public override string ToString(int tabOrder)
+        {
+            string text = string.Empty;
+            string tab = string.Empty;
+            for (int i = 0; i < tabOrder; i++)
+                tab += "\t";
+
+            text += tab + ToString();
+            tabOrder += 1;
+
+            if (BarsSeriesCollection != null && BarsSeriesCollection.Count > 0)
+            {
+                text += Environment.NewLine;
+                text += BarsSeriesCollection.ToLongString(tabOrder);
+            }
+
+            if (Series != null && Series.Count > 0)
+            {
+                text += Environment.NewLine;
+                Series.ToLongString(tabOrder);
+            }
+
+            return text;
+        }
+
+        //public override string ToLogString() => BarsSeriesCollection.ToLogString();
+        //public override string ToString(int tabOrder) => BarsSeriesCollection.ToLogString(Name, tabOrder, Environment.NewLine, 0);
+
+        public void LogState()
+        {
+            if (PrintService == null || !Options.IsLogEnable)
+                return;
+            PrintService?.LogValue(ToLogState());
+        }
+        private string ToLogState()
         {
             if (_logLines == null || _logLines.Count == 0)
                 return string.Empty;
@@ -81,22 +123,13 @@ namespace KrTrade.Nt.Services
             for (int i = 0; i < _logLines.Count; i++)
             {
                 stateText += _logLines[i];
-                if ( i < _logLines.Count - 1)
+                if (i < _logLines.Count - 1)
                     stateText += " - ";
             }
 
             return stateText;
         }
-
-        // TODO: Implementar SeriesCollection. De esta colección se obtendran todas las series necesarias
-        //       para cualquiera de nuestros servicios (SeriesService, StatsService, IndicatorService,...).
-        //       En esta colección se deben insertar las NinjaScriptSeries como punto de partida.
-        public SeriesCollection Series {  get; set; }
-
-        //public IndicatorCollection Indicators { get; private set; }
-        //public StatsCollection Stats { get; private set; }
-        //public FiltersCollection Filters { get; private set; }
-
+        
         #endregion
 
         #region Constructors
@@ -107,19 +140,14 @@ namespace KrTrade.Nt.Services
             base(service?.Ninjascript, service?.PrintService, barsServiceInfo, barsServiceOptions)
         {
 
-            LogInitStart();
-            PrintService.LogTrace($"BarsServiceInfo instrument: {Info.InstrumentCode}.");
             BarsSeriesCollection = new BarsSeriesCollection(this);
             Series = new SeriesCollection(
                 barsService: this, 
                 info: new SeriesCollectionInfo());
-            PrintService.LogTrace("SeriesCollection has been created.");
             //
             //Indicators = new IndicatorCollection(this);
             //Filters = new FiltersCollection(this);
             //Stats = new StatsCollection(this);
-
-            LogInitEnd();
         }
 
         #endregion
@@ -128,6 +156,7 @@ namespace KrTrade.Nt.Services
 
         internal override void Configure(out bool isConfigured)
         {
+
             _barEvents = new Dictionary<BarEvent, bool>()
             {
                 [BarEvent.Updated] = false,
@@ -149,7 +178,7 @@ namespace KrTrade.Nt.Services
 
             // Configure series
             BarsSeriesCollection.Configure();
-            Series.Configure();
+            Series?.Configure();
             //Indicators?.Configure();
             //Filters?.Configure();
             //Stats?.Configure();
@@ -157,9 +186,13 @@ namespace KrTrade.Nt.Services
             //isConfigured = Info != null && _barSeries.IsConfigure && Indicators.IsConfigure && Filters.IsConfigure && Stats.IsConfigure;
 
             isConfigured = Info != null && BarsSeriesCollection.IsConfigure && Series.IsConfigure;
+
         }
         internal override void DataLoaded(out bool isDataLoaded)
         {
+            // TODO: Delete this line.
+            Debugger.Break();
+
             for (int i = 0; i < Ninjascript.BarsArray.Length; i++)
                 if (Info.EqualsTo(Ninjascript, i))
                 {
@@ -168,11 +201,11 @@ namespace KrTrade.Nt.Services
                 }
 
             if (Index == -1)
-                PrintService.LogError(new Exception($"{Name} cannot be loaded because the 'DataSeriesOptions' don't mutch with any 'NinjaScript.DataSeries'."));
+                PrintService.LogError(new Exception($"{Name} cannot be loaded because the 'DataSeriesOptions' don't match with any 'NinjaScript.DataSeries'."));
 
             // Configure series.
             BarsSeriesCollection.DataLoaded();
-            Series.DataLoaded();
+            Series?.DataLoaded();
             //Indicators?.DataLoaded();
             //Filters?.DataLoaded();
             //Stats?.DataLoaded();
@@ -307,19 +340,6 @@ namespace KrTrade.Nt.Services
         public Bar GetBar(int barsAgo, int period) => BarsSeriesCollection.GetBar(barsAgo, period);
         public IList<Bar> GetBars(int barsAgo, int period) => BarsSeriesCollection.GetBars(barsAgo, period);
 
-        //public ISeries GetSeries(BaseSeriesInfo options)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //public ISeries GetOrAddSeries(BaseSeriesInfo options)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //public void AddSeries(BaseSeriesInfo seriesInfo)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         #endregion
 
         #region Internal methods
@@ -353,9 +373,7 @@ namespace KrTrade.Nt.Services
                 // El servicio no existe
                 if (!Series.ContainsKey(info.Key))
                 {
-                    INumericSeries series = GetOrAddSeries(info);
-                    if (series == null)
-                        throw new Exception($"The series with key:{info.Key} could not be added to the collection");
+                    INumericSeries series = GetOrAddSeries(info) ?? throw new Exception($"The series with key:{info.Key} could not be added to the collection");
                 }
             }
             catch (Exception e)
@@ -388,7 +406,7 @@ namespace KrTrade.Nt.Services
             }
         }
 
-        internal INumericSeries GetOrAddSeries(ISeriesInfo info)
+        internal INumericSeries GetOrAddSeries(IBaseSeriesInfo info)
         {
             if (info == null)
                 return default;
@@ -418,12 +436,17 @@ namespace KrTrade.Nt.Services
                         return default;
                 }
             }
-            INumericSeries series = CreateSeries(info.Type, info.Inputs);
+            INumericSeries series = null;
+
+            if (info is ISeriesInfo seriesInfo)
+                series = CreateSeries(info.Type, seriesInfo.Inputs);
+
             if (series == null)
                 return null;
             Series.Add(series);
             return Series[info.Key];
         }
+
         internal INumericSeries GetOrAddSeries<TInfo>(TInfo info)
             where TInfo : ISeriesInfo
         {
@@ -462,7 +485,7 @@ namespace KrTrade.Nt.Services
             return Series[info.Key];
         }
 
-        private INumericSeries CreateSeries(SeriesType type, List<ISeriesInfo> inputs)
+        private INumericSeries CreateSeries(SeriesType type, List<IBaseSeriesInfo> inputs)
         {
             switch (type)
             {
@@ -470,14 +493,14 @@ namespace KrTrade.Nt.Services
                     if (inputs == null || inputs.Count == 0)
                     {
                         PrintService.LogWarning(
-                            $"The {type} series nedds one Input series to calculate the values. " +
+                            $"The {type} series needs one Input series to calculate the values. " +
                             $"The {type} series could not be created.");
                         return default;
                     }
                     else if (inputs.Count > 1)
                     {
                         PrintService.LogWarning(
-                            $"The {type} series only nedds one Input series to calculate the values. " +
+                            $"The {type} series only needs one Input series to calculate the values. " +
                             $"The rest of the series will be eliminated and will not be taken into consideration.");
                         inputs.RemoveRange(1, inputs.Count - 2);
                     }
@@ -486,7 +509,7 @@ namespace KrTrade.Nt.Services
                     else
                     {
                         PrintService.LogWarning(
-                            $"The {type} series nedds 'PeriodSeriesInfo' information to be created." +
+                            $"The {type} series needs 'PeriodSeriesInfo' information to be created." +
                             $"The {type} series could not be created.");
                         return default;
                     }
@@ -494,14 +517,14 @@ namespace KrTrade.Nt.Services
                     if (inputs == null || inputs.Count == 0)
                     {
                         PrintService.LogWarning(
-                            $"The {type} series nedds one Input series to calculate the values. " +
+                            $"The {type} series needs one Input series to calculate the values. " +
                             $"The {type} series could not be created.");
                         return null;
                     }
                     else if (inputs.Count > 1)
                     {
                         PrintService.LogWarning(
-                            $"The {type} series only nedds one Input series to calculate the values. " +
+                            $"The {type} series only needs one Input series to calculate the values. " +
                             $"The rest of the series will be eliminated and will not be taken into consideration.");
                         inputs.RemoveRange(1, inputs.Count - 2);
                     }
@@ -510,7 +533,7 @@ namespace KrTrade.Nt.Services
                     else
                     {
                         PrintService.LogWarning(
-                            $"The {type} series nedds 'PeriodSeriesInfo' information to be created." +
+                            $"The {type} series needs 'PeriodSeriesInfo' information to be created." +
                             $"The {type} series could not be created.");
                         return null;
                     }
@@ -518,14 +541,14 @@ namespace KrTrade.Nt.Services
                     if (inputs == null || inputs.Count == 0)
                     {
                         PrintService.LogWarning(
-                            $"The {type} series nedds one Input series to calculate the values. " +
+                            $"The {type} series needs one Input series to calculate the values. " +
                             $"The {type} series could not be created.");
                         return null;
                     }
                     else if (inputs.Count > 1)
                     {
                         PrintService.LogWarning(
-                            $"The {type} series only nedds one Input series to calculate the values. " +
+                            $"The {type} series only needs one Input series to calculate the values. " +
                             $"The rest of the series will be eliminated and will not be taken into consideration.");
                         inputs.RemoveRange(1, inputs.Count - 2);
                     }
@@ -534,7 +557,7 @@ namespace KrTrade.Nt.Services
                     else
                     {
                         PrintService.LogWarning(
-                            $"The {type} series nedds 'PeriodSeriesInfo' information to be created." +
+                            $"The {type} series needs 'PeriodSeriesInfo' information to be created." +
                             $"The {type} series could not be created.");
                         return null;
                     }
@@ -558,7 +581,7 @@ namespace KrTrade.Nt.Services
                     else
                     {
                         PrintService.LogWarning(
-                            $"The {type} series nedds 'PeriodSeriesInfo' information to be created." +
+                            $"The {type} series needs 'PeriodSeriesInfo' information to be created." +
                             $"The {type} series could not be created.");
                         return null;
                     }
@@ -566,14 +589,14 @@ namespace KrTrade.Nt.Services
                     if (inputs == null || inputs.Count < 2)
                     {
                         PrintService.LogWarning(
-                            $"The {type} series nedds two Input series to calculate the values. " +
+                            $"The {type} series needs two Input series to calculate the values. " +
                             $"The {type} series could not be created.");
                         return null;
                     }
                     else if (inputs.Count > 2)
                     {
                         PrintService.LogWarning(
-                            $"The {type} series only nedds two Input series to calculate the values. " +
+                            $"The {type} series only needs two Input series to calculate the values. " +
                             $"The rest of the series will be eliminated and will not be taken into consideration.");
                         inputs.RemoveRange(1, inputs.Count - 2);
                     }
@@ -582,7 +605,7 @@ namespace KrTrade.Nt.Services
                     else
                     {
                         PrintService.LogWarning(
-                            $"The {type} series nedds 'PeriodSeriesInfo' information to be created." +
+                            $"The {type} series needs 'PeriodSeriesInfo' information to be created." +
                             $"The {type} series could not be created.");
                         return null;
                     }

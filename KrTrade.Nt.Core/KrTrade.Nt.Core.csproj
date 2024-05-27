@@ -53,6 +53,7 @@
     <Compile Include="Bars\BarEventExtensions.cs" />
     <Compile Include="Bars\BarPattern.cs" />
     <Compile Include="Bars\BarType.cs" />
+    <Compile Include="Series\DataTypes\SeriesTypeExtensions.cs" />
     <Compile Include="Series\DataTypes\SwingSeriesType.cs" />
     <Compile Include="Series\DataTypes\SeriesCollectionType.cs" />
     <Compile Include="Series\DataTypes\PeriodSeriesType.cs" />
@@ -142,6 +143,8 @@
     <Compile Include="Options\IOptions.cs" />
     <Compile Include="Options\BaseOptions.cs" />
     <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\DataTypes\ServiceTypeExtensions.cs" />
+    <Compile Include="Services\DataTypes\ServiceCollectionType.cs" />
     <Compile Include="Services\Info\BaseServiceKeyInfo.cs" />
     <Compile Include="Services\Info\BaseServiceInfo.cs" />
     <Compile Include="Services\IService.cs" />

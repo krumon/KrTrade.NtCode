@@ -9,7 +9,18 @@ namespace KrTrade.Nt.Core.Series
         public SeriesType Type { get; set; }
         public int Capacity { get; set; }
         public int OldValuesCapacity { get; set; }
-
+        public override string ToString()
+        {
+            string name = string.IsNullOrEmpty(Name) ? Type.ToString() : Name;
+            string key = $"{name}({GetInputsKey()}{GetParametersKey()})";
+            return (key.Substring(key.Length - 2) == "()") ? key.Remove(key.Length - 2) : key;
+        }
+        public string ToString(string owner)
+        {
+            string name = string.IsNullOrEmpty(Name) ? Type.ToString() : Name;
+            string key = $"{name}({owner})({GetInputsKey()}{GetParametersKey()})";
+            return (key.Substring(key.Length - 2) == "()") ? key.Remove(key.Length - 2) : key;
+        }
         protected override string GetKey() 
         { 
             // Represento la clave con "SeriesType(Input1.Key,Input2.Key,...,Parameter1,Parameter2,...)"
@@ -52,7 +63,16 @@ namespace KrTrade.Nt.Core.Series
     public abstract class BaseSeriesInfo<T> : BaseSeriesInfo, IBaseSeriesInfo<T>
         where T : Enum
     {
-        public new T Type { get; set; }
+        private T _type;
+        new public T Type 
+        { 
+            get => _type;
+            set
+            {
+                base.Type = value.ToSeriesType();
+                _type = value;
+            }
+        }
 
         protected override string GetKey()
         {

@@ -8,9 +8,9 @@ namespace KrTrade.Nt.Core.Series
     public abstract class SeriesInfo : BaseSeriesInfo<SeriesType>, ISeriesInfo
     {
 
-        public List<ISeriesInfo> Inputs { get; set; }
+        public List<IBaseSeriesInfo> Inputs { get; set; }
         public void AddInputSeries<TInfo>(Action<TInfo> configureSeriesInfo)
-            where TInfo : ISeriesInfo, new()
+            where TInfo : IBaseSeriesInfo, new()
         {
             if (configureSeriesInfo == null)
                 throw new ArgumentNullException(nameof(configureSeriesInfo));
@@ -41,7 +41,7 @@ namespace KrTrade.Nt.Core.Series
             //    return;
 
             if (Inputs == null)
-                Inputs = new List<ISeriesInfo>();
+                Inputs = new List<IBaseSeriesInfo>();
 
             Inputs.Add(info);
         }
@@ -107,7 +107,16 @@ namespace KrTrade.Nt.Core.Series
     public abstract class SeriesInfo<T> : SeriesInfo, ISeriesInfo<T>
         where T : Enum
     {
-        public new T Type { get; set; }
+        private T _type;
+        new public T Type
+        {
+            get => _type;
+            set
+            {
+                base.Type = value.ToSeriesType();
+                _type = value;
+            }
+        }
     }
 
 }

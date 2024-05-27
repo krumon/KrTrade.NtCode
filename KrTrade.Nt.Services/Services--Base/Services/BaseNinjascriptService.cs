@@ -1,7 +1,7 @@
 ﻿using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.Services;
 using NinjaTrader.NinjaScript;
-using System.Runtime.CompilerServices;
+using System.Diagnostics;
 
 namespace KrTrade.Nt.Services
 {
@@ -18,7 +18,6 @@ namespace KrTrade.Nt.Services
 
         #region Properties
 
-        //new public INinjascriptServiceInfo Info => (INinjascriptServiceInfo)base.Info;
         new public INinjascriptServiceInfo Info { get => (INinjascriptServiceInfo)base.Info; protected set => base.Info = value; }
         new public INinjascriptServiceOptions Options => (INinjascriptServiceOptions)base.Options;
         
@@ -118,25 +117,33 @@ namespace KrTrade.Nt.Services
 
         public void Configure()
         {
+
+            // TODO: Delete this line
+            Debugger.Break();
+
             if (IsOutOfConfigurationStates())
                 LoggingHelpers.ThrowIsNotConfigureException(Name);
+
             if (_isConfigure && _isDataLoaded)
                 return;
+
             if (Ninjascript.State == State.Configure && !_isConfigure)
                 Configure(out _isConfigure);
 
             else if (Ninjascript.State == State.DataLoaded && !_isConfigure)
-            {
                 Configure(out _isConfigure);
-                DataLoaded(out _isDataLoaded);
-            }
-            else if (Ninjascript.State == State.DataLoaded && _isConfigure)
-                DataLoaded(out _isDataLoaded);
+
+            //else if (Ninjascript.State == State.DataLoaded && _isConfigure)
+            //    DataLoaded(out _isDataLoaded);
 
             LogConfigurationState();
         }
         public void DataLoaded()
         {
+
+            // TODO: Delete this line
+            Debugger.Break();
+
             if (Ninjascript.State != State.DataLoaded)
                 LoggingHelpers.ThrowIsNotConfigureException(Name);
 
@@ -167,58 +174,56 @@ namespace KrTrade.Nt.Services
         /// <param name="isDataLoaded">True, if the service has been configure, otherwise false.</param>
         internal abstract void DataLoaded(out bool isDataLoaded);
 
-        public abstract string ToLogString();
+        public override string ToString() => ToString(Name, null, null, 0, null);
+        internal string ToString(string name, string description, string separator, int tabOrder, object value)
+        {
+            string text = string.Empty;
+            string tab = string.Empty;
+            separator = string.IsNullOrEmpty(separator) ? ": " : separator;
 
-        /// <summary>
-        /// Logs information with values thats returns 'ToLogString()' method.
-        /// </summary>
-        public void Log()
+            if (tabOrder > 0)
+                for (int i = 0; i < tabOrder; i++)
+                    tab += "\t";
+            text += tab;
+
+            if (!string.IsNullOrEmpty(name))
+                text += tab + name;
+
+            if (!string.IsNullOrEmpty(description))
+                text += "(" + description + ")";
+
+            if (value != null)
+            {
+                if (string.IsNullOrEmpty(separator))
+                    separator = ": ";
+                text += separator + value.ToString();
+            }
+
+            return text;
+        }
+        public void Log(int tabOrder = 0)
         {
             if (_printService == null || !Options.IsLogEnable) 
                 return;
-            _printService?.LogValue(ToLogString());
+            _printService?.LogValue(ToString(tabOrder));
         }
-
-        #endregion
-
-        #region Protected methods
-
-        /// <summary>
-        /// Print in NinjaScript putput window the configuration state. If the configuration has been ok or error.
-        /// </summary>
-        protected void LogConfigurationState()
+        public virtual void LogConfigurationState()
         {
             if (!IsPrintServiceAvailable)
                 return;
 
             if (IsDataLoaded && Ninjascript.State == State.DataLoaded)
-                _printService?.LogInformation($"The {Name} has been loaded successfully.");
+                _printService?.LogInformation($"'{Name}' has been loaded successfully.");
             else if (IsConfigure && Ninjascript.State == State.Configure)
-                _printService?.LogInformation($"The {Name} has been configured successfully.");
+                _printService?.LogInformation($"'{Name}' has been configured successfully.");
             else if (!IsConfigureAll && Ninjascript.State == State.DataLoaded)
-                _printService?.LogError($"The '{Name}' has NOT been configured. The service will not work.");
+                _printService?.LogError($"'{Name}' could not be configured. The service will not work.");
             else
-                _printService?.LogError($"The '{Name}' has NOT been configured. You are configuring the service out of configure or data loaded states.");
-        }
-
-        protected void LogInitStart([CallerMemberName] string memberName = "")
-        {
-            if (!IsPrintServiceAvailable)
-                return;
-
-            _printService.LogTrace($"Service with name: {Name} is being initialized in {memberName}.");
-            _printService.LogTrace($"Service with key: {Key} is being initialized in {memberName}.");
-        }
-        protected void LogInitEnd()
-        {
-            if (!IsPrintServiceAvailable)
-                return;
-
-             _printService.LogTrace($"Service with name: {Name} has been initialized successfully");
-             _printService.LogTrace($"Service with key: {Key} has been initialized successfully");
+                _printService?.LogError($"'{Name}' could not be configured. You are configuring the service out of configure or data loaded states.");
         }
 
         #endregion
+
     }
 
     public abstract class BaseNinjascriptService<TInfo> : BaseNinjascriptService, INinjascriptService<TInfo>

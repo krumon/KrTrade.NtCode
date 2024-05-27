@@ -11,8 +11,6 @@ namespace KrTrade.Nt.Core.Services
         #region Private members
 
         private readonly NinjaScriptBase _ninjascript;
-        //protected IServiceOptions _options;
-        //protected IServiceInfo _info;
 
         #endregion
 
@@ -21,21 +19,32 @@ namespace KrTrade.Nt.Core.Services
         public NinjaScriptBase Ninjascript => _ninjascript;
         public IServiceInfo Info { get; protected set; }
         public IServiceOptions Options { get; protected set; }
-        //public IServiceInfo Info { get => _info ?? new ServiceInfo(); protected set { _info = value; } }
-        //public IServiceOptions Options { get => _options ?? new ServiceOptions(); protected set { _options = value; } }
+        public ServiceType Type => Info.Type;
 
         // Quick access to properties
         public string Key => GetKey();
-        public string Name => string.IsNullOrEmpty(Info.Name) ? Info.Type.ToString() : Info.Name;
-        //public string Name => Info.Name;
+        public string Name => string.IsNullOrEmpty(Info.Name) ? Type.ToString() : Info.Name;
         public bool IsEnable => Options.IsEnable;
         public bool IsLogEnable => Options.IsLogEnable;
         // Equatable method necesary for dictionaries
         public bool Equals(IHasKey other) => Info.Equals(other);
         // The services need unique key to be stored in the service collections.
         protected abstract string GetKey();
-        //// Gets the type of the service
-        //protected abstract ServiceType GetServiceType();
+        // Gets the type of the service
+        protected abstract ServiceType GetServiceType();
+        // Abstract implementation
+        public virtual string ToString(int tabOrder)
+        {
+            string text = string.Empty;
+            string tab = string.Empty;
+
+            if (tabOrder > 0)
+                for (int i = 0; i < tabOrder; i++)
+                    tab += "\t";
+            text += tab + ToString();
+
+            return text;
+        }
 
         #endregion
 
@@ -55,9 +64,7 @@ namespace KrTrade.Nt.Core.Services
             Info = info ?? throw new ArgumentNullException(nameof(info));
             Options = options ?? throw new ArgumentNullException(nameof(options));
 
-            //Info.Type = GetServiceType();
-            //if (string.IsNullOrEmpty(Info.Name))
-            //    Info.Name = Info.Type.ToString();
+            Info.Type = GetServiceType();
         }
 
         #endregion

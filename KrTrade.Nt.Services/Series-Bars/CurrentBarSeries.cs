@@ -17,12 +17,10 @@ namespace KrTrade.Nt.Services.Series
                       bars?.RemovedCacheCapacity ?? DEFAULT_OLD_VALUES_CAPACITY))
         {
         }
-
         public CurrentBarSeries(IBarsService bars, int capacity, int oldValuesCapacity) 
             : base(bars, new BarsSeriesInfo(BarsSeriesType.CURRENT_BAR,capacity,oldValuesCapacity))
         {
         }
-
         public CurrentBarSeries(IBarsService bars, BarsSeriesInfo info) : base(bars, info)
         {
             if (info.Type != BarsSeriesType.CURRENT_BAR)
