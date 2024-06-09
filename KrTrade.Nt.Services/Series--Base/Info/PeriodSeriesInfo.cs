@@ -1,9 +1,10 @@
-﻿using KrTrade.Nt.Core.Series;
+﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Elements;
 
 namespace KrTrade.Nt.Services.Series
 {
 
-    public class PeriodSeriesInfo : SeriesInfo<PeriodSeriesType>, ISeriesInfo<PeriodSeriesType>
+    public class PeriodSeriesInfo : InputSeriesInfo<PeriodSeriesType>, IInputSeriesInfo<PeriodSeriesType>
     {
 
         /// <summary>

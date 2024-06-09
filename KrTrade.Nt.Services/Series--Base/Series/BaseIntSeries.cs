@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Core.Series;
+﻿using KrTrade.Nt.Core.Elements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ namespace KrTrade.Nt.Services.Series
 {
     public abstract class BaseIntSeries : BaseValueSeries<int>, IIntSeries
     {
-        protected BaseIntSeries(IBarsService bars, BaseSeriesInfo info) : base(bars, info)
+        protected BaseIntSeries(IBarsService bars, SeriesInfo info) : base(bars, info)
         {
         }
 
@@ -166,7 +166,7 @@ namespace KrTrade.Nt.Services.Series
 
         protected sealed override bool IsValidValue(int value) => value > 0 && value <= int.MaxValue;
 
-        protected override string GetValueString(int barsAgo) => IsValidIndex(barsAgo) ? $"{this[barsAgo]:#,0.##}" : "0";
+        protected override string ValueToString(int barsAgo) => IsValidIndex(barsAgo) ? $"{this[barsAgo]:#,0.##}" : "0";
     }
 
     //public abstract class IntSeries : BaseNumericSeries<int>, IIntSeries

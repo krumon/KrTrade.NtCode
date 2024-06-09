@@ -1,6 +1,6 @@
 ﻿using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.Extensions;
-using KrTrade.Nt.Core.Services;
+using KrTrade.Nt.Core.Elements;
 using NinjaTrader.NinjaScript;
 using System;
 
@@ -87,11 +87,24 @@ namespace KrTrade.Nt.Services
 
         #region Implementation
 
-        protected override ServiceType GetServiceType() => ServiceType.PRINT;
         protected override Action<object> WriteMethod => Ninjascript.Print;
         protected override Action ClearMethod => Ninjascript.ClearOutputWindow;
 
-        protected override string GetKey() => nameof(PrintService);
+        protected override string GetHeaderString() => "PRINT";
+        protected override string GetParentString() => null;
+        protected override string GetDescriptionString() => null;
+        protected override string GetLogString(string state)
+            => ToLogString(
+                tabOrder: 0,
+                label: GetLabelString(
+                    isLabelVisible: true,
+                    isHeaderVisible: false,
+                    isParentVisible: false,
+                    isDescriptionVisible: false,
+                    isDescriptionBracketsVisible: false,
+                    isIndexVisible: false,
+                    index: 0),
+                state: state);
 
         #endregion
 

@@ -1,5 +1,6 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using KrTrade.Nt.Core.Services;
+using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Elements;
 using KrTrade.Nt.Services.Series;
 using System.Collections.Generic;
 
@@ -97,7 +98,7 @@ namespace KrTrade.Nt.Services
 
         #region Implementation
 
-        protected override string GetKey()
+        protected string GetKey()
         {
             string key = ServiceType.BARS_MANAGER.ToString();
             if (_barsServiceCollection != null && _barsServiceCollection.Count > 0)
@@ -178,7 +179,7 @@ namespace KrTrade.Nt.Services
             }
         }
 
-        protected override ServiceType GetServiceType() => ServiceType.BARS_MANAGER;
+        protected ServiceType GetServiceType() => ServiceType.BARS_MANAGER;
         public override string ToString() => Count > 0 ? _barsServiceCollection.ToString() : string.Empty;
         public Bar GetBar(int barsAgo) => _barsServiceCollection[0].GetBar(barsAgo);
         public Bar GetBar(int barsAgo, int period) => _barsServiceCollection[0].GetBar(barsAgo, period);
@@ -194,7 +195,26 @@ namespace KrTrade.Nt.Services
             Info.Add(service.Info);
         }
 
-        public override string ToString(int tabOrder) => _barsServiceCollection[BarsInProgress].ToString(tabOrder);
+        //public override string ToString(int tabOrder) => _barsServiceCollection[BarsInProgress].ToString();
+        //protected override string ToHeader() => "BARS";
+        //protected override string ToDescription() => _barsServiceCollection.ToString();
+
+        protected override string GetHeaderString() => "BARS_MANAGER";
+        protected override string GetParentString() => null;
+        protected override string GetDescriptionString() => _barsServiceCollection.ToString();
+        protected override string GetLogString(string state) 
+            => ToLogString(
+                tabOrder: 0, 
+                label: GetLabelString(
+                    isLabelVisible: true, 
+                    isHeaderVisible: true, 
+                    isParentVisible: false, 
+                    isDescriptionVisible: true, 
+                    isDescriptionBracketsVisible: false, 
+                    isIndexVisible: false), 
+                state: state);
+
+        
 
         #endregion
 

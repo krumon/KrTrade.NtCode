@@ -1,4 +1,5 @@
-﻿using KrTrade.Nt.Core.Services;
+﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Elements;
 
 namespace KrTrade.Nt.Services
 {
@@ -9,6 +10,11 @@ namespace KrTrade.Nt.Services
         }
         public BarsManagerInfo(ServiceType type) : base(type)
         {
+        }
+
+        protected override string ToUniqueString()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

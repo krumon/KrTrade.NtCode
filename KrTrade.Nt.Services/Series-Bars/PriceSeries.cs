@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Core.Series;
+﻿using KrTrade.Nt.Core.Elements;
 
 namespace KrTrade.Nt.Services.Series
 {
@@ -10,7 +10,7 @@ namespace KrTrade.Nt.Services.Series
     {
         public NinjaTrader.NinjaScript.ISeries<double> Input { get; protected set; }
         
-        protected PriceSeries(IBarsService bars, BaseSeriesInfo info) : base(bars, info)
+        protected PriceSeries(IBarsService bars, SeriesInfo info) : base(bars, info)
         {
         }
 

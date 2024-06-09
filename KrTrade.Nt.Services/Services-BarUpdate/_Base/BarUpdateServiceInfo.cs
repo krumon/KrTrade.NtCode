@@ -2,5 +2,9 @@
 {
     public class BarUpdateServiceInfo : NinjascriptServiceInfo
     {
+        protected override string ToUniqueString()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

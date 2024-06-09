@@ -1,7 +1,7 @@
 ﻿using KrTrade.Nt.Core.Bars;
 using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Elements;
 using KrTrade.Nt.Core.Logging;
-using KrTrade.Nt.Core.Series;
 using KrTrade.Nt.Services;
 using KrTrade.Nt.Services.Series;
 
@@ -78,7 +78,7 @@ namespace KrTrade.Nt.Console.Console
                             });
                             info.AddInputSeries<SwingSeriesInfo>(high =>
                             {
-                                high.Type = SwingSeriesType.SWING_HIGH;
+                                high.Type = StrengthSeriesType.SWING_HIGH;
                                 high.LeftStrength = 3;
                                 high.RightStrength = 3;
                             });

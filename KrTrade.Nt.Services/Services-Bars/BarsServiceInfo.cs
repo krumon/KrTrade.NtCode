@@ -1,11 +1,11 @@
 ﻿using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.DataSeries;
-using KrTrade.Nt.Core.Services;
+using KrTrade.Nt.Core.Elements;
 using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Services
 {
-    public class BarsServiceInfo : BaseServiceKeyInfo, INinjascriptServiceInfo
+    public class BarsServiceInfo : BaseServiceInfo, INinjascriptServiceInfo
     {
 
         /// <summary>
@@ -39,9 +39,7 @@ namespace KrTrade.Nt.Services
         /// Converts the actual object to long string.
         /// </summary>
         /// <returns>Long string thats represents the actual object.</returns>
-        public string ToLongString() => $"{InstrumentCode}({TimeFrame},{MarketDataType},{TradingHoursCode})";
-
-        protected override string GetKey() => ToLongString();
+        protected override string ToUniqueString() => $"{InstrumentCode}({TimeFrame},{MarketDataType},{TradingHoursCode})";
 
         /// <summary>
         /// Create <see cref="BarsServiceInfo"/> default instance.

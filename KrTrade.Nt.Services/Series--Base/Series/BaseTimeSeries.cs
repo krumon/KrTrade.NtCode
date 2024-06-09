@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Core.Series;
+﻿using KrTrade.Nt.Core.Elements;
 using System;
 
 namespace KrTrade.Nt.Services.Series
@@ -6,7 +6,7 @@ namespace KrTrade.Nt.Services.Series
 
     public abstract class BaseTimeSeries : BaseValueSeries<DateTime>, IDateTimeSeries
     {
-        protected BaseTimeSeries(IBarsService bars, BaseSeriesInfo info) : base(bars, info)
+        protected BaseTimeSeries(IBarsService bars, SeriesInfo info) : base(bars, info)
         {
         }
 
@@ -47,7 +47,7 @@ namespace KrTrade.Nt.Services.Series
         }
 
         protected sealed override bool IsValidValue(DateTime value) => value != default;
-        protected override string GetValueString(int barsAgo) => IsValidIndex(barsAgo) ? $"{this[barsAgo].ToShortDateString()}" : DateTime.MinValue.ToShortDateString();
+        protected override string ValueToString(int barsAgo) => IsValidIndex(barsAgo) ? $"{this[barsAgo].ToShortDateString()}" : DateTime.MinValue.ToShortDateString();
     }
 
     //public abstract class DateTimeSeries : BaseValueSeries<DateTime>, IDateTimeSeries

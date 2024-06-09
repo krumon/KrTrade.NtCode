@@ -1,6 +1,6 @@
 ﻿using KrTrade.Nt.Core.Bars;
+using KrTrade.Nt.Core.Elements;
 using KrTrade.Nt.Core.Logging;
-using KrTrade.Nt.Core.Services;
 using NinjaTrader.NinjaScript;
 using System;
 using System.IO;

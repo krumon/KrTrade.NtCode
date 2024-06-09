@@ -1,5 +1,6 @@
 ﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core.Services;
+using KrTrade.Nt.Core.Elements;
+using KrTrade.Nt.Core.Logging;
 using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Services
@@ -31,34 +32,62 @@ namespace KrTrade.Nt.Services
         /// </summary>
         IPrintService PrintService { get; }
 
-        ///// <summary>
-        ///// Gets service log string.
-        ///// </summary>
-        ///// <returns></returns>
-        //string ToLogString();
-
-        ///// <summary>
-        ///// Gets service log string.
-        ///// </summary>
-        ///// <param name="tabOrder">The number of tabulation of the string.</param>
-        ///// <returns>The string that represents the service in the logger.</returns>
-        //string ToLogString(int tabOrder);
-
-        ///// <summary>
-        ///// Print in NinjaScript output winw the log string.
-        ///// </summary>
-        //void Log();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="header"></param>
+        /// <param name="description"></param>
+        /// <param name="separator"></param>
+        /// <param name="value"></param>
+        /// <param name="tabOrder"></param>
+        /// <returns></returns>
+        string ToString(string header, string description, string separator, object value, int tabOrder);
 
         /// <summary>
-        /// Print in NinjaScript output winw the log string.
+        /// 
+        /// </summary>
+        /// <param name="tabOrder"></param>
+        /// <param name="value"></param>
+        /// <param name="isHeaderVisible"></param>
+        /// <param name="isDescriptionVisible"></param>
+        /// <param name="isSeparatorVisible"></param>
+        /// <param name="isValueVisible"></param>
+        /// <returns></returns>
+        string ToString(int tabOrder, object value, bool isHeaderVisible = true, bool isDescriptionVisible = true, bool isSeparatorVisible = false, bool isValueVisible = true);
+
+        /// <summary>
+        /// Print in NinjaScript output window the instance string.
+        /// </summary>
+        void Log();
+
+        /// <summary>
+        /// Print in NinjaScript output window the log message.
         /// </summary>
         /// <param name="tabOrder">The number of tabulation of the string.</param>
-        void Log(int tabOrder = 0);
+        void Log(int tabOrder);
+
+        /// <summary>
+        /// Print in NinjaScript output window the log message.
+        /// </summary>
+        /// <param name="message">The message to logs.</param>
+        /// <param name="tabOrder">The number of tabulation of the string.</param>
+        void Log(string message, int tabOrder = 0);
+
+        /// <summary>
+        /// Print in NinjaScript output window the log message.
+        /// </summary>
+        /// <param name="level">The message log level.</param>
+        /// <param name="message">The message to logs.</param>
+        /// <param name="tabOrder">The number of tabulation of the string.</param>
+        void Log(LogLevel level, string message, int tabOrder = 0);
 
         /// <summary>
         /// Print in NinjaScript putput window the configuration state. If the configuration has been ok or error.
         /// </summary>
         void LogConfigurationState();
+
+        void Log(LogLevel level, string state);
+
 
     }
     /// <summary>

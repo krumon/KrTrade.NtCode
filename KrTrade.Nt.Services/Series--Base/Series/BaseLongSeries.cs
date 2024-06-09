@@ -1,5 +1,4 @@
-﻿using KrTrade.Nt.Core.Series;
-using NinjaTrader.Core.FloatingPoint;
+﻿using KrTrade.Nt.Core.Elements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,7 @@ namespace KrTrade.Nt.Services.Series
 {
     public abstract class BaseLongSeries : BaseValueSeries<long>, ILongSeries
     {
-        protected BaseLongSeries(IBarsService bars, BaseSeriesInfo info) : base(bars, info)
+        protected BaseLongSeries(IBarsService bars, SeriesInfo info) : base(bars, info)
         {
         }
 
@@ -166,7 +165,7 @@ namespace KrTrade.Nt.Services.Series
         }
 
         protected sealed override bool IsValidValue(long value) => value > 0 && value <= long.MaxValue;
-        protected override string GetValueString(int barsAgo) => IsValidIndex(barsAgo) ? $"{this[barsAgo]:#,0.##}" : "0";
+        protected override string ValueToString(int barsAgo) => IsValidIndex(barsAgo) ? $"{this[barsAgo]:#,0.##}" : "0";
 
     }
 

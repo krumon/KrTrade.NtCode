@@ -1,9 +1,10 @@
 ﻿using KrTrade.Nt.Core.Bars;
+using KrTrade.Nt.Core.Elements;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services.Series
 {
-    public interface IBarsSeriesCollection : INinjascriptSeriesCollection<IBarsSeries>, IBarUpdate // INumericSeries
+    public interface IBarsSeriesCollection : INinjascriptSeriesCollection<IBarsSeries, SeriesCollectionInfo>, IBarUpdate // INumericSeries
     {
 
         /// <summary>

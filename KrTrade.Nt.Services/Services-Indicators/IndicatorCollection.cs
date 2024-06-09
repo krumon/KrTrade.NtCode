@@ -1,15 +1,32 @@
-﻿using KrTrade.Nt.Core.Services;
+﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Elements;
 
 namespace KrTrade.Nt.Services
 {
-    public class IndicatorCollection : BarUpdateServiceCollection<IIndicatorService>
+    public class IndicatorCollection : BarUpdateServiceCollection<IIndicatorService, IServiceCollectionInfo>
     {
-        public IndicatorCollection(IBarsService barsService, NinjascriptServiceInfo info, BarUpdateServiceCollectionOptions options) : base(barsService, info, options)
+        public IndicatorCollection(IBarsService barsService, ServiceCollectionInfo info, BarUpdateServiceCollectionOptions options) : base(barsService, info, options)
         {
         }
 
-        public IndicatorCollection(IBarsService barsService, NinjascriptServiceInfo info, BarUpdateServiceCollectionOptions options, int capacity) : base(barsService, info, options, capacity)
+        protected override string GetDescriptionString()
         {
+            throw new System.NotImplementedException();
+        }
+
+        protected override string GetHeaderString()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override string GetLogString(string state)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override string GetParentString()
+        {
+            throw new System.NotImplementedException();
         }
 
         protected override ServiceCollectionType GetServiceType()

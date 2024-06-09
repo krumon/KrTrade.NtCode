@@ -1,44 +1,42 @@
-﻿using KrTrade.Nt.Core.Collections;
-using KrTrade.Nt.Core.Services;
+﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Elements;
+using KrTrade.Nt.Core.Logging;
 using NinjaTrader.NinjaScript;
 using System;
 
 namespace KrTrade.Nt.Services
 {
 
-    public abstract class BaseNinjascriptServiceCollection<TService> : BaseKeyCollection<TService>, INinjascriptServiceCollection<TService>
-        where TService : INinjascriptService
+    public abstract class BaseNinjascriptServiceCollection<TElement,TInfo> : BaseCollection<TElement,TInfo>, INinjascriptServiceCollection<TElement,TInfo>
+        where TElement : INinjascriptService
+        where TInfo : IServiceCollectionInfo
     {
 
-        private readonly NinjaScriptBase _ninjascript;
         private readonly IPrintService _printService;
 
         private bool _isConfigured;
         private bool _isDataLoaded;
 
-        public NinjaScriptBase Ninjascript => _ninjascript;
         public IPrintService PrintService => _printService;
 
-        public IServiceInfo Info { get; protected set; }
         public IServiceOptions Options { get; protected set; }
 
-        public ServiceCollectionType Type { get => Info.Type.ToServiceCollectionType(); protected set => Info.Type = value.ToServiceType(); }
+        //public ServiceCollectionType Type { get => Info.Type.ToElementType().ToServiceCollectionType(); protected set => Info.Type = value; }
         public bool IsConfigure => _isConfigured;
         public bool IsDataLoaded => _isDataLoaded;
 
         public bool IsConfigureAll => IsConfigure && IsDataLoaded;
 
-        public string Name => string.IsNullOrEmpty(Info.Name) ? Info.Type.ToString() : Info.Name;
         public bool IsEnable => Options.IsEnable;
         public bool IsLogEnable => Options.IsLogEnable;
 
         protected bool IsPrintServiceAvailable => _printService != null && IsLogEnable;
 
-        protected BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceInfo info, NinjascriptServiceOptions options) 
+        new public ServiceCollectionType Type { get; protected set; }
+
+        protected BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, ServiceCollectionInfo info, NinjascriptServiceOptions options) : base(ninjascript,info)
         {
-            _ninjascript = ninjascript ?? throw new ArgumentNullException($"Error in 'BaseNinjascriptServiceCollection' constructor. The {nameof(ninjascript)} argument cannot be null.");
             _printService = printService;
-            Info = info ?? new NinjascriptServiceInfo();
             Options = options ?? new NinjascriptServiceOptions();
 
             Type = GetServiceType();
@@ -46,20 +44,7 @@ namespace KrTrade.Nt.Services
             if (string.IsNullOrEmpty(Info.Name))
                 Info.Name = Info.Type.ToString();
         }
-        protected BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceInfo info, NinjascriptServiceOptions options, int capacity) : base(capacity) 
-        {
-            _ninjascript = ninjascript ?? throw new ArgumentNullException($"Error in 'BaseNinjascriptServiceCollection' constructor. The {nameof(ninjascript)} argument cannot be null.");
-            _printService = printService;
-            Info = info ?? new NinjascriptServiceInfo();
-            Options = options ?? new NinjascriptServiceOptions();
-
-            Type = GetServiceType();
-
-            if (string.IsNullOrEmpty(Info.Name))
-                Info.Name = Info.Type.ToString();
-
-        }
-
+        
         #region Implementation
 
         public void Configure()
@@ -131,64 +116,41 @@ namespace KrTrade.Nt.Services
         internal abstract void DataLoaded(out bool isDataLoaded);
 
         protected abstract ServiceCollectionType GetServiceType();
-
-        public virtual string ToLogString() => ToLogString(Name, 0, ", ");
-        public virtual string ToLogString(int tabOrder) => ToLogString(Name, tabOrder, Environment.NewLine);
-        public string ToLogString(string header, int tabOrder, string separator)
-        {
-            string text = string.Empty;
-            string tab = string.Empty;
-            separator = string.IsNullOrEmpty(separator) ? ", " : separator;
-
-            for (int i = 0; i < tabOrder; i++)
-                tab += "\t";
-
-            if (!string.IsNullOrEmpty(header))
-                text += tab + header;
-
-            if (_collection == null)
-                return $"{text}[NULL]";
-            if (_collection.Count == 0)
-                return $"{text}[EMPTY]";
-
-            text += (separator == Environment.NewLine ? Environment.NewLine + tab : string.Empty) + "[" + (separator == Environment.NewLine ? Environment.NewLine + tab : string.Empty);
-            for (int i = 0; i < _collection.Count; i++)
-            {
-                text += _collection[i].ToString(tabOrder + 1);
-                if (i == _collection.Count - 1)
-                    text += (separator == Environment.NewLine ? Environment.NewLine + tab : string.Empty) + "]";
-                else
-                    text += (separator != Environment.NewLine ? separator : string.Empty) + (separator == Environment.NewLine ? Environment.NewLine : string.Empty);
-            }
-
-            return text;
-        }
         
-        protected virtual string ToLogString(bool isMultiline) => ToLogString(Name, 0, isMultiline ? Environment.NewLine : ", ");
-
-        public void Log()
+        public void Log() => Log(LogLevel.Information, null, 0);
+        public void Log(int tabOrder) => Log(LogLevel.Information, null, tabOrder);
+        public void Log(string message, int tabOrder = 0) => Log(LogLevel.Information, message, tabOrder);
+        public void Log(LogLevel level, string message, int tabOrder = 0)
         {
-            if (!IsPrintServiceAvailable)
+            if (_printService == null || !Options.IsLogEnable)
                 return;
-            _printService?.LogValue(ToLogString());
-        }
-        public void Log(int tabOrder)
-        {
-            if (!IsPrintServiceAvailable)
-                return;
-            _printService?.LogValue(ToLogString(tabOrder));
-        }
-        //public void Log(bool isMultiLine)
-        //{
-        //    if (!IsPrintServiceAvailable)
-        //        return;
-        //    if (isMultiLine)
-        //        _printService?.LogValue(ToLogString(isMultiLine));
-        //}
 
-        public override string ToString() => ToString(Type.ToString(), 0, false);
-        public override string ToLongString() => ToString(Type.ToString(),0,true);
-        public override string ToLongString(int tabOrder) => ToString(Type.ToString(),tabOrder,true);
+            string tab = string.Empty;
+            if (tabOrder > 0)
+                for (int i = 0; i < tabOrder; i++)
+                    tab += "\t";
+
+            switch (level)
+            {
+                case LogLevel.Trace:
+                    _printService?.LogTrace(tab + ToString() + " " + message);
+                    break;
+                case LogLevel.Debug:
+                    _printService?.LogDebug(tab + ToString() + " " + message);
+                    break;
+                case LogLevel.Information:
+                    _printService?.LogInformation(tab + ToString() + " " + message);
+                    break;
+                case LogLevel.Warning:
+                    _printService?.LogWarning(tab + ToString() + " " + message);
+                    break;
+                case LogLevel.Error:
+                    _printService?.LogError(tab + ToString() + " " + message);
+                    break;
+                default:
+                    break;
+            }
+        }
 
         #endregion
 

@@ -1,5 +1,5 @@
-﻿using KrTrade.Nt.Core.Info;
-using KrTrade.Nt.Core.Services;
+﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Elements;
 using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Services
@@ -13,17 +13,27 @@ namespace KrTrade.Nt.Services
         {
         }
 
-        public override string ToString(int tabOrder)
+        public string ToString(int tabOrder)
         {
             throw new System.NotImplementedException();
         }
 
-        protected override string GetKey()
+        protected override string GetDescriptionString()
         {
             throw new System.NotImplementedException();
         }
 
-        protected override ServiceType GetServiceType()
+        protected override string GetHeaderString()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override string GetLogString(string state)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        protected override string GetParentString()
         {
             throw new System.NotImplementedException();
         }

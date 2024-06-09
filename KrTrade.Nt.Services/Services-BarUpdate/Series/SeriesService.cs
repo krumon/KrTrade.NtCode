@@ -1,5 +1,5 @@
-﻿using KrTrade.Nt.Core.Series;
-using KrTrade.Nt.Core.Services;
+﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Elements;
 using System;
 
 namespace KrTrade.Nt.Services
@@ -13,7 +13,7 @@ namespace KrTrade.Nt.Services
         protected TSeries Series;
         //protected BaseSeriesInfo Info;
 
-        public object this[int index] => Series[index];
+        public object this[int index] => throw new NotImplementedException();
         public int Capacity => Series.Capacity;
         public int OldValuesCapacity => Series.OldValuesCapacity;
         public int Period => 20; // Series.Period;
@@ -77,17 +77,32 @@ namespace KrTrade.Nt.Services
         {
         }
 
-        public override string ToString(int tabOrder)
+        public string ToString(int tabOrder)
         {
             throw new NotImplementedException();
         }
 
-        protected override string GetKey() => Series.Key;
-
-        protected override ServiceType GetServiceType()
+        protected override string GetDescriptionString()
         {
             throw new NotImplementedException();
         }
+
+        protected override string GetHeaderString()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override string GetLogString(string state)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override string GetParentString()
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 
 

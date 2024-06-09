@@ -1,5 +1,6 @@
 ﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core.Services;
+using KrTrade.Nt.Core.Elements;
+using KrTrade.Nt.Core.Logging;
 using NinjaTrader.NinjaScript;
 using System.Diagnostics;
 
@@ -18,7 +19,7 @@ namespace KrTrade.Nt.Services
 
         #region Properties
 
-        new public INinjascriptServiceInfo Info { get => (INinjascriptServiceInfo)base.Info; protected set => base.Info = value; }
+        new public INinjascriptServiceInfo Info { get => (INinjascriptServiceInfo)base.Info;}
         new public INinjascriptServiceOptions Options => (INinjascriptServiceOptions)base.Options;
         
         public Calculate CalculateMode { get => Options.CalculateMode; internal set { Options.CalculateMode = value; } }
@@ -31,85 +32,25 @@ namespace KrTrade.Nt.Services
         public IPrintService PrintService => _printService;
 
         protected bool IsPrintServiceAvailable => _printService != null && IsLogEnable;
-        
+
         #endregion
 
         #region Constructors
 
-        //protected BaseNinjascriptService(NinjaScriptBase ninjascript) : this(ninjascript,null,null,null) { }
-        //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService) : this(ninjascript, printService,null,null) { }
-        //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, IElementInfo info) : this(ninjascript, printService, info,null) { }
-        //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceOptions options) : this(ninjascript, printService,null, options) { }
+        /// <summary>
+        /// Create <see cref="BaseNinjascriptService"/> instance and configure it.
+        /// This instance must be created in the 'Ninjascript.State == Configure'.
+        /// </summary>
+        /// <param name="ninjascript">The <see cref="NinjaScriptBase"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
+        /// <param name="printService">The <see cref="IPrintService"/> to log.</param>
+        /// <param name="info">The service information.</param>
+        /// <param name="options">The service options.</param>
+        /// <exception cref="System.ArgumentNullException">The <paramref name="ninjascript"/> cannot be null.</exception>
         protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, IServiceInfo info, IServiceOptions options) : 
             base(ninjascript, info ?? new NinjascriptServiceInfo(), options ?? new NinjascriptServiceOptions()) 
         {
             _printService = printService;
         }
-
-        ///// <summary>
-        ///// Create <see cref="BaseNinjascriptService"/> instance and configure it.
-        ///// This instance must be created in the 'Ninjascript.State == Configure'.
-        ///// </summary>
-        ///// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
-        ///// <exception cref="ArgumentNullException">The <see cref="INinjascript"/> cannot be null.</exception>
-        //protected BaseNinjascriptService(NinjaScriptBase ninjascript) : base(ninjascript,null,null)
-        //{
-        //}
-
-        ///// <summary>
-        ///// Create <see cref="BaseNinjascriptService"/> instance and configure it.
-        ///// This instance must be created in the 'Ninjascript.State == Configure'.
-        ///// </summary>
-        ///// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
-        ///// <param name="printService">The <see cref="IPrintService"/> to log.</param>
-        ///// <exception cref="ArgumentNullException">The <see cref="INinjascript"/> cannot be null.</exception>
-        //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript, null, null)
-        //{
-        //    _printService = printService;
-        //}
-
-        ///// <summary>
-        ///// Create <see cref="BaseNinjascriptService"/> instance and configure it.
-        ///// This instance must be created in the 'Ninjascript.State == Configure'.
-        ///// </summary>
-        ///// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
-        ///// <param name="printService">The <see cref="IPrintService"/> to log.</param>
-        ///// <param name="options">The service options.</param>
-        ///// <exception cref="ArgumentNullException">The <see cref="INinjascript"/> cannot be null.</exception>
-        //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceOptions options) : base(ninjascript, null, options)
-        //{
-        //    _printService = printService;
-        //}
-
-        ///// <summary>
-        ///// Create <see cref="BaseNinjascriptService"/> instance and configure it.
-        ///// This instance must be created in the 'Ninjascript.State == Configure'.
-        ///// </summary>
-        ///// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
-        ///// <param name="printService">The <see cref="IPrintService"/> to log.</param>
-        ///// <param name="configureOptions">The configure options of the service.</param>
-        ///// <param name="options">The service options.</param>
-        ///// <exception cref="ArgumentNullException">The <see cref="INinjascript"/> cannot be null.</exception>
-        //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, Action<NinjascriptServiceOptions> configureOptions, NinjascriptServiceOptions options) : base(ninjascript, null, options)
-        //{
-        //    _printService = printService;
-        //    Options = options ?? new NinjascriptServiceOptions();
-        //    configureOptions?.Invoke(Options);
-        //}
-
-        ///// <summary>
-        ///// Create <see cref="BaseNinjascriptService"/> instance and configure it.
-        ///// This instance must be created in the 'Ninjascript.State == Configure'.
-        ///// </summary>
-        ///// <param name="ninjascript">The <see cref="INinjascript"/> to gets 'Ninjatrader.NinjaScript' properties and objects.</param>
-        ///// <param name="printService">The <see cref="IPrintService"/> to log.</param>
-        ///// <param name="info">The service information.</param>
-        ///// <param name="options">The service options.</param>
-        ///// <exception cref="ArgumentNullException">The <see cref="INinjascript"/> cannot be null.</exception>
-        //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceInfo info, NinjascriptServiceOptions options) : base(ninjascript, info, options)
-        //{
-        //    _printService = printService;
-        //}
 
         #endregion
 
@@ -174,38 +115,99 @@ namespace KrTrade.Nt.Services
         /// <param name="isDataLoaded">True, if the service has been configure, otherwise false.</param>
         internal abstract void DataLoaded(out bool isDataLoaded);
 
-        public override string ToString() => ToString(Name, null, null, 0, null);
-        internal string ToString(string name, string description, string separator, int tabOrder, object value)
+        public string ToString(string header, string description, string separator, object value, int tabOrder)
         {
             string text = string.Empty;
             string tab = string.Empty;
-            separator = string.IsNullOrEmpty(separator) ? ": " : separator;
+            separator = value != null && string.IsNullOrEmpty(separator) ? ": " : separator;
 
             if (tabOrder > 0)
                 for (int i = 0; i < tabOrder; i++)
                     tab += "\t";
             text += tab;
 
-            if (!string.IsNullOrEmpty(name))
-                text += tab + name;
+            if (!string.IsNullOrEmpty(header))
+                text += tab + header;
 
             if (!string.IsNullOrEmpty(description))
-                text += "(" + description + ")";
+            {
+                if (string.IsNullOrEmpty(header))
+                    text += description;
+                else
+                    text += "(" + description + ")";
+            }
 
             if (value != null)
-            {
-                if (string.IsNullOrEmpty(separator))
-                    separator = ": ";
                 text += separator + value.ToString();
-            }
 
             return text;
         }
-        public void Log(int tabOrder = 0)
+        public override string ToString() => ToString(
+            header: GetHeaderString(),
+            description: GetDescriptionString(),
+            separator: string.Empty,
+            value: null,
+            tabOrder: 0);
+        public string ToString(int tabOrder, object value, bool isHeaderVisible = true, bool isDescriptionVisible = true, bool isSeparatorVisible = false, bool isValueVisible = true) => ToString(
+            header: isHeaderVisible ? GetHeaderString() : string.Empty,
+            description: isDescriptionVisible ? GetDescriptionString() : string.Empty,
+            separator: isSeparatorVisible ? ": " : " ",
+            value: isValueVisible ? value : null,
+            tabOrder: tabOrder);
+
+        public void Log() => Log(LogLevel.Information, null, 0);
+        public void Log(int tabOrder) => Log(LogLevel.Information, null, tabOrder);
+        public void Log(string message, int tabOrder = 0) => Log(LogLevel.Information, message, tabOrder);
+        public void Log(LogLevel level, string message, int tabOrder = 0)
         {
-            if (_printService == null || !Options.IsLogEnable) 
+            if (_printService == null || !Options.IsLogEnable)
                 return;
-            _printService?.LogValue(ToString(tabOrder));
+            switch (level)
+            {
+                case LogLevel.Trace:
+                    _printService?.LogTrace(ToString(tabOrder, message)); 
+                    break;
+                case LogLevel.Debug:
+                    _printService?.LogDebug(ToString(tabOrder, message)); 
+                    break;
+                case LogLevel.Information:
+                    _printService?.LogInformation(ToString(tabOrder, message)); 
+                    break;
+                case LogLevel.Warning:
+                    _printService?.LogWarning(ToString(tabOrder, message)); 
+                    break;
+                case LogLevel.Error:
+                    _printService?.LogError(ToString(tabOrder, message)); 
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void Log(LogLevel level, string state)
+        {
+            if (_printService == null || !Options.IsLogEnable)
+                return;
+            switch (level)
+            {
+                case LogLevel.Trace:
+                    _printService?.LogTrace(GetLogString(state));
+                    break;
+                case LogLevel.Debug:
+                    _printService?.LogDebug(GetLogString(state));
+                    break;
+                case LogLevel.Information:
+                    _printService?.LogInformation(GetLogString(state));
+                    break;
+                case LogLevel.Warning:
+                    _printService?.LogWarning(GetLogString(state));
+                    break;
+                case LogLevel.Error:
+                    _printService?.LogError(GetLogString(state));
+                    break;
+                default:
+                    break;
+            }
         }
         public virtual void LogConfigurationState()
         {
@@ -213,13 +215,13 @@ namespace KrTrade.Nt.Services
                 return;
 
             if (IsDataLoaded && Ninjascript.State == State.DataLoaded)
-                _printService?.LogInformation($"'{Name}' has been loaded successfully.");
+                Log(LogLevel.Information, "has been loaded successfully.");
             else if (IsConfigure && Ninjascript.State == State.Configure)
-                _printService?.LogInformation($"'{Name}' has been configured successfully.");
+                Log(LogLevel.Information, "has been configured successfully.");
             else if (!IsConfigureAll && Ninjascript.State == State.DataLoaded)
-                _printService?.LogError($"'{Name}' could not be configured. The service will not work.");
+                Log(LogLevel.Error, "could not be configured. The service will not work.");
             else
-                _printService?.LogError($"'{Name}' could not be configured. You are configuring the service out of configure or data loaded states.");
+                Log(LogLevel.Error, "could not be configured. You are configuring the service out of configure or data loaded states.");
         }
 
         #endregion
@@ -230,7 +232,7 @@ namespace KrTrade.Nt.Services
         where TInfo : INinjascriptServiceInfo, new()
     {
         //new public TInfo Info => (TInfo)base.Info;
-        new public TInfo Info { get => (TInfo)base.Info; protected set => base.Info = value; }
+        new public TInfo Info { get => (TInfo)base.Info; }
 
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript) : base(ninjascript) { }
         //protected BaseNinjascriptService(NinjaScriptBase ninjascript, IPrintService printService) : base(ninjascript,printService) { }

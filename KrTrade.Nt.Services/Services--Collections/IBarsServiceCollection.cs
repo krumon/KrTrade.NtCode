@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Core.Bars;
+using KrTrade.Nt.Core.Elements;
 using KrTrade.Nt.Services.Series;
 using System.Collections.Generic;
 
@@ -7,7 +8,7 @@ namespace KrTrade.Nt.Services
     /// <summary>
     /// Defines properties and methods that are necesary to create a data series service.
     /// </summary>
-    public interface IBarsServiceCollection : INinjascriptServiceCollection<IBarsService>, IBarUpdate, IMarketData, IMarketDepth, IRender
+    public interface IBarsServiceCollection : INinjascriptServiceCollection<IBarsService, IServiceCollectionInfo>, IBarUpdate, IMarketData, IMarketDepth, IRender
     {
 
         // Data series information

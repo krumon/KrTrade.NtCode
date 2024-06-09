@@ -1,19 +1,24 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using KrTrade.Nt.Core.Services;
+using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Elements;
 using KrTrade.Nt.Services.Series;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
-    public class BarsServiceCollection : BaseNinjascriptServiceCollection<IBarsService>, IBarsServiceCollection
+    public class BarsServiceCollection : BaseNinjascriptServiceCollection<IBarsService, IServiceCollectionInfo>, IBarsServiceCollection
     {
 
-        internal BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceInfo info, BarsServiceCollectionOptions options) : base(ninjascript, printService, info, options) { }
-        internal BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceInfo info, BarsServiceCollectionOptions options, int capacity) : base(ninjascript, printService, info, options, capacity) { }
-        internal BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsServiceCollectionOptions options) : base(ninjascript, printService, null, options) { }
-        internal BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsServiceCollectionOptions options, int capacity) : base(ninjascript, printService, null, options, capacity) { }
+        internal BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, ServiceCollectionInfo info, BarsServiceCollectionOptions options) : base(ninjascript, printService, info, options) 
+        {
+        }
+        //internal BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, NinjascriptServiceInfo info, BarsServiceCollectionOptions options, int capacity) : base(ninjascript, printService, info, options, capacity) { }
+        //internal BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsServiceCollectionOptions options) : base(ninjascript, printService, null, options) { }
+        //internal BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, BarsServiceCollectionOptions options, int capacity) : base(ninjascript, printService, null, options, capacity) { }
         internal BarsServiceCollection(IBarsManager barsManager) : this(barsManager.Ninjascript, barsManager.PrintService, null, null) { }
-        internal BarsServiceCollection(IBarsManager barsManager, BarsServiceCollectionOptions options) : base(barsManager.Ninjascript, barsManager.PrintService, null, options) { }
+        internal BarsServiceCollection(IBarsManager barsManager, BarsServiceCollectionOptions options) : base(barsManager.Ninjascript, barsManager.PrintService, null, options) 
+        {
+        }
 
         public int BarsInProgress => Ninjascript.BarsInProgress < 0 || Ninjascript.BarsInProgress > Count ? 0 : Ninjascript.BarsInProgress;
         protected override ServiceCollectionType GetServiceType() => ServiceCollectionType.BARS_COLLECTION;
@@ -137,10 +142,17 @@ namespace KrTrade.Nt.Services
                 _collection[BarsInProgress].BarUpdate(updatedBarsSeries);
         }
 
-        //public override string ToLogString() => this[BarsInProgress].ToLogString();
-        public override string ToLogString(int tabOrder) => this[BarsInProgress].ToString(tabOrder);
+        public override string ToString() => ToString(); //this[BarsInProgress].ToString();
+        public string ToString(int tabOrder, int barsAgo, string valuesSeparator = ": ", string elementsSeparator = ", ", bool displayIndex = true, bool displayValues = true, bool displayName = true, bool displayDescription = false)
+            => ToString(); //this[BarsInProgress].ToString(tabOrder, null);
 
-        //private string GetKey() => ToString(ServiceType.BARS_COLLECTION.ToString());
+        protected override string GetHeaderString() => "BARS";
+        protected override string GetParentString() => null;
+        protected override string GetDescriptionString() => ToString();
 
+        protected override string GetLogString(string state)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

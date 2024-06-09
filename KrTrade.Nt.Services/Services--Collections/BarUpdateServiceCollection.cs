@@ -1,15 +1,13 @@
-﻿using System;
+﻿using KrTrade.Nt.Core.Elements;
+using System;
 
 namespace KrTrade.Nt.Services
 {
-    public abstract class BarUpdateServiceCollection<TService> : BaseNinjascriptServiceCollection<TService>
-        where TService : IBarUpdateService
+    public abstract class BarUpdateServiceCollection<TElement,TInfo> : BaseNinjascriptServiceCollection<TElement, TInfo>
+        where TElement : IBarUpdateService
+        where TInfo : IServiceCollectionInfo
     {
-        protected BarUpdateServiceCollection(IBarsService barsService, NinjascriptServiceInfo info, BarUpdateServiceCollectionOptions options) : base(barsService.Ninjascript, barsService.PrintService, info, options) 
-        {
-            Bars = barsService ?? throw new ArgumentNullException(nameof(barsService));
-        }
-        protected BarUpdateServiceCollection(IBarsService barsService, NinjascriptServiceInfo info, BarUpdateServiceCollectionOptions options, int capacity) : base(barsService.Ninjascript, barsService.PrintService, info, options, capacity) 
+        protected BarUpdateServiceCollection(IBarsService barsService, ServiceCollectionInfo info, BarUpdateServiceCollectionOptions options) : base(barsService.Ninjascript, barsService.PrintService, info, options) 
         {
             Bars = barsService ?? throw new ArgumentNullException(nameof(barsService));
         }

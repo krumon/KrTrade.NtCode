@@ -1,6 +1,4 @@
-﻿using KrTrade.Nt.Core.Series;
-
-namespace KrTrade.Nt.Services
+﻿namespace KrTrade.Nt.Services
 {
     /// <summary>
     /// Define the <see cref="IBarsService"/> options. 
@@ -11,12 +9,12 @@ namespace KrTrade.Nt.Services
         /// <summary>
         /// Gets or sets the bars cache capacity.
         /// </summary>
-        public int CacheCapacity { get; set; } = Core.Series.Series.DEFAULT_CAPACITY;
+        public int CacheCapacity { get; set; } = Core.Elements.Series.DEFAULT_CAPACITY;
 
         /// <summary>
         /// Gets or sets the bars removed cache capacity.
         /// </summary>
-        public int RemovedCacheCapacity { get; set; } = Core.Series.Series.DEFAULT_OLD_VALUES_CAPACITY;
+        public int RemovedCacheCapacity { get; set; } = Core.Elements.Series.DEFAULT_OLD_VALUES_CAPACITY;
 
         ///// <summary>
         ///// Gets or sets the Data Series instrument code.

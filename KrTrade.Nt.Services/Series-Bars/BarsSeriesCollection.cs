@@ -1,10 +1,11 @@
-﻿using KrTrade.Nt.Core.Series;
+﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Elements;
 using System.Collections.Generic;
 using Bar = KrTrade.Nt.Core.Bars.Bar;
 
 namespace KrTrade.Nt.Services.Series
 {
-    public class BarsSeriesCollection : BaseNinjascriptSeriesCollection<IBarsSeries>, IBarsSeriesCollection // BaseNumericSeries
+    public class BarsSeriesCollection : BaseNinjascriptSeriesCollection<IBarsSeries, SeriesCollectionInfo>, IBarsSeriesCollection // BaseNumericSeries
     {
 
         public int Capacity { get => Info.Capacity; internal set => Info.Capacity = value; }
@@ -22,9 +23,9 @@ namespace KrTrade.Nt.Services.Series
         public BarsSeriesCollection(IBarsService bars) 
             : this(bars, new BarsSeriesCollectionInfo()
             {
-                Type = SeriesCollectionType.BARS_SERIES_COLLECTION,
-                Capacity = bars?.CacheCapacity ?? Core.Series.Series.DEFAULT_CAPACITY,
-                OldValuesCapacity = bars?.RemovedCacheCapacity ?? Core.Series.Series.DEFAULT_OLD_VALUES_CAPACITY 
+                Type = SeriesCollectionType.BARS,
+                Capacity = bars?.CacheCapacity ?? Core.Elements.Series.DEFAULT_CAPACITY,
+                OldValuesCapacity = bars?.RemovedCacheCapacity ?? Core.Elements.Series.DEFAULT_OLD_VALUES_CAPACITY 
             }) { }
         public BarsSeriesCollection(IBarsService bars, BarsSeriesCollectionInfo info) : base(bars, info)
         {
@@ -45,62 +46,6 @@ namespace KrTrade.Nt.Services.Series
             Add(Volume);
             Add(Tick);
         }
-
-        //public void Add()
-        //{
-        //    CurrentBar.Add();
-        //    Time.Add();
-        //    Open.Add();
-        //    High.Add();
-        //    Low.Add();
-        //    Close.Add();
-        //    Volume.Add();
-        //    Tick.Add();
-        //}
-        //public void Update()
-        //{
-        //    CurrentBar.Update();
-        //    Time.Update();
-        //    Open.Update();
-        //    High.Update();
-        //    Low.Update();
-        //    Close.Update();
-        //    Volume.Update();
-        //    Tick.Update();
-        //}
-        //public void RemoveLastElement()
-        //{
-        //    CurrentBar.RemoveLastElement();
-        //    Time.RemoveLastElement();
-        //    Open.RemoveLastElement();
-        //    High.RemoveLastElement();
-        //    Low.RemoveLastElement();
-        //    Close.RemoveLastElement();
-        //    Volume.RemoveLastElement();
-        //    Tick.RemoveLastElement();
-        //}
-        //public void Reset()
-        //{
-        //    CurrentBar.Reset();
-        //    Time.Reset();
-        //    Open.Reset();
-        //    High.Reset();
-        //    Low.Reset();
-        //    Close.Reset();
-        //    Volume.Reset();
-        //    Tick.Reset();
-        //}
-        //public override void Dispose()
-        //{
-        //    CurrentBar.Terminated();
-        //    Time.Terminated();
-        //    Open.Terminated();
-        //    High.Terminated();
-        //    Low.Terminated();
-        //    Close.Terminated();
-        //    Volume.Terminated();
-        //    Tick.Terminated();
-        //}
 
         public override void BarUpdate() => ForEach(x => x.BarUpdate());
         public override void BarUpdate(IBarsService updatedBarsService) => ForEach(x => x.BarUpdate(updatedBarsService));
@@ -182,5 +127,13 @@ namespace KrTrade.Nt.Services.Series
             && Volume.IsValidIndex(initialBarsAgo, finalBarsAgo)
             && Tick.IsValidIndex(initialBarsAgo, finalBarsAgo);
 
+        protected override string GetHeaderString() => "BARS_SERIES";
+        protected override string GetParentString() => Bars.ToString();
+        protected override string GetDescriptionString() => ToString();
+
+        protected override string GetLogString(string state)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

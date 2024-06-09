@@ -1,37 +1,43 @@
-﻿using KrTrade.Nt.Core.Collections;
-using KrTrade.Nt.Core.Series;
+﻿using KrTrade.Nt.Core.Elements;
 
 namespace KrTrade.Nt.Services.Series
 {
-    public interface INinjascriptSeries : IConfigure, IDataLoaded, ITerminated, IKeyItem
+    public interface INinjascriptSeries : ISeries, IConfigure, IDataLoaded, ITerminated
     {
-        /// <summary>
-        /// Gets the series capacity.
-        /// </summary>
-        int Capacity { get; }
+
+        ///// <summary>
+        ///// Returns string thats represents the instance and the value specified in bars ago index.
+        ///// </summary>
+        ///// <param name="tabOrder"></param>
+        ///// <param name="barsAgo"></param>
+        ///// <returns></returns>
+        //string ToString(int tabOrder, int barsAgo, bool displayIndex = true);
 
         /// <summary>
-        /// Gets the removed values cache capacity.
+        /// Returns string thats represents the actual instance of the object.
         /// </summary>
-        int OldValuesCapacity { get; }
+        /// <param name="name">The name of the actual instance of the object.</param>
+        /// <param name="description">The description of the actual instace of the object.</param>
+        /// <param name="displayIndex">Indicates if the string represents the value index.</param>
+        /// <param name="separator">String between description and value.</param>
+        /// <param name="tabOrder">Number of tabulations below the string.</param>
+        /// <param name="barsAgo">The index of the value to represents.</param>
+        /// <param name="displayValue">Indicates if the string represents the value.</param>
+        /// <returns>String thats represents the actual instance of the object.</returns>
+        string ToString(string name, string description, bool displayIndex, string separator, int tabOrder, int barsAgo, bool displayValue = true);
 
         /// <summary>
-        /// Gets the series information.
+        /// Returns string thats represents the actual instance of the object.
         /// </summary>
-        IBaseSeriesInfo Info { get; }
-
-        /// <summary>
-        /// Gets the type of the series.
-        /// </summary>
-        SeriesType Type { get; }
-
-        /// <summary>
-        /// Returns string thats represents the instance and the value specified in bars ago index.
-        /// </summary>
-        /// <param name="tabOrder"></param>
-        /// <param name="barsAgo"></param>
-        /// <returns></returns>
-        string ToString(int tabOrder, int barsAgo);
+        /// <param name="tabOrder">Number of tabulations below the string.</param>
+        /// <param name="barsAgo">The index of the value to represents.</param>
+        /// <param name="separator">String between description and value.</param>
+        /// <param name="displayIndex">Indicates if the string represents the value index.</param>
+        /// <param name="displayValue">Indicates if the string represents the value.</param>
+        /// <param name="displayName">Indicates if the string represents the name.</param>
+        /// <param name="displayDescription">Indicates if the string represents the description.</param>
+        /// <returns>String thats represents the actual instance of the object.</returns>
+        string ToString(int tabOrder, int barsAgo, string separator = ": ", bool displayIndex = true, bool displayValue = true, bool displayName = true, bool displayDescription = false);
 
         /// <summary>
         /// Logs the actual instance of the object.
@@ -65,15 +71,15 @@ namespace KrTrade.Nt.Services.Series
         ///// <returns>The string thats represents the series in the logger.</returns>
         //string ToLogString(int barsAgo, int tabOrder);
 
-        /// <summary>
-        /// Dispose the series.
-        /// </summary>
-        void Dispose();
+        ///// <summary>
+        ///// Dispose the series.
+        ///// </summary>
+        //void Dispose();
 
-        /// <summary>
-        /// Reset the <see cref="ISeries"/>. Clear the cache and initialize all properties.
-        /// </summary>
-        void Reset();
+        ///// <summary>
+        ///// Reset the <see cref="ISeries"/>. Clear the cache and initialize all properties.
+        ///// </summary>
+        //void Reset();
 
         ///// <summary>
         ///// Add new element to the series.
@@ -91,4 +97,9 @@ namespace KrTrade.Nt.Services.Series
         //void RemoveLastElement();
 
     }
+
+    public interface INinjascriptSeries<T> : INinjascriptSeries, ISeries<T>
+    {
+    }
+
 }

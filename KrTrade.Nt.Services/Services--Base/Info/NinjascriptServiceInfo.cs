@@ -1,8 +1,9 @@
-﻿using KrTrade.Nt.Core.Services;
+﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Elements;
 
 namespace KrTrade.Nt.Services
 {
-    public class NinjascriptServiceInfo : ServiceInfo, INinjascriptServiceInfo
+    public class NinjascriptServiceInfo : BaseServiceInfo, INinjascriptServiceInfo
     {
         public NinjascriptServiceInfo() : base()
         {

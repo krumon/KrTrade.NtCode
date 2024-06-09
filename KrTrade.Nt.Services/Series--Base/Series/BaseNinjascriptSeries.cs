@@ -1,46 +1,20 @@
-﻿using KrTrade.Nt.Core.Info;
-using KrTrade.Nt.Core.Series;
+﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Elements;
 using NinjaTrader.Data;
 using System;
 
 namespace KrTrade.Nt.Services.Series
 {
-    public abstract class BaseNinjascriptSeries : INinjascriptSeries // Series<T>, INinjascriptSeries
+    public abstract class BaseNinjascriptSeries<T> : Series<T>, INinjascriptSeries<T> // Series<T>, INinjascriptSeries
     {
         private bool _isConfigure = false;
         private bool _isDataLoaded = false;
 
         protected IBarsService Bars { get; private set; }
 
-        public int Capacity { get => Info.Capacity; protected internal set { Info.Capacity = value; } }
-        public int OldValuesCapacity { get => Info.Capacity; protected internal set { Info.Capacity = value; } }
-        public string Name { get => string.IsNullOrEmpty(Info.Name) ? Key : Info.Name; internal set { Info.Name = value; } }
-        public IBaseSeriesInfo Info { get; internal set; }
-        public string Key => Info.Key;
-        public SeriesType Type { get => Info.Type; protected set => Info.Type = value; }
-
-        public bool Equals(IHasKey other) => other is IHasKey key && Key == key.Key;
-        public bool Equals(ISeries other) => Equals(other as IHasKey);
-
-        public override string ToString() => ToString(true, ": ", 0, null);
-        public string ToString(int tabOrder) => ToString(
-            includeOwner: true,
-            separator: ": ",
-            tabOrder: tabOrder,
-            value: null);
-        public string ToString(int tabOrder, int barsAgo) => ToString(
-            includeOwner: true,
-            separator: ": ",
-            tabOrder: tabOrder,
-            value: null);
-        internal string ToString(int tabOrder, object value) => ToString(
-            includeOwner: true,
-            separator: ": ",
-            tabOrder: tabOrder,
-            value: value);
-        internal string ToString(bool includeOwner, string separator, int tabOrder, object value)
+        public string ToString(string name, string description, bool displayIndex, string separator, int tabOrder, int barsAgo, bool displayValue = true)
         {
-            string text = includeOwner ? Info.ToString(Bars.ToString()) : Info.ToString();
+            string text = string.Empty;
             string tab = string.Empty;
 
             if (tabOrder > 0)
@@ -48,17 +22,45 @@ namespace KrTrade.Nt.Services.Series
                     tab += "\t";
             text += tab;
 
-            text += includeOwner ? Info.ToString(Bars.ToString()) : Info.ToString();
-
-            if (value != null)
+            if (!string.IsNullOrEmpty(name))
             {
-                separator = string.IsNullOrEmpty(separator) ? ": " : separator;
-                text += separator + value.ToString();
+                text += tab + name;
+                if (!string.IsNullOrEmpty(description))
+                    text += description;
             }
 
+            if (displayValue)
+            {
+                if (displayIndex)
+                    text += $"[{barsAgo}]";
+
+                if (string.IsNullOrEmpty(separator))
+                    separator = ": ";
+
+                if (barsAgo >= 0 && barsAgo < Count)
+                    text += $"{separator}{ValueToString(barsAgo)}";
+                else
+                    text += $"{separator}Warning!!!. Index is out of range.";
+            }
             return text;
         }
-
+        public override string ToString() => ToString(
+            name: Name,
+            description: Bars.ToString(),
+            displayIndex: false,
+            separator: ": ",
+            tabOrder: 0,
+            barsAgo: 0,
+            displayValue: false);
+        public string ToString(int tabOrder, int barsAgo,string separator = ": ", bool displayIndex = true, bool displayValue = true, bool displayName = true, bool displayDescription = false) => ToString(
+            name: displayName ? Name : string.Empty,
+            description: displayDescription ? Bars.ToString() : string.Empty,
+            displayIndex: displayIndex,
+            separator: separator,
+            tabOrder: tabOrder,  
+            barsAgo: barsAgo,
+            displayValue: displayValue);
+        
         public void Log()
         {
             if (Bars.PrintService == null || !Bars.Options.IsLogEnable)
@@ -69,53 +71,21 @@ namespace KrTrade.Nt.Services.Series
         {
             if (Bars.PrintService == null || !Bars.Options.IsLogEnable)
                 return;
-            Bars.PrintService.LogValue(ToString());
+            Bars.PrintService.LogValue(ToString(0, barsAgo));
         }
 
-        //protected string ToLogString(string header, object value) => $"{header}: {value}";
-
-        //public virtual string ToLogString() => ToLogString(Type.ToString(), 0, 0);
-        //public virtual string ToLogString(int barsAgo) => ToLogString(Type.ToString(), barsAgo, 0);
-        //public virtual string ToLogString(int barsAgo, int tabOrder) => ToLogString(Type.ToString(), barsAgo, tabOrder);
-        //protected virtual string ToLogString(string header, int barsAgo) => ToLogString(header, barsAgo,0);
-        //protected virtual string ToLogString(string header, int barsAgo, int tabOrder)
-        //{
-        //    string text = string.Empty;
-        //    string tab = string.Empty;
-        //    for (int i = 0; i < tabOrder; i++)
-        //        tab += "\t";
-
-        //    text += tab;
-
-        //    if (barsAgo >= 0)
-        //        text += $"{header}({Bars})[{barsAgo}]: {ToString()}";
-        //    else
-        //        text += $"{header}({Bars})[{barsAgo}]: 'barsAgo': {barsAgo} is out of range.";
-
-        //    return text;
-
-        //}
+        protected abstract string ValueToString(int barsAgo);
 
         /// <summary>
-        /// Gets the difference between int.MaxValue and OldValuesCapacity.
-        /// </summary>
-        protected int MaxCapacity => int.MaxValue - OldValuesCapacity;
-        /// <summary>
-        /// Gets the maximum length of the series. Adds Capacity and OldValuesCapacity. 
-        /// </summary>
-        protected int MaxLength => Capacity + OldValuesCapacity;
-
-        /// <summary>
-        /// Create <see cref="BaseNinjascriptSeries"/> default instance with specified parameters.
+        /// Create <see cref="BaseNinjascriptSeries{T}"/> default instance with specified parameters.
         /// </summary>
         /// <param name="info">The series information necesary to construct it.</param>
-        protected BaseNinjascriptSeries(IBarsService bars, BaseSeriesInfo info) //: base(info)
+        protected BaseNinjascriptSeries(IBarsService bars, SeriesInfo info) : base(bars.Ninjascript,info)
         {
             Bars = bars ?? throw new ArgumentNullException(nameof(bars));
-            Info = info ?? throw new ArgumentNullException(nameof(info));
-            
-            Info.OldValuesCapacity = OldValuesCapacity < 1 ? Core.Series.Series.DEFAULT_OLD_VALUES_CAPACITY : OldValuesCapacity;
-            Info.Capacity = Capacity <= 0 ? Core.Series.Series.DEFAULT_CAPACITY : Capacity > MaxCapacity ? MaxCapacity : Capacity;
+
+            Info.OldValuesCapacity = OldValuesCapacity < 1 ? Core.Elements.Series.DEFAULT_OLD_VALUES_CAPACITY : OldValuesCapacity;
+            Info.Capacity = Capacity <= 0 ? Core.Elements.Series.DEFAULT_CAPACITY : Capacity > MaxCapacity ? MaxCapacity : Capacity;
         }
 
         public bool IsConfigure => _isConfigure;
@@ -123,24 +93,23 @@ namespace KrTrade.Nt.Services.Series
 
         public void Configure()
         {
+
             if (IsOutOfConfigurationStates())
                 LoggingHelpers.ThrowIsNotConfigureException(Name);
+
             if (_isConfigure && _isDataLoaded)
                 return;
+
             if (Bars.Ninjascript.State == NinjaTrader.NinjaScript.State.Configure && !_isConfigure)
                 Configure(out _isConfigure);
 
             else if (Bars.Ninjascript.State == NinjaTrader.NinjaScript.State.DataLoaded && !_isConfigure)
-            {
                 Configure(out _isConfigure);
-                DataLoaded(out _isDataLoaded);
-            }
-            else if (Bars.Ninjascript.State == NinjaTrader.NinjaScript.State.DataLoaded && _isConfigure)
-                DataLoaded(out _isDataLoaded);
 
         }
         public void DataLoaded()
         {
+
             if (Bars.Ninjascript.State != NinjaTrader.NinjaScript.State.DataLoaded)
                 LoggingHelpers.ThrowIsNotConfigureException(Name);
 
@@ -158,11 +127,8 @@ namespace KrTrade.Nt.Services.Series
 
         public abstract void Add();
         public abstract void Update();
-        public abstract void Dispose();
-        public abstract void RemoveLastElement();
-        public abstract void Reset();
 
-        public virtual void BarUpdate() 
+        public virtual void BarUpdate()
         {
             if (Bars.LastBarIsRemoved)
                 RemoveLastElement();
@@ -191,117 +157,5 @@ namespace KrTrade.Nt.Services.Series
         /// <param name="isDataLoaded">True, if the service has been configure, otherwise false.</param>
         internal abstract void DataLoaded(out bool isDataLoaded);
 
-        #region Helper methods
-
-        /// <summary>
-        /// Indicates whether NinjaScript is in any of the configuration states.
-        /// The configuaration states are 'Configure' and 'DataLoaded'.
-        /// </summary>
-        /// <returns></returns>
-        protected bool IsInConfigurationStates()
-        {
-            if (Bars.Ninjascript.State == NinjaTrader.NinjaScript.State.Configure || Bars.Ninjascript.State == NinjaTrader.NinjaScript.State.DataLoaded)
-                return true;
-            else
-                return false;
-        }
-        /// <summary>
-        /// Indicates whether NinjaScript is in running states.
-        /// The running states are 'Historical' and 'Realtime'.
-        /// </summary>
-        /// <returns>True, when the NijaScript State is 'Historical' or 'Realtime'.</returns>
-        protected bool IsInRunningStates()
-        {
-            if (Bars.Ninjascript.State == NinjaTrader.NinjaScript.State.Historical || Bars.Ninjascript.State == NinjaTrader.NinjaScript.State.Realtime)
-                return true;
-            else
-                return false;
-        }
-        /// <summary>
-        /// Indicates whether NinjaScript is out of the configuration states.
-        /// The configuaration states are 'Configure' and 'DataLoaded'.
-        /// </summary>
-        /// <returns>True, when the NijaScript State is NOT 'Configure' and 'DataLoaded'.</returns>
-        protected bool IsOutOfConfigurationStates()
-        {
-            if (Bars.Ninjascript.State != NinjaTrader.NinjaScript.State.Configure && Bars.Ninjascript.State != NinjaTrader.NinjaScript.State.DataLoaded)
-                return true;
-
-            return false;
-        }
-        /// <summary>
-        /// Indicates whether NinjaScript is out of the configure state.
-        /// The configure state is 'Configure'.
-        /// </summary>
-        /// <returns>True, when the NijaScript State is NOT 'Configure'.</returns>
-        protected bool IsOutOfConfigureState()
-        {
-            if (Bars.Ninjascript.State != NinjaTrader.NinjaScript.State.Configure)
-                return true;
-
-            return false;
-        }
-        /// <summary>
-        /// Indicates whether NinjaScript is out of the data loaded state.
-        /// The data loaded state is 'DataLoaded'.
-        /// </summary>
-        /// <returns>True, when the NijaScript State is NOT 'DataLoaded'.</returns>
-        protected bool IsOutOfDataLoadedState()
-        {
-            if (Bars.Ninjascript.State != NinjaTrader.NinjaScript.State.DataLoaded)
-                return true;
-
-            return false;
-        }
-        /// <summary>
-        /// Indicates whether NinjaScript is out of the running states.
-        /// The running states are 'Historical' and 'Realtime'.
-        /// </summary>
-        /// <returns>True, when the NijaScript State is NOT 'Historical' and 'Realtime'.</returns>
-        protected bool IsOutOfRunningStates()
-        {
-            if (Bars.Ninjascript.State != NinjaTrader.NinjaScript.State.Historical && Bars.Ninjascript.State != NinjaTrader.NinjaScript.State.Realtime)
-                return true;
-
-            return false;
-        }
-        /// <summary>
-        /// Indicates whether NinjaScript indexes are available.
-        /// The indexs are 'BarsInProgress' and 'CurrentBar'.
-        /// </summary>
-        /// <returns>True, when the NijaScript indexes are greater than -1.</returns>
-        protected bool IsNinjaScriptIndexesAvailable()
-        {
-            if (IsNotAvilableBarsInProgressIdx() && IsNotAvailableFirstBarIdx())
-                return true;
-
-            return false;
-        }
-        /// <summary>
-        /// Indicates whether NinjaScript data series is available to be updated.
-        /// The index is 'CurrentBar'.
-        /// </summary>
-        /// <returns>True, when the NijaScript index are greater than -1.</returns>
-        protected bool IsNotAvailableFirstBarIdx()
-        {
-            if (Bars.Ninjascript.CurrentBars[Bars.Ninjascript.BarsInProgress] < 0)
-                return true;
-
-            return false;
-        }
-        /// <summary>
-        /// Indicates whether NinjaScript multi data series is available to be updated.
-        /// The index is 'BarsInProgress'.
-        /// </summary>
-        /// <returns>True, when the NijaScript index are greater than -1.</returns>
-        protected bool IsNotAvilableBarsInProgressIdx()
-        {
-            if (Bars.Ninjascript.BarsInProgress < 0)
-                return true;
-
-            return false;
-        }
-
-        #endregion
     }
 }

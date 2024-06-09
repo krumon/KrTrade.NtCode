@@ -1,7 +1,6 @@
 ﻿using KrTrade.Nt.Core.Bars;
 using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core.Series;
-using KrTrade.Nt.Core.Services;
+using KrTrade.Nt.Core.Elements;
 using KrTrade.Nt.Services.Series;
 using NinjaTrader.Core.FloatingPoint;
 using System;
@@ -17,6 +16,7 @@ namespace KrTrade.Nt.Services
 
         // Data series information control
         private bool _isPrimaryBars;
+
         // Data series control
         private int _lastBarIdx;
         private int _currentBarIdx;
@@ -27,6 +27,7 @@ namespace KrTrade.Nt.Services
         private Dictionary<BarEvent, bool> _barEvents;
         // Logging
         private List<string> _logLines;
+
         // Bars Series
         protected IBarsSeriesCollection BarsSeriesCollection;
         //// Access
@@ -72,49 +73,58 @@ namespace KrTrade.Nt.Services
         public bool IsFirstTick => IsUpdated && _barEvents[BarEvent.FirstTick];
         public bool IsPriceChanged => IsUpdated && _barEvents[BarEvent.PriceChanged];
 
-        protected override ServiceType GetServiceType() => ServiceType.BARS;
-        protected override string GetKey() => Info.Key;
-
         public SeriesCollection Series {  get; set; }
         //public IndicatorCollection Indicators { get; private set; }
         //public StatsCollection Stats { get; private set; }
         //public FiltersCollection Filters { get; private set; }
 
+        //public override string ToString(int tabOrder)
+        //{
+        //    string text = string.Empty;
+        //    string tab = string.Empty;
+        //    for (int i = 0; i < tabOrder; i++)
+        //        tab += "\t";
+
+        //    text += $"{tab}{Name}({ToString()})";
+        //    tabOrder += 1;
+
+        //    if (BarsSeriesCollection != null && BarsSeriesCollection.Count > 0)
+        //    {
+        //        text += Environment.NewLine;
+        //        text += BarsSeriesCollection.ToString(tabOrder,0);
+        //    }
+
+        //    if (Series != null && Series.Count > 0)
+        //    {
+        //        text += Environment.NewLine;
+        //        Series.ToString(tabOrder,0);
+        //    }
+
+        //    return text;
+        //}
+
         public override string ToString() => Info.ToString();
-        public override string ToString(int tabOrder)
-        {
-            string text = string.Empty;
-            string tab = string.Empty;
-            for (int i = 0; i < tabOrder; i++)
-                tab += "\t";
+        protected override string GetHeaderString() => "BARS";
+        protected override string GetParentString() => null;
+        protected override string GetDescriptionString() => ToString();
+        protected override string GetLogString(string state)
+            => ToLogString(
+                tabOrder: 0,
+                label: GetLabelString(
+                    isLabelVisible: true,
+                    isHeaderVisible: true,
+                    isParentVisible: false,
+                    isDescriptionVisible: true,
+                    isDescriptionBracketsVisible: true,
+                    isIndexVisible: false),
+                state: state);
 
-            text += tab + ToString();
-            tabOrder += 1;
-
-            if (BarsSeriesCollection != null && BarsSeriesCollection.Count > 0)
-            {
-                text += Environment.NewLine;
-                text += BarsSeriesCollection.ToLongString(tabOrder);
-            }
-
-            if (Series != null && Series.Count > 0)
-            {
-                text += Environment.NewLine;
-                Series.ToLongString(tabOrder);
-            }
-
-            return text;
-        }
-
+        //protected override string ToHeader() => Type.ToString();
+        //protected override string ToDescription() => Info.ToString() ;
         //public override string ToLogString() => BarsSeriesCollection.ToLogString();
         //public override string ToString(int tabOrder) => BarsSeriesCollection.ToLogString(Name, tabOrder, Environment.NewLine, 0);
 
-        public void LogState()
-        {
-            if (PrintService == null || !Options.IsLogEnable)
-                return;
-            PrintService?.LogValue(ToLogState());
-        }
+        public void LogState() => Log(Core.Logging.LogLevel.Information, ToLogState());
         private string ToLogState()
         {
             if (_logLines == null || _logLines.Count == 0)
@@ -139,7 +149,6 @@ namespace KrTrade.Nt.Services
         internal BarsService(INinjascriptService service, BarsServiceInfo barsServiceInfo, BarsServiceOptions barsServiceOptions) : 
             base(service?.Ninjascript, service?.PrintService, barsServiceInfo, barsServiceOptions)
         {
-
             BarsSeriesCollection = new BarsSeriesCollection(this);
             Series = new SeriesCollection(
                 barsService: this, 
@@ -289,7 +298,7 @@ namespace KrTrade.Nt.Services
                 }
             }
             SetBarsEventValue(BarEvent.Updated, true);
-            Log();
+            LogState();
 
             ////// Check FILTERS
             ////Filters.Update();
@@ -344,7 +353,7 @@ namespace KrTrade.Nt.Services
 
         #region Internal methods
 
-        internal void AddSeries(ISeriesInfo info)
+        internal void AddSeries(IInputSeriesInfo info)
         {
             try
             {
@@ -363,7 +372,7 @@ namespace KrTrade.Nt.Services
             }
         }
         internal void AddSeries<TInfo>(TInfo info)
-            where TInfo : ISeriesInfo
+            where TInfo : IInputSeriesInfo
         {
             try
             {
@@ -382,7 +391,7 @@ namespace KrTrade.Nt.Services
             }
         }
 
-        internal void TryAdd(ISeriesInfo info)
+        internal void TryAdd(IInputSeriesInfo info)
         {
             try
             {
@@ -394,7 +403,7 @@ namespace KrTrade.Nt.Services
             }
         }
         internal void TryAdd<TInfo>(TInfo info)
-            where TInfo : ISeriesInfo
+            where TInfo : IInputSeriesInfo
         {
             try
             {
@@ -406,7 +415,7 @@ namespace KrTrade.Nt.Services
             }
         }
 
-        internal INumericSeries GetOrAddSeries(IBaseSeriesInfo info)
+        internal INumericSeries GetOrAddSeries(ISeriesInfo info)
         {
             if (info == null)
                 return default;
@@ -438,7 +447,7 @@ namespace KrTrade.Nt.Services
             }
             INumericSeries series = null;
 
-            if (info is ISeriesInfo seriesInfo)
+            if (info is IInputSeriesInfo seriesInfo)
                 series = CreateSeries(info.Type, seriesInfo.Inputs);
 
             if (series == null)
@@ -448,7 +457,7 @@ namespace KrTrade.Nt.Services
         }
 
         internal INumericSeries GetOrAddSeries<TInfo>(TInfo info)
-            where TInfo : ISeriesInfo
+            where TInfo : IInputSeriesInfo
         {
             if (info == null)
                 return default;
@@ -485,7 +494,7 @@ namespace KrTrade.Nt.Services
             return Series[info.Key];
         }
 
-        private INumericSeries CreateSeries(SeriesType type, List<IBaseSeriesInfo> inputs)
+        private INumericSeries CreateSeries(SeriesType type, List<ISeriesInfo> inputs)
         {
             switch (type)
             {

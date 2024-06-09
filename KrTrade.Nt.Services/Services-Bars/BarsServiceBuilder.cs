@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Core.Series;
+﻿using KrTrade.Nt.Core.Elements;
 using KrTrade.Nt.Services.Series;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ namespace KrTrade.Nt.Services
     {
 
         private readonly List<Action<BarsServiceInfo,BarsServiceOptions>> _optionsDelegateActions = new List<Action<BarsServiceInfo, BarsServiceOptions>>();
-        private readonly Dictionary<string,ISeriesInfo> _seriesConfiguration = new Dictionary<string,ISeriesInfo>();
+        private readonly Dictionary<string,IInputSeriesInfo> _seriesConfiguration = new Dictionary<string,IInputSeriesInfo>();
 
         public IBarsServiceBuilder ConfigureOptions(Action<BarsServiceInfo,BarsServiceOptions> configureBarsServiceOptions)
         {
@@ -21,7 +21,7 @@ namespace KrTrade.Nt.Services
         }
 
         public IBarsServiceBuilder AddSeries<TInfo>(Action<TInfo> configureSeries)
-            where TInfo : ISeriesInfo, new()
+            where TInfo : IInputSeriesInfo, new()
         {
             if (configureSeries == null)
                 throw new ArgumentNullException(nameof(configureSeries));

@@ -1,25 +1,14 @@
-﻿using KrTrade.Nt.Core.Series;
-using NinjaTrader.Core.FloatingPoint;
+﻿using NinjaTrader.Core.FloatingPoint;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using KrTrade.Nt.Core.Elements;
 
 namespace KrTrade.Nt.Services.Series
 {
     public abstract class BaseNumericSeries : BaseValueSeries<double>, INumericSeries
     {
-        ///// <summary>
-        ///// Create default instance with specified parameters.
-        ///// </summary>
-        ///// <param name="period">The specified period to calculate values in cache.</param>
-        ///// <param name="capacity">The series capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-        ///// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
-        ///// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
-        //protected NumericSeries(int period, int capacity, int oldValuesCapacity, int barsIndex) : base(period, capacity, oldValuesCapacity, barsIndex)
-        //{
-        //}
-
-        protected BaseNumericSeries(IBarsService bars, BaseSeriesInfo info) : base(bars, info)
+        protected BaseNumericSeries(IBarsService bars, SeriesInfo info) : base(bars, info)
         {
         }
 
@@ -59,16 +48,16 @@ namespace KrTrade.Nt.Services.Series
         public double Avg(int displacement = 0, int period = 1)  => IsValidIndex(displacement, period) ? Sum(displacement, period) / Count : default;
         public double StdDev(int displacement = 0, int period = 1)
         {
+            double stdDev = 0;
             if (IsValidIndex(displacement, period))
             {
                 double avg = Avg(displacement, period);
                 double sumx2 = 0;
                 for (int i = displacement; i < displacement + period; i++)
-                    sumx2 += Math.Pow(Math.Abs(this[i] - avg), 2.0);
-                return Math.Sqrt(sumx2 / Count);
+                    sumx2 += Math.Pow(this[i] - avg, 2);
+                stdDev = Math.Sqrt(sumx2 / period);
             }
-            else
-                return 0;
+            return stdDev;
         }
 
         public double Quartil(int numberOfQuartil, int displacement, int period)
@@ -103,6 +92,15 @@ namespace KrTrade.Nt.Services.Series
 
             return quartils;
         }
+        public double InterquartilRange(int displacement = 0, int period = 1)
+        {
+            var quartils = Quartils(displacement, period);
+            if (quartils == null || quartils.Length != 3)
+                return default;
+
+            return quartils[2] - quartils[0];
+        }
+        
         public double Range(int displacement = 0, int period = 1) => Max(displacement, period) - Min(displacement, period);
         public double SwingHigh(int displacement = 0, int strength = 4)
         {
@@ -155,163 +153,9 @@ namespace KrTrade.Nt.Services.Series
 
             return isSwingLow ? candidateValue : 0.0;
         }
-        public double InterquartilRange(int displacement = 0, int period = 1)
-        {
-            var quartils = Quartils(displacement, period);
-            if (quartils == null || quartils.Length != 3)
-                return default;
-
-            return quartils[2] - quartils[0];
-        }
 
         protected override bool IsValidValue(double value) => value > 0 && !double.IsNaN(value) && !double.IsInfinity(value);
-        protected override string GetValueString(int barsAgo) => IsValidIndex(barsAgo) ? $"{this[barsAgo]:#,0.00}" : "0.00";
+        protected override string ValueToString(int barsAgo) => IsValidIndex(barsAgo) ? $"{this[barsAgo]:#,0.00}" : "0.00";
 
     }
-
-    //public abstract class NumericSeries<T, TInput> : NumericSeries<T>, INumericSeries<T,TInput>
-    //    where T : struct
-    //{
-
-    //    /// <summary>
-    //    /// Create default instance with specified parameters.
-    //    /// </summary>
-    //    /// <param name="input">The input instance used to gets series elements.</param>
-    //    /// <param name="period">The specified period to calculate values in cache.</param>
-    //    /// <param name="capacity">The series capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-    //    /// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
-    //    /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
-    //    /// <exception cref="ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-    //    protected NumericSeries(TInput input, int period, int capacity, int oldValuesCapacity, int barsIndex) : base(period, capacity, oldValuesCapacity, barsIndex)
-    //    {
-    //        if (input == null) throw new ArgumentNullException("input");
-    //        Input = input;
-    //    }
-
-    //    public TInput Input { get; protected set; }
-
-    //}
-
-    //public abstract class NumericSeries<T,TInput,TEntry> : NumericSeries<T>, INumericSeries<T,TInput,TEntry>
-    //    where T : struct
-    //{
-
-    //    /// <summary>
-    //    /// Create default instance with specified parameters.
-    //    /// </summary>
-    //    /// <param name="entry">The entry instance used to gets the input series. The input series is necesary for gets elements of the series.</param>
-    //    /// <param name="period">The specified period to calculate values in cache.</param>
-    //    /// <param name="capacity">The series capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-    //    /// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
-    //    /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
-    //    /// <exception cref="ArgumentNullException">The <paramref name="entry"/> cannot be null.</exception>
-    //    protected NumericSeries(TEntry entry, int period, int capacity, int oldValuesCapacity, int barsIndex) : base(period, capacity, oldValuesCapacity, barsIndex)
-    //    {
-    //        Input = entry != null ? GetInput(entry) : throw new ArgumentNullException(nameof(entry));
-    //    }
-
-    //    /// <summary>
-    //    /// Create default instance with specified parameters.
-    //    /// </summary>
-    //    /// <param name="input">The input instance used to gets elements of the series.</param>
-    //    /// <param name="period">The specified period to calculate values in cache.</param>
-    //    /// <param name="capacity">The series capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-    //    /// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
-    //    /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
-    //    /// <exception cref="ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-    //    protected NumericSeries(TInput input, int period, int capacity, int oldValuesCapacity, int barsIndex) : base(period, capacity, oldValuesCapacity, barsIndex)
-    //    {
-    //        Input = input != null ? input : throw new ArgumentNullException(nameof(input));
-    //    }
-
-    //    public TInput Input { get; protected set; }
-    //    public abstract TInput GetInput(TEntry entry);
-
-    //}
-
-    //public abstract class NumericSeries<T, TInput1, TInput2, TEntry> : NumericSeries<T>, INumericSeries<T, TInput1, TInput2, TEntry>
-    //    where T : struct
-    //{
-
-    //    /// <summary>
-    //    /// Create default instance with specified parameters.
-    //    /// </summary>
-    //    /// <param name="entry">The entry instance used to gets the input series. The input series is necesary for gets series elements.</param>
-    //    /// <param name="period">The specified period to calculate values in cache.</param>
-    //    /// <param name="capacity">The series capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-    //    /// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
-    //    /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
-    //    /// <exception cref="ArgumentNullException">The <paramref name="entry"/> cannot be null.</exception>
-    //    protected NumericSeries(TEntry entry, int period, int capacity, int oldValuesCapacity, int barsIndex) : base(period, capacity, oldValuesCapacity, barsIndex)
-    //    {
-    //        Input1 = entry != null ? GetInput1(entry) : throw new ArgumentNullException(nameof(entry));
-    //        Input2 = entry != null ? GetInput2(entry) : throw new ArgumentNullException(nameof(entry));
-    //    }
-
-    //    /// <summary>
-    //    /// Create default instance with specified parameters.
-    //    /// </summary>
-    //    /// <param name="input1">The first object used to gets series elements.</param>
-    //    /// <param name="input2">The second object used to gets series elements.</param>
-    //    /// <param name="period">The specified period to calculate values in cache.</param>
-    //    /// <param name="capacity">The series capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-    //    /// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
-    //    /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
-    //    /// <exception cref="ArgumentNullException">The <paramref name="input1"/> or <paramref name="input2"/> cannot be null.</exception>
-    //    protected NumericSeries(TInput1 input1,TInput2 input2, int period, int capacity, int oldValuesCapacity, int barsIndex) : base(period, capacity, oldValuesCapacity, barsIndex)
-    //    {
-    //        Input1 = input1 != null ?input1 : throw new ArgumentNullException(nameof(input1));
-    //        Input2 = input1 != null ? input2 : throw new ArgumentNullException(nameof(input2));
-    //    }
-
-    //    public TInput1 Input1 { get; protected set; }
-    //    public TInput2 Input2 { get; protected set; }
-    //    public abstract TInput1 GetInput1(TEntry entry);
-    //    public abstract TInput2 GetInput2(TEntry entry);
-
-    //}
-
-    //public abstract class NumericSeries<T, TInput1, TInput2, TEntry1, TEntry2> : NumericSeries<T>, INumericSeries<T, TInput1, TInput2, TEntry1, TEntry2>
-    //    where T : struct
-    //{
-
-    //    /// <summary>
-    //    /// Create default instance with specified parameters.
-    //    /// </summary>
-    //    /// <param name="entry1">The first entry instance used to gets the first input series. The input series is necesary for gets series elements.</param>
-    //    /// <param name="entry1">The second entry instance used to gets the second input series. The input series is necesary for gets series elements.</param>
-    //    /// <param name="period">The specified period to calculate values in cache.</param>
-    //    /// <param name="capacity">The series capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-    //    /// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
-    //    /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
-    //    /// <exception cref="ArgumentNullException">The <paramref name="input"/> cannot be null.</exception>
-    //    protected NumericSeries(TEntry1 entry1, TEntry2 entry2, int period, int capacity, int oldValuesCapacity, int barsIndex) : base(period, capacity, oldValuesCapacity, barsIndex)
-    //    {
-    //        Input1 = entry1 != null ? GetInput1(entry1) : throw new ArgumentNullException(nameof(entry1));
-    //        Input2 = entry2 != null ? GetInput2(entry2) : throw new ArgumentNullException(nameof(entry2));
-    //    }
-
-    //    /// <summary>
-    //    /// Create default instance with specified parameters.
-    //    /// </summary>
-    //    /// <param name="input1">The first object used to gets series elements.</param>
-    //    /// <param name="input2">The second object used to gets series elements.</param>
-    //    /// <param name="period">The specified period to calculate values in cache.</param>
-    //    /// <param name="capacity">The series capacity. When pass a number minor or equal than 0, the capacity will be the DEFAULT(20).</param>
-    //    /// <param name="oldValuesCapacity">The length of the old values cache. This values are at the end of cache.</param>
-    //    /// <param name="barsIndex">The index of the 'NinjaScript.Series' necesary for gets the cache elements.</param>
-    //    /// <exception cref="ArgumentNullException">The <paramref name="input1"/> or <paramref name="input2"/> cannot be null.</exception>
-    //    protected NumericSeries(TInput1 input1, TInput2 input2, int period, int capacity, int oldValuesCapacity, int barsIndex) : base(period, capacity, oldValuesCapacity, barsIndex)
-    //    {
-    //        Input1 = input1 != null ? input1 : throw new ArgumentNullException(nameof(input1));
-    //        Input2 = input1 != null ? input2 : throw new ArgumentNullException(nameof(input2));
-    //    }
-
-    //    public TInput1 Input1 { get; protected set; }
-    //    public TInput2 Input2 { get; protected set; }
-    //    public abstract TInput1 GetInput1(TEntry1 entry1);
-    //    public abstract TInput2 GetInput2(TEntry2 entry2);
-
-    //}
-
 }

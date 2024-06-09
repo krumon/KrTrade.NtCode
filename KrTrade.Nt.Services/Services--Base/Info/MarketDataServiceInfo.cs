@@ -1,6 +1,6 @@
 ﻿namespace KrTrade.Nt.Services
 {
-    public class MarketDataServiceInfo : NinjascriptServiceInfo
+    public abstract class MarketDataServiceInfo : NinjascriptServiceInfo
     {
     }
 }
