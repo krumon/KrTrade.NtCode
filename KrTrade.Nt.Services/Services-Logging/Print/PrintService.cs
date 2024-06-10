@@ -1,6 +1,6 @@
 ﻿using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.Extensions;
-using KrTrade.Nt.Core.Elements;
+using KrTrade.Nt.Core;
 using NinjaTrader.NinjaScript;
 using System;
 

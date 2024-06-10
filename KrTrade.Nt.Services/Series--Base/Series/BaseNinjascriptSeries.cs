@@ -1,5 +1,4 @@
-﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core.Elements;
+﻿using KrTrade.Nt.Core;
 using NinjaTrader.Data;
 using System;
 
@@ -84,8 +83,8 @@ namespace KrTrade.Nt.Services.Series
         {
             Bars = bars ?? throw new ArgumentNullException(nameof(bars));
 
-            Info.OldValuesCapacity = OldValuesCapacity < 1 ? Core.Elements.Series.DEFAULT_OLD_VALUES_CAPACITY : OldValuesCapacity;
-            Info.Capacity = Capacity <= 0 ? Core.Elements.Series.DEFAULT_CAPACITY : Capacity > MaxCapacity ? MaxCapacity : Capacity;
+            Info.OldValuesCapacity = OldValuesCapacity < 1 ? Core.Series.DEFAULT_OLD_VALUES_CAPACITY : OldValuesCapacity;
+            Info.Capacity = Capacity <= 0 ? Core.Series.DEFAULT_CAPACITY : Capacity > MaxCapacity ? MaxCapacity : Capacity;
         }
 
         public bool IsConfigure => _isConfigure;

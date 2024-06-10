@@ -1,5 +1,5 @@
 ﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core.Elements;
+using KrTrade.Nt.Core;
 using System.Collections.Generic;
 using Bar = KrTrade.Nt.Core.Bars.Bar;
 
@@ -24,8 +24,8 @@ namespace KrTrade.Nt.Services.Series
             : this(bars, new BarsSeriesCollectionInfo()
             {
                 Type = SeriesCollectionType.BARS,
-                Capacity = bars?.CacheCapacity ?? Core.Elements.Series.DEFAULT_CAPACITY,
-                OldValuesCapacity = bars?.RemovedCacheCapacity ?? Core.Elements.Series.DEFAULT_OLD_VALUES_CAPACITY 
+                Capacity = bars?.CacheCapacity ?? Core.Series.DEFAULT_CAPACITY,
+                OldValuesCapacity = bars?.RemovedCacheCapacity ?? Core.Series.DEFAULT_OLD_VALUES_CAPACITY 
             }) { }
         public BarsSeriesCollection(IBarsService bars, BarsSeriesCollectionInfo info) : base(bars, info)
         {

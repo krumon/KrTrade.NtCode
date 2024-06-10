@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Core.Elements;
+﻿using KrTrade.Nt.Core;
 using KrTrade.Nt.Core.Logging;
 using System;
 

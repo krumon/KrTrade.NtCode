@@ -1,5 +1,5 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using KrTrade.Nt.Core.Elements;
+using KrTrade.Nt.Core;
 using KrTrade.Nt.Services.Series;
 using System.Collections.Generic;
 

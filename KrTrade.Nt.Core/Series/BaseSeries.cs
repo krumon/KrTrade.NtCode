@@ -3,7 +3,7 @@
 //using KrTrade.Nt.Core.Series;
 //using System;
 
-//namespace KrTrade.Nt.Services.Series
+//namespace KrTrade.Nt.Core.Series
 //{
 //    public abstract class BaseSeries<T> : Series<T>, IBaseSeries<T>, IHasKeyInfo, IKeyItem
 //    {
