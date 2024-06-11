@@ -5,6 +5,7 @@
     /// </summary>
     public enum PeriodSeriesType
     {
+        UNKNOWN,
         MAX,
         MIN,
         SUM,

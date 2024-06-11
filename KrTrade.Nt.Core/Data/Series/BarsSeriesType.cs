@@ -5,6 +5,7 @@
     /// </summary>
     public enum BarsSeriesType
     {
+        UNKNOWN,
         CURRENT_BAR,
         TIME,
         VOLUME,

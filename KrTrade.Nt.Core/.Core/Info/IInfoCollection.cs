@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace KrTrade.Nt.Core
 {
-    public interface IInfoCollection<T> : IServiceInfo, IEnumerable, IEnumerable<T>
+    public interface IInfoCollection<T> : IInfo, IEnumerable, IEnumerable<T>
         where T : IInfo
     {
         T this[string key] { get; }

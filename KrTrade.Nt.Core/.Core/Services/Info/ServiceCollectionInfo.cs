@@ -7,9 +7,5 @@ namespace KrTrade.Nt.Core
     {
         new public ServiceCollectionType Type { get => base.Type.ToServiceCollectionType(); set => base.Type = value.ToElementType(); }
 
-        protected override string ToUniqueString()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

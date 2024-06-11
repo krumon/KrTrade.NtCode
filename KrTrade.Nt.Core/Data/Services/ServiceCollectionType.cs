@@ -5,6 +5,7 @@
     /// </summary>
     public enum ServiceCollectionType
     {
+        UNKNOWN,
         BARS_COLLECTION
     }
 }

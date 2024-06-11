@@ -4,10 +4,18 @@ namespace KrTrade.Nt.Core
 {
     public abstract class BaseInfo : IInfo
     {
-        public string Name { get; set; }
         public ElementType Type { get; set; }
-        protected abstract string ToUniqueString();
-        public string Key => ToUniqueString() ?? $"AUTO_KEY({Guid.NewGuid()})";
+        public string Name { get; set; }
+        public virtual string Key => Type == ElementType.UNKNOWN ? $"AUTO_KEY({Guid.NewGuid()})" : Type.ToString();
+
+        protected BaseInfo() : this(ElementType.UNKNOWN)
+        {
+            
+        }
+        protected BaseInfo(ElementType type)
+        {
+            Type = type;
+        }
 
         public static bool operator ==(BaseInfo info1, IInfo info2) =>
             (info1 is null && info2 is null) ||

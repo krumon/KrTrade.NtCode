@@ -5,6 +5,7 @@
     /// </summary>
     public enum StrengthSeriesType
     {
+        UNKNOWN,
         SWING_HIGH,
         SWING_LOW
     }

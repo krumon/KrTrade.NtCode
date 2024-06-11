@@ -5,6 +5,7 @@
     /// </summary>
     public enum ServiceType
     {
+        UNKNOWN,
         BARS_MANAGER,
         BARS,
         PRINT,

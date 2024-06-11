@@ -47,13 +47,13 @@ namespace KrTrade.Nt.Core
             Inputs.Add(info);
         }
 
-        protected override string ToUniqueString() 
-        { 
-            // Represento la clave con "SeriesType(Input1.Key,Input2.Key,...,Parameter1,Parameter2,...)"
-            string key = $"{GetRootKey()}({GetInputsKey()}{GetParametersKey()})";
-            // Compruebo si los paréntesis de la clave están vacíos. En caso de que así sea los elimino
-            return (key.Substring(key.Length - 2) == "()") ? key.Remove(key.Length - 2) : key;
-        }
+        //protected override string ToUniqueString() 
+        //{ 
+        //    // Represento la clave con "SeriesType(Input1.Key,Input2.Key,...,Parameter1,Parameter2,...)"
+        //    string key = $"{GetRootKey()}({GetInputsKey()}{GetParametersKey()})";
+        //    // Compruebo si los paréntesis de la clave están vacíos. En caso de que así sea los elimino
+        //    return (key.Substring(key.Length - 2) == "()") ? key.Remove(key.Length - 2) : key;
+        //}
 
         protected override string GetInputsKey()
         {

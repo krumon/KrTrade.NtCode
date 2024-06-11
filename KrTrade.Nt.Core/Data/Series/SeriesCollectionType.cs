@@ -5,6 +5,7 @@
     /// </summary>
     public enum SeriesCollectionType
     {
+        UNKNOWN,
         BARS,
         SERIES,
         INDICATORS,

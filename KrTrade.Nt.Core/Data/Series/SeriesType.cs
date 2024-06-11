@@ -5,6 +5,7 @@
     /// </summary>
     public enum SeriesType
     {
+        UNKNOWN,
         //SERIES TYPE
         MEDIAN,
         TYPICAL,
