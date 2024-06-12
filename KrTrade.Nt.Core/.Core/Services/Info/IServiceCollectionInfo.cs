@@ -1,6 +1,6 @@
 ﻿namespace KrTrade.Nt.Core
 {
-    public interface IServiceCollectionInfo : IInfoCollection<IServiceInfo>
+    public interface IServiceCollectionInfo : IServiceInfo, IInfoCollection<IServiceInfo>
     {
     }
 }

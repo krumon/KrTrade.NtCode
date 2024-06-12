@@ -47,7 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include=".Core\BaseNinjascriptElement.cs" />
+    <Compile Include=".Core\BaseScript.cs" />
+    <Compile Include=".Core\IScript.cs" />
     <Compile Include=".Core\Logging\BaseFormatter.cs" />
     <Compile Include=".Core\Logging\BaseLoggerOptions.cs" />
     <Compile Include=".Core\Logging\BaseLoggerService.cs" />

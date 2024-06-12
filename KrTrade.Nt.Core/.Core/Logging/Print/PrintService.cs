@@ -20,6 +20,13 @@ namespace KrTrade.Nt.Core
 
         #endregion
 
+        #region implementation
+
+        public override ElementType Type => ElementType.PRINT_SERVICE;
+        public override string Name => Type.ToShortString();
+
+        #endregion
+
         #region Public properties
 
         /// <summary>
@@ -68,7 +75,6 @@ namespace KrTrade.Nt.Core
         /// <param name="options">The configure options of the service.</param>
         public PrintService(NinjaScriptBase ninjascript, PrintOptions options) : base(ninjascript, options)
         {
-            Info.Type = ServiceType.PRINT;
         }
 
         #endregion
@@ -77,22 +83,6 @@ namespace KrTrade.Nt.Core
 
         protected override void WriteTo(object value) => Ninjascript.Print(value);
         protected override void ClearLoggerMessages() => Ninjascript.ClearOutputWindow();
-
-        protected override string GetHeaderString() => "PRINT";
-        protected override string GetParentString() => null;
-        protected override string GetDescriptionString() => null;
-        protected override string GetLogString(string state)
-            => ToLogString(
-                tabOrder: 0,
-                label: GetLabelString(
-                    isLabelVisible: true,
-                    isHeaderVisible: false,
-                    isParentVisible: false,
-                    isDescriptionVisible: false,
-                    isDescriptionBracketsVisible: false,
-                    isIndexVisible: false,
-                    index: 0),
-                state: state);
 
         #endregion
 

@@ -239,6 +239,9 @@ namespace KrTrade.Nt.Core
         {
         }
 
+        internal override void Configure(out bool isConfigured) => isConfigured = true;
+        internal override void DataLoaded(out bool isDataLoaded) => isDataLoaded = true;
+
         /// <summary>
         /// An event driven method which is called whenever a element is added to cache.
         /// </summary>

@@ -6,7 +6,7 @@ namespace KrTrade.Nt.Core
     /// <summary>
     /// Represents properties and methods of the logging services.
     /// </summary>
-    public interface ILogger<TOptions,TFormatter> : IElement<IServiceInfo,TOptions> 
+    public interface ILogger<TOptions,TFormatter> : IScript 
         where TOptions : BaseLoggerOptions<TFormatter>, new()
         where TFormatter : BaseFormatter, new()
     {

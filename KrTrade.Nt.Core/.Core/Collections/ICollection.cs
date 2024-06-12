@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace KrTrade.Nt.Core
 {
-    public interface ICollection<TElement,TInfo> : IElement<TInfo>, IEnumerable, IEnumerable<TElement>
+    public interface ICollection<TElement,TInfo> : IService<TInfo>, IEnumerable, IEnumerable<TElement>
         where TElement : IElement
-        where TInfo : IServiceCollectionInfo
+        where TInfo : IServiceInfo, IInfoCollection<IInfo>, new()
     {
         TElement this[string key] { get; }
         TElement this[int index] { get; }
