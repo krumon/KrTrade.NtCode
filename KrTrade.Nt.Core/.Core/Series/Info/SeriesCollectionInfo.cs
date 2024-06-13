@@ -14,9 +14,5 @@ namespace KrTrade.Nt.Core
             throw new System.NotImplementedException();
         }
 
-        protected override string ToUniqueString()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

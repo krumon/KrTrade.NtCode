@@ -111,7 +111,7 @@
     <Compile Include="Services--Base\Options\MarketDepthServiceOptions.cs" />
     <Compile Include="Services--Base\Options\NinjascriptServiceCollectionOptions.cs" />
     <Compile Include="Services--Base\Options\MarketDataServiceOptions.cs" />
-    <Compile Include="Services--Base\Services\BaseNinjascriptServiceCollection.cs" />
+    <Compile Include="Services--Base\Services\BaseServiceCollection.cs" />
     <Compile Include="Services--Manager\BarsManagerInfo.cs" />
     <Compile Include="Services--Manager\BarsManagerOptions.cs" />
     <Compile Include="Services--Manager\IBarsManager.cs" />

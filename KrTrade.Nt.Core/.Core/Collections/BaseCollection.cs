@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace KrTrade.Nt.Core
 {
-    public abstract class BaseCollection<TElement,TInfo> : BaseService<TInfo>, ICollection<TElement,TInfo>, IEnumerable, IEnumerable<TElement>
+    public abstract class BaseCollection<TElement,TInfoCollection> : BaseElement<TInfoCollection>, ICollection<TElement,TInfoCollection>
         where TElement : IElement
-        where TInfo : IServiceInfo, IInfoCollection<IInfo>, new()
+        where TInfoCollection : IInfoCollection<IInfo>, new()
     {
         protected IList<TElement> _collection;
         protected IDictionary<string, int> _keys;
@@ -49,7 +49,7 @@ namespace KrTrade.Nt.Core
             }
         }
 
-        public BaseCollection(NinjaScriptBase ninjascript, IPrintService printService, TInfo collectionInfo, IServiceOptions collectionOptions) : base(ninjascript,printService,collectionInfo,collectionOptions)
+        public BaseCollection(NinjaScriptBase ninjascript, IPrintService printService, TInfoCollection collectionInfo, IServiceOptions collectionOptions) : base(ninjascript,printService,collectionInfo)
         { 
             _collection = new List<TElement>();
         }
@@ -98,12 +98,6 @@ namespace KrTrade.Nt.Core
         }
 
         public int Count => _collection == null ? -1 : _collection.Count;
-
-        int ICollection<TElement, TInfo>.Count => throw new NotImplementedException();
-
-        TElement ICollection<TElement, TInfo>.this[int index] => throw new NotImplementedException();
-
-        TElement ICollection<TElement, TInfo>.this[string key] => throw new NotImplementedException();
 
         public void Clear() => _collection?.Clear();
         public void Remove(string key)
@@ -273,46 +267,6 @@ namespace KrTrade.Nt.Core
             }
 
             return text;
-        }
-
-        void ICollection<TElement, TInfo>.Add(TElement item)
-        {
-            throw new NotImplementedException();
-        }
-
-        void ICollection<TElement, TInfo>.TryAdd(TElement item)
-        {
-            throw new NotImplementedException();
-        }
-
-        void ICollection<TElement, TInfo>.Clear()
-        {
-            throw new NotImplementedException();
-        }
-
-        void ICollection<TElement, TInfo>.Remove(string key)
-        {
-            throw new NotImplementedException();
-        }
-
-        void ICollection<TElement, TInfo>.RemoveAt(int index)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool ICollection<TElement, TInfo>.ContainsKey(string key)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool ICollection<TElement, TInfo>.TryGetValue(string key, out int index)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerator<TElement> IEnumerable<TElement>.GetEnumerator()
-        {
-            throw new NotImplementedException();
         }
 
         #endregion

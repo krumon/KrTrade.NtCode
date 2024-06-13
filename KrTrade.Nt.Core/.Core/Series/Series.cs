@@ -81,7 +81,7 @@ namespace KrTrade.Nt.Core
         /// <summary>
         /// Create <see cref="ISeries"/> instance with specified information.
         /// <param name="info">The specified information of the series.</param>
-        public Series(NinjaScriptBase ninjascript, ISeriesInfo info) : base(ninjascript,info)
+        public Series(NinjaScriptBase ninjascript, IPrintService printService, ISeriesInfo info) : base(ninjascript, printService, info)
         {
             Info.OldValuesCapacity = OldValuesCapacity < 1 ? DEFAULT_OLD_VALUES_CAPACITY : OldValuesCapacity;
             Info.Capacity = Capacity <= 0 ? DEFAULT_CAPACITY : Capacity > MaxCapacity ? MaxCapacity : Capacity;
@@ -235,7 +235,7 @@ namespace KrTrade.Nt.Core
         /// </summary>
         /// <param name="ninjascript">The 'NinjaTrader.NinjaScript' necesary for any element.</param>
         /// <param name="info">The specified information of the series.</param>
-        public Series(NinjaScriptBase ninjascript, ISeriesInfo info) : base(ninjascript,info)
+        public Series(NinjaScriptBase ninjascript, IPrintService printService, ISeriesInfo info) : base(ninjascript, printService, info)
         {
         }
 

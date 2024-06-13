@@ -3,7 +3,7 @@ using System;
 
 namespace KrTrade.Nt.Services
 {
-    public abstract class BarUpdateServiceCollection<TElement,TInfo> : BaseNinjascriptServiceCollection<TElement, TInfo>
+    public abstract class BarUpdateServiceCollection<TElement,TInfo> : BaseServiceCollection<TElement, TInfo>
         where TElement : IBarUpdateService
         where TInfo : IServiceCollectionInfo
     {

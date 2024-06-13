@@ -7,9 +7,9 @@ using System;
 namespace KrTrade.Nt.Services
 {
 
-    public abstract class BaseNinjascriptServiceCollection<TElement,TInfo> : BaseCollection<TElement,TInfo>, INinjascriptServiceCollection<TElement,TInfo>
+    public abstract class BaseServiceCollection<TElement,TInfoCollection> : BaseCollection<TElement,TInfoCollection>, INinjascriptServiceCollection<TElement,TInfoCollection>
         where TElement : INinjascriptService
-        where TInfo : IServiceCollectionInfo
+        where TInfoCollection : IServiceCollectionInfo
     {
 
         private readonly IPrintService _printService;
@@ -17,11 +17,9 @@ namespace KrTrade.Nt.Services
         private bool _isConfigured;
         private bool _isDataLoaded;
 
-        public IPrintService PrintService => _printService;
-
         public IServiceOptions Options { get; protected set; }
 
-        //public ServiceCollectionType Type { get => Info.Type.ToElementType().ToServiceCollectionType(); protected set => Info.Type = value; }
+        public ServiceCollectionType Type { get => Info.Type.ToElementType().ToServiceCollectionType(); protected set => Info.Type = value; }
         public bool IsConfigure => _isConfigured;
         public bool IsDataLoaded => _isDataLoaded;
 
@@ -34,7 +32,7 @@ namespace KrTrade.Nt.Services
 
         new public ServiceCollectionType Type { get; protected set; }
 
-        protected BaseNinjascriptServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, ServiceCollectionInfo info, NinjascriptServiceOptions options) : base(ninjascript,info)
+        protected BaseServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, ServiceCollectionInfo info, NinjascriptServiceOptions options) : base(ninjascript,info)
         {
             _printService = printService;
             Options = options ?? new NinjascriptServiceOptions();

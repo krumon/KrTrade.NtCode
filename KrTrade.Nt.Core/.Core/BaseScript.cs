@@ -9,7 +9,7 @@ namespace KrTrade.Nt.Core
         private readonly NinjaScriptBase _ninjascript;
 
         public NinjaScriptBase Ninjascript => _ninjascript;
-        public abstract ElementType Type { get; }
+        public abstract ElementType Type { get; protected set; }
         public abstract string Name { get; }
 
         protected BaseScript(NinjaScriptBase ninjascript)

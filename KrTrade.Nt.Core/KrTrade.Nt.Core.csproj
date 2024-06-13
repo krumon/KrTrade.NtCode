@@ -47,6 +47,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include=".Core\.Interfaces\IBarUpdate.cs" />
+    <Compile Include=".Core\Series\.Interfaces\IBarsSeries.cs" />
+    <Compile Include=".Core\Series\.Interfaces\IBarsSeriesCollection.cs" />
+    <Compile Include=".Core\Series\.Interfaces\ICurrentBarSeries.cs" />
+    <Compile Include=".Core\Series\.Interfaces\IHasDateTimeCalculateValues.cs" />
+    <Compile Include=".Core\Series\.Interfaces\IHasNumericCalculateValues.cs" />
+    <Compile Include=".Core\Series\.Interfaces\INinjascriptSeries.cs" />
+    <Compile Include=".Core\Series\.Interfaces\ISeriesCollection.cs" />
+    <Compile Include=".Core\Series\.Interfaces\INumericSeriesCollection.cs" />
+    <Compile Include=".Core\Series\.Interfaces\IPriceSeries.cs" />
+    <Compile Include=".Core\Series\.Interfaces\IStatsSeries.cs" />
+    <Compile Include=".Core\Series\.Interfaces\ITickSeries.cs" />
+    <Compile Include=".Core\Series\.Interfaces\ITimeSeries.cs" />
+    <Compile Include=".Core\Series\.Interfaces\IValueSeries.cs" />
+    <Compile Include=".Core\Series\.Interfaces\IVolumeSeries.cs" />
+    <Compile Include=".Core\Services\.Interfaces\IBarsManager.cs" />
+    <Compile Include=".Core\Services\.Interfaces\IBarsService.cs" />
+    <Compile Include=".Core\Services\.Interfaces\IBarsServiceCollection.cs" />
+    <Compile Include=".Core\Services\.Interfaces\IBarUpdateService.cs" />
+    <Compile Include=".Core\.Interfaces\IConfigure.cs" />
+    <Compile Include=".Core\.Interfaces\IDataLoaded.cs" />
+    <Compile Include=".Core\.Interfaces\IMarketData.cs" />
+    <Compile Include=".Core\Services\.Interfaces\IMarketDataService.cs" />
+    <Compile Include=".Core\.Interfaces\IMarketDepth.cs" />
+    <Compile Include=".Core\Services\.Interfaces\IMarketDepthService.cs" />
+    <Compile Include=".Core\Services\.Interfaces\INinjascriptService.cs" />
+    <Compile Include=".Core\Services\.Interfaces\IRender.cs" />
+    <Compile Include=".Core\Services\.Interfaces\IServiceCollection.cs" />
+    <Compile Include=".Core\.Interfaces\ITerminated.cs" />
     <Compile Include=".Core\BaseScript.cs" />
     <Compile Include=".Core\IScript.cs" />
     <Compile Include=".Core\Logging\BaseFormatter.cs" />

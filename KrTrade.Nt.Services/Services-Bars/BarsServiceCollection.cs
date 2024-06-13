@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace KrTrade.Nt.Services
 {
-    public class BarsServiceCollection : BaseNinjascriptServiceCollection<IBarsService, IServiceCollectionInfo>, IBarsServiceCollection
+    public class BarsServiceCollection : BaseServiceCollection<IBarsService, IServiceCollectionInfo>, IBarsServiceCollection
     {
 
         internal BarsServiceCollection(NinjaTrader.NinjaScript.NinjaScriptBase ninjascript, IPrintService printService, ServiceCollectionInfo info, BarsServiceCollectionOptions options) : base(ninjascript, printService, info, options) 

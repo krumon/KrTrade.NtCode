@@ -1,7 +1,8 @@
 ﻿namespace KrTrade.Nt.Core
 {
-    public interface IElement : IScript, IHasInfo, IHasKey<IElement>
+    public interface IElement : IScript, IHasInfo, IHasKey<IElement>, IConfigure, IDataLoaded, ITerminated
     {
+        IPrintService PrintService { get; }
     }
     public interface IElement<TInfo> : IElement, IHasInfo<TInfo> 
         where TInfo : IInfo
