@@ -6,6 +6,7 @@
     public enum SeriesType
     {
         UNKNOWN,
+        CUSTOM,
         //SERIES TYPE
         MEDIAN,
         TYPICAL,

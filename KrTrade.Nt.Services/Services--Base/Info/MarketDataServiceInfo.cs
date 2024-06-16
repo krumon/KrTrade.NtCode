@@ -1,6 +1,8 @@
-﻿namespace KrTrade.Nt.Services
+﻿using KrTrade.Nt.Core;
+
+namespace KrTrade.Nt.Services
 {
-    public abstract class MarketDataServiceInfo : NinjascriptServiceInfo
+    public abstract class MarketDataServiceInfo : BaseServiceInfo
     {
     }
 }

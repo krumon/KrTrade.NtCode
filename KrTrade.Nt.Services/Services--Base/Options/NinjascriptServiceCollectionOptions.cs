@@ -1,6 +1,8 @@
-﻿namespace KrTrade.Nt.Services
+﻿using KrTrade.Nt.Core;
+
+namespace KrTrade.Nt.Services
 {
-    public class NinjascriptServiceCollectionOptions : NinjascriptServiceOptions
+    public class NinjascriptServiceCollectionOptions : ServiceOptions
     {
     }
 }

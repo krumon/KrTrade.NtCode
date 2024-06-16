@@ -9,17 +9,17 @@ namespace KrTrade.Nt.Core
     /// <summary>
     /// Base class for all series.
     /// </summary>
-    public abstract class Series : BaseElement<ISeriesInfo>, ISeries
+    public abstract class BaseSeries : BaseElement<SeriesType, ISeriesInfo>, ISeries
     {
 
         public const int DEFAULT_CAPACITY = 2; // The current and last values.
         public const int DEFAULT_OLD_VALUES_CAPACITY = 1; // The last element removed
 
         // ISeries implementation
-        new public SeriesType Type { get => base.Type.ToSeriesType(); }
+        //new public SeriesType Type { get => base.Type.ToSeriesType(); }
         public int Capacity { get => Info.Capacity; protected internal set { Info.Capacity = value; } }
         public int OldValuesCapacity { get => Info.Capacity; protected internal set { Info.Capacity = value; } }
-        public bool Equals(ISeries other) => Equals(other as IElement);
+        public bool Equals(ISeries other) => Equals(other as IElement<SeriesType>);
 
         protected virtual string ToTitle() => "SERIES";
         protected virtual string ToSubTitle() => null;
@@ -81,7 +81,7 @@ namespace KrTrade.Nt.Core
         /// <summary>
         /// Create <see cref="ISeries"/> instance with specified information.
         /// <param name="info">The specified information of the series.</param>
-        public Series(NinjaScriptBase ninjascript, IPrintService printService, ISeriesInfo info) : base(ninjascript, printService, info)
+        public BaseSeries(NinjaScriptBase ninjascript, IPrintService printService, ISeriesInfo info) : base(ninjascript, printService, info)
         {
             Info.OldValuesCapacity = OldValuesCapacity < 1 ? DEFAULT_OLD_VALUES_CAPACITY : OldValuesCapacity;
             Info.Capacity = Capacity <= 0 ? DEFAULT_CAPACITY : Capacity > MaxCapacity ? MaxCapacity : Capacity;
@@ -105,7 +105,7 @@ namespace KrTrade.Nt.Core
     /// Generic class for all series.
     /// </summary>
     /// <typeparam name="T">The type of series items.</typeparam>
-    public class Series<T> : Series, ISeries<T>,
+    public abstract class BaseSeries<T> : BaseSeries, ISeries<T>,
         IEnumerable<T>,
         IEnumerable
     {
@@ -235,7 +235,7 @@ namespace KrTrade.Nt.Core
         /// </summary>
         /// <param name="ninjascript">The 'NinjaTrader.NinjaScript' necesary for any element.</param>
         /// <param name="info">The specified information of the series.</param>
-        public Series(NinjaScriptBase ninjascript, IPrintService printService, ISeriesInfo info) : base(ninjascript, printService, info)
+        public BaseSeries(NinjaScriptBase ninjascript, IPrintService printService, ISeriesInfo info) : base(ninjascript, printService, info)
         {
         }
 
@@ -275,5 +275,14 @@ namespace KrTrade.Nt.Core
         {
         }
 
+    }
+
+    public class Series<T> : BaseSeries<T>
+    {
+        public Series(NinjaScriptBase ninjascript, IPrintService printService, ISeriesInfo info) : base(ninjascript, printService, info)
+        {
+        }
+
+        protected override SeriesType ToElementType() => SeriesType.CUSTOM;
     }
 }

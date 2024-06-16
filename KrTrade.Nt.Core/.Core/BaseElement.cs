@@ -6,19 +6,30 @@ using System.Text;
 namespace KrTrade.Nt.Core
 {
 
-    public abstract class BaseElement : BaseScript, IElement
+    public abstract class BaseElement<TType> : BaseInfoScript<TType, IInfo<TType>>, IElement<TType, IInfo<TType>>
+        where TType : Enum
     {
         private readonly IPrintService _printService;
-        private readonly IInfo _info;
+        //private readonly IInfo<TType> _info;
         private bool _isConfigure = false;
         private bool _isDataLoaded = false;
 
         public IPrintService PrintService => _printService;
-        public IInfo Info => _info;
         public bool IsConfigure => _isConfigure;
         public bool IsDataLoaded => _isDataLoaded;
 
-        public override ElementType Type { get => Info.Type; protected set => Info.Type = value; }
+        //private TType _type;
+        //public override TType Type
+        //{
+        //    get => _type;
+        //    protected set
+        //    {
+        //        base.Type = value.ToElementType();
+        //        _type = value;
+        //    }
+        //}
+
+        //public override TType Type { get => Info.Type; protected set => Info.Type = value; }
         public override string Name => string.IsNullOrEmpty(Info.Name) ? Key : Info.Name;
         public string Key => Info.Key;
 
@@ -78,29 +89,28 @@ namespace KrTrade.Nt.Core
         /// <param name="isDataLoaded">True, if the service has been configure, otherwise false.</param>
         internal abstract void DataLoaded(out bool isDataLoaded);
 
-        public override bool Equals(object obj) => obj is IElement other && this == other;
-        public bool Equals(IElement other) => other != null && this == other;
+        public override bool Equals(object obj) => obj is IElement<TType> other && this == other;
+        public bool Equals(IElement<TType> other) => other != null && this == other;
         public override int GetHashCode() => Info.Key.GetHashCode();
 
-        public static bool operator ==(BaseElement element1, IElement element2) =>
+        public static bool operator ==(BaseElement<TType> element1, IElement<TType> element2) =>
             (element1 is null && element2 is null) ||
             (!(element1 is null) && !(element2 is null) && element1.Key == element2.Key);
-        public static bool operator !=(BaseElement element1, IElement element2) => !(element1 == element2);
+        public static bool operator !=(BaseElement<TType> element1, IElement<TType> element2) => !(element1 == element2);
 
-        public static bool operator ==(IElement element1, BaseElement element2) =>
+        public static bool operator ==(IElement<TType> element1, BaseElement<TType> element2) =>
             (element1 is null && element2 is null) ||
             (!(element1 is null) && !(element2 is null) && element1.Key == element2.Key);
-        public static bool operator !=(IElement element1, BaseElement element2) => !(element1 == element2);
+        public static bool operator !=(IElement<TType> element1, BaseElement<TType> element2) => !(element1 == element2);
 
-        public static bool operator ==(BaseElement element1, BaseElement element2) =>
+        public static bool operator ==(BaseElement<TType> element1, BaseElement<TType> element2) =>
             (element1 is null && element2 is null) ||
             (!(element1 is null) && !(element2 is null) && element1.Key == element2.Key);
-        public static bool operator !=(BaseElement element1, BaseElement element2) => !(element1 == element2);
+        public static bool operator !=(BaseElement<TType> element1, BaseElement<TType> element2) => !(element1 == element2);
 
-        protected BaseElement(NinjaScriptBase ninjascript, IPrintService printService, IInfo info) : base(ninjascript)
+        protected BaseElement(NinjaScriptBase ninjascript, IPrintService printService, IInfo<TType> info) : base(ninjascript, info)
         {
             _printService = printService;
-            _info = info ?? throw new ArgumentNullException($"The {nameof(info)} argument cannot be null.");
         }
 
         public void Log(Logging.LogLevel level, string state)
@@ -333,7 +343,7 @@ namespace KrTrade.Nt.Core
             if (!isTitleVisible && !isDesriptionVisible && !isIndexVisible)
                 return string.Empty;
 
-            string title = ToString(Type);
+            string title = Type.ToString(); // ToString(Type);
             string description = ToString();
 
             // Text to returns.
@@ -364,8 +374,9 @@ namespace KrTrade.Nt.Core
 
     }
 
-    public abstract class BaseElement<TInfo> : BaseElement, IElement<TInfo>
-        where TInfo : IInfo
+    public abstract class BaseElement<TType,TInfo> : BaseElement<TType>, IElement<TType,TInfo>
+        where TInfo : IInfo<TType>
+        where TType : Enum
     {
         protected BaseElement(NinjaScriptBase ninjascript, IPrintService printService, TInfo info) : base(ninjascript, printService, info)
         {
@@ -374,9 +385,10 @@ namespace KrTrade.Nt.Core
         new public TInfo Info => (TInfo)base.Info; 
     }
 
-    public abstract class BaseElement<TInfo, TOptions> : BaseElement, IElement<TInfo, TOptions>
-        where TInfo : IInfo
+    public abstract class BaseElement<TType,TInfo, TOptions> : BaseElement<TType>, IElement<TType, TInfo, TOptions>
+        where TInfo : IInfo<TType>
         where TOptions : IOptions
+        where TType : Enum
     {
         private readonly TOptions _options;
 

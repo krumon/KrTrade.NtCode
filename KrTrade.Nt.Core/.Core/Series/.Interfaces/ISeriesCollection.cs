@@ -1,5 +1,4 @@
 ﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core;
 
 namespace KrTrade.Nt.Core
 {
@@ -7,7 +6,7 @@ namespace KrTrade.Nt.Core
     /// <summary>
     /// Defines methods that are necesary to construct a series collection.
     /// </summary>
-    public interface ISeriesCollection<TElement> : ICollection<TElement, ISeriesInfo, ISeriesCollectionInfo>, IBarUpdate, IMarketData, IMarketDepth
+    public interface ISeriesCollection<TElement> : ICollection<TElement, SeriesType, ISeriesInfo, ISeriesCollectionInfo, SeriesCollectionType>, IBarUpdate, IMarketData, IMarketDepth
         where TElement : ISeries
     {
         /// <summary>

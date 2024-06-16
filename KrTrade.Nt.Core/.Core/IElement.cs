@@ -1,18 +1,24 @@
-﻿namespace KrTrade.Nt.Core
+﻿using System;
+
+namespace KrTrade.Nt.Core
 {
-    public interface IElement : IScript, IHasInfo, IHasKey<IElement>, IConfigure, IDataLoaded, ITerminated
+    public interface IBaseElement
     {
         IPrintService PrintService { get; }
     }
-    public interface IElement<TInfo> : IElement, IHasInfo<TInfo> 
-        where TInfo : IInfo
+    public interface IElement<TType> : IBaseElement, IInfoScript<TType,IInfo<TType>>, IHasInfo<IInfo<TType>>, IHasKey<IElement<TType>>, IConfigure, IDataLoaded, ITerminated
+        where TType: Enum
     {
-        new TInfo Info { get; }
     }
-    public interface IElement<TInfo,TOptions> : IElement, IScript<TInfo,TOptions>
-        where TInfo : IInfo
-        where TOptions : IOptions
+    public interface IElement<TType,TInfo> : IBaseElement, IInfoScript<TType, TInfo>, IHasInfo<TInfo>, IHasKey<IElement<TType>>, IConfigure, IDataLoaded, ITerminated
+        where TInfo : IInfo<TType>
+        where TType : Enum
     {
-        new TOptions Options { get; }
+    }
+    public interface IElement<TType,TInfo,TOptions> : IBaseElement, IInfoScript<TType, TInfo>, IHasInfo<TInfo>, IHasKey<IElement<TType>>, IConfigure, IDataLoaded, ITerminated
+        where TInfo : IInfo<TType>
+        where TOptions : IOptions
+        where TType : Enum
+    {
     }
 }

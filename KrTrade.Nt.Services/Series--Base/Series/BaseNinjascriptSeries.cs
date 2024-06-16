@@ -4,7 +4,7 @@ using System;
 
 namespace KrTrade.Nt.Services.Series
 {
-    public abstract class BaseNinjascriptSeries<T> : Series<T>, INinjascriptSeries<T> // Series<T>, INinjascriptSeries
+    public abstract class BaseNinjascriptSeries<T> : BaseSeries<T>, INinjascriptSeries<T> // Series<T>, INinjascriptSeries
     {
         private bool _isConfigure = false;
         private bool _isDataLoaded = false;
@@ -83,8 +83,8 @@ namespace KrTrade.Nt.Services.Series
         {
             Bars = bars ?? throw new ArgumentNullException(nameof(bars));
 
-            Info.OldValuesCapacity = OldValuesCapacity < 1 ? Core.Series.DEFAULT_OLD_VALUES_CAPACITY : OldValuesCapacity;
-            Info.Capacity = Capacity <= 0 ? Core.Series.DEFAULT_CAPACITY : Capacity > MaxCapacity ? MaxCapacity : Capacity;
+            Info.OldValuesCapacity = OldValuesCapacity < 1 ? Core.BaseSeries.DEFAULT_OLD_VALUES_CAPACITY : OldValuesCapacity;
+            Info.Capacity = Capacity <= 0 ? Core.BaseSeries.DEFAULT_CAPACITY : Capacity > MaxCapacity ? MaxCapacity : Capacity;
         }
 
         public bool IsConfigure => _isConfigure;

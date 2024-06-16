@@ -9,12 +9,12 @@
         /// <summary>
         /// Gets or sets the bars cache capacity.
         /// </summary>
-        public int CacheCapacity { get; set; } = Core.Series.DEFAULT_CAPACITY;
+        public int CacheCapacity { get; set; } = Core.BaseSeries.DEFAULT_CAPACITY;
 
         /// <summary>
         /// Gets or sets the bars removed cache capacity.
         /// </summary>
-        public int RemovedCacheCapacity { get; set; } = Core.Series.DEFAULT_OLD_VALUES_CAPACITY;
+        public int RemovedCacheCapacity { get; set; } = Core.BaseSeries.DEFAULT_OLD_VALUES_CAPACITY;
 
         ///// <summary>
         ///// Gets or sets the Data Series instrument code.

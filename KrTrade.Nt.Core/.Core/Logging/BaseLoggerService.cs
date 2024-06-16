@@ -1,4 +1,5 @@
 ﻿using KrTrade.Nt.Core.Bars;
+using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.Logging;
 using NinjaTrader.NinjaScript;
 using System;
@@ -6,7 +7,7 @@ using System.IO;
 
 namespace KrTrade.Nt.Core
 {
-    public abstract class BaseLoggerService<TOptions, TFormatter> : BaseScript<TOptions>, ILogger<TOptions, TFormatter>
+    public abstract class BaseLoggerService<TOptions, TFormatter> : BaseOptionsScript<ServiceType,TOptions>, ILogger<TOptions, TFormatter>
         where TOptions : BaseLoggerOptions<TFormatter>, new()
         where TFormatter : BaseFormatter, new()
     {

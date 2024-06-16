@@ -2,7 +2,7 @@
 
 namespace KrTrade.Nt.Core
 {
-    public interface IServiceCollectionInfo : IInfoCollection<IServiceInfo>
+    public interface IServiceCollectionInfo : ICollectionInfo<IServiceInfo>
     {
         new ServiceCollectionType Type { get; set; }
     }

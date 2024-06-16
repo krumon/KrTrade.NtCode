@@ -24,8 +24,8 @@ namespace KrTrade.Nt.Services.Series
             : this(bars, new BarsSeriesCollectionInfo()
             {
                 Type = SeriesCollectionType.BARS,
-                Capacity = bars?.CacheCapacity ?? Core.Series.DEFAULT_CAPACITY,
-                OldValuesCapacity = bars?.RemovedCacheCapacity ?? Core.Series.DEFAULT_OLD_VALUES_CAPACITY 
+                Capacity = bars?.CacheCapacity ?? Core.BaseSeries.DEFAULT_CAPACITY,
+                OldValuesCapacity = bars?.RemovedCacheCapacity ?? Core.BaseSeries.DEFAULT_OLD_VALUES_CAPACITY 
             }) { }
         public BarsSeriesCollection(IBarsService bars, BarsSeriesCollectionInfo info) : base(bars, info)
         {

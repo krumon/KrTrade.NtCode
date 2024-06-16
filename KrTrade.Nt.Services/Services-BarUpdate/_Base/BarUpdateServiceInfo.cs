@@ -1,10 +1,8 @@
-﻿namespace KrTrade.Nt.Services
+﻿using KrTrade.Nt.Core;
+
+namespace KrTrade.Nt.Services
 {
-    public class BarUpdateServiceInfo : NinjascriptServiceInfo
+    public class BarUpdateServiceInfo : ServiceInfo
     {
-        protected override string ToUniqueString()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

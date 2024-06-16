@@ -3,13 +3,8 @@ using System;
 
 namespace KrTrade.Nt.Core
 {
-    public interface ISeriesInfo : IInfo
+    public interface IBaseSeriesInfo
     {
-
-        /// <summary>
-        /// Gets or sets the type of the series.
-        /// </summary>
-        new SeriesType Type { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="ISeries"/> capacity.
@@ -29,13 +24,12 @@ namespace KrTrade.Nt.Core
         string ToString(string owner);
     }
 
-    public interface ISeriesInfo<T> : ISeriesInfo
-        where T : Enum
+    public interface ISeriesInfo : IBaseSeriesInfo, IInfo<SeriesType>
     {
-        /// <summary>
-        /// Gets or sets the type of the series.
-        /// </summary>
-        new T Type { get; set; }
+    }
 
+    public interface ISeriesInfo<TType> : IBaseSeriesInfo, IInfo<TType>
+        where TType : Enum
+    {
     }
 }

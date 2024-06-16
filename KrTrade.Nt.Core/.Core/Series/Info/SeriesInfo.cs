@@ -3,10 +3,10 @@ using System;
 
 namespace KrTrade.Nt.Core
 {
-    public abstract class SeriesInfo : BaseInfo, ISeriesInfo
+    public abstract class SeriesInfo : Info<SeriesType>, ISeriesInfo
     {
 
-        new public SeriesType Type { get => base.Type.ToSeriesType(); set => base.Type = value.ToElementType(); }
+        //new public SeriesType Type { get => base.Type.ToSeriesType(); set => base.Type = value.ToElementType(); }
         public int Capacity { get; set; }
         public int OldValuesCapacity { get; set; }
 

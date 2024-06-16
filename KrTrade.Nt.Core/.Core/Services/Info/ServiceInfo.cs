@@ -1,15 +1,15 @@
-﻿using KrTrade.Nt.Core.Data;
+﻿//using KrTrade.Nt.Core.Data;
 
-namespace KrTrade.Nt.Core
-{
-    public class ServiceInfo : BaseServiceInfo
-    {
-        public ServiceInfo()
-        {
-        }
+//namespace KrTrade.Nt.Core
+//{
+//    public class ServiceInfo : BaseServiceInfo
+//    {
+//        public ServiceInfo()
+//        {
+//        }
 
-        public ServiceInfo(ServiceType type) : base(type)
-        {
-        }
-    }
-}
+//        public ServiceInfo(ServiceType type) : base(type)
+//        {
+//        }
+//    }
+//}

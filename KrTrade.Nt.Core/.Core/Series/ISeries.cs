@@ -2,7 +2,7 @@
 
 namespace KrTrade.Nt.Core
 {
-    public interface ISeries : IElement<ISeriesInfo>
+    public interface ISeries : IElement<SeriesType, ISeriesInfo>
     {
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace KrTrade.Nt.Core
 
 
     }
-    public interface ISeries<T> : ISeries, NinjaTrader.NinjaScript.ISeries<T>
+    public interface ISeries<TElement> : ISeries, NinjaTrader.NinjaScript.ISeries<TElement>
     {
         /// <summary>
         /// Gets the number of cache elements.
@@ -103,24 +103,24 @@ namespace KrTrade.Nt.Core
         /// </summary>
         /// <param name="index">The specified index.</param>
         /// <returns>The cache element at the specified index.</returns>
-        new T this[int index] { get; }
+        new TElement this[int index] { get; }
 
         /// <summary>
         /// Gets the current cache value 'cache[0]'.
         /// </summary>
-        T CurrentValue { get; }
+        TElement CurrentValue { get; }
 
         /// <summary>
         /// Gets the last series value before the series was updated.
         /// </summary>
-        T LastValue { get; }
+        TElement LastValue { get; }
 
         /// <summary>
         /// Gets The element that is at the specified index.
         /// </summary>
         /// <param name="valuesAgo">The index of the element in the <see cref="ICacheElement{T}"/>.</param>
         /// <returns>The element that is at the specified index.</returns>
-        T GetValue(int valuesAgo);
+        TElement GetValue(int valuesAgo);
 
         /// <summary>
         /// Returns <paramref name="numOfValues"/> of <see cref="{T}"/> from specified initial index.
@@ -128,7 +128,7 @@ namespace KrTrade.Nt.Core
         /// <param name="fromValuesAgo">The values ago where started to construct the array.</param>
         /// <param name="numOfValues">The number of <see cref="{T}"/> to returns.</param>
         /// <returns><see cref="{T}"/> collection.</returns>
-        T[] ToArray(int fromValuesAgo, int numOfValues);
+        TElement[] ToArray(int fromValuesAgo, int numOfValues);
 
     }
 }

@@ -2,11 +2,9 @@
 
 namespace KrTrade.Nt.Core
 {
-    public interface ISeriesCollectionInfo : IInfoCollection<ISeriesInfo>
+    public interface ISeriesCollectionInfo : ICollectionInfo<ISeriesInfo,SeriesCollectionType>
     {
-        new SeriesCollectionType Type { get; set; }
         int Capacity { get; set; }
         int OldValuesCapacity { get; set; }
-
     }
 }

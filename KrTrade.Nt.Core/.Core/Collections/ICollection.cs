@@ -1,12 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace KrTrade.Nt.Core
 {
-    public interface ICollection<TElement,TElementInfo, TCollectionInfo> : IElement<TCollectionInfo>, IEnumerable, IEnumerable<TElement>
-        where TElement : IElement
-        where TCollectionInfo : IInfoCollection<TElementInfo>
-        where TElementInfo: IInfo
+    public interface ICollection<TElement, TElementType, TElementInfo, TCollectionInfo,TCollectionType> : IElement<TCollectionType, TCollectionInfo>, IEnumerable, IEnumerable<TElement>
+        where TElement : IElement<TElementType,TElementInfo>
+        where TElementType : Enum
+        where TElementInfo: IInfo<TElementType>
+        where TCollectionInfo : ICollectionInfo<TElementInfo,TCollectionType>
+        where TCollectionType : Enum
     {
         TElement this[string key] { get; }
         TElement this[int index] { get; }

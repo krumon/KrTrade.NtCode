@@ -6,7 +6,7 @@ namespace KrTrade.Nt.Core
     /// <summary>
     /// Provides the options for any service.
     /// </summary>
-    public class ServiceOptions : BaseOptions, IServiceOptions
+    public class ServiceOptions : Options, IServiceOptions
     {
         /// <summary>
         /// Indicates if the log service is enable.

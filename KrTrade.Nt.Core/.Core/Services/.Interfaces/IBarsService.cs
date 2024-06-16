@@ -50,42 +50,42 @@ namespace KrTrade.Nt.Core
         /// <summary>
         /// Gets the index series.
         /// </summary>
-        CurrentBarSeries CurrentBar { get; }
+        ICurrentBarSeries CurrentBar { get; }
 
         /// <summary>
         /// Gets the time series.
         /// </summary>
-        TimeSeries Time { get; }
+        ITimeSeries Time { get; }
 
         /// <summary>
         /// Gets the open series.
         /// </summary>
-        PriceSeries Open { get; }
+        IPriceSeries Open { get; }
 
         /// <summary>
         /// Gets the high series.
         /// </summary>
-        PriceSeries High { get; }
+        IPriceSeries High { get; }
 
         /// <summary>
         /// Gets the low series.
         /// </summary>
-        PriceSeries Low { get; }
+        IPriceSeries Low { get; }
 
         /// <summary>
         /// Gets the close series.
         /// </summary>
-        PriceSeries Close { get; }
+        IPriceSeries Close { get; }
 
         /// <summary>
         /// Gets the volume series.
         /// </summary>
-        VolumeSeries Volume { get; }
+        IVolumeSeries Volume { get; }
 
         /// <summary>
         /// Gets the tick count series.
         /// </summary>
-        TickSeries Tick { get; }
+        ITickSeries Tick { get; }
 
         /// <summary>
         /// Gets the bars index in the 'NinjaScript.BarsArray'.

@@ -22,8 +22,8 @@ namespace KrTrade.Nt.Core
 
         #region implementation
 
-        public override ElementType Type { get => ElementType.PRINT_SERVICE; protected set { } }
-        public override string Name => Type.ToShortString();
+        public override string Name => Type.ToElementType().ToString(); //.ToShortString();
+        protected override ServiceType ToElementType() => ServiceType.PRINT;
 
         #endregion
 

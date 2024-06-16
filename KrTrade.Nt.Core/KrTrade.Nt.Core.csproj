@@ -100,8 +100,8 @@
     <Compile Include=".Core\ElementType.cs" />
     <Compile Include=".Core\ElementTypesExtensions.cs" />
     <Compile Include=".Core\IElement.cs" />
-    <Compile Include=".Core\Info\BaseInfoCollection.cs" />
-    <Compile Include=".Core\Info\IInfoCollection.cs" />
+    <Compile Include=".Core\Info\CollectionInfo.cs" />
+    <Compile Include=".Core\Info\ICollectionInfo.cs" />
     <Compile Include=".Core\Services\Info\ServiceInfo.cs" />
     <Compile Include=".Core\Services\Info\IBaseServiceInfo.cs" />
     <Compile Include=".Core\Services\Info\IServiceCollectionInfo.cs" />
@@ -118,10 +118,10 @@
     <Compile Include="Series\BaseSeries.cs" />
     <Compile Include=".Core\Series\Info\IInputSeriesInfo.cs" />
     <Compile Include=".Core\Series\Info\ISeriesInfo.cs" />
-    <Compile Include=".Core\Series\Series.cs" />
+    <Compile Include=".Core\Series\BaseSeries.cs" />
     <Compile Include=".Core\Series\ISeries.cs" />
     <Compile Include=".Core\Collections\ICollection.cs" />
-    <Compile Include=".Core\Info\BaseInfo.cs" />
+    <Compile Include=".Core\Info\Info.cs" />
     <Compile Include=".Core\Collections\BaseCollection.cs" />
     <Compile Include=".Core\Info\IInfo.cs" />
     <Compile Include=".Core\Info\IHasInfo.cs" />
@@ -189,7 +189,7 @@
     <Compile Include="NinjaScript\EventType.cs" />
     <Compile Include=".Core\Options\IHasOptions.cs" />
     <Compile Include=".Core\Options\IOptions.cs" />
-    <Compile Include=".Core\Options\BaseOptions.cs" />
+    <Compile Include=".Core\Options\Options.cs" />
     <Compile Include=".Core\Services\BaseService.cs" />
     <Compile Include="Services\ServiceTypeExtensions.cs" />
     <Compile Include="Data\Services\ServiceCollectionType.cs" />

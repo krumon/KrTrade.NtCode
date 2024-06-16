@@ -9,8 +9,6 @@ namespace KrTrade.Nt.Core
         private readonly NinjaScriptBase _ninjascript;
 
         public NinjaScriptBase Ninjascript => _ninjascript;
-        public abstract ElementType Type { get; protected set; }
-        public abstract string Name { get; }
 
         protected BaseScript(NinjaScriptBase ninjascript)
         {
@@ -211,22 +209,62 @@ namespace KrTrade.Nt.Core
 
     }
 
-    public abstract class BaseScript<TOptions> : BaseScript, IScript<TOptions>
+    public abstract class BaseScript<TType> : BaseScript, IScript<TType>
+    where TType : Enum
+    {
+        public TType Type { get; protected set; }
+        public abstract string Name { get; }
+
+        protected abstract TType ToElementType();
+
+        protected BaseScript(NinjaScriptBase ninjascript) : base(ninjascript) 
+        {
+            Type = ToElementType();
+        }
+    }
+
+    public abstract class BaseOptionsScript<TType,TOptions> : BaseScript<TType>, IOptionsScript<TOptions>
         where TOptions : IOptions
+        where TType : Enum
     {
         private readonly TOptions _options;
+        public TOptions Options => _options;
 
-        protected BaseScript(NinjaScriptBase ninjascript, TOptions options) : base(ninjascript)
+        protected BaseOptionsScript(NinjaScriptBase ninjascript, TOptions options) : base(ninjascript)
         {
             _options = options;
         }
 
-        public TOptions Options => _options;
     }
 
-    public abstract class BaseScript<TInfo, TOptions> : BaseScript, IScript<TInfo, TOptions>
-        where TInfo : IInfo
+    public abstract class BaseInfoScript<TType,TInfo> : BaseScript<TType>, IInfoScript<TInfo>
+        where TInfo : IInfo<TType>
+        where TType : Enum
+    {
+        private readonly TInfo _info;
+        public TInfo Info => _info;
+        new public TType Type 
+        { 
+            get => Info.Type; 
+            set
+            {
+                base.Type = value;
+                Info.Type = value; 
+            }
+        }
+
+        protected BaseInfoScript(NinjaScriptBase ninjascript, TInfo info) : base(ninjascript)
+        {
+            if (info == null)
+                throw new ArgumentNullException($"The {nameof(info)} argument cannot be null.");
+            _info = info;
+        }
+    }
+
+    public abstract class BaseScript<TType, TInfo, TOptions> : BaseScript<TType>, IScript<TInfo, TOptions>
+        where TInfo : IInfo<TType>
         where TOptions : IOptions
+        where TType : Enum
     {
         private readonly TInfo _info;
         private readonly TOptions _options;

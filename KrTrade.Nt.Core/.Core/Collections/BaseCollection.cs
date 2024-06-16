@@ -5,9 +5,12 @@ using System.Collections.Generic;
 
 namespace KrTrade.Nt.Core
 {
-    public abstract class BaseCollection<TElement,TInfoCollection> : BaseElement<TInfoCollection>, ICollection<TElement,TInfoCollection>
-        where TElement : IElement
-        where TInfoCollection : IInfoCollection<IInfo>, new()
+    public abstract class BaseCollection<TElement,TElementType, TElementInfo,TCollectionInfo,TCollectionType> : BaseElement<TCollectionType, TCollectionInfo>, ICollection<TElement,TElementType,TElementInfo,TCollectionInfo,TCollectionType>
+        where TElement : IElement<TElementType,TElementInfo>
+        where TElementType : Enum
+        where TElementInfo : IInfo<TElementType>
+        where TCollectionType : Enum
+        where TCollectionInfo : ICollectionInfo<TElementInfo,TCollectionType>
     {
         protected IList<TElement> _collection;
         protected IDictionary<string, int> _keys;
@@ -49,7 +52,7 @@ namespace KrTrade.Nt.Core
             }
         }
 
-        public BaseCollection(NinjaScriptBase ninjascript, IPrintService printService, TInfoCollection collectionInfo, IServiceOptions collectionOptions) : base(ninjascript,printService,collectionInfo)
+        public BaseCollection(NinjaScriptBase ninjascript, IPrintService printService, TCollectionInfo collectionInfo, IServiceOptions collectionOptions) : base(ninjascript,printService,collectionInfo)
         { 
             _collection = new List<TElement>();
         }

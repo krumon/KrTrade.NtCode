@@ -4,8 +4,9 @@ using System.Collections.Generic;
 
 namespace KrTrade.Nt.Core
 {
-    public abstract class BaseInfoCollection<TInfoElement> : BaseInfo, IInfoCollection<TInfoElement>
+    public class CollectionInfo<TInfoElement,TType> : Info<TType>, ICollectionInfo<TInfoElement,TType>
         where TInfoElement : IInfo
+        where TType : Enum
     {
         protected IList<TInfoElement> _collection;
 
@@ -42,7 +43,7 @@ namespace KrTrade.Nt.Core
             }
         }
 
-        public BaseInfoCollection() 
+        public CollectionInfo() 
         { 
             _collection = new List<TInfoElement>();
         }

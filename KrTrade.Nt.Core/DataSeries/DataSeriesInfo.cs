@@ -3,7 +3,7 @@ using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Core.DataSeries
 {
-    public class DataSeriesInfo : BaseInfo
+    public class DataSeriesInfo : Info
     {
 
         /// <summary>
