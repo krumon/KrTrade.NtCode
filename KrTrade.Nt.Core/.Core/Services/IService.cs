@@ -6,18 +6,8 @@ namespace KrTrade.Nt.Core
     /// <summary>
     /// Defines properties and methods for any ninjascript service.
     /// </summary>
-    public interface IService : IElement<IServiceInfo>, IHasOptions<IServiceOptions>
+    public interface IService : IElement<ServiceType,IServiceInfo,IServiceOptions>
     {
-        /// <summary>
-        /// Gets the type of the service
-        /// </summary>
-        new ServiceType Type { get; }
-
-        /// <summary>
-        /// Indicates that the service is enabled.
-        /// </summary>
-        bool IsEnable { get; }
-
         /// <summary>
         /// Indicates that the logger service is enabled.
         /// </summary>
@@ -71,27 +61,4 @@ namespace KrTrade.Nt.Core
         string ToString(int tabOrder, string state, int index = 0, string separator = ": ", bool isTitleVisible = true, bool isSubtitleVisible = false, bool isDescriptionVisible = true, bool isDescriptionBracketsVisible = true, bool isIndexVisible = false);
     }
 
-    /// <summary>
-    /// Defines properties and methods for any ninjascript service.
-    /// </summary>
-    public interface IService<TInfo> : IService
-        where TInfo : IServiceInfo
-    {
-        /// <summary>
-        /// Gets the information of the service.
-        /// </summary>
-        new TInfo Info { get; }
-
-    }
-
-    public interface IService<TInfo,TOptions> : IService<TInfo>
-        where TInfo : IServiceInfo
-        where TOptions : IServiceOptions
-    {
-        /// <summary>
-        /// Gets the options of the service.
-        /// </summary>
-        new TOptions Options { get; }
-
-    }
 }

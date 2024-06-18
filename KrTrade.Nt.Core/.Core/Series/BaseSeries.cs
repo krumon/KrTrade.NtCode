@@ -9,121 +9,27 @@ namespace KrTrade.Nt.Core
     /// <summary>
     /// Base class for all series.
     /// </summary>
-    public abstract class BaseSeries : BaseElement<SeriesType, ISeriesInfo>, ISeries
-    {
-
-        public const int DEFAULT_CAPACITY = 2; // The current and last values.
-        public const int DEFAULT_OLD_VALUES_CAPACITY = 1; // The last element removed
-
-        // ISeries implementation
-        //new public SeriesType Type { get => base.Type.ToSeriesType(); }
-        public int Capacity { get => Info.Capacity; protected internal set { Info.Capacity = value; } }
-        public int OldValuesCapacity { get => Info.Capacity; protected internal set { Info.Capacity = value; } }
-        public bool Equals(ISeries other) => Equals(other as IElement<SeriesType>);
-
-        protected virtual string ToTitle() => "SERIES";
-        protected virtual string ToSubTitle() => null;
-        protected virtual string ToDescription() => Key;
-
-        protected override string GetHeaderString()
-        {
-            throw new NotImplementedException();
-        }
-        protected override string GetDescriptionString()
-        {
-            throw new NotImplementedException();
-        }
-        protected override string GetParentString()
-        {
-            throw new NotImplementedException();
-        }
-        protected override string GetLogString(string state)
-        {
-            throw new NotImplementedException();
-        }
-        //protected string ToString(SeriesType seriesType)
-        //{
-        //    switch (seriesType)
-        //    {
-        //        //case ServiceType.BARS_SERVICES_COLLECTION:
-        //        //    return "BARS";
-        //        default:
-        //            return seriesType.ToString();
-        //    }
-        //}
-
-        ////protected virtual string ToString(int barsAgo) => this[barsAgo].ToString();
-
-        //public string ToString(int tabOrder)
-        //{
-        //    StringBuilder sb = new StringBuilder();
-
-        //    string tab = string.Empty;
-        //    if (tabOrder > 0)
-        //        for (int i = 0; i < tabOrder; i++)
-        //            tab += "\t";
-
-        //    sb.Append(tab);
-        //    sb.Append(ToString());
-
-        //    return sb.ToString();
-        //}
-
-        /// <summary>
-        /// Gets the difference between int.MaxValue and OldValuesCapacity.
-        /// </summary>
-        protected int MaxCapacity => int.MaxValue - OldValuesCapacity;
-        /// <summary>
-        /// Gets the maximum length of the series. Adds Capacity and OldValuesCapacity. 
-        /// </summary>
-        protected int MaxLength => Capacity + OldValuesCapacity;
-
-        /// <summary>
-        /// Create <see cref="ISeries"/> instance with specified information.
-        /// <param name="info">The specified information of the series.</param>
-        public BaseSeries(NinjaScriptBase ninjascript, IPrintService printService, ISeriesInfo info) : base(ninjascript, printService, info)
-        {
-            Info.OldValuesCapacity = OldValuesCapacity < 1 ? DEFAULT_OLD_VALUES_CAPACITY : OldValuesCapacity;
-            Info.Capacity = Capacity <= 0 ? DEFAULT_CAPACITY : Capacity > MaxCapacity ? MaxCapacity : Capacity;
-        }
-
-        public object this[int index] => null;
-        public abstract int Count {  get; }
-        public abstract bool IsFull { get; }
-        public abstract void RemoveLastElement();
-        public abstract void Reset();
-        public abstract void Dispose();
-        public object CurrentValue { get; protected set; }
-        public object LastValue { get ; protected set; }
-
-        public object GetValue(int valuesAgo) { return null; }
-        public object[] ToArray(int fromValuesAgo, int numOfValues) => null;
-
-    }
-
-    /// <summary>
-    /// Generic class for all series.
-    /// </summary>
-    /// <typeparam name="T">The type of series items.</typeparam>
-    public abstract class BaseSeries<T> : BaseSeries, ISeries<T>,
-        IEnumerable<T>,
-        IEnumerable
+    public abstract class BaseSeries<T> : BaseInfoElement<SeriesType, ISeriesInfo>, ISeries<T>
     {
 
         private IList<T> _cache = new List<T>();
         private bool _isOldValuesCacheRunning;
         protected int OldValuesLength => Count < Capacity || Count > MaxLength ? 0 : MaxLength - Count;
 
-        // ICache<T> implementation
-        public override bool IsFull => Count > MaxLength;
-        new public T CurrentValue { get => (T)base.CurrentValue; protected set => base.CurrentValue = value; }
-        new public T LastValue { get => (T)base.LastValue; protected set => base.LastValue = value; }
 
-        public override void RemoveLastElement()
+        public const int DEFAULT_CAPACITY = 2; // The current and last values.
+        public const int DEFAULT_OLD_VALUES_CAPACITY = 1; // The last element removed
+
+        // ICache<T> implementation
+        public bool IsFull => Count > MaxLength;
+        public T CurrentValue { get; protected set; }
+        public T LastValue { get; protected set; }
+
+        public void RemoveLastElement()
         {
             if (IsValidIndex(0))
             {
-                RemoveAt(0); 
+                RemoveAt(0);
                 CurrentValue = LastValue;
             }
             else
@@ -134,38 +40,22 @@ namespace KrTrade.Nt.Core
             //else
             //    throw new Exception("The cache cannot restore the last element removed because the old values cache is empty.");
         }
-        public override void Reset()
+        public void Reset()
         {
             _cache?.Clear();
             CurrentValue = default;
             LastValue = default;
         }
-        public override void Dispose()
+        public void Dispose()
         {
             Reset();
             _cache = null;
         }
-        public new T GetValue(int valuesAgo) => IsValidIndex(valuesAgo) ? _cache[valuesAgo] : default;
-        public new T[] ToArray(int fromValuesAgo, int numOfValues)
-        {
-            if (!IsValidIndex(fromValuesAgo, numOfValues))
-                throw new ArgumentOutOfRangeException(nameof(numOfValues));
-
-            T[] elements = new T[numOfValues];
-            int count = 0;
-            for (int i = fromValuesAgo; i < fromValuesAgo + numOfValues; i++)
-            {
-                elements[count] = this[i];
-                count++;
-            }
-
-            return elements;
-        }
 
         // ISeries<T> implementation
-        public override int Count => _cache.Count;
-        public new T this[int index] 
-        { 
+        public int Count => _cache.Count;
+        public T this[int index]
+        {
             get => IsValidIndex(index) ? _cache[index] : throw new ArgumentOutOfRangeException(nameof(index));
             protected set
             {
@@ -176,15 +66,15 @@ namespace KrTrade.Nt.Core
                 CurrentValue = value;
                 OnElementUpdated(LastValue, CurrentValue);
             }
-        } 
+        }
         public T GetValueAt(int valueIndex) => IsValidIndex(Count - valueIndex) ? _cache[Count - valueIndex] : default;
         public bool IsValidDataPoint(int valuesAgo) => IsValidIndex(valuesAgo) && _cache[valuesAgo].Equals(default(T));
         public bool IsValidDataPointAt(int valueIndex) => IsValidDataPoint(Count - valueIndex);
 
         // IEnumerable implementation
         public IEnumerator<T> GetEnumerator() => _cache.GetEnumerator();
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-        
+        IEnumerator IEnumerable.GetEnumerator() => _cache.GetEnumerator();
+
         // Private and protected methods
         //protected abstract bool IsValidValue(T value);
         protected void Add(T item)
@@ -199,7 +89,7 @@ namespace KrTrade.Nt.Core
         private void Insert(int index, T item)
         {
             _cache.Insert(index, item);
-            if(!_isOldValuesCacheRunning && Count > Capacity)
+            if (!_isOldValuesCacheRunning && Count > Capacity)
                 _isOldValuesCacheRunning = true;
             LastValue = CurrentValue;
             CurrentValue = item;
@@ -230,17 +120,50 @@ namespace KrTrade.Nt.Core
             return IsValidIndex(initialBarsAgo) && IsValidIndex(finalBarsAgo);
         }
 
+        // ISeries implementation
+        public int Capacity { get => Info.Capacity; protected internal set { Info.Capacity = value; } }
+        public int OldValuesCapacity { get => Info.Capacity; protected internal set { Info.Capacity = value; } }
+
+        protected virtual string ToTitle() => "SERIES";
+        protected virtual string ToSubTitle() => null;
+        protected virtual string ToDescription() => Key;
+
+        protected override string GetHeaderString()
+        {
+            throw new NotImplementedException();
+        }
+        protected override string GetDescriptionString()
+        {
+            throw new NotImplementedException();
+        }
+        protected override string GetParentString()
+        {
+            throw new NotImplementedException();
+        }
+        protected override string GetLogString(string state)
+        {
+            throw new NotImplementedException();
+        }
         /// <summary>
-        /// Create <see cref="ISeries{T}"/> instance with specified information.
+        /// Gets the difference between int.MaxValue and OldValuesCapacity.
         /// </summary>
-        /// <param name="ninjascript">The 'NinjaTrader.NinjaScript' necesary for any element.</param>
+        protected int MaxCapacity => int.MaxValue - OldValuesCapacity;
+        /// <summary>
+        /// Gets the maximum length of the series. Adds Capacity and OldValuesCapacity. 
+        /// </summary>
+        protected int MaxLength => Capacity + OldValuesCapacity;
+
+        /// <summary>
+        /// Create <see cref="ISeries"/> instance with specified information.
         /// <param name="info">The specified information of the series.</param>
         public BaseSeries(NinjaScriptBase ninjascript, IPrintService printService, ISeriesInfo info) : base(ninjascript, printService, info)
         {
+            Info.OldValuesCapacity = OldValuesCapacity < 1 ? DEFAULT_OLD_VALUES_CAPACITY : OldValuesCapacity;
+            Info.Capacity = Capacity <= 0 ? DEFAULT_CAPACITY : Capacity > MaxCapacity ? MaxCapacity : Capacity;
         }
 
-        internal override void Configure(out bool isConfigured) => isConfigured = true;
-        internal override void DataLoaded(out bool isDataLoaded) => isDataLoaded = true;
+        public T GetValue(int valuesAgo) { return default; }
+        public T[] ToArray(int fromValuesAgo, int numOfValues) => null;
 
         /// <summary>
         /// An event driven method which is called whenever a element is added to cache.
@@ -284,5 +207,9 @@ namespace KrTrade.Nt.Core
         }
 
         protected override SeriesType ToElementType() => SeriesType.CUSTOM;
+
+        internal override void Configure(out bool isConfigured) => isConfigured = true;
+        internal override void DataLoaded(out bool isDataLoaded) => isDataLoaded = true;
+
     }
 }

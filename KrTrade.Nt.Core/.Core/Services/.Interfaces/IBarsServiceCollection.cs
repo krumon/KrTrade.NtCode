@@ -6,7 +6,7 @@ namespace KrTrade.Nt.Core
     /// <summary>
     /// Defines properties and methods that are necesary to create a data series service.
     /// </summary>
-    public interface IBarsServiceCollection : IServiceCollection<IBarsService, IBarsServiceInfo, IServiceCollectionInfo>, IBarUpdate, IMarketData, IMarketDepth, IRender
+    public interface IBarsServiceCollection : IServiceCollection<IBarsService>, IBarUpdate, IMarketData, IMarketDepth, IRender
     {
 
         // Data series information
@@ -25,42 +25,42 @@ namespace KrTrade.Nt.Core
         /// <summary>
         /// Gets the index series.
         /// </summary>
-        CurrentBarSeries CurrentBar { get; }
+        ICurrentBarSeries CurrentBar { get; }
 
         /// <summary>
         /// Gets the time series.
         /// </summary>
-        TimeSeries Time { get; }
+        ITimeSeries Time { get; }
 
         /// <summary>
         /// Gets the open series.
         /// </summary>
-        PriceSeries Open { get; }
+        IPriceSeries Open { get; }
 
         /// <summary>
         /// Gets the high series.
         /// </summary>
-        PriceSeries High { get; }
+        IPriceSeries High { get; }
 
         /// <summary>
         /// Gets the low series.
         /// </summary>
-        PriceSeries Low { get; }
+        IPriceSeries Low { get; }
 
         /// <summary>
         /// Gets the close series.
         /// </summary>
-        PriceSeries Close { get; }
+        IPriceSeries Close { get; }
 
         /// <summary>
         /// Gets the volume series.
         /// </summary>
-        VolumeSeries Volume { get; }
+        IVolumeSeries Volume { get; }
 
         /// <summary>
         /// Gets the tick count series.
         /// </summary>
-        TickSeries Tick { get; }
+        ITickSeries Tick { get; }
 
         /// <summary>
         /// Indicates primary bars service is updated.

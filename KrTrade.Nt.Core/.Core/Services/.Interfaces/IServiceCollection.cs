@@ -6,7 +6,7 @@ namespace KrTrade.Nt.Core
     /// <summary>
     /// Defines properties and methods for any ninjascript service collection.
     /// </summary>
-    public interface IServiceCollection<TElement> : ICollection<TElement,IServiceInfo, IServiceCollectionInfo>, IConfigure, IDataLoaded, ITerminated
+    public interface IServiceCollection<TElement> : ICollection<TElement, ServiceType, IServiceInfo, IServiceCollectionInfo, ServiceCollectionType>, IConfigure, IDataLoaded, ITerminated
         where TElement : IService
     {
         /// <summary>

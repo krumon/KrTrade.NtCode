@@ -102,7 +102,6 @@
     <Compile Include=".Core\IElement.cs" />
     <Compile Include=".Core\Info\CollectionInfo.cs" />
     <Compile Include=".Core\Info\ICollectionInfo.cs" />
-    <Compile Include=".Core\Services\Info\ServiceInfo.cs" />
     <Compile Include=".Core\Services\Info\IBaseServiceInfo.cs" />
     <Compile Include=".Core\Services\Info\IServiceCollectionInfo.cs" />
     <Compile Include=".Core\Services\Info\IServiceInfo.cs" />
@@ -193,7 +192,7 @@
     <Compile Include=".Core\Services\BaseService.cs" />
     <Compile Include="Services\ServiceTypeExtensions.cs" />
     <Compile Include="Data\Services\ServiceCollectionType.cs" />
-    <Compile Include=".Core\Services\Info\BaseServiceInfo.cs" />
+    <Compile Include=".Core\Services\Info\ServiceInfo.cs" />
     <Compile Include=".Core\Services\IService.cs" />
     <Compile Include=".Core\Services\Options\IServiceOptions.cs" />
     <Compile Include="Data\Services\ServiceType.cs" />

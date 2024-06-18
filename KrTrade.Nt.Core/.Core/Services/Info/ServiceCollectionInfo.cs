@@ -3,9 +3,7 @@
 namespace KrTrade.Nt.Core
 {
 
-    public class ServiceCollectionInfo : CollectionInfo<IServiceInfo>, IServiceCollectionInfo
+    public class ServiceCollectionInfo : CollectionInfo<IServiceInfo, ServiceCollectionType>, IServiceCollectionInfo
     {
-        new public ServiceCollectionType Type { get => base.Type.ToServiceCollectionType(); set => base.Type = value.ToElementType(); }
-
     }
 }

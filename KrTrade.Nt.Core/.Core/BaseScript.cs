@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace KrTrade.Nt.Core
 {
-    public abstract class BaseScript : IScript
+    public abstract class BaseScript : IBaseScript
     {
         private readonly NinjaScriptBase _ninjascript;
 
@@ -223,7 +223,7 @@ namespace KrTrade.Nt.Core
         }
     }
 
-    public abstract class BaseOptionsScript<TType,TOptions> : BaseScript<TType>, IOptionsScript<TOptions>
+    public abstract class BaseOptionsScript<TType,TOptions> : BaseScript<TType>, IOptionsScript<TType,TOptions>
         where TOptions : IOptions
         where TType : Enum
     {
@@ -237,21 +237,12 @@ namespace KrTrade.Nt.Core
 
     }
 
-    public abstract class BaseInfoScript<TType,TInfo> : BaseScript<TType>, IInfoScript<TInfo>
-        where TInfo : IInfo<TType>
+    public abstract class BaseInfoScript<TType,TInfo> : BaseScript<TType>, IInfoScript<TType,TInfo>
+        where TInfo : IInfo
         where TType : Enum
     {
         private readonly TInfo _info;
         public TInfo Info => _info;
-        new public TType Type 
-        { 
-            get => Info.Type; 
-            set
-            {
-                base.Type = value;
-                Info.Type = value; 
-            }
-        }
 
         protected BaseInfoScript(NinjaScriptBase ninjascript, TInfo info) : base(ninjascript)
         {
@@ -261,7 +252,7 @@ namespace KrTrade.Nt.Core
         }
     }
 
-    public abstract class BaseScript<TType, TInfo, TOptions> : BaseScript<TType>, IScript<TInfo, TOptions>
+    public abstract class BaseScript<TType, TInfo, TOptions> : BaseScript<TType>, IScript<TType,TInfo, TOptions>
         where TInfo : IInfo<TType>
         where TOptions : IOptions
         where TType : Enum

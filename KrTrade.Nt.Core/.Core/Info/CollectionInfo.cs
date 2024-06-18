@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace KrTrade.Nt.Core
 {
-    public class CollectionInfo<TInfoElement,TType> : Info<TType>, ICollectionInfo<TInfoElement,TType>
-        where TInfoElement : IInfo
+    public class CollectionInfo<TElementInfo,TType> : Info<TType>, ICollectionInfo<TElementInfo,TType>
+        where TElementInfo : IInfo
         where TType : Enum
     {
-        protected IList<TInfoElement> _collection;
+        protected IList<TElementInfo> _collection;
 
-        public TInfoElement this[string key]
+        public TElementInfo this[string key]
         {
             get
             {
@@ -28,7 +28,7 @@ namespace KrTrade.Nt.Core
                 }
             }
         }
-        public TInfoElement this[int index]
+        public TElementInfo this[int index]
         {
             get
             {
@@ -45,12 +45,12 @@ namespace KrTrade.Nt.Core
 
         public CollectionInfo() 
         { 
-            _collection = new List<TInfoElement>();
+            _collection = new List<TElementInfo>();
         }
 
         #region Implementation
 
-        public void Add(TInfoElement item)
+        public void Add(TElementInfo item)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace KrTrade.Nt.Core
                 throw new Exception($"The element with name: {item.Name} and key: {item.Key} cannot be added. {e.Message}",e);
             }
         }
-        public void TryAdd(TInfoElement item)
+        public void TryAdd(TElementInfo item)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace KrTrade.Nt.Core
 
         public int Count => _collection == null ? -1 : _collection.Count;
         public void Clear() => _collection?.Clear();
-        public void Remove(TInfoElement item)
+        public void Remove(TElementInfo item)
         {
             try
             {
@@ -119,7 +119,7 @@ namespace KrTrade.Nt.Core
                 throw new Exception($"The element cannot be removed.", e);
             }
         }
-        public bool Contains(TInfoElement item) => _collection != null && _collection.Contains(item);
+        public bool Contains(TElementInfo item) => _collection != null && _collection.Contains(item);
         public bool Contains(string key)
         {
             if (_collection == null || string.IsNullOrEmpty(key) || Count < 1)
@@ -134,7 +134,7 @@ namespace KrTrade.Nt.Core
                 }
             return contains;
         } 
-        public bool TryGetValue(TInfoElement item,out int index)
+        public bool TryGetValue(TElementInfo item,out int index)
         {
             index = -1;
             if (_collection == null || item == null || Count < 1)
@@ -167,10 +167,10 @@ namespace KrTrade.Nt.Core
             return contains;
         }
 
-        public IEnumerator<TInfoElement> GetEnumerator() => _collection.GetEnumerator();
+        public IEnumerator<TElementInfo> GetEnumerator() => _collection.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        protected void ForEach(Action<TInfoElement> action)
+        protected void ForEach(Action<TElementInfo> action)
         {
             if (_collection == null || _collection.Count == 0)
                 return;
@@ -183,7 +183,7 @@ namespace KrTrade.Nt.Core
                 catch { }
             }
         }
-        protected void TryForEach(Action<TInfoElement> action)
+        protected void TryForEach(Action<TElementInfo> action)
         {
             try
             {

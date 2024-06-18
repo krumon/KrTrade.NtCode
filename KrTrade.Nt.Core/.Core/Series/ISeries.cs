@@ -1,15 +1,11 @@
 ﻿using KrTrade.Nt.Core.Data;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace KrTrade.Nt.Core
 {
-    public interface ISeries : IElement<SeriesType, ISeriesInfo>
+    public interface ISeries : IInfoElement<SeriesType, ISeriesInfo>
     {
-
-        /// <summary>
-        /// Gets the type of the series.
-        /// </summary>
-        new SeriesType Type { get; }
-
         /// <summary>
         /// Gets <see cref="ISeries"/> capacity.
         /// </summary>
@@ -45,12 +41,51 @@ namespace KrTrade.Nt.Core
         /// </summary>
         void Dispose();
 
+        ///// <summary>
+        ///// <summary>
+        ///// Gets the cache element located at the specified index. 
+        ///// </summary>
+        ///// <param name="index">The specified index.</param>
+        ///// <returns>The cache element at the specified index.</returns>
+        //object this[int index] { get; }
+
+    }
+
+    public interface ISeries<TElement> : ISeries, NinjaTrader.NinjaScript.ISeries<TElement>, IEnumerable<TElement>, IEnumerable
+    {
+
+        /// <summary>
         /// <summary>
         /// Gets the cache element located at the specified index. 
         /// </summary>
         /// <param name="index">The specified index.</param>
         /// <returns>The cache element at the specified index.</returns>
-        object this[int index] { get; }
+        new TElement this[int index] { get; }
+
+        /// <summary>
+        /// Gets the current cache value 'cache[0]'.
+        /// </summary>
+        TElement CurrentValue { get; }
+
+        /// <summary>
+        /// Gets the last series value before the series was updated.
+        /// </summary>
+        TElement LastValue { get; }
+
+        /// <summary>
+        /// Gets The element that is at the specified index.
+        /// </summary>
+        /// <param name="valuesAgo">The index of the element in the <see cref="ICacheElement{T}"/>.</param>
+        /// <returns>The element that is at the specified index.</returns>
+        TElement GetValue(int valuesAgo);
+
+        /// <summary>
+        /// Returns <paramref name="numOfValues"/> of <see cref="{T}"/> from specified initial index.
+        /// </summary>
+        /// <param name="fromValuesAgo">The values ago where started to construct the array.</param>
+        /// <param name="numOfValues">The number of <see cref="{T}"/> to returns.</param>
+        /// <returns><see cref="{T}"/> collection.</returns>
+        TElement[] ToArray(int fromValuesAgo, int numOfValues);
 
         /// <summary>
         /// 
@@ -89,46 +124,6 @@ namespace KrTrade.Nt.Core
         /// <returns></returns>
         string ToString(int tabOrder, string state, int index = 0, string separator = ": ", bool isTitleVisible = true, bool isSubtitleVisible = false, bool isDescriptionVisible = true, bool isDescriptionBracketsVisible = true, bool isIndexVisible = false);
 
-
     }
-    public interface ISeries<TElement> : ISeries, NinjaTrader.NinjaScript.ISeries<TElement>
-    {
-        /// <summary>
-        /// Gets the number of cache elements.
-        /// </summary>
-        new int Count { get; }
 
-        /// <summary>
-        /// Gets the cache element located at the specified index. 
-        /// </summary>
-        /// <param name="index">The specified index.</param>
-        /// <returns>The cache element at the specified index.</returns>
-        new TElement this[int index] { get; }
-
-        /// <summary>
-        /// Gets the current cache value 'cache[0]'.
-        /// </summary>
-        TElement CurrentValue { get; }
-
-        /// <summary>
-        /// Gets the last series value before the series was updated.
-        /// </summary>
-        TElement LastValue { get; }
-
-        /// <summary>
-        /// Gets The element that is at the specified index.
-        /// </summary>
-        /// <param name="valuesAgo">The index of the element in the <see cref="ICacheElement{T}"/>.</param>
-        /// <returns>The element that is at the specified index.</returns>
-        TElement GetValue(int valuesAgo);
-
-        /// <summary>
-        /// Returns <paramref name="numOfValues"/> of <see cref="{T}"/> from specified initial index.
-        /// </summary>
-        /// <param name="fromValuesAgo">The values ago where started to construct the array.</param>
-        /// <param name="numOfValues">The number of <see cref="{T}"/> to returns.</param>
-        /// <returns><see cref="{T}"/> collection.</returns>
-        TElement[] ToArray(int fromValuesAgo, int numOfValues);
-
-    }
 }

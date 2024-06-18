@@ -58,7 +58,7 @@ namespace KrTrade.Nt.Core.DataSeries
         /// Converts the actual object to long string.
         /// </summary>
         /// <returns>Long string thats represents the actual object.</returns>
-        protected override string ToUniqueString() => $"{InstrumentName},{BarsPeriod},{BarsPeriod.MarketDataType},{TradingHoursName}";
+        protected string ToUniqueString() => $"{InstrumentName},{BarsPeriod},{BarsPeriod.MarketDataType},{TradingHoursName}";
 
         ///// <summary>
         ///// Converts tha actual object to <see cref="DataSeriesInfo"/> object.

@@ -1,7 +1,6 @@
 ﻿using KrTrade.Nt.Core.Data;
-using System;
 
-namespace KrTrade.Nt.Core   
+namespace KrTrade.Nt.Core
 {
     /// <summary>
     /// Defines the information of the service.

@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 namespace KrTrade.Nt.Core
 {
-    public interface ICollection<TElement, TElementType, TElementInfo, TCollectionInfo,TCollectionType> : IElement<TCollectionType, TCollectionInfo>, IEnumerable, IEnumerable<TElement>
-        where TElement : IElement<TElementType,TElementInfo>
+    public interface ICollection<TElement, TElementType, TElementInfo, TCollectionInfo,TCollectionType> : IInfoElement<TCollectionType, TCollectionInfo>, IEnumerable, IEnumerable<TElement>
+        where TElement : IInfoElement<TElementType,TElementInfo>
         where TElementType : Enum
         where TElementInfo: IInfo<TElementType>
         where TCollectionInfo : ICollectionInfo<TElementInfo,TCollectionType>

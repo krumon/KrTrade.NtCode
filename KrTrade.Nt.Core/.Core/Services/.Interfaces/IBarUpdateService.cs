@@ -3,7 +3,9 @@
     /// <summary>
     /// Defines properties and methods that are necesary for ninjascript <see cref="IBarUpdate"/> services.
     /// </summary>
-    public interface IBarUpdateService : IService, IBarUpdate
+    public interface IBarUpdateService<TInfo,TOptions> : IService, IBarUpdate
+        where TInfo : IServiceInfo
+        where TOptions : IServiceOptions
     {
 
         /// <summary>
@@ -18,20 +20,4 @@
 
     }
 
-    /// <summary>
-    /// Defines properties and methods that are necesary for ninjascript <see cref="IBarUpdate"/> services.
-    /// </summary>
-    public interface IBarUpdateService<TInfo> : IBarUpdateService, IService<TInfo>
-        where TInfo : BarUpdateServiceInfo, new()
-    {
-    }
-
-    /// <summary>
-    /// Defines properties and methods that are necesary for ninjascript <see cref="IBarUpdate"/> services.
-    /// </summary>
-    public interface IBarUpdateService<TInfo,TOptions> : IBarUpdateService<TInfo>, INinjascriptService<TInfo,TOptions>
-        where TInfo : BarUpdateServiceInfo, new()
-        where TOptions : BarUpdateServiceOptions, new()
-    {
-    }
 }

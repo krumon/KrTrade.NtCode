@@ -5,8 +5,8 @@ using System.Collections.Generic;
 
 namespace KrTrade.Nt.Core
 {
-    public abstract class BaseCollection<TElement,TElementType, TElementInfo,TCollectionInfo,TCollectionType> : BaseElement<TCollectionType, TCollectionInfo>, ICollection<TElement,TElementType,TElementInfo,TCollectionInfo,TCollectionType>
-        where TElement : IElement<TElementType,TElementInfo>
+    public abstract class BaseCollection<TElement,TElementType, TElementInfo,TCollectionInfo,TCollectionType> : BaseInfoElement<TCollectionType, TCollectionInfo>, ICollection<TElement,TElementType,TElementInfo,TCollectionInfo,TCollectionType>
+        where TElement : IInfoElement<TElementType,TElementInfo>
         where TElementType : Enum
         where TElementInfo : IInfo<TElementType>
         where TCollectionType : Enum

@@ -3,7 +3,7 @@
     public interface IOptions
     {
         /// <summary>
-        /// Indicates if the object is enabled.
+        /// Indicates if the element is enabled.
         /// </summary>
         bool IsEnable { get; set; }
 

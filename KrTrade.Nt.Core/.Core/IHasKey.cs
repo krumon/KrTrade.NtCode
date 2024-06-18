@@ -2,7 +2,7 @@
 
 namespace KrTrade.Nt.Core
 {
-    public interface IHasKey<T> : IEquatable<T>
+    public interface IHasKey<TSelf> : IEquatable<TSelf>
     {
 
         /// <summary>

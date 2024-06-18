@@ -2,20 +2,29 @@
 
 namespace KrTrade.Nt.Core
 {
-    public interface IBaseElement
+    public interface IElement : IHasKey<IElement>, IConfigure, IDataLoaded, ITerminated
     {
         IPrintService PrintService { get; }
     }
-    public interface IElement<TType> : IBaseElement, IInfoScript<TType,IInfo<TType>>, IHasInfo<IInfo<TType>>, IHasKey<IElement<TType>>, IConfigure, IDataLoaded, ITerminated
+    public interface IElement<TType> : IElement, IScript<TType>
         where TType: Enum
     {
     }
-    public interface IElement<TType,TInfo> : IBaseElement, IInfoScript<TType, TInfo>, IHasInfo<TInfo>, IHasKey<IElement<TType>>, IConfigure, IDataLoaded, ITerminated
+    public interface IInfoElement<TType,TInfo> : IElement<TType>, IInfoScript<TType, TInfo>
         where TInfo : IInfo<TType>
         where TType : Enum
     {
     }
-    public interface IElement<TType,TInfo,TOptions> : IBaseElement, IInfoScript<TType, TInfo>, IHasInfo<TInfo>, IHasKey<IElement<TType>>, IConfigure, IDataLoaded, ITerminated
+    public interface IOptionsElement<TType,TOptions> : IElement<TType>, IOptionsScript<TType, TOptions>
+        where TOptions : IOptions
+        where TType : Enum
+    {
+        /// <summary>
+        /// Indicates if the element is enabled.
+        /// </summary>
+        bool IsEnable { get; }
+    }
+    public interface IElement<TType,TInfo,TOptions> : IInfoElement<TType,TInfo>, IOptionsElement<TType,TOptions>, IScript<TType,TInfo,TOptions>
         where TInfo : IInfo<TType>
         where TOptions : IOptions
         where TType : Enum

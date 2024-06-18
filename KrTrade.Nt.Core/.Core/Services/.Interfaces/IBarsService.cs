@@ -6,7 +6,7 @@ namespace KrTrade.Nt.Core
     /// <summary>
     /// Defines properties and methods that are necesary to create a data series service.
     /// </summary>
-    public interface IBarsService : IService<BarsServiceInfo>, IBarUpdate, IMarketData, IMarketDepth, IRender
+    public interface IBarsService : IService, IBarUpdate, IMarketData, IMarketDepth, IRender
     {
         bool IsWaitingFirstTick { get; }
 
