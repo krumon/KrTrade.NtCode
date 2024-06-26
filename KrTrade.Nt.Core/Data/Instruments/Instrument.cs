@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KrTrade.Nt.Core.TradingHours;
+using System;
 
 namespace KrTrade.Nt.Core.Data
 {

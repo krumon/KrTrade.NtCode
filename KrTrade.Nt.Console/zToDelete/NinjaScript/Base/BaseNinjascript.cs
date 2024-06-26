@@ -1,11 +1,10 @@
 ﻿using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
-using KrTrade.Nt.DI.Exceptions;
 using System;
 using System.Reflection;
 using KrTrade.Nt.Core.Sessions;
-using KrTrade.Nt.Core.NinjaScript;
 using KrTrade.Nt.Core.Exceptions;
+using KrTrade.Nt.Core.Data;
 
 namespace KrTrade.Nt.Console
 {

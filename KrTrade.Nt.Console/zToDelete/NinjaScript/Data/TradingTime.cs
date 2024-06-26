@@ -1,7 +1,7 @@
 ﻿using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.Helpers;
 using KrTrade.Nt.Core.Sessions;
-using KrTrade.Nt.Core.TradingAreas;
+using KrTrade.Nt.Core.TradingHours;
 using System;
 
 namespace KrTrade.Nt.Console
@@ -19,7 +19,7 @@ namespace KrTrade.Nt.Console
         /// <summary>
         /// The trading time type.
         /// </summary>
-        private TradingTimeType tradingTimeType;
+        private TradingHoursType tradingTimeType;
 
         #endregion
 
@@ -28,13 +28,13 @@ namespace KrTrade.Nt.Console
         /// <summary>
         /// The trading time type.
         /// </summary>
-        public TradingTimeType TradingTimeType 
+        public TradingHoursType TradingHoursType 
         {
             private set 
             { 
                 tradingTimeType = value;
 
-                if (tradingTimeType == TradingTimeType.Custom)
+                if (tradingTimeType == TradingHoursType.Custom)
                 {
                     Key = ToDefaultCode();
                     if (string.IsNullOrEmpty(Description))
@@ -42,8 +42,8 @@ namespace KrTrade.Nt.Console
                 }
                 else
                 {
-                    Key = tradingTimeType.ToCode();
-                    Description = tradingTimeType.ToDescription();
+                    Key = TradingHoursType.ToCode();
+                    Description = TradingHoursType.ToDescription();
                 }
             }
             get => tradingTimeType;
@@ -130,7 +130,7 @@ namespace KrTrade.Nt.Console
             TimeZoneInfo = timeZoneInfo;
             Time = time;
             // TODO: Esto tengo que modificarlo. No es un tipo "custom".
-            TradingTimeType = TradingTimeType.Custom;
+            TradingHoursType = TradingHoursType.Custom;
         }
 
         #endregion
@@ -145,13 +145,13 @@ namespace KrTrade.Nt.Console
         /// <param name="instrumentKey">The unique code of the financial instrument session.</param>
         /// <param name="timeDisplacement">The offset of the <see cref="DateTime"/> in minutes.</param>
         /// <returns>The session time instance.</returns>
-        public static TradingTime CreateSessionTimeByType(TradingTimeType tradingTimeType, InstrumentCode instrumentKey, int timeDisplacement = 0)
+        public static TradingTime CreateSessionTimeByType(TradingHoursType tradingTimeType, InstrumentCode instrumentKey, int timeDisplacement = 0)
         {
             return new TradingTime 
             {
                 TimeZoneInfo = tradingTimeType.ToTimeZoneInfo(instrumentKey),
                 Time = tradingTimeType.ToTime(instrumentKey, timeDisplacement),
-                TradingTimeType = tradingTimeType
+                TradingHoursType = tradingTimeType
             };
         }
 
@@ -163,13 +163,13 @@ namespace KrTrade.Nt.Console
         /// <param name="instrumentKey">The unique code of the financial instrument session.</param>
         /// <param name="timeDisplacement">The offset of the <see cref="DateTime"/> in minutes.</param>
         /// <returns>The session time instance.</returns>
-        public static TradingTime CreateSessionTimeByType(TradingTimeType tradingTimeType, SessionUpdateArgs e, InstrumentCode instrumentKey, int timeDisplacement = 0)
+        public static TradingTime CreateSessionTimeByType(TradingHoursType tradingTimeType, SessionUpdateArgs e, InstrumentCode instrumentKey, int timeDisplacement = 0)
         {
             return new TradingTime 
             {
                 TimeZoneInfo = tradingTimeType.ToTimeZoneInfo(instrumentKey),
                 Time = tradingTimeType.ToTime(instrumentKey, timeDisplacement),
-                TradingTimeType = tradingTimeType
+                TradingHoursType = tradingTimeType
             };
         }
 
@@ -188,7 +188,7 @@ namespace KrTrade.Nt.Console
                 Time = time,
                 TimeZoneInfo = timeZoneInfo,
                 Description = description,
-                TradingTimeType = TradingTimeType.Custom,
+                TradingHoursType = TradingHoursType.Custom,
             };
         }
 
@@ -209,7 +209,7 @@ namespace KrTrade.Nt.Console
                 Time = new TimeSpan(hour, minute, seconds),
                 TimeZoneInfo = timeZoneInfo,
                 Description = description,
-                TradingTimeType = TradingTimeType.Custom,
+                TradingHoursType = TradingHoursType.Custom,
             };
         }
 
@@ -300,11 +300,11 @@ namespace KrTrade.Nt.Console
         /// </summary>
         /// <param name="tradingTimeType"><see cref="TradingTime"/> to check exists.</param>
         /// <returns>True if the session time object exists in the trading time type.</returns>
-        public static bool Exist(TradingTimeType tradingTimeType)
+        public static bool Exist(TradingHoursType tradingTimeType)
         {
             bool exist = false;
 
-            EnumHelpers.ForEach<TradingTimeType>((t) =>
+            EnumHelpers.ForEach<TradingHoursType>((t) =>
             {
                 if (!exist)
                 {

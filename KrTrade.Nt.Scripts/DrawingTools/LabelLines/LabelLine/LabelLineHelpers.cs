@@ -4,8 +4,7 @@ using NinjaTrader.Gui;
 using NinjaTrader.Gui.Chart;
 using System;
 using System.Windows;
-using KrTrade.Nt.DI.Data;
-using KrTrade.Nt.Core.Drawing;
+using KrTrade.Nt.Core.Data;
 
 #endregion
 

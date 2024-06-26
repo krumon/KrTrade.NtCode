@@ -1,5 +1,5 @@
 ﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.DI.Data;
+using KrTrade.Nt.Core.TradingHours;
 using System;
 
 namespace KrTrade.Nt.DI.Services

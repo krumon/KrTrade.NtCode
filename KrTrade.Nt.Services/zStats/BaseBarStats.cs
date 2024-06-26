@@ -35,12 +35,12 @@ namespace KrTrade.Nt.Services
             BarsIdx = barsIdx;
         }
 
-        internal override void Configure(out bool isConfigured)
+        protected override void Configure(out bool isConfigured)
         {
             isConfigured = Period > 0 && Displacement > 0;
         }
 
-        internal override void DataLoaded(out bool isDataLoaded)
+        protected override void DataLoaded(out bool isDataLoaded)
         {
             isDataLoaded = BarsIdx < Ninjascript.BarsArray.Length;
         }

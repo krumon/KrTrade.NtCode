@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Core.NinjaScript;
+﻿using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.Sessions;
 using System;
 

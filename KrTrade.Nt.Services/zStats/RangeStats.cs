@@ -67,5 +67,9 @@ namespace KrTrade.Nt.Services
             throw new System.NotImplementedException();
         }
 
+        protected override ServiceType ToElementType()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

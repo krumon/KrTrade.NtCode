@@ -1,5 +1,5 @@
-﻿using KrTrade.Nt.Core.Helpers;
-using KrTrade.Nt.Core.NinjaScript;
+﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Helpers;
 using NinjaTrader.NinjaScript;
 using System.Collections.Generic;
 

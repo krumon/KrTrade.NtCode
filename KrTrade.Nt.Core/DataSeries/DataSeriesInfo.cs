@@ -1,4 +1,5 @@
-﻿using NinjaTrader.Data;
+﻿using KrTrade.Nt.Core.Information;
+using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Core.DataSeries

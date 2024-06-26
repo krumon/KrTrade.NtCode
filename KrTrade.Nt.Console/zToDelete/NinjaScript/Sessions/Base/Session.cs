@@ -1,6 +1,5 @@
 ﻿using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.Sessions;
-using KrTrade.Nt.Core.TradingAreas;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -158,13 +157,13 @@ namespace KrTrade.Nt.Console
         }
 
         /// <summary>
-        /// Create a new custom instance of <see cref="Session"/> objects with specific <see cref="TradingTimeType"/> types and <paramref name="description"/>.
+        /// Create a new custom instance of <see cref="Session"/> objects with specific <see cref="TradingHoursType"/> types and <paramref name="description"/>.
         /// </summary>
-        /// <param name="beginSessionTimeType">The initial <see cref="TradingTimeType"/> type of the <see cref="Session"/> object.</param>
-        /// <param name="endSessionTimeType">The final <see cref="TradingTimeType"/> type of the <see cref="Session"/> object.</param>
+        /// <param name="beginSessionTimeType">The initial <see cref="TradingHoursType"/> type of the <see cref="Session"/> object.</param>
+        /// <param name="endSessionTimeType">The final <see cref="TradingHoursType"/> type of the <see cref="Session"/> object.</param>
         /// <param name="description">Custom session hours description.</param>
         /// <returns>A new custom instance of <see cref="Session"/> object.</returns>
-        public static Session CreateCustomTradingSession(InstrumentCode instrumentKey, TradingTimeType beginSessionTimeType, TradingTimeType endSessionTimeType, string description = "")
+        public static Session CreateCustomTradingSession(InstrumentCode instrumentKey, TradingHoursType beginSessionTimeType, TradingHoursType endSessionTimeType, string description = "")
         {
             return new Session
             {
@@ -176,13 +175,13 @@ namespace KrTrade.Nt.Console
         }
 
         /// <summary>
-        /// Create a new custom instance of <see cref="Session"/> objects with specific <see cref="TradingTime"/> object, <see cref="TradingTimeType"/> type and <paramref name="description"/>.
+        /// Create a new custom instance of <see cref="Session"/> objects with specific <see cref="TradingTime"/> object, <see cref="TradingHoursType"/> type and <paramref name="description"/>.
         /// </summary>
         /// <param name="beginTradingTime">The initial <see cref="TradingTime"/> of the <see cref="Session"/> object.</param>
-        /// <param name="endTradingTimeType">The final <see cref="TradingTimeType"/> type of the <see cref="Session"/> object.</param>
+        /// <param name="endTradingTimeType">The final <see cref="TradingHoursType"/> type of the <see cref="Session"/> object.</param>
         /// <param name="description">Custom session hours description.</param>
         /// <returns>A new custom instance of <see cref="Session"/> object.</returns>
-        public static Session CreateCustomTradingSession(InstrumentCode instrumentKey, TradingTime beginTradingTime, TradingTimeType endTradingTimeType, string description = "")
+        public static Session CreateCustomTradingSession(InstrumentCode instrumentKey, TradingTime beginTradingTime, TradingHoursType endTradingTimeType, string description = "")
         {
             return new Session
             {
@@ -194,13 +193,13 @@ namespace KrTrade.Nt.Console
         }
 
         /// <summary>
-        /// Create a new custom instance of <see cref="Session"/> objects with specific <see cref="TradingTime"/> object, <see cref="TradingTimeType"/> type and <paramref name="description"/>.
+        /// Create a new custom instance of <see cref="Session"/> objects with specific <see cref="TradingTime"/> object, <see cref="TradingHoursType"/> type and <paramref name="description"/>.
         /// </summary>
-        /// <param name="beginTradingTimeType">The initial <see cref="TradingTimeType"/> type of the <see cref="Session"/> object.</param>
+        /// <param name="beginTradingTimeType">The initial <see cref="TradingHoursType"/> type of the <see cref="Session"/> object.</param>
         /// <param name="endTradingTime">The final <see cref="TradingTime"/> of the <see cref="Session"/> object.</param>
         /// <param name="description">Custom session hours description.</param>
         /// <returns>A new custom instance of <see cref="Session"/> object.</returns>
-        public static Session CreateCustomTradingSession(InstrumentCode instrumentKey, TradingTimeType beginTradingTimeType, TradingTime endTradingTime, string description = "")
+        public static Session CreateCustomTradingSession(InstrumentCode instrumentKey, TradingHoursType beginTradingTimeType, TradingTime endTradingTime, string description = "")
         {
             return new Session
             {
@@ -230,14 +229,14 @@ namespace KrTrade.Nt.Console
         }
 
         /// <summary>
-        /// Create a new custom instance of <see cref="Session"/> objects with specific <see cref="TradingTimeType"/>, <see cref="TradingTime"/> properties and <paramref name="description"/>.
+        /// Create a new custom instance of <see cref="Session"/> objects with specific <see cref="TradingHoursType"/>, <see cref="TradingTime"/> properties and <paramref name="description"/>.
         /// </summary>
         /// <param name="beginTime">The initial <see cref="TimeSpan"/> of the <see cref="Session"/> <see cref="BeginSessionTime"/>.</param>
         /// <param name="beginTimeZoneInfo">The initial <see cref="TimeZoneInfo"/> of the <see cref="Session"/> <see cref="BeginSessionTime"/>.</param>
-        /// <param name="endTradingTimeType">The final <see cref="TradingTimeType"/> type of the <see cref="Session"/> object.</param>
+        /// <param name="endTradingTimeType">The final <see cref="TradingHoursType"/> type of the <see cref="Session"/> object.</param>
         /// <param name="description">Custom session hours description.</param>
         /// <returns>A new custom instance of <see cref="Session"/> object.</returns>
-        public static Session CreateCustomTradingSession(InstrumentCode instrumentKey, TimeSpan beginTime, TimeZoneInfo beginTimeZoneInfo, TradingTimeType endTradingTimeType, string description = "")
+        public static Session CreateCustomTradingSession(InstrumentCode instrumentKey, TimeSpan beginTime, TimeZoneInfo beginTimeZoneInfo, TradingHoursType endTradingTimeType, string description = "")
         {
             return new Session
             {
@@ -249,14 +248,14 @@ namespace KrTrade.Nt.Console
         }
 
         /// <summary>
-        /// Create a new custom instance of <see cref="Session"/> objects with specific <see cref="TradingTimeType"/>, <see cref="TradingTime"/> properties and <paramref name="description"/>.
+        /// Create a new custom instance of <see cref="Session"/> objects with specific <see cref="TradingHoursType"/>, <see cref="TradingTime"/> properties and <paramref name="description"/>.
         /// </summary>
-        /// <param name="beginTradingTimeType">The initial <see cref="TradingTimeType"/> type of the <see cref="Session"/> object.</param>
+        /// <param name="beginTradingTimeType">The initial <see cref="TradingHoursType"/> type of the <see cref="Session"/> object.</param>
         /// <param name="endTime">The initial <see cref="TimeSpan"/> of the <see cref="Session"/> <see cref="BeginSessionTime"/>.</param>
         /// <param name="endTimeZoneInfo">The initial <see cref="TimeZoneInfo"/> of the <see cref="Session"/> <see cref="BeginSessionTime"/>.</param>
         /// <param name="description"></param>
         /// <returns>A new custom instance of <see cref="Session"/> object.</returns>
-        public static Session CreateCustomTradingSession(InstrumentCode instrumentKey, TradingTimeType beginTradingTimeType, TimeSpan endTime, TimeZoneInfo endTimeZoneInfo, string description = "")
+        public static Session CreateCustomTradingSession(InstrumentCode instrumentKey, TradingHoursType beginTradingTimeType, TimeSpan endTime, TimeZoneInfo endTimeZoneInfo, string description = "")
         {
             return new Session
             {

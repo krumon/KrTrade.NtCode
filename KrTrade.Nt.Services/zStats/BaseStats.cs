@@ -1,8 +1,10 @@
-﻿using NinjaTrader.NinjaScript;
+﻿using KrTrade.Nt.Core;
+using KrTrade.Nt.Core.Services;
+using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Services
 {
-    public abstract class BaseStats : BaseNinjascriptService
+    public abstract class BaseStats : BaseService<IServiceInfo, IServiceOptions>
     {
         public double Avg {  get; set; }
         public double DevStd {  get; set; }

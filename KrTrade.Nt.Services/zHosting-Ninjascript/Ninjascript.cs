@@ -1,4 +1,6 @@
-﻿using NinjaTrader.NinjaScript;
+﻿using KrTrade.Nt.Core;
+using KrTrade.Nt.Core.Logging;
+using NinjaTrader.NinjaScript;
 using System;
 
 namespace KrTrade.Nt.Services

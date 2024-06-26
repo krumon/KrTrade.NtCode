@@ -1,4 +1,8 @@
-﻿using NinjaTrader.NinjaScript;
+﻿using KrTrade.Nt.Core.Helpers;
+using KrTrade.Nt.Core.Information;
+using KrTrade.Nt.Core.Logging;
+using KrTrade.Nt.Core.Options;
+using NinjaTrader.NinjaScript;
 using System;
 using System.Diagnostics;
 using System.Text;
@@ -14,8 +18,8 @@ namespace KrTrade.Nt.Core
         private bool _isDataLoaded = false;
 
         public IPrintService PrintService => _printService;
-        public bool IsConfigure => _isConfigure;
-        public bool IsDataLoaded => _isDataLoaded;
+        public bool IsConfigure { get => _isConfigure; protected set => _isConfigure = value; }
+        public bool IsDataLoaded { get => _isDataLoaded; protected set => _isDataLoaded = value; }
 
         public override string Name => string.IsNullOrEmpty(Info.Name) ? Key : Info.Name;
         public string Key => Info.Key;
@@ -24,7 +28,7 @@ namespace KrTrade.Nt.Core
         {
 
             if (IsOutOfConfigurationStates())
-                LoggingHelpers.ThrowIsNotConfigureException(Name);
+                NinjascriptThrowHelpers.ThrowIsNotConfigureException(Name);
 
             if (_isConfigure && _isDataLoaded)
                 return;
@@ -35,19 +39,13 @@ namespace KrTrade.Nt.Core
             else if (Ninjascript.State == State.DataLoaded && !_isConfigure)
                 Configure(out _isConfigure);
 
-            //else if (Ninjascript.State == State.DataLoaded && _isConfigure)
-            //    DataLoaded(out _isDataLoaded);
-
             LogConfigurationState();
         }
         public void DataLoaded()
         {
 
-            // TODO: Delete this line
-            Debugger.Break();
-
             if (Ninjascript.State != State.DataLoaded)
-                LoggingHelpers.ThrowIsNotConfigureException(Name);
+                NinjascriptThrowHelpers.ThrowIsNotConfigureException(Name);
 
             if (_isConfigure && _isDataLoaded)
                 return;
@@ -67,14 +65,14 @@ namespace KrTrade.Nt.Core
         /// services that can be configured without first passing any filters.
         /// </summary>
         /// <param name="isConfigured">True, if the service has been configure, otherwise false.</param>
-        internal abstract void Configure(out bool isConfigured);
+        protected abstract void Configure(out bool isConfigured);
 
         /// <summary>
         /// Method to configure the service when NinjaScript data is loaded. This method should be used by 
         /// services that can be configured without first passing any filters.
         /// </summary>
         /// <param name="isDataLoaded">True, if the service has been configure, otherwise false.</param>
-        internal abstract void DataLoaded(out bool isDataLoaded);
+        protected abstract void DataLoaded(out bool isDataLoaded);
 
         public override bool Equals(object obj) => obj is IElement other && this == other;
         public bool Equals(IElement other) => other != null && this == other;
@@ -138,6 +136,7 @@ namespace KrTrade.Nt.Core
                 Log(Logging.LogLevel.Error, "could not be configured. The service will not work.");
             else
                 Log(Logging.LogLevel.Error, "could not be configured. You are configuring the service out of configure or data loaded states.");
+
         }
 
         // REPAIR
@@ -380,7 +379,7 @@ namespace KrTrade.Nt.Core
         {
 
             if (IsOutOfConfigurationStates())
-                LoggingHelpers.ThrowIsNotConfigureException(Name);
+                NinjascriptThrowHelpers.ThrowIsNotConfigureException(Name);
 
             if (_isConfigure && _isDataLoaded)
                 return;
@@ -403,7 +402,7 @@ namespace KrTrade.Nt.Core
             Debugger.Break();
 
             if (Ninjascript.State != State.DataLoaded)
-                LoggingHelpers.ThrowIsNotConfigureException(Name);
+                NinjascriptThrowHelpers.ThrowIsNotConfigureException(Name);
 
             if (_isConfigure && _isDataLoaded)
                 return;

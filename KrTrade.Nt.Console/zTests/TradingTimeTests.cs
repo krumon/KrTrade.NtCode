@@ -1,4 +1,4 @@
-﻿using KrTrade.Nt.Core.TradingAreas;
+﻿using KrTrade.Nt.Core.Data;
 
 namespace KrTrade.Nt.Console.Tests
 {
@@ -30,11 +30,11 @@ namespace KrTrade.Nt.Console.Tests
         {
             InstanceTests();
             Clear();
-            ToStringTests(TradingTimeType.American_RS_EOD_Close);
+            ToStringTests(TradingHoursType.American_RS_EOD_Close);
             Clear();
             SessionTimeEnumTests();
             Clear();
-            OperatorTests(TradingTimeType.Asian_Open, TradingTimeType.American_RS_EOD_Close);
+            OperatorTests(TradingHoursType.Asian_Open, TradingHoursType.American_RS_EOD_Close);
             WaitAndClear();
         }
 
@@ -67,7 +67,7 @@ namespace KrTrade.Nt.Console.Tests
 
         }
 
-        private void ToStringTests(TradingTimeType type)
+        private void ToStringTests(TradingHoursType type)
         {
             //// Create a session time by type.
             //TradingTime st = TradingTime.CreateSessionTimeByType(type);
@@ -102,7 +102,7 @@ namespace KrTrade.Nt.Console.Tests
 
         }
 
-        private void OperatorTests(TradingTimeType t1, TradingTimeType t2)
+        private void OperatorTests(TradingHoursType t1, TradingHoursType t2)
         {
             //TradingTime st1 = TradingTime.CreateSessionTimeByType(t1);
             //TradingTime st2 = TradingTime.CreateSessionTimeByType(t2);

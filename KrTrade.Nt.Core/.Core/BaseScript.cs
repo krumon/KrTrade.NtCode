@@ -1,4 +1,6 @@
-﻿using NinjaTrader.NinjaScript;
+﻿using KrTrade.Nt.Core.Information;
+using KrTrade.Nt.Core.Options;
+using NinjaTrader.NinjaScript;
 using System;
 using System.Collections.Generic;
 

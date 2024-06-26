@@ -1,8 +1,6 @@
 ﻿using KrTrade.Nt.Console.Internal;
 using System;
-using KrTrade.Nt.Core.Sessions;
 using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core.TradingAreas;
 using KrTrade.Nt.Core.Helpers;
 
 namespace KrTrade.Nt.Console.Tests
@@ -69,14 +67,14 @@ namespace KrTrade.Nt.Console.Tests
             Subtitle("Custom instance with trading session types");
             ts = TradingSession.CreateCustomTradingSession(
                 InstrumentCode.MES,
-                TradingTimeType.American_Open,
-                TradingTimeType.Asian_Close,
+                TradingHoursType.American_Open,
+                TradingHoursType.Asian_Close,
                 "My Custom TradingSession");
             WriteLine(ts.ToString());
             NewLine();
 
             Subtitle("Custom instance with Time Span, Time Zone Info and Trading Session PeriodType");
-            ts = TradingSession.CreateCustomTradingSession(InstrumentCode.MES, new TimeSpan(12, 15, 0), TimeZoneInfo.Local, TradingTimeType.European_Close);
+            ts = TradingSession.CreateCustomTradingSession(InstrumentCode.MES, new TimeSpan(12, 15, 0), TimeZoneInfo.Local, TradingHoursType.European_Close);
             WriteLine(ts.ToShortString("u"));
             NewLine();
 

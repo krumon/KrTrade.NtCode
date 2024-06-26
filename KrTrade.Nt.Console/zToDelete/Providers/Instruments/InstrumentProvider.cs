@@ -1,6 +1,6 @@
 ﻿using KrTrade.Nt.Console;
 using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.DI.Data;
+using KrTrade.Nt.Core.TradingHours;
 using KrTrade.Nt.DI.Services;
 using System;
 using System.Collections.Concurrent;
@@ -57,7 +57,7 @@ namespace KrTrade.Nt.Console
         {
             get
             {
-                if (TradingHoursKey == Core.Data.TradingHoursCode.Default)
+                if (TradingHoursKey == TradingHoursCode.Default)
                     TradingHoursKey = _instrumentKey.ToDefaultTradingHoursKey();
 
                 return TradingHoursKey.ToName();

@@ -4,6 +4,8 @@ using KrTrade.Nt.Core;
 using KrTrade.Nt.Core.Logging;
 using KrTrade.Nt.Services;
 using KrTrade.Nt.Services.Series;
+using KrTrade.Nt.Core.Services;
+using KrTrade.Nt.Core.Series;
 
 namespace KrTrade.Nt.Console.Console
 {

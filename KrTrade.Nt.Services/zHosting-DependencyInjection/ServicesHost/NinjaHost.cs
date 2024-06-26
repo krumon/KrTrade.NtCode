@@ -1,4 +1,6 @@
-﻿using NinjaTrader.NinjaScript;
+﻿using KrTrade.Nt.Core;
+using KrTrade.Nt.Core.Services;
+using NinjaTrader.NinjaScript;
 using System;
 using System.Collections.Generic;
 
@@ -17,7 +19,7 @@ namespace KrTrade.Nt.Services
         ///// </summary>
         //public NinjaScriptBase Ninjascript { get; protected set; }
 
-        protected Dictionary<Type, INinjascriptService> ServiceCollection { get; set; }
+        protected Dictionary<Type, IService> ServiceCollection { get; set; }
         
         #endregion
 
@@ -59,14 +61,14 @@ namespace KrTrade.Nt.Services
         //    Add(typeof(TService), () => CreateService<TService, TOptions>(this, configureOptions));
         //}
 
-        public T Get<T>()
-            where T : BaseNinjascriptService
-        {
+        //public T Get<T>()
+        //    where T : BaseNinjascriptService
+        //{
             
-            if (ServiceCollection.TryGetValue(typeof(T), out var service))
-                return (T)service;
-            else return default;
-        }
+        //    if (ServiceCollection.TryGetValue(typeof(T), out var service))
+        //        return (T)service;
+        //    else return default;
+        //}
 
         public void Build()
         {
@@ -81,65 +83,65 @@ namespace KrTrade.Nt.Services
 
         #region Private methods
 
-        private void Recursive(BaseNinjascriptService service)
-        {
-            //foreach (var key in ServiceCollection.Keys)
-            //{
-            //    ServiceCollection[key].PrintService = (PrintService)service;
-            //    //if (service[key] is IChildService serviceChild)
-            //}
-        }
+        //private void Recursive(BaseService service)
+        //{
+        //    //foreach (var key in ServiceCollection.Keys)
+        //    //{
+        //    //    ServiceCollection[key].PrintService = (PrintService)service;
+        //    //    //if (service[key] is IChildService serviceChild)
+        //    //}
+        //}
 
-        private void Add(Type type, BaseNinjascriptService service)
-        {
-            if (service == null)
-            {
-                if (Exceptions == null)
-                    Exceptions = new List<Exception>();
-                Exceptions.Add(new Exception($"The {type.Name} service could not be added because 'service' parameter is null."));
-                return;
-            }
+        //private void Add(Type type, BaseService service)
+        //{
+        //    if (service == null)
+        //    {
+        //        if (Exceptions == null)
+        //            Exceptions = new List<Exception>();
+        //        Exceptions.Add(new Exception($"The {type.Name} service could not be added because 'service' parameter is null."));
+        //        return;
+        //    }
 
-            if (ServiceCollection == null) 
-                ServiceCollection = new Dictionary<Type, INinjascriptService>();
+        //    if (ServiceCollection == null) 
+        //        ServiceCollection = new Dictionary<Type, INinjascriptService>();
 
-            if (ServiceCollection.ContainsKey(type))
-            {
-                if (Exceptions == null)
-                    Exceptions = new List<Exception>();
-                Exceptions.Add(new Exception($"The {service.Name} could not be added because it already exists."));
-                return;
-            }
-            ServiceCollection.Add(type, service);
-            //if (type == typeof(PrintService))
-            //    PrintService = Get<PrintService>();
-        }
+        //    if (ServiceCollection.ContainsKey(type))
+        //    {
+        //        if (Exceptions == null)
+        //            Exceptions = new List<Exception>();
+        //        Exceptions.Add(new Exception($"The {service.Name} could not be added because it already exists."));
+        //        return;
+        //    }
+        //    ServiceCollection.Add(type, service);
+        //    //if (type == typeof(PrintService))
+        //    //    PrintService = Get<PrintService>();
+        //}
 
-        private void Add(Type type, Func<BaseNinjascriptService> delegateServiceCtor)
-        {
-            if (delegateServiceCtor == null)
-            {
-                if (Exceptions == null)
-                    Exceptions = new List<Exception>();
-                Exceptions.Add(new Exception($"The {type.Name} service could not be added because 'delegate parameter constructor' is null."));
-                return;
-            }
+        //private void Add(Type type, Func<BaseNinjascriptService> delegateServiceCtor)
+        //{
+        //    if (delegateServiceCtor == null)
+        //    {
+        //        if (Exceptions == null)
+        //            Exceptions = new List<Exception>();
+        //        Exceptions.Add(new Exception($"The {type.Name} service could not be added because 'delegate parameter constructor' is null."));
+        //        return;
+        //    }
 
-            if (ServiceCollection == null) 
-                ServiceCollection = new Dictionary<Type, INinjascriptService>();
+        //    if (ServiceCollection == null) 
+        //        ServiceCollection = new Dictionary<Type, INinjascriptService>();
 
-            if (ServiceCollection.ContainsKey(type))
-            {
-                if (Exceptions == null)
-                    Exceptions = new List<Exception>();
-                Exceptions.Add(new Exception($"The {type.Name} service could not be added because it already exists."));
-                return;
-            }
-            ServiceCollection.Add(type, delegateServiceCtor());
-            //if (type == typeof(PrintService))
-            //    PrintService = Get<PrintService>();
+        //    if (ServiceCollection.ContainsKey(type))
+        //    {
+        //        if (Exceptions == null)
+        //            Exceptions = new List<Exception>();
+        //        Exceptions.Add(new Exception($"The {type.Name} service could not be added because it already exists."));
+        //        return;
+        //    }
+        //    ServiceCollection.Add(type, delegateServiceCtor());
+        //    //if (type == typeof(PrintService))
+        //    //    PrintService = Get<PrintService>();
 
-        }
+        //}
 
         #endregion
 

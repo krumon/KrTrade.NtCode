@@ -1,8 +1,11 @@
-﻿using System;
+﻿using KrTrade.Nt.Core.Information;
+using KrTrade.Nt.Core.Logging;
+using KrTrade.Nt.Core.Options;
+using System;
 
 namespace KrTrade.Nt.Core
 {
-    public interface IElement : IHasKey<IElement>, IConfigure, IDataLoaded, ITerminated
+    public interface IElement : IHasKey<IElement>, IHasName, IConfigure, IDataLoaded, ITerminated
     {
         IPrintService PrintService { get; }
     }

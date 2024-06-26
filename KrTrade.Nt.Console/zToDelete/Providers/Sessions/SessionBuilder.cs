@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using KrTrade.Nt.Core.Sessions;
 using KrTrade.Nt.Core.Helpers;
+using KrTrade.Nt.Core.Data;
 
 namespace KrTrade.Nt.Console
 {
