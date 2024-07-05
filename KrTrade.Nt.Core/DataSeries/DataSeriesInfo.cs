@@ -1,10 +1,10 @@
-﻿using KrTrade.Nt.Core.Information;
+﻿using KrTrade.Nt.Core.Infos;
 using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Core.DataSeries
 {
-    public class DataSeriesInfo : Info
+    public class DataSeriesInfo : BaseInfo
     {
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace KrTrade.Nt.Core.DataSeries
         /// Converts the actual object to long string.
         /// </summary>
         /// <returns>Long string thats represents the actual object.</returns>
-        protected string ToUniqueString() => $"{InstrumentName},{BarsPeriod},{BarsPeriod.MarketDataType},{TradingHoursName}";
+        protected override string ToUniqueString() => $"{InstrumentName},{BarsPeriod},{BarsPeriod.MarketDataType},{TradingHoursName}";
 
         ///// <summary>
         ///// Converts tha actual object to <see cref="DataSeriesInfo"/> object.

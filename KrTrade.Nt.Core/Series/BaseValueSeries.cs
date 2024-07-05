@@ -1,4 +1,6 @@
-﻿using KrTrade.Nt.Core.Services;
+﻿using KrTrade.Nt.Core.Infos;
+using KrTrade.Nt.Core.Options;
+using KrTrade.Nt.Core.Services;
 
 namespace KrTrade.Nt.Core.Series
 {
@@ -9,7 +11,7 @@ namespace KrTrade.Nt.Core.Series
         protected T _candidateValue;
         protected bool IsFirstValueToBeAdded => Count == 0 && IsValidValueToBeAdded(_candidateValue, true);
 
-        protected BaseValueSeries(IBarsService bars, SeriesInfo info) : base(bars, info) { }
+        protected BaseValueSeries(IBarsService bars, SeriesInfo info) : base(bars, info, new ElementOptions()) { }
 
         public override void Add()
         {

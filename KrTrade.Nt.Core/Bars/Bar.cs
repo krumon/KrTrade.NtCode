@@ -1,4 +1,5 @@
-﻿using NinjaTrader.Data;
+﻿using KrTrade.Nt.Core.Services;
+using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
 using System;
 
@@ -75,6 +76,20 @@ namespace KrTrade.Nt.Core.Bars
             Reset();
         }
 
+        //public Bar(IBarsService barsService)
+        //{
+        //    Set(barsService);
+        //}
+
+        //public Bar(IBarsService barsService, int barsAgo)
+        //{
+        //    Set(barsService,barsAgo);
+        //}
+        //public Bar(NinjaScriptBase ninjascript, int barsInProgress, int barsAgo)
+        //{
+        //    Set(ninjascript,barsInProgress,barsAgo);
+        //}
+
         #endregion
 
         #region Public methods
@@ -90,7 +105,9 @@ namespace KrTrade.Nt.Core.Bars
             Volume = 0;
             Ticks = 0;
         }
-        public bool Set(NinjaScriptBase ninjascript, int barsAgo, int barsInProgress)
+
+        public bool Set(IBarsService barsService, int barsAgo = 0) => Set(barsService.Ninjascript, barsAgo, barsService.Index);
+        public bool Set(NinjaScriptBase ninjascript, int barsInProgress, int barsAgo)
         {
             if (ninjascript == null || ninjascript.State != State.Historical || ninjascript.State != State.Realtime)
                 return false;
@@ -111,11 +128,80 @@ namespace KrTrade.Nt.Core.Bars
 
             return true;
         }
-        public bool Set(MarketDataEventArgs args)
+
+
+        
+        public bool Update(IBarsService barsService, int barsAgo = 0) => Update(barsService.Ninjascript, barsAgo, barsService.Index);
+        public bool Update(NinjaScriptBase ninjascript, int barsAgo, int barsInProgress)
         {
-            // TODO: Asignar valores cada vez que los datos de mercado cambian.
-            return false;
+            if (ninjascript == null || ninjascript.State != State.Historical || ninjascript.State != State.Realtime)
+                return false;
+
+            double high, low, close, volume;
+            high = ninjascript.Highs[barsInProgress][barsAgo];
+            low = ninjascript.Lows[barsInProgress][barsAgo];
+            close = ninjascript.Closes[barsInProgress][barsAgo];
+            volume = ninjascript.Volumes[barsInProgress][barsAgo];
+
+            if (High >= high && Low <= low && Close == close && Volume == volume)
+                return false;
+            bool isUpdated = false;
+            if (high > High)
+            {
+                High = high;
+                isUpdated = true;
+            }
+            if (low < Low)
+            {
+                Low = low;
+                isUpdated = true;
+            }
+            if (close != Close)
+            {
+                Close = close;
+                isUpdated = true;
+            }
+            if (volume != Volume)
+            {
+                Volume = volume;
+                isUpdated = true;
+            }
+            if (ninjascript.Calculate == Calculate.OnEachTick)
+            {
+                if (ninjascript.State == State.Realtime || (ninjascript.State == State.Historical && ninjascript.Bars.IsTickReplay))
+                { 
+                    long ticks = ninjascript.BarsArray[barsInProgress].TickCount;
+                    if (ticks != Ticks)
+                    {
+                        Ticks = ticks;
+                        isUpdated = true;
+                    }
+                }
+            }
+
+            return isUpdated;
         }
+        
+        public bool Update(NinjaScriptBase ninjascript, MarketDataEventArgs args)
+        {
+            if (ninjascript == null || args == null || ninjascript.State != State.Historical || ninjascript.State != State.Realtime)
+                return false;
+
+            if (args.MarketDataType != MarketDataType.Last)
+                return false;
+
+            double price = args.Price;
+            High = price > High ? price : High;
+            Low = price < Low ? price : Low;
+            Close = price != Close ? price : Close;
+            Volume += args.Volume;
+            if (ninjascript.Calculate == Calculate.OnBarClose)
+                Ticks++;
+
+            return true;
+        }
+        public bool Update(IBarsService barsService, MarketDataEventArgs args) => Update(barsService.Ninjascript,args);
+
         public void CopyTo(Bar bar)
         {
             bar.Idx = Idx;
@@ -141,6 +227,10 @@ namespace KrTrade.Nt.Core.Bars
                 Ticks = this.Ticks
             };
         }
+
+        #endregion
+
+        #region Private methods
 
         protected void Set(int idx, DateTime time, double open, double high, double low, double close, double volume, long ticks)
         {

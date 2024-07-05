@@ -29,6 +29,24 @@ namespace KrTrade.Nt.Console.Console
 
         public static void Main(string[] args)
         {
+            IBarsService barsService = new BarsServiceBuilder(null, null, null)
+                .Configure((info,options) =>
+                {
+                    // Information
+                    info.Name = "KRUMON_BARS";
+                    info.InstrumentCode = InstrumentCode.Default;
+                    info.TimeFrame = TimeFrame.m1;
+                    info.TradingHoursCode = TradingHoursCode.Default;
+                    info.MarketDataType = MarketDataType.Last;
+                    // Options
+                    options.IsEnable = true;
+                    options.IsLogEnable = true;
+                    options.CalculateMode = NinjaTrader.NinjaScript.Calculate.OnBarClose;
+                    options.MultiSeriesCalculateMode = MultiSeriesCalculateMode.PrimarySeriesClosed;
+                    options.CacheCapacity = 10;
+                    options.RemovedCacheCapacity = 2;
+                })
+                .Build();
 
             // Configure
             IBarsManager bars = new BarsManagerBuilder()
@@ -55,42 +73,42 @@ namespace KrTrade.Nt.Console.Console
                     //{
                     //    info.InstrumentCode = InstrumentCode.MES;
                     //});
-                    builder.AddSeries_Period(
-                        (info) => {
-                            info.Name = "Max5";
-                            info.Type = PeriodSeriesType.AVG;
-                            info.Period = 5;
-                            info.Capacity = 7;
-                            info.AddInputSeries_Period(max =>
-                            {
-                                max.Type = PeriodSeriesType.MAX;
-                                max.AddInputSeries<BarsSeriesInfo>(high =>
-                                {
-                                    high.Type = BarsSeriesType.HIGH;
-                                });
-                            });
-                            info.AddInputSeries_Swing(swing =>
-                            {
-                                swing.AddInputSeries<PeriodSeriesInfo>(min =>
-                                {
-                                    min.Type = PeriodSeriesType.MIN;
-                                    min.OldValuesCapacity = 5;
-                                    min.Period = 5;
-                                });
-                            });
-                            info.AddInputSeries<SwingSeriesInfo>(high =>
-                            {
-                                high.Type = StrengthSeriesType.SWING_HIGH;
-                                high.LeftStrength = 3;
-                                high.RightStrength = 3;
-                            });
-                        });
+                    //builder.AddSeries_Period(
+                    //    (info) => {
+                    //        info.Name = "Max5";
+                    //        info.Type = PeriodSeriesType.AVG;
+                    //        info.Period = 5;
+                    //        info.Capacity = 7;
+                    //        info.AddInputSeries_Period(max =>
+                    //        {
+                    //            max.Type = PeriodSeriesType.MAX;
+                    //            max.AddInputSeries<BarsSeriesInfo>(high =>
+                    //            {
+                    //                high.Type = BarsSeriesType.HIGH;
+                    //            });
+                    //        });
+                    //        info.AddInputSeries_Swing(swing =>
+                    //        {
+                    //            swing.AddInputSeries<PeriodSeriesInfo>(min =>
+                    //            {
+                    //                min.Type = PeriodSeriesType.MIN;
+                    //                min.OldValuesCapacity = 5;
+                    //                min.Period = 5;
+                    //            });
+                    //        });
+                    //        info.AddInputSeries<SwingSeriesInfo>(high =>
+                    //        {
+                    //            high.Type = StrengthSeriesType.SWING_HIGH;
+                    //            high.LeftStrength = 3;
+                    //            high.RightStrength = 3;
+                    //        });
+                    //    });
                 })
                 // Add bars service.
                 .AddDataSeries(builder =>
                 {
                     // Configure the BarsService options.
-                    builder.ConfigureOptions((info,op) =>
+                    builder.Configure((info,op) =>
                     {
                         // Configure the data series.
                         info.InstrumentCode = InstrumentCode.MES;
@@ -102,16 +120,16 @@ namespace KrTrade.Nt.Console.Console
                         op.IsLogEnable = true;
                         op.CalculateMode = NinjaTrader.NinjaScript.Calculate.OnEachTick;
                     });
-                    // Add series to the BarsService().
-                    builder.AddSeries_Period((info) =>
-                    {
-                        info.Type = PeriodSeriesType.DEVSTD;
-                        info.Period = 20;
-                    }); 
+                    //// Add series to the BarsService().
+                    //builder.AddSeries_Period((info) =>
+                    //{
+                    //    info.Type = PeriodSeriesType.DEVSTD;
+                    //    info.Period = 20;
+                    //}); 
                 })
                 .AddDataSeries(builder =>
                 { 
-                    builder.ConfigureOptions((info,op) =>
+                    builder.Configure((info,op) =>
                     {
                         info.InstrumentCode = InstrumentCode.MES;
                         info.TradingHoursCode = TradingHoursCode.Default;

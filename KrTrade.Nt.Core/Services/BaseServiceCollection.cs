@@ -1,27 +1,23 @@
 ﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Infos;
 using KrTrade.Nt.Core.Logging;
+using KrTrade.Nt.Core.Options;
 using NinjaTrader.NinjaScript;
 
 namespace KrTrade.Nt.Core.Services
 {
 
-    public abstract class BaseServiceCollection<TElement> : BaseCollection<TElement, ServiceType,IServiceInfo,IServiceCollectionInfo,ServiceCollectionType>, IServiceCollection<TElement>
-        where TElement : IService
+    public abstract class BaseServiceCollection<TElement,TElementInfo,TElementOptions> : BaseCollection<TElement, ServiceType,TElementInfo,IServiceCollectionInfo<TElementInfo,TElementOptions>,ServiceCollectionType>, IServiceCollection<TElement,TElementInfo,TElementOptions>
+        where TElement : IService<TElementInfo,TElementOptions>
+        where TElementInfo : IServiceInfo
+        where TElementOptions : IServiceOptions
     {
 
-        public IServiceOptions Options { get; protected set; }
-
         public bool IsConfigureAll => IsConfigure && IsDataLoaded;
-
-        public bool IsEnable => Options.IsEnable;
-        public bool IsLogEnable => Options.IsLogEnable;
-
         protected bool IsPrintServiceAvailable => PrintService != null && IsLogEnable;
 
-        protected BaseServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, ServiceCollectionInfo info, ServiceCollectionOptions options) : base(ninjascript, printService, info, new ServiceOptions())
+        protected BaseServiceCollection(NinjaScriptBase ninjascript, IPrintService printService, IServiceCollectionInfo<TElementInfo, TElementOptions> info, IServiceOptions options) : base(ninjascript, printService, info, options ?? new ServiceCollectionOptions())
         {
-            Options = options ?? new ServiceOptions();
-
             if (string.IsNullOrEmpty(Info.Name))
                 Info.Name = Info.Type.ToString();
         }

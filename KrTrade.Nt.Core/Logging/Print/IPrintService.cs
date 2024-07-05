@@ -118,26 +118,26 @@
         /// Log a value in NinjaScript output window.
         /// </summary>
         /// <param name="message">The message to log.</param>
-        void LogText(string message);
+        void Log(string message);
 
         /// <summary>
         /// Log a value in NinjaScript output window.
         /// </summary>
         /// <param name="value">The value to log.</param>
-        void LogValue(object value);
+        void Log(object value);
 
         /// <summary>
         /// Log a value with label in NinjaScript output window.
         /// </summary>
         /// <param name="label">The label of the value.</param>
         /// <param name="value">The value to log.</param>
-        void LogValue(string label, object value);
+        void Log(string label, object value);
 
         /// <summary>
         /// Log a collection of values with label in NinjaScript output window.
         /// </summary>
         /// <param name="values">The values to log.</param>
-        void LogValues(params object[] values);
+        void Log(params object[] values);
 
         /// <summary>
         /// Log a collection of values with label in NinjaScript output window.
@@ -148,7 +148,7 @@
         /// The labels must be passed as a set of words separated by special characters ("," ";" " " "_" "-" ) 
         /// If exists a labels format error or number of labels don't match with values the method print only the values. </param>
         /// <param name="values">The values to log.</param>
-        void LogValues(string labels, params object[] values);
+        void Log(string labels, params object[] values);
 
     }
 }

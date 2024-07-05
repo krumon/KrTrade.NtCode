@@ -1,4 +1,6 @@
 ﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Infos;
+using KrTrade.Nt.Core.Options;
 using KrTrade.Nt.Core.Services;
 using NinjaTrader.Data;
 using System;
@@ -10,13 +12,13 @@ namespace KrTrade.Nt.Core.Series
     /// <summary>
     /// Base class for all series.
     /// </summary>
-    public abstract class BaseSeries<T> : BaseInfoElement<SeriesType, ISeriesInfo>, ISeries<T>
+    public abstract class BaseSeries<T> : BaseElement<SeriesType, ISeriesInfo, IElementOptions>, ISeries<T>
     {
 
         private IList<T> _cache = new List<T>();
         private bool _isOldValuesCacheRunning;
         protected int OldValuesLength => Count < Capacity || Count > MaxLength ? 0 : MaxLength - Count;
-        protected IBarsService Bars { get; private set; }
+        protected IBarsService Bars { get; set; }
 
         // ICache<T> implementation
         public bool IsFull => Count > MaxLength;
@@ -171,7 +173,7 @@ namespace KrTrade.Nt.Core.Series
         /// <summary>
         /// Create <see cref="ISeries"/> instance with specified information.
         /// <param name="info">The specified information of the series.</param>
-        public BaseSeries(IBarsService barsService, ISeriesInfo info) : base(barsService?.Ninjascript, barsService?.PrintService, info)
+        public BaseSeries(IBarsService barsService, ISeriesInfo info, IElementOptions options) : base(barsService?.Ninjascript, barsService?.PrintService, info, options)
         {
             Bars = barsService ?? throw new ArgumentNullException(nameof(barsService));
             Info.OldValuesCapacity = OldValuesCapacity < 1 ? Globals.SERIES_DEFAULT_OLD_VALUES_CAPACITY : OldValuesCapacity;
@@ -218,7 +220,7 @@ namespace KrTrade.Nt.Core.Series
 
     public class Series<T> : BaseSeries<T>
     {
-        public Series(IBarsService barsService, ISeriesInfo info) : base(barsService, info)
+        public Series(IBarsService barsService, ISeriesInfo info, IElementOptions options) : base(barsService, info, options)
         {
         }
 

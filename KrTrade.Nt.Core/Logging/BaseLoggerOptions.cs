@@ -1,5 +1,5 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using KrTrade.Nt.Core.Services;
+using KrTrade.Nt.Core.Options;
 
 namespace KrTrade.Nt.Core.Logging
 {

@@ -1,6 +1,6 @@
-﻿using KrTrade.Nt.Core.Information;
+﻿using KrTrade.Nt.Core.Infos;
 using KrTrade.Nt.Core.Logging;
-using KrTrade.Nt.Core.Services;
+using KrTrade.Nt.Core.Options;
 using NinjaTrader.NinjaScript;
 using System;
 using System.Collections;
@@ -8,12 +8,12 @@ using System.Collections.Generic;
 
 namespace KrTrade.Nt.Core
 {
-    public abstract class BaseCollection<TElement,TElementType, TElementInfo,TCollectionInfo,TCollectionType> : BaseInfoElement<TCollectionType, TCollectionInfo>, ICollection<TElement,TElementType,TElementInfo,TCollectionInfo,TCollectionType>
-        where TElement : IElement
+    public abstract class BaseCollection<TElement,TElementType, TElementInfo,TCollectionInfo,TCollectionType> : BaseElement<TCollectionType, TCollectionInfo, IElementOptions>, ICollection<TElement,TElementType,TElementInfo,TCollectionInfo,TCollectionType>
+        where TElement : IElement<TElementType>
+        where TElementInfo : IElementInfo<TElementType>
+        where TCollectionInfo : ICollectionInfo<TElementInfo,TElementType,TCollectionType>
         where TElementType : Enum
-        where TElementInfo : IInfo<TElementType>
         where TCollectionType : Enum
-        where TCollectionInfo : ICollectionInfo<TElementInfo,TCollectionType>
     {
         protected IList<TElement> _collection;
         protected IDictionary<string, int> _keys;
@@ -55,7 +55,7 @@ namespace KrTrade.Nt.Core
             }
         }
 
-        public BaseCollection(NinjaScriptBase ninjascript, IPrintService printService, TCollectionInfo collectionInfo, IServiceOptions collectionOptions) : base(ninjascript,printService,collectionInfo)
+        public BaseCollection(NinjaScriptBase ninjascript, IPrintService printService, TCollectionInfo collectionInfo, IElementOptions collectionOptions) : base(ninjascript,printService,collectionInfo,collectionOptions)
         { 
             _collection = new List<TElement>();
         }

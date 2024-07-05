@@ -1,8 +1,7 @@
 ﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core;
-using System;
 using KrTrade.Nt.Core.Series;
 using KrTrade.Nt.Core.Services;
+using System;
 
 namespace KrTrade.Nt.Services.Series
 {

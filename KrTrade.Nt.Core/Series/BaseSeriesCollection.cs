@@ -1,4 +1,6 @@
 ﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Infos;
+using KrTrade.Nt.Core.Options;
 using KrTrade.Nt.Core.Services;
 using NinjaTrader.Data;
 using System;

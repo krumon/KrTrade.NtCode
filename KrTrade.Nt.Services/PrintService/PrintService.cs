@@ -1,5 +1,4 @@
-﻿using KrTrade.Nt.Core;
-using KrTrade.Nt.Core.Data;
+﻿using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.Extensions;
 using KrTrade.Nt.Core.Logging;
 using NinjaTrader.NinjaScript;
@@ -86,8 +85,6 @@ namespace KrTrade.Nt.Services
         protected override void WriteTo(object value) => Ninjascript.Print(value);
         protected override void ClearLoggerMessages() => Ninjascript.ClearOutputWindow();
 
-        #endregion
-
         /// <summary>
         /// Prints in the ninjascript output window the OPEN price of the specific <paramref name="barsAgo"/> bar and
         /// the specific <paramref name="barsInProgress"/> data series. The default values for <paramref name="barsAgo"/> and
@@ -100,7 +97,7 @@ namespace KrTrade.Nt.Services
             if (!IsEnable) return;
 
             string label = StringFormatLength == FormatLength.Long ? "Open" : "O";
-            LogValue(label, Ninjascript.Opens[barsInProgress][barsAgo]);
+            Log(label, Ninjascript.Opens[barsInProgress][barsAgo]);
         }
 
         /// <summary>
@@ -115,7 +112,7 @@ namespace KrTrade.Nt.Services
             if (!IsEnable) return;
 
             string label = Options.Formatter.StringFormatLength == FormatLength.Long ? "High" : "H";
-            LogValue(label, Ninjascript.Highs[barsInProgress][barsAgo]);
+            Log(label, Ninjascript.Highs[barsInProgress][barsAgo]);
         }
 
         /// <summary>
@@ -130,7 +127,7 @@ namespace KrTrade.Nt.Services
             if (!IsEnable) return;
 
             string label = Options.Formatter.StringFormatLength == FormatLength.Long ? "Low" : "L";
-            LogValue(label, Ninjascript.Lows[barsInProgress][barsAgo]);
+            Log(label, Ninjascript.Lows[barsInProgress][barsAgo]);
         }
 
         /// <summary>
@@ -145,7 +142,7 @@ namespace KrTrade.Nt.Services
             if (!IsEnable) return;
 
             string label = Options.Formatter.StringFormatLength == FormatLength.Long ? "Close" : "C";
-            LogValue(label, Ninjascript.Closes[barsInProgress][barsAgo]);
+            Log(label, Ninjascript.Closes[barsInProgress][barsAgo]);
         }
 
         /// <summary>
@@ -160,7 +157,7 @@ namespace KrTrade.Nt.Services
             if (!IsEnable) return;
 
             string label = Options.Formatter.StringFormatLength == FormatLength.Long ? "Input" : "I";
-            LogValue(label, Ninjascript.Inputs[barsInProgress][barsAgo]);
+            Log(label, Ninjascript.Inputs[barsInProgress][barsAgo]);
         }
 
         /// <summary>
@@ -175,7 +172,7 @@ namespace KrTrade.Nt.Services
             if (!IsEnable) return;
 
             string label = Options.Formatter.StringFormatLength == FormatLength.Long ? "Volume" : "V";
-            LogValue(label, Ninjascript.Volumes[barsInProgress][barsAgo].ToString(DoubleFormat.Volume));
+            Log(label, Ninjascript.Volumes[barsInProgress][barsAgo].ToString(DoubleFormat.Volume));
         }
 
         /// <summary>
@@ -190,7 +187,7 @@ namespace KrTrade.Nt.Services
             if (!IsEnable) return;
 
             string labels = Options.Formatter.StringFormatLength == FormatLength.Long ? "Open, High, Low, Close" : "O, H, L, C";
-            LogValues(labels,
+            Log(labels,
                 Ninjascript.Opens[barsInProgress][barsAgo],
                 Ninjascript.Highs[barsInProgress][barsAgo],
                 Ninjascript.Lows[barsInProgress][barsAgo],
@@ -212,7 +209,7 @@ namespace KrTrade.Nt.Services
 
             string labels = string.IsNullOrEmpty(label) || string.IsNullOrWhiteSpace(label) ? string.Empty : label + ", ";
             labels += Options.Formatter.StringFormatLength == FormatLength.Long ? "Open, High, Low, Close" : "O, H, L, C";
-            LogValues(labels,
+            Log(labels,
                 Ninjascript.Opens[barsInProgress][barsAgo],
                 Ninjascript.Highs[barsInProgress][barsAgo],
                 Ninjascript.Lows[barsInProgress][barsAgo],
@@ -232,7 +229,7 @@ namespace KrTrade.Nt.Services
             if (!IsEnable) return;
 
             string labels = Options.Formatter.StringFormatLength == FormatLength.Long ? "Open, High, Low, Close, Volume" : "O, H, L, C, V";
-            LogValues(labels,
+            Log(labels,
                 Ninjascript.Opens[barsInProgress][barsAgo],
                 Ninjascript.Highs[barsInProgress][barsAgo],
                 Ninjascript.Lows[barsInProgress][barsAgo],
@@ -254,7 +251,7 @@ namespace KrTrade.Nt.Services
 
             string labels = string.IsNullOrEmpty(label) || string.IsNullOrWhiteSpace(label) ? string.Empty : label + ", ";
             labels += Options.Formatter.StringFormatLength == FormatLength.Long ? "Open, High, Low, Close, Volume" : "O, H, L, C, V";
-            LogValues(labels,
+            Log(labels,
                 Ninjascript.Opens[barsInProgress][barsAgo],
                 Ninjascript.Highs[barsInProgress][barsAgo],
                 Ninjascript.Lows[barsInProgress][barsAgo],
@@ -304,7 +301,7 @@ namespace KrTrade.Nt.Services
         /// Log a value in NinjaScript output window.
         /// </summary>
         /// <param name="message">The message to log.</param>
-        public void LogText(string message)
+        public void Log(string message)
         {
             if (!IsEnable) return;
 
@@ -315,7 +312,7 @@ namespace KrTrade.Nt.Services
         /// Log a value in NinjaScript output window.
         /// </summary>
         /// <param name="value">The value to log.</param>
-        public void LogValue(object value)
+        public void Log(object value)
         {
             if (!IsEnable) return;
 
@@ -327,7 +324,7 @@ namespace KrTrade.Nt.Services
         /// </summary>
         /// <param name="label">The label of the value.</param>
         /// <param name="value">The value to log.</param>
-        public void LogValue(string label, object value)
+        public void Log(string label, object value)
         {
             if (!IsEnable) return;
 
@@ -346,7 +343,7 @@ namespace KrTrade.Nt.Services
         /// Log a collection of values with label in NinjaScript output window.
         /// </summary>
         /// <param name="values">The values to log.</param>
-        public void LogValues(params object[] values)
+        public void Log(params object[] values)
         {
             if (!IsEnable) return;
 
@@ -369,7 +366,7 @@ namespace KrTrade.Nt.Services
         /// <param name="labels">The value labels. 
         /// The labels must be passed as a set of words separated by special characters ("," ";" " " "_" "-" ) </param>
         /// <param name="values">The values to log.</param>
-        public void LogValues(string labels, params object[] values)
+        public void Log(string labels, params object[] values)
         {
             if (!IsEnable) return;
 
@@ -403,6 +400,8 @@ namespace KrTrade.Nt.Services
             LogInformation(logText);
         }
 
+        #endregion
+
         #region Private methods
 
         protected string ToString(object value)
@@ -410,7 +409,7 @@ namespace KrTrade.Nt.Services
             if (value == null) return string.Empty;
 
             else if (value is string s) return s;
-            else if (value is double d) return d.ToString(Options.Formatter.StringFormatLength);
+            else if (value is double d) return d.ToString(FormatLength.Long);
             else if (value is float f) return f.ToString(Options.Formatter.StringFormatLength);
             else if (value is decimal dec) return dec.ToString(Options.Formatter.StringFormatLength);
             else if (value is int i) return i.ToString(Options.Formatter.StringFormatLength);

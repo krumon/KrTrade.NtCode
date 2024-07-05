@@ -1,5 +1,7 @@
 ﻿using KrTrade.Nt.Core.Data;
+using KrTrade.Nt.Core.Infos;
 using KrTrade.Nt.Core.Logging;
+using KrTrade.Nt.Core.Options;
 using NinjaTrader.NinjaScript;
 using System;
 
@@ -11,7 +13,6 @@ namespace KrTrade.Nt.Core.Services
     {
 
         // Quick access to properties
-        public bool IsLogEnable => Options.IsLogEnable;
         public Calculate CalculateMode { get => Options.CalculateMode; internal set { Options.CalculateMode = value; } }
         public MultiSeriesCalculateMode MultiSeriesCalculateMode { get => Options.MultiSeriesCalculateMode; internal set { Options.MultiSeriesCalculateMode = value; } }
 

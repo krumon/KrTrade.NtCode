@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using KrTrade.Nt.Core.Services;
+using KrTrade.Nt.Core.Infos;
 
 namespace KrTrade.Nt.Core.Series
 {
