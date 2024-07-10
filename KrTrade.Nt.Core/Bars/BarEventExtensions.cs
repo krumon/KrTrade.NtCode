@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KrTrade.Nt.Core.Logging;
+using System;
 
 namespace KrTrade.Nt.Core.Bars
 {
@@ -37,7 +38,7 @@ namespace KrTrade.Nt.Core.Bars
             {
                 case BarEvent.Removed: 
                 case BarEvent.Closed: 
-                    return BarsLogLevel.BarClosed;
+                    return BarsLogLevel.Closed;
                 case BarEvent.FirstTick: 
                 case BarEvent.PriceChanged: 
                     return BarsLogLevel.PriceChanged;

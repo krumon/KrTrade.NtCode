@@ -60,7 +60,7 @@ namespace KrTrade.Nt.Console.Console
                     printSvc.FormatLength = FormatLength.Short;
                     printSvc.LogLevel = LogLevel.Information;
                     printSvc.NinjascriptLogLevel = NinjascriptLogLevel.Configuration;
-                    printSvc.BarsLogLevel = BarsLogLevel.BarClosed;
+                    printSvc.BarsLogLevel = BarsLogLevel.Closed;
                 })
                 .ConfigureOptions((options) =>
                 {

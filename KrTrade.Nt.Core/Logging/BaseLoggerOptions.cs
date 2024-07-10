@@ -13,7 +13,7 @@ namespace KrTrade.Nt.Core.Logging
         public LogLevel LogLevel { get; set; }
 
         /// <summary>
-        /// The minimum <see cref="NinjascriptLogLevel"/> to be logged. 0:Historical, 1:Configuration, 2:Realtime
+        /// The minimum <see cref="Data.NinjascriptLogLevel"/> to be logged. 0:Historical, 1:Configuration, 2:Realtime
         /// Historical level logs in all states.
         /// Configuration level not logs in Historical state.
         /// Realtime logs only in Realtime state.

@@ -21,7 +21,6 @@ namespace KrTrade.Nt.Services
         public IBarsService Bars { get; protected set; }
 
         public void Update() => ForEach((service) => { if (service.Options.IsEnable) service.BarUpdate(); });
-        public void Update(IBarsService updatedBarsSeries) => ForEach((service) => { if (service.IsEnable) service.BarUpdate(updatedBarsSeries); });
 
         #endregion
 

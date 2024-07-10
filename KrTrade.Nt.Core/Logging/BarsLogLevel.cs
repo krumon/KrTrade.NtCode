@@ -1,4 +1,4 @@
-﻿namespace KrTrade.Nt.Core.Bars
+﻿namespace KrTrade.Nt.Core.Logging
 {
     /// <summary>
     /// Represents the bars log levels.
@@ -18,7 +18,7 @@
         /// <summary>
         /// Represents the ticks when the last bar closed.
         /// </summary>
-        BarClosed,
+        Closed,
 
         /// <summary>
         /// Does not represent any level.

@@ -10,6 +10,7 @@ namespace KrTrade.Nt.Services.Series
     /// </summary>
     public class TickSeries : BaseNumericSeries, ITickSeries
     {
+        private int _ticksCounter;
 
         public Bars Input {  get; set; }
 
@@ -43,7 +44,16 @@ namespace KrTrade.Nt.Services.Series
             Input = Bars.Ninjascript.BarsArray[Bars.Index];
             isDataLoaded = Input != null;
         }
-        protected override double GetCandidateValue(bool isCandidateValueForUpdate) => Input.TickCount;
+        protected override double GetCandidateValue(bool isCandidateValueForUpdate) // => Input.TickCount;
+        {
+            if (Bars.IsClosed)
+                _ticksCounter = 1;
+            else if (Bars.IsTick)
+                _ticksCounter++;
+
+            return _ticksCounter;
+        }
+            
         protected override bool IsValidValueToAdd(double candidateValue, bool isFirstValueToAdd) => true;
         protected override bool IsValidValueToUpdate(double candidateValue) => candidateValue != CurrentValue;
 

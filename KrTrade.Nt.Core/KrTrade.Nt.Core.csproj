@@ -48,17 +48,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include=".Core\Interfaces\IBarUpdate.cs" />
+    <Compile Include=".Core\Interfaces\IRender.cs" />
+    <Compile Include=".Core\Interfaces\IResetable.cs" />
     <Compile Include="Caches\BarsCache.cs" />
     <Compile Include="Caches\Cache.cs" />
     <Compile Include="Caches\IBarsCache.cs" />
     <Compile Include="Caches\ICache.cs" />
     <Compile Include="Data\Globals.cs" />
+    <Compile Include="Infos\Interfaces\IBarUpdateServiceInfo.cs" />
     <Compile Include="Infos\Interfaces\IElementInfo.cs" />
     <Compile Include="Infos\ElementInfo.cs" />
     <Compile Include="Options\ElementOptions.cs" />
     <Compile Include="Logging\ILoggerOptions.cs" />
     <Compile Include="Logging\Print\IPrintOptions.cs" />
     <Compile Include="Options\Interfaces\IElementOptions.cs" />
+    <Compile Include="Options\Interfaces\IBarUpdateServiceOptions.cs" />
     <Compile Include="Series\Interfaces\IBarsSeries.cs" />
     <Compile Include="Series\Interfaces\IBarsSeriesCollection.cs" />
     <Compile Include="Series\Interfaces\ICurrentBarSeries.cs" />
@@ -72,6 +76,7 @@
     <Compile Include="Series\Interfaces\ITimeSeries.cs" />
     <Compile Include="Series\Interfaces\IValueSeries.cs" />
     <Compile Include="Series\Interfaces\IVolumeSeries.cs" />
+    <Compile Include="Services\Interfaces\IBarsCacheService.cs" />
     <Compile Include="Services\Interfaces\IBarsManager.cs" />
     <Compile Include="Services\Interfaces\IBarsService.cs" />
     <Compile Include="Services\Interfaces\IBarsServiceCollection.cs" />
@@ -80,7 +85,6 @@
     <Compile Include=".Core\Interfaces\IDataLoaded.cs" />
     <Compile Include=".Core\Interfaces\IMarketData.cs" />
     <Compile Include=".Core\Interfaces\IMarketDepth.cs" />
-    <Compile Include="Services\Interfaces\IRender.cs" />
     <Compile Include="Services\Interfaces\IServiceCollection.cs" />
     <Compile Include=".Core\Interfaces\ITerminated.cs" />
     <Compile Include=".Core\BaseScript.cs" />
@@ -100,7 +104,7 @@
     <Compile Include="Options\Interfaces\IBarsServiceOptions.cs" />
     <Compile Include="Bars\BarsPattern.cs" />
     <Compile Include="Bars\BarEvent.cs" />
-    <Compile Include="Bars\BarsLogLevel.cs" />
+    <Compile Include="Logging\BarsLogLevel.cs" />
     <Compile Include="Bars\BarEventExtensions.cs" />
     <Compile Include="Bars\BarPattern.cs" />
     <Compile Include="Bars\BarType.cs" />

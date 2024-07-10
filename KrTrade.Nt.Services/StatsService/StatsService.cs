@@ -56,11 +56,6 @@ namespace KrTrade.Nt.Services
             throw new System.NotImplementedException();
         }
 
-        public override void BarUpdate(IBarsService updatedBarsSeries)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public string ToString(int tabOrder)
         {
             throw new System.NotImplementedException();

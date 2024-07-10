@@ -1,5 +1,4 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using KrTrade.Nt.Core.Caches;
 using KrTrade.Nt.Core.Infos;
 using KrTrade.Nt.Core.Options;
 
@@ -19,7 +18,12 @@ namespace KrTrade.Nt.Core.Services
         /// <summary>
         /// Gets the bars cache collection.
         /// </summary>
-        BarsCache[] BarsArray { get; }
+        IBarsService[] BarsArray { get; }
+
+        /// <summary>
+        /// Gets the bars cache collection.
+        /// </summary>
+        IBarsCacheService Bars { get; }
 
         /// <summary>
         /// Indicates primary bars service is updated.

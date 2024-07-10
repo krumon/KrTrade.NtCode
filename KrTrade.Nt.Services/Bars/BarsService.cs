@@ -1,5 +1,4 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using KrTrade.Nt.Core.Caches;
 using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.Helpers;
 using KrTrade.Nt.Core.Infos;
@@ -13,7 +12,6 @@ using NinjaTrader.Core.FloatingPoint;
 using NinjaTrader.NinjaScript;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace KrTrade.Nt.Services
 {
@@ -22,50 +20,53 @@ namespace KrTrade.Nt.Services
 
         #region Private members
 
-        // Data series control
+        // BarUpdate control
         private int _lastBarIdx;
         private int _currentBarIdx;
         private double _lastPrice;
         private double _currentPrice;
         private bool _isRunning;
+        // MarketData control
+        private bool _isFirstMarketData;
         // Events
         private Dictionary<BarEvent, bool> _barEvents;
         // Logging
         private List<string> _logLines;
+        private BarsLogLevel _barsLogLevel;
 
         #endregion
 
         #region Public properties
 
-        public BarsCache Bars { get; private set; }
-        
+        public IBarsCacheService Bars { get; private set; }
+        public SeriesCollection Series { get; set; }
+
         public int CacheCapacity { get => Options.CacheCapacity; protected set { Options.CacheCapacity = value; } }
         public int RemovedCacheCapacity {  get => Options.RemovedCacheCapacity; protected set { Options.RemovedCacheCapacity = value; }}
         public int Index { get; internal set; } = -1;
+        public Bar this[int index] => Bars[index];
 
-        public string InstrumentName => Info.InstrumentCode.ToName();
+        public string InstrumentName => Info.ToInstrumentName();
         public string TradingHoursName => Info.TradingHoursCode.ToName();
         public NinjaTrader.Data.BarsPeriod BarsPeriod => Info.TimeFrame.ToBarsPeriod();
 
-        public Bar this[int index] => Bars[index];
+        public int CurrentBar => Bars[0].Idx;
+        public DateTime Time => Bars[0].Time;
+        public double Open => Bars[0].Open;
+        public double High => Bars[0].High;
+        public double Low => Bars[0].Low;
+        public double Close => Bars[0].Close;
+        public double Volume => Bars[0].Volume;
+        public long Tick => Bars[0].Ticks;
 
-        //public int CurrentBar => Bars[0].Idx;
-        //public DateTime Time => Bars[0].Time;
-        //public double Open => Bars[0].Open;
-        //public double High => Bars[0].High;
-        //public double Low => Bars[0].Low;
-        //public double Close => Bars[0].Close;
-        //public double Volume => Bars[0].Volume;
-        //public long Tick => Bars[0].Ticks;
-
-        public bool IsUpdated => IsConfigure && IsDataLoaded && _barEvents[BarEvent.Updated];
-        public bool IsClosed => IsConfigure && IsDataLoaded && _barEvents[BarEvent.Closed];
         public bool LastBarIsRemoved => IsConfigure && IsDataLoaded && _barEvents[BarEvent.Removed];
+        public bool IsClosed => IsConfigure && IsDataLoaded && _barEvents[BarEvent.Closed];
+        public bool IsUpdated => IsConfigure && IsDataLoaded && _barEvents[BarEvent.Updated];
         public bool IsTick => IsConfigure && IsDataLoaded && _barEvents[BarEvent.Tick];
         public bool IsFirstTick => IsConfigure && IsDataLoaded && _barEvents[BarEvent.FirstTick];
         public bool IsPriceChanged => IsConfigure && IsDataLoaded && _barEvents[BarEvent.PriceChanged];
-
-        public SeriesCollection Series {  get; set; }
+        public bool IsMarketData => IsConfigure && IsDataLoaded && _barEvents[BarEvent.MarketData];
+        public bool IsReset {  get; protected set; }
 
         public override string ToString() => Info.ToString();
         protected override string GetHeaderString() => "BARS";
@@ -96,7 +97,8 @@ namespace KrTrade.Nt.Services
         internal BarsService(NinjaScriptBase ninjascript, IPrintService printService, BarsServiceInfo barsServiceInfo, BarsServiceOptions barsServiceOptions):
             base(ninjascript, printService, barsServiceInfo ?? new BarsServiceInfo(), barsServiceOptions ?? new BarsServiceOptions())
         {
-            //Bars = new BarsCache(this);
+            Bars = new BarsCacheService(this);
+
             //Series = new SeriesCollection(
             //    barsService: this,
             //    info: new SeriesCollectionInfo());
@@ -110,9 +112,6 @@ namespace KrTrade.Nt.Services
 
         protected override void Configure(out bool isConfigured)
         {
-            // TODO: Delete this breakpoint.
-            Debugger.Break();
-
             _barEvents = new Dictionary<BarEvent, bool>()
             {
                 [BarEvent.Updated] = false,
@@ -120,7 +119,8 @@ namespace KrTrade.Nt.Services
                 [BarEvent.Closed] = false,
                 [BarEvent.FirstTick] = false,
                 [BarEvent.PriceChanged] = false,
-                [BarEvent.Tick] = false
+                [BarEvent.Tick] = false,
+                [BarEvent.MarketData] = false
             };
 
             _logLines = new List<string>();
@@ -128,14 +128,13 @@ namespace KrTrade.Nt.Services
             _currentBarIdx = int.MinValue;
             _lastPrice = double.MinValue;
             _currentPrice = double.MinValue;
+            _isFirstMarketData = false;
 
-            //if (Info == null)
-            //    PrintService.LogError(new Exception("The 'BarsServiceInfo' cannot be null."));
-
-            //// Configure series
+            // Configure services and series
+            Bars.Configure();
             //Series?.Configure();
 
-            isConfigured = true; // Series.IsConfigure;
+            isConfigured = Bars.IsConfigure; // BarsCache.IsConfigure && Series.IsConfigure;
 
         }
         protected override void DataLoaded(out bool isDataLoaded)
@@ -151,41 +150,39 @@ namespace KrTrade.Nt.Services
             if (Index == -1)
                 PrintService.LogError(new Exception($"{Name} cannot be loaded because the 'DataSeriesOptions' don't match with any 'NinjaScript.DataSeries'."));
 
-            //// Configure series.
+            // Configure services and series
+            Bars.DataLoaded();
             //Series?.DataLoaded();
 
             isDataLoaded =
-                Index != -1;
+                Index != -1 
+                && Bars.IsDataLoaded;
                 //&& Series.IsDataLoaded;
         }
 
         public void OnBarUpdate()
         {
-            // TODO: Delete this breakpoint.
-            Debugger.Break();
             if(!_isRunning)
             {
                 if (!(IsConfigure && IsDataLoaded))
                     NinjascriptThrowHelpers.ThrowIsNotConfigureException(Name);
 
-                if (!IsInRunningStates())
+                if (IsOutOfRunningStates())
                     NinjascriptThrowHelpers.ThrowOutOfRunningStatesException(Name);
 
                 _isRunning = true;
             }
-            else
-                BarUpdate();
+            BarUpdate();
         }
 
         public void BarUpdate()
         {
-            //// TODO: Delete this breakpoint.
-            //Debugger.Break();
-
-            if (!IsEnable || IsOutOfRunningStates() || Ninjascript.BarsInProgress != Index)
+            if (!IsEnable || Ninjascript.BarsInProgress != Index)
                 return;
 
-            ResetBarsEvents();
+            if (!IsReset)
+                Reset();
+
             _currentBarIdx = Ninjascript.CurrentBars[Index];
             _currentPrice = Ninjascript.Closes[Index][0];
 
@@ -200,17 +197,22 @@ namespace KrTrade.Nt.Services
                 // BarClosed Or First tick success
                 if (_currentBarIdx != _lastBarIdx)
                 {
+                    //Log($"{Name} Closed.");
                     SetBarsEventValue(BarEvent.Closed, true);
+                    _barsLogLevel = BarsLogLevel.Closed;
                     OnBarClosed();
 
-                    if (Ninjascript.Calculate != NinjaTrader.NinjaScript.Calculate.OnBarClose)
+                    if (Ninjascript.Calculate != Calculate.OnBarClose)
                     {
-                        SetBarsEventValue(BarEvent.FirstTick, true);
-                        if (_lastPrice.ApproxCompare(_currentPrice) != 0)
-                            SetBarsEventValue(BarEvent.PriceChanged, true);
+                        if (Ninjascript.State != State.Historical || Ninjascript.BarsArray[Index].IsTickReplay)
+                        {
+                            SetBarsEventValue(BarEvent.FirstTick, true);
+                            if (_lastPrice.ApproxCompare(_currentPrice) != 0)
+                                SetBarsEventValue(BarEvent.PriceChanged, true);
 
-                        if (Ninjascript.Calculate == NinjaTrader.NinjaScript.Calculate.OnEachTick)
-                            SetBarsEventValue(BarEvent.Tick, true);
+                            if (Ninjascript.Calculate == Calculate.OnEachTick)
+                                SetBarsEventValue(BarEvent.Tick, true);
+                        }
                     }
                 }
 
@@ -220,57 +222,54 @@ namespace KrTrade.Nt.Services
                     if (_lastPrice.ApproxCompare(_currentPrice) != 0)
                     {
                         SetBarsEventValue(BarEvent.PriceChanged, true);
+                        _barsLogLevel = BarsLogLevel.PriceChanged;
                         OnPriceChanged();
                     }
-                    if (Ninjascript.Calculate == NinjaTrader.NinjaScript.Calculate.OnEachTick)
+                    if (Ninjascript.Calculate == Calculate.OnEachTick)
                     {
                         SetBarsEventValue(BarEvent.Tick, true);
+                        _barsLogLevel = BarsLogLevel.Tick;
                         OnEachTick();
                     }
+                    if (IsPriceChanged || IsTick)
+                        SetBarsEventValue(BarEvent.Updated, true);
                 }
             }
-            SetBarsEventValue(BarEvent.Updated, true);
-            //LogState();
 
-            ////Bars.BarUpdate();
+            //BarsCache.BarUpdate();
             ////Series.BarUpdate();
 
-            //SetBarsEventValue(BarEvent.Updated, false);
             _lastBarIdx = _currentBarIdx;
             _lastPrice = _currentPrice;
         }
-        public void BarUpdate(IBarsService updatedBarsSeries)
-        {
-            //Bars.BarUpdate(updatedBarsSeries);
-            //Series.BarUpdate(updatedBarsSeries);
-        }
         public void MarketData(NinjaTrader.Data.MarketDataEventArgs args)
         {
-            //Bars.MarketData(args);
-            //Series.MarketData(args);
-        }
-        public void MarketData(IBarsService updatedBarsSeries)
-        {
-            //Bars.MarketData(updatedBarsSeries);
-            //Series.MarketData(updatedBarsSeries);
+            if (IsClosed && !_isFirstMarketData)
+                _isFirstMarketData = true;
+            else
+            {
+                SetBarsEventValue(BarEvent.Closed, false);
+                _isFirstMarketData = false;
+            }
+            SetBarsEventValue(BarEvent.MarketData, true);
+
+            Bars.MarketData(args);
         }
         public void MarketDepth(NinjaTrader.Data.MarketDepthEventArgs args)
         {
-            //Bars.MarketDepth(args);
-            //Series.MarketDepth(args);
-        }
-        public void MarketDepth(IBarsService updatedBarsSeries)
-        {
-            //Bars.MarketDepth(updatedBarsSeries);
-            //Series.MarketDepth(updatedBarsSeries);
+            throw new NotImplementedException();
         }
         public void Render()
         {
             throw new NotImplementedException();
         }
-        public void Render(IBarsService updatedBarsSeries)
+
+        public void Reset()
         {
-            throw new NotImplementedException();
+            ResetBarsEvents();
+            _logLines.Clear();
+            _barsLogLevel = BarsLogLevel.None;
+            IsReset = true;
         }
 
         public Bar GetBar(int barsAgo) => Bars.GetBar(barsAgo);
@@ -289,8 +288,8 @@ namespace KrTrade.Nt.Services
         public void LogOHLCV(string label, int barsAgo = 0) => PrintService?.LogOHLCV(label, barsAgo, Index < 0 ? 0 : Index);
         public void Log(object value) => PrintService?.Log(value);
         public void Log(string labels, params object[] values) => PrintService?.Log(labels, values);
-        public void LogState() => Log(PrintService, LogLevel.Information, ToLogState());
-
+        public void LogState() => Log(PrintService, LogLevel.Information, _barsLogLevel, ToLogState());
+        
         #endregion
 
         #region Internal methods
@@ -543,7 +542,7 @@ namespace KrTrade.Nt.Services
                 if (i < _logLines.Count - 1)
                     stateText += " - ";
             }
-
+            
             return stateText;
         }
 
@@ -566,17 +565,18 @@ namespace KrTrade.Nt.Services
                 isPriceChanged: false,
                 isNewTick: false
                 );
-            _logLines.Clear();
         }
         private void SetBarsEventValue(BarEvent barsEvent, bool value)
         {
             _barEvents[barsEvent] = value;
 
-            if (PrintService == null)
+            if (IsReset && value)
+                IsReset = false;
+
+            if (PrintService == null || !IsLogEnable || barsEvent == BarEvent.Updated)
                 return;
 
-            if (PrintService.IsLogLevelsEnable(LogLevel.Information) && Options.IsLogEnable && barsEvent != BarEvent.Updated)
-                _logLines.Add(barsEvent.ToString());
+            _logLines.Add(barsEvent.ToString());
         }
 
         #endregion

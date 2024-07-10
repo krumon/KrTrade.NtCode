@@ -1,5 +1,4 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using KrTrade.Nt.Core.Caches;
 using NinjaTrader.Data;
 
 namespace KrTrade.Nt.Core.Services
@@ -27,12 +26,12 @@ namespace KrTrade.Nt.Core.Services
         /// <summary>
         /// Gets the bars cache collection.
         /// </summary>
-        BarsCache[] BarsArray { get; }
+        IBarsService[] BarsArray { get; }
 
         /// <summary>
         /// Gets the bars cache of the service.
         /// </summary>
-        BarsCache Bars { get; }
+        IBarsCacheService Bars { get; }
 
         /// <summary>
         /// The index of the data series that is running in the NinjaScript.

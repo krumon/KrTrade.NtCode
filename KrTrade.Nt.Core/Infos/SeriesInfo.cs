@@ -6,7 +6,6 @@ namespace KrTrade.Nt.Core.Infos
     public abstract class SeriesInfo : BaseInfo<SeriesType>, ISeriesInfo
     {
 
-        //new public SeriesType Type { get => base.Type.ToSeriesType(); set => base.Type = value.ToElementType(); }
         public int Capacity { get; set; }
         public int OldValuesCapacity { get; set; }
 
@@ -22,7 +21,7 @@ namespace KrTrade.Nt.Core.Infos
             string key = $"{name}({ownerString})({GetInputsKey()}{GetParametersKey()})";
             return (key.Substring(key.Length - 2) == "()") ? key.Remove(key.Length - 2) : key;
         }
-        protected string ToUniqueString() 
+        protected override string ToUniqueString() 
         { 
             // Represento la clave con "SeriesType(Input1.Key,Input2.Key,...,Parameter1,Parameter2,...)"
             string key = $"{GetRootKey()}({GetInputsKey()}{GetParametersKey()})";
@@ -65,8 +64,8 @@ namespace KrTrade.Nt.Core.Infos
         where T : Enum
     {
         private T _type;
-        new public T Type 
-        { 
+        new public T Type
+        {
             get => _type;
             set
             {
@@ -74,14 +73,6 @@ namespace KrTrade.Nt.Core.Infos
                 _type = value;
             }
         }
-
-        //protected string ToUniqueString()
-        //{
-        //    // Represento la clave con "SeriesType(Input1.Key,Input2.Key,...,Parameter1,Parameter2,...)"
-        //    string key = $"{GetRootKey()}({GetInputsKey()}{GetParametersKey()})";
-        //    // Compruebo si los paréntesis de la clave están vacíos. En caso de que así sea los elimino
-        //    return (key.Substring(key.Length - 2) == "()") ? key.Remove(key.Length - 2) : key;
-        //}
 
         protected override string GetRootKey() => Type.ToString();
 

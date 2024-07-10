@@ -44,7 +44,7 @@ namespace KrTrade.Nt.Core.Series
         /// <summary>
         /// Gets the tick count series.
         /// </summary>
-        ITickSeries Tick { get; }
+        ITickSeries Ticks { get; }
 
         /// <summary>
         /// Returns the <see cref="Bar"/> of the specified <paramref name="barsAgo"/>.
@@ -67,7 +67,13 @@ namespace KrTrade.Nt.Core.Series
         /// <param name="barsAgo">The initial index from most recent bar. 0 is the most recent value in the cache.</param>
         /// <param name="period">The number of bars to calculate the <see cref="Bar"/> value.</param>
         /// <returns>The <see cref="Bar"/> collection result from bars stored in the cache between the <paramref name="barsAgo"/> to and the <paramref name="period"/> specified.</returns>
-        IList<Bar> GetBars(int barsAgo, int period);
+        IList<Bar> GetRange(int barsAgo, int period);
+
+        /// <summary>
+        /// Log in the 'NinjaScript.OutpuWindow' the bar values at bars ago specified.
+        /// </summary>
+        /// <param name="barsAgo">The bars ago bar to logger in the output window.</param>
+        void Log(int barsAgo);
 
     }
 }

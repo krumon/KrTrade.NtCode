@@ -2,7 +2,9 @@
 using KrTrade.Nt.Core.Options;
 using KrTrade.Nt.Core.Series;
 using KrTrade.Nt.Core.Services;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Bar = KrTrade.Nt.Core.Bars.Bar;
 
 namespace KrTrade.Nt.Services.Series
@@ -20,7 +22,7 @@ namespace KrTrade.Nt.Services.Series
         public IPriceSeries Low { get; protected set; }
         public IPriceSeries Close { get; protected set; }
         public IVolumeSeries Volume { get; protected set; }
-        public ITickSeries Tick { get; protected set; }
+        public ITickSeries Ticks { get; protected set; }
 
         public BarsSeriesCollection(IBarsService bars) 
             : this(bars, new BarsSeriesCollectionInfo()
@@ -31,14 +33,17 @@ namespace KrTrade.Nt.Services.Series
             }) { }
         public BarsSeriesCollection(IBarsService bars, BarsSeriesCollectionInfo info) : base(bars, info, new ServiceOptions())
         {
-            CurrentBar = new CurrentBarSeries(Bars, info.Capacity, info.OldValuesCapacity);
-            Time = new TimeSeries(Bars, info.Capacity, info.OldValuesCapacity);
-            //Open = new HighSeries(Bars, info.Capacity, info.OldValuesCapacity);
-            High = new HighSeries(Bars, info.Capacity, info.OldValuesCapacity);
-            //Low = new HighSeries(Bars, info.Capacity, info.OldValuesCapacity);
-            //Close = new HighSeries(Bars, info.Capacity, info.OldValuesCapacity);
-            Volume = new VolumeSeries(Bars, info.Capacity, info.OldValuesCapacity);
-            Tick = new TickSeries(Bars, info.Capacity, info.OldValuesCapacity);
+            int capacity = Math.Max(bars.CacheCapacity, info.Capacity);
+            int oldValuesCapacity = Math.Max(bars.RemovedCacheCapacity, info.OldValuesCapacity);
+
+            CurrentBar = new CurrentBarSeries(Bars, capacity, oldValuesCapacity);
+            Time = new TimeSeries(Bars, capacity, oldValuesCapacity);
+            High = new HighSeries(Bars, capacity, oldValuesCapacity);
+            Open = High;
+            Low = High;
+            Close = High;
+            Volume = new VolumeSeries(Bars, capacity, oldValuesCapacity);
+            Ticks = new TickSeries(Bars, capacity, oldValuesCapacity);
             Add(CurrentBar);
             Add(Time);
             //Add(Open);
@@ -46,26 +51,36 @@ namespace KrTrade.Nt.Services.Series
             //Add(Low);
             //Add(Close);
             Add(Volume);
-            Add(Tick);
+            Add(Ticks);
         }
 
-        public override void BarUpdate() => ForEach(x => x.BarUpdate());
-        public override void BarUpdate(IBarsService updatedBarsService) => ForEach(x => x.BarUpdate(updatedBarsService));
+        public override void BarUpdate()
+        {
+            Debugger.Break();
+
+            if (Bars.LastBarIsRemoved)
+                ForEach(x => { x.RemoveLastElement(); });
+            else if (Bars.IsClosed)
+                ForEach(x => { x.Add(); });
+            else if (Bars.IsPriceChanged || Bars.IsTick)
+                ForEach(x => { x.Update(); });
+        }
 
         public Bar GetBar(int barsAgo)
         {
             if (!IsValidIndex(barsAgo))
-                return null;
+                return default;
 
             Bar bar = new Bar() 
             { 
                 Idx = CurrentBar[barsAgo],
+                Time = Time[barsAgo],
                 Open = Open[barsAgo],
                 High = High[barsAgo],
                 Low = Low[barsAgo],
                 Close = Close[barsAgo],
                 Volume = Volume[barsAgo],
-                Ticks = (long)Tick[barsAgo],
+                Ticks = (long)Ticks[barsAgo],
              };
             return bar;
         }
@@ -78,17 +93,18 @@ namespace KrTrade.Nt.Services.Series
                 bar += new Bar()
                 {
                     Idx = CurrentBar[i],
+                    Time = Time[i],
                     Open = Open[i],
                     High = High[i],
                     Low = Low[i],
                     Close = Close[i],
                     Volume = Volume[i],
-                    Ticks = (long)Tick[i],
+                    Ticks = (long)Ticks[i],
                 };
 
             return bar;
         }
-        public IList<Bar> GetBars(int barsAgo, int period)
+        public IList<Bar> GetRange(int barsAgo, int period)
         {
             if (!IsValidIndex(barsAgo, period))
                 return null;
@@ -97,18 +113,20 @@ namespace KrTrade.Nt.Services.Series
                 bars.Add(new Bar()
                 {
                     Idx = CurrentBar[i],
+                    Time = Time[i],
                     Open = Open[i],
                     High = High[i],
                     Low = Low[i],
                     Close = Close[i],
                     Volume = Volume[i],
-                    Ticks = (long)Tick[i],
+                    Ticks = (long)Ticks[i],
                 });
             return bars;
         }
 
         public string ToLogString(int barsAgo) =>
-            $"{Name}[{barsAgo}]: Open:{Open[barsAgo]:#,0.00} - High:{High[barsAgo]:#,0.00} - Low:{Low[barsAgo]:#,0.00} - Close:{Close[barsAgo]:#,0.00} - Volume:{Volume[barsAgo]:#,0.##} - Ticks:{Tick[barsAgo]:#,0.##}";
+            $"{Name}[{barsAgo}]: Open:{Open[barsAgo]:#,0.00} - High:{High[barsAgo]:#,0.00} - Low:{Low[barsAgo]:#,0.00} - Close:{Close[barsAgo]:#,0.00} - Volume:{Volume[barsAgo]:#,0.##} - Ticks:{Ticks[barsAgo]:#,0.##}";
+        public void Log(int barsAgo) => PrintService?.LogInformation(ToLogString(barsAgo));
 
         new protected bool IsValidIndex(int barsAgo, int period)
             => CurrentBar.IsValidIndex(barsAgo, period)
@@ -118,7 +136,7 @@ namespace KrTrade.Nt.Services.Series
             && Low.IsValidIndex(barsAgo, period)
             && Close.IsValidIndex(barsAgo, period)
             && Volume.IsValidIndex(barsAgo, period)
-            && Tick.IsValidIndex(barsAgo, period);
+            && Ticks.IsValidIndex(barsAgo, period);
         new protected bool IsValidIndexRange(int initialBarsAgo, int finalBarsAgo)
             => CurrentBar.IsValidIndex(initialBarsAgo, finalBarsAgo)
             && Time.IsValidIndex(initialBarsAgo, finalBarsAgo)
@@ -127,7 +145,7 @@ namespace KrTrade.Nt.Services.Series
             && Low.IsValidIndex(initialBarsAgo, finalBarsAgo)
             && Close.IsValidIndex(initialBarsAgo, finalBarsAgo)
             && Volume.IsValidIndex(initialBarsAgo, finalBarsAgo)
-            && Tick.IsValidIndex(initialBarsAgo, finalBarsAgo);
+            && Ticks.IsValidIndex(initialBarsAgo, finalBarsAgo);
 
         protected override string GetHeaderString() => "BARS_SERIES";
         protected override string GetParentString() => Bars.ToString();
@@ -138,9 +156,6 @@ namespace KrTrade.Nt.Services.Series
             throw new System.NotImplementedException();
         }
 
-        protected override SeriesCollectionType ToElementType()
-        {
-            throw new System.NotImplementedException();
-        }
+        protected override SeriesCollectionType ToElementType() => SeriesCollectionType.BARS;
     }
 }

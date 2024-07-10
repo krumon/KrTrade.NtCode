@@ -51,6 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bars\BarsCacheService.cs" />
+    <Compile Include="Bars\IBarsCacheService.cs" />
     <Compile Include="Infos\BarsSeriesInfo.cs" />
     <Compile Include="BarsSeries\InputSeries.cs" />
     <Compile Include="InfosCollections\BarsServiceCollectionInfo.cs" />

@@ -176,6 +176,10 @@ namespace KrTrade.Nt.Core.Series
         public BaseSeries(IBarsService barsService, ISeriesInfo info, IElementOptions options) : base(barsService?.Ninjascript, barsService?.PrintService, info, options)
         {
             Bars = barsService ?? throw new ArgumentNullException(nameof(barsService));
+
+            Info.Capacity = Math.Max(Bars.CacheCapacity, info.Capacity);
+            Info.OldValuesCapacity = Math.Max(Bars.RemovedCacheCapacity, info.OldValuesCapacity);
+
             Info.OldValuesCapacity = OldValuesCapacity < 1 ? Globals.SERIES_DEFAULT_OLD_VALUES_CAPACITY : OldValuesCapacity;
             Info.Capacity = Capacity <= 0 ? Globals.SERIES_DEFAULT_CAPACITY : Capacity > MaxCapacity ? MaxCapacity : Capacity;
         }
@@ -238,5 +242,6 @@ namespace KrTrade.Nt.Core.Series
         {
             throw new NotImplementedException();
         }
+
     }
 }

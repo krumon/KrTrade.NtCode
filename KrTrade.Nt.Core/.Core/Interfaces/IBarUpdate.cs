@@ -14,11 +14,11 @@ namespace KrTrade.Nt.Core
         ///// <param name="barsInProgress">The bars in progress index.</param>
         void BarUpdate();
 
-        /// <summary>
-        /// Method to be executed to update the service when a <see cref="IBarsService"/> is updated.
-        /// </summary>
-        /// <param name="updatedBarsService">The <see cref="IBarsService"/> updated.</param>
-        void BarUpdate(IBarsService updatedBarsService);
+        ///// <summary>
+        ///// Method to be executed to update the service when a <see cref="IBarsService"/> is updated.
+        ///// </summary>
+        ///// <param name="updatedBarsService">The <see cref="IBarsService"/> updated.</param>
+        //void BarUpdate(IBarsService updatedBarsService);
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using KrTrade.Nt.Core.Data;
+﻿using KrTrade.Nt.Core.Bars;
+using KrTrade.Nt.Core.Data;
 using System;
 
 namespace KrTrade.Nt.Core.Logging
@@ -32,10 +33,19 @@ namespace KrTrade.Nt.Core.Logging
         /// <summary>
         /// Indicates the log level are enable. The <see cref="LogLevel"/> and <see cref="NinjascriptLogLevel"/>.
         /// </summary>
-        bool IsLogLevelsEnable(LogLevel logLevel);
+        bool IsLogLevelsEnable(LogLevel logLevel, BarsLogLevel barsLogLevel);
 
         /// <summary>
-        /// Logs any value with a specific <see cref="Formatter"/>.
+        /// Logs any value with a specific <see cref="BaseFormatter"/>.
+        /// </summary>
+        /// <param name="logLevel">The minimum log level to log it.</param>
+        /// <param name="barsLogLevel"></param>
+        /// <param name="value">The value to log.</param>
+        /// <param name="exception">The exception to log.</param>
+        void Log(LogLevel logLevel, BarsLogLevel barsLogLevel, object value, Exception exception);
+
+        /// <summary>
+        /// Logs any value with a specific <see cref="BaseFormatter"/>.
         /// </summary>
         /// <param name="logLevel">The minimum log level to log it.</param>
         /// <param name="value">The value to log.</param>

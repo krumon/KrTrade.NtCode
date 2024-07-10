@@ -79,7 +79,16 @@ namespace KrTrade.Nt.Services
                 action(info,options);
 
             if (info.InstrumentCode == InstrumentCode.Default)
+            {
                 info.InstrumentCode = primaryDataSeriesInfo.InstrumentCode;
+                info.ContractMonth = primaryDataSeriesInfo.ContractMonth;
+                info.ContractYear = primaryDataSeriesInfo.ContractYear;
+            }
+            if (info.InstrumentCode == primaryDataSeriesInfo.InstrumentCode && (info.ContractMonth == 0 || info.ContractYear == 0)) 
+            {
+                info.ContractMonth = primaryDataSeriesInfo.ContractMonth;
+                info.ContractYear = primaryDataSeriesInfo.ContractYear;
+            }
             if (info.TradingHoursCode == TradingHoursCode.Default)
                 info.TradingHoursCode = primaryDataSeriesInfo.TradingHoursCode;
             if (info.TimeFrame == TimeFrame.Default)
@@ -87,14 +96,11 @@ namespace KrTrade.Nt.Services
 
             IBarsService barsService = new BarsService(_ninjascript, _printService, info, options);
 
-            // TODO: Delete this breakpoint.
-            Debugger.Break();
-
             if (!info.Equals(primaryDataSeriesInfo) && _addDataSeriesDelegate != null)
             {
                 _addDataSeriesDelegate.Invoke(barsService.InstrumentName, barsService.BarsPeriod, barsService.TradingHoursName);
-                // Log trace
-                _printService.LogTrace($"{info} has been added to the 'NinjaScript'.");
+                //// Log trace
+                //_printService.LogTrace($"{info} has been added to the 'NinjaScript'.");
             }
 
             //// Add SERIES

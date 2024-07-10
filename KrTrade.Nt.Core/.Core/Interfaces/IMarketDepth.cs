@@ -1,5 +1,4 @@
-﻿using KrTrade.Nt.Core.Services;
-using NinjaTrader.Data;
+﻿using NinjaTrader.Data;
 
 namespace KrTrade.Nt.Core
 {
@@ -14,10 +13,10 @@ namespace KrTrade.Nt.Core
         /// <param name="args">The arguments of the 'MarketDepth' event.</param>
         void MarketDepth(MarketDepthEventArgs args);
 
-        /// <summary>
-        /// Method to be executed to update the service when a <see cref="IBarsService"/> market depth is updated.
-        /// </summary>
-        /// <param name="updatedBarsService">The <see cref="IBarsService"/> updated.</param>
-        void MarketDepth(IBarsService updatedBarsService);
+        ///// <summary>
+        ///// Method to be executed to update the service when a <see cref="IBarsService"/> market depth is updated.
+        ///// </summary>
+        ///// <param name="updatedBarsService">The <see cref="IBarsService"/> updated.</param>
+        //void MarketDepth(IBarsService updatedBarsService);
     }
 }

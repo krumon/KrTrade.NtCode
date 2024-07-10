@@ -343,7 +343,7 @@ namespace KrTrade.Nt.Services
         /// Log a collection of values with label in NinjaScript output window.
         /// </summary>
         /// <param name="values">The values to log.</param>
-        public void Log(params object[] values)
+        public void LogValues(params object[] values)
         {
             if (!IsEnable) return;
 

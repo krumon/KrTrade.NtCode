@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KrTrade.Nt.Core.Data;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -51,13 +52,25 @@ namespace KrTrade.Nt.Core.Infos
 
         #region Implementation
 
+        public override string ToString()
+        {
+            string text = string.Empty;
+
+            for (int i = 0; i < Count; i++)
+            {
+                text += this[i].ToString();
+                if (i != Count - 1)
+                    text += ", ";
+            }
+            return string.IsNullOrEmpty(text) ? Type.ToElementType().ToString() : text;
+        }
         protected override string ToUniqueString()
         {
             string key = string.Empty;
 
             for (int i = 0; i < Count; i++)
             {
-                key += this[i].ToString();
+                key += this[i].Key;
                 if (i != Count - 1)
                     key += ", ";
             }

@@ -41,6 +41,12 @@ namespace KrTrade.Nt.Core.Infos
         //void SetNinjascriptValues(NinjaScriptBase ninjascript, int index);
 
         /// <summary>
+        /// Converts the info to 'NinjaScript instrument name'.
+        /// </summary>
+        /// <returns></returns>
+        string ToInstrumentName();
+
+        /// <summary>
         /// Compare the actual service values with 'NinjaScript' DataSeries.
         /// </summary>
         /// <param name="ninjascript"></param>

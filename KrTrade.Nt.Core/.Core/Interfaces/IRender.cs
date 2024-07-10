@@ -1,6 +1,4 @@
-﻿using KrTrade.Nt.Core.Services;
-
-namespace KrTrade.Nt.Services
+﻿namespace KrTrade.Nt.Core
 {
     /// <summary>
     /// Defines methods that are necesary to render the ninjascript.

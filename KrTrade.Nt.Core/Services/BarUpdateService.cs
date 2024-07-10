@@ -35,6 +35,6 @@ namespace KrTrade.Nt.Core.Services
         //}
         
         public abstract void BarUpdate();
-        public abstract void BarUpdate(IBarsService updatedBarsSeries);
+        //public abstract void BarUpdate(IBarsService updatedBarsSeries);
     }
 }

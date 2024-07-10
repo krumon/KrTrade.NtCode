@@ -1,6 +1,6 @@
 ﻿namespace KrTrade.Nt.Core.Infos
 {
-    public class BarUpdateServiceInfo : ServiceInfo
+    public class BarUpdateServiceInfo : ServiceInfo, IBarUpdateServiceInfo
     {
     }
 }

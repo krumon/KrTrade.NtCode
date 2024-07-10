@@ -1,14 +1,14 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using KrTrade.Nt.Core.Caches;
 using KrTrade.Nt.Core.Infos;
 using KrTrade.Nt.Core.Options;
+using System;
 
 namespace KrTrade.Nt.Core.Services
 {
     /// <summary>
     /// Defines properties and methods that are necesary to create a data series service.
     /// </summary>
-    public interface IBarsService : IService<IBarsServiceInfo,IBarsServiceOptions>, IBarUpdate, IMarketData, IMarketDepth, IRender
+    public interface IBarsService : IService<IBarsServiceInfo,IBarsServiceOptions>, IBarUpdate, IMarketData, IMarketDepth, IRender, IResetable
     {
         /// <summary>
         /// Method to be executed in 'NinjaScript.OnBarUpdate()' method.
@@ -50,7 +50,47 @@ namespace KrTrade.Nt.Core.Services
         /// <summary>
         /// Gets the bars cache of the service.
         /// </summary>
-        BarsCache Bars {  get; }
+        IBarsCacheService Bars { get; }
+
+        /// <summary>
+        /// Gets the index series.
+        /// </summary>
+        int CurrentBar { get; }
+
+        /// <summary>
+        /// Gets the time series.
+        /// </summary>
+        DateTime Time { get; }
+
+        /// <summary>
+        /// Gets the open series.
+        /// </summary>
+        double Open { get; }
+
+        /// <summary>
+        /// Gets the high series.
+        /// </summary>
+        double High { get; }
+
+        /// <summary>
+        /// Gets the low series.
+        /// </summary>
+        double Low { get; }
+
+        /// <summary>
+        /// Gets the close series.
+        /// </summary>
+        double Close { get; }
+
+        /// <summary>
+        /// Gets the volume series.
+        /// </summary>
+        double Volume { get; }
+
+        /// <summary>
+        /// Gets the tick count series.
+        /// </summary>
+        long Tick { get; }
 
         /// <summary>
         /// Gets the bars index in the 'NinjaScript.BarsArray'.
@@ -66,6 +106,11 @@ namespace KrTrade.Nt.Core.Services
         /// Indicates the last bar of 'Ninjatrader.ChartBars' is closed.
         /// </summary>
         bool IsClosed {get;}
+
+        /// <summary>
+        /// Indicates a market data success.
+        /// </summary>
+        bool IsMarketData {get;}
 
         /// <summary>
         /// Indicates the last bar of 'Ninjatrader.ChartBars' is removed.

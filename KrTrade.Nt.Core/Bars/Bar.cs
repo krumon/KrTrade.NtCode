@@ -1,12 +1,18 @@
-﻿using KrTrade.Nt.Core.Services;
+﻿using KrTrade.Nt.Core.Extensions;
+using KrTrade.Nt.Core.Services;
 using NinjaTrader.Data;
 using NinjaTrader.NinjaScript;
 using System;
 
 namespace KrTrade.Nt.Core.Bars
 {
-    public class Bar //: ICacheElement<Bar>
+    public class Bar //:IBarUpdate, IMarketData
     {
+        protected readonly IBarsService BarsService;
+        protected NinjaScriptBase Ninjascript;
+
+        private int _ticksCounter;
+
         #region Public properties
 
         /// <summary>
@@ -73,21 +79,58 @@ namespace KrTrade.Nt.Core.Bars
         /// </summary>
         public Bar()
         {
+            Reset(); 
+        }
+        /// <summary>
+        /// Create <see cref="Bar"/> default instance.
+        /// </summary>
+        public Bar(IBarsService barsService)
+        {
             Reset();
+            Update(barsService,0);
+        }
+        /// <summary>
+        /// Create <see cref="Bar"/> default instance.
+        /// </summary>
+        public Bar(IBarsService barsService, int barsAgo)
+        {
+            Reset();
+            Update(barsService,barsAgo);
+        }
+        /// <summary>
+        /// Create <see cref="Bar"/> default instance.
+        /// </summary>
+        public Bar(NinjaScriptBase ninjascript, int barsInProgress, int barsAgo)
+        {
+            Reset();
+            Set(ninjascript,barsInProgress,barsAgo);
         }
 
-        //public Bar(IBarsService barsService)
+        #endregion
+
+        #region Implementation
+
+        //public void BarUpdate()
         //{
-        //    Set(barsService);
+        //    if (BarsService.IsClosed)
+        //        Set(0);
+        //    else if (BarsService.IsUpdated)
+        //        Update(0);
         //}
 
-        //public Bar(IBarsService barsService, int barsAgo)
+        //public void BarUpdate(IBarsService updatedBarsService)
         //{
-        //    Set(barsService,barsAgo);
+        //    throw new NotImplementedException();
         //}
-        //public Bar(NinjaScriptBase ninjascript, int barsInProgress, int barsAgo)
+
+        //public void MarketData(MarketDataEventArgs args)
         //{
-        //    Set(ninjascript,barsInProgress,barsAgo);
+        //    Update(args);
+        //}
+
+        //public void MarketData(IBarsService updatedBarsService)
+        //{
+        //    throw new NotImplementedException();
         //}
 
         #endregion
@@ -104,103 +147,110 @@ namespace KrTrade.Nt.Core.Bars
             Close = 0;
             Volume = 0;
             Ticks = 0;
-        }
 
-        public bool Set(IBarsService barsService, int barsAgo = 0) => Set(barsService.Ninjascript, barsAgo, barsService.Index);
-        public bool Set(NinjaScriptBase ninjascript, int barsInProgress, int barsAgo)
+            _ticksCounter = 0;
+        }
+        public bool Update(IBarsService barsService, int barsAgo)
         {
-            if (ninjascript == null || ninjascript.State != State.Historical || ninjascript.State != State.Realtime)
-                return false;
+            if (barsService != null && barsService.IsClosed)
+                Reset();
 
-            Idx = ninjascript.CurrentBars[barsInProgress] - barsAgo;
-            Time = ninjascript.Times[barsInProgress][barsAgo];
-            Open = ninjascript.Opens[barsInProgress][barsAgo];
-            High = ninjascript.Highs[barsInProgress][barsAgo];
-            Low = ninjascript.Lows[barsInProgress][barsAgo];
-            Close = ninjascript.Closes[barsInProgress][barsAgo];
-            Volume = (long)ninjascript.Volumes[barsInProgress][barsAgo];
-
-            if (ninjascript.Calculate == Calculate.OnEachTick)
-            {
-                if (ninjascript.State == State.Realtime || (ninjascript.State == State.Historical && ninjascript.Bars.IsTickReplay))
-                    Ticks = ninjascript.BarsArray[barsInProgress].TickCount;
-            }
-
-            return true;
+            return Set(barsService.Ninjascript, barsService.Index, barsAgo);
         }
-
-
-        
-        public bool Update(IBarsService barsService, int barsAgo = 0) => Update(barsService.Ninjascript, barsAgo, barsService.Index);
-        public bool Update(NinjaScriptBase ninjascript, int barsAgo, int barsInProgress)
+        public bool Update(NinjaScriptBase ninjascript, int barsInProgress, int barsAgo)
         {
-            if (ninjascript == null || ninjascript.State != State.Historical || ninjascript.State != State.Realtime)
-                return false;
-
-            double high, low, close, volume;
-            high = ninjascript.Highs[barsInProgress][barsAgo];
-            low = ninjascript.Lows[barsInProgress][barsAgo];
-            close = ninjascript.Closes[barsInProgress][barsAgo];
-            volume = ninjascript.Volumes[barsInProgress][barsAgo];
-
-            if (High >= high && Low <= low && Close == close && Volume == volume)
-                return false;
-            bool isUpdated = false;
-            if (high > High)
-            {
-                High = high;
-                isUpdated = true;
-            }
-            if (low < Low)
-            {
-                Low = low;
-                isUpdated = true;
-            }
-            if (close != Close)
-            {
-                Close = close;
-                isUpdated = true;
-            }
-            if (volume != Volume)
-            {
-                Volume = volume;
-                isUpdated = true;
-            }
-            if (ninjascript.Calculate == Calculate.OnEachTick)
-            {
-                if (ninjascript.State == State.Realtime || (ninjascript.State == State.Historical && ninjascript.Bars.IsTickReplay))
-                { 
-                    long ticks = ninjascript.BarsArray[barsInProgress].TickCount;
-                    if (ticks != Ticks)
-                    {
-                        Ticks = ticks;
-                        isUpdated = true;
-                    }
-                }
-            }
-
-            return isUpdated;
+            return Set(ninjascript, barsInProgress, barsAgo);
         }
-        
-        public bool Update(NinjaScriptBase ninjascript, MarketDataEventArgs args)
+        public bool Update(IBarsService barsService, MarketDataEventArgs args)
         {
-            if (ninjascript == null || args == null || ninjascript.State != State.Historical || ninjascript.State != State.Realtime)
-                return false;
+            if (barsService != null && barsService.IsClosed)
+                Reset();
 
-            if (args.MarketDataType != MarketDataType.Last)
-                return false;
-
-            double price = args.Price;
-            High = price > High ? price : High;
-            Low = price < Low ? price : Low;
-            Close = price != Close ? price : Close;
-            Volume += args.Volume;
-            if (ninjascript.Calculate == Calculate.OnBarClose)
-                Ticks++;
-
-            return true;
+            return Set(barsService.Ninjascript, barsService.Index, args);
         }
-        public bool Update(IBarsService barsService, MarketDataEventArgs args) => Update(barsService.Ninjascript,args);
+        public bool Update(NinjaScriptBase ninjascript, int barsInProgress, MarketDataEventArgs args)
+        {
+            return Set(ninjascript, barsInProgress, args);
+        }
+
+        //public bool Update(int barsAgo) => Update(barsAgo, BarsService.Index);
+        //public bool Update(int barsAgo, int barsInProgress)
+        //{
+        //    if (Ninjascript.State != State.Historical || Ninjascript.State != State.Realtime)
+        //        return false;
+
+        //    double open, high, low, close, volume;
+        //    long ticks = 0;
+
+        //    open = Ninjascript.Opens[barsInProgress][barsAgo];
+        //    high = Ninjascript.Highs[barsInProgress][barsAgo];
+        //    low = Ninjascript.Lows[barsInProgress][barsAgo];
+        //    close = Ninjascript.Closes[barsInProgress][barsAgo];
+        //    volume = Ninjascript.Volumes[barsInProgress][barsAgo];
+        //    if (Ninjascript.Calculate == Calculate.OnEachTick)
+        //        ticks = Ninjascript.BarsArray[barsInProgress].TickCount;
+
+        //    bool isUpdated = false;
+        //    if(open != Open)
+        //    {
+        //        Open = open;
+        //        isUpdated = true;
+        //    }
+        //    if (high > High)
+        //    {
+        //        High = high;
+        //        isUpdated = true;
+        //    }
+        //    if (low < Low)
+        //    {
+        //        Low = low;
+        //        isUpdated = true;
+        //    }
+        //    if (close != Close)
+        //    {
+        //        Close = close;
+        //        isUpdated = true;
+        //    }
+        //    if (volume != Volume)
+        //    {
+        //        Volume = volume;
+        //        isUpdated = true;
+        //    }
+        //    if (ticks != Ticks)
+        //    {
+        //        Ticks = ticks;
+        //        isUpdated = true;
+        //    }
+        //    return isUpdated;
+        //}
+        //public bool Update(MarketDataEventArgs args)
+        //{
+        //    if (args == null || Ninjascript.State != State.Historical || Ninjascript.State != State.Realtime)
+        //        return false;
+
+        //    if (args.MarketDataType != MarketDataType.Last)
+        //        return false;
+
+        //    double price = args.Price;
+        //    High = price > High ? price : High;
+        //    Low = price < Low ? price : Low;
+        //    Close = price != Close ? price : Close;
+        //    Volume += args.Volume;
+        //    Ticks = _ticksCounter++;
+
+        //    return true;
+        //}
+        //public void Update(IBarsService barsService, int barsAgo = 0)
+        //{
+        //    if (barsService.Ninjascript.State != State.Historical || barsService.Ninjascript.State != State.Realtime)
+        //        return;
+        //    if (barsService.IsClosed)
+        //    {
+        //        Reset();
+        //        Set(barsService, barsAgo);
+        //    }
+
+        //}
 
         public void CopyTo(Bar bar)
         {
@@ -243,6 +293,59 @@ namespace KrTrade.Nt.Core.Bars
             Volume = volume;
             Ticks = ticks;
         }
+        protected bool Set(NinjaScriptBase ninjascript, int barsInProgress, int barsAgo)
+        {
+            if (ninjascript.State != State.Historical && ninjascript.State != State.Realtime)
+                return false;
+
+            SetValues(ninjascript, barsInProgress, barsAgo);
+            SetTicks(ninjascript, barsInProgress);
+
+            return true;
+        }
+        protected bool Set(NinjaScriptBase ninjascript, int barsInProgress, MarketDataEventArgs args)
+        {
+            if (args == null || Ninjascript.State != State.Historical || Ninjascript.State != State.Realtime)
+                return false;
+
+            if (ninjascript.State == State.Historical && !ninjascript.BarsArray[barsInProgress].IsTickReplay)
+            {
+                SetValues(ninjascript, barsInProgress, 0);
+                SetTicks(ninjascript, barsInProgress);
+            }
+            else
+            {
+                if (args.MarketDataType != MarketDataType.Last)
+                    return false;
+
+                double price = args.Price;
+                High = price > High ? price : High;
+                Low = price < Low ? price : Low;
+                Close = price != Close ? price : Close;
+                Volume += args.Volume;
+                Ticks = _ticksCounter++;
+            }
+            return true;
+        }
+        protected void SetValues(NinjaScriptBase ninjascript, int barsInProgress, int barsAgo)
+        {
+            Idx = ninjascript.CurrentBars[barsInProgress] - barsAgo;
+            Time = ninjascript.Times[barsInProgress][barsAgo];
+            Open = ninjascript.Opens[barsInProgress][barsAgo];
+            High = ninjascript.Highs[barsInProgress][barsAgo];
+            Low = ninjascript.Lows[barsInProgress][barsAgo];
+            Close = ninjascript.Closes[barsInProgress][barsAgo];
+            Volume = (long)ninjascript.Volumes[barsInProgress][barsAgo];
+        }
+        protected void SetTicks(NinjaScriptBase ninjascript, int barsInProgress)
+        {
+            if (ninjascript.Calculate == Calculate.OnEachTick && ninjascript.State == State.Realtime)
+                Ticks = ninjascript.BarsArray[barsInProgress].TickCount;
+            else if (ninjascript.Calculate == Calculate.OnEachTick && ninjascript.BarsArray[barsInProgress].IsTickReplay && ninjascript.State == State.Historical)
+                Ticks++;
+            else
+                Ticks = 1;
+        }
 
         #endregion
 
@@ -258,18 +361,22 @@ namespace KrTrade.Nt.Core.Bars
                 Close = -bar.Close,
                 Volume = -bar.Volume,
                 Ticks = -bar.Ticks,
+                Ninjascript = bar.Ninjascript
             };
-        public static Bar operator +(Bar bar1, Bar bar2) => new Bar()
-        {
-            Idx = bar1.Time < bar2.Time ? bar2.Idx : bar1.Idx,
-            Time = bar1.Time < bar2.Time ? bar2.Time : bar1.Time,
-            Open = bar1.Time < bar2.Time ? bar1.Open : bar2.Open,
-            High = bar1.High > bar2.High ? bar1.High : bar2.High,
-            Low = bar1.Low < bar2.Low ? bar1.Low : bar2.Low,
-            Close = bar1.Time < bar2.Time ? bar2.Close : bar1.Close,
-            Volume = bar1.Volume + bar2.Volume,
-            Ticks = bar1.Ticks + bar2.Ticks,
-        };
+        public static Bar operator +(Bar bar1, Bar bar2) => 
+            new Bar()
+            {
+                Idx = bar1.Time < bar2.Time ? bar2.Idx : bar1.Idx,
+                Time = bar1.Time < bar2.Time ? bar2.Time : bar1.Time,
+                Open = bar1.Time < bar2.Time ? bar1.Open : bar2.Open,
+                High = bar1.High > bar2.High ? bar1.High : bar2.High,
+                Low = bar1.Low < bar2.Low ? bar1.Low : bar2.Low,
+                Close = bar1.Time < bar2.Time ? bar2.Close : bar1.Close,
+                Volume = bar1.Volume + bar2.Volume,
+                Ticks = bar1.Ticks + bar2.Ticks,
+                Ninjascript = bar1.Ninjascript
+            
+            };
         public static Bar operator -(Bar bar1, Bar bar2)
         {
             if (bar1 >= bar2)
@@ -298,17 +405,11 @@ namespace KrTrade.Nt.Core.Bars
             return bar;
         }
 
-        public static bool operator ==(Bar bar1, Bar bar2) => 
-            bar1.Idx == bar2.Idx && 
-            bar1.Time == bar2.Time && 
-            bar1.Open == bar2.Open &&
-            bar1.High == bar2.High &&
-            bar1.Low == bar2.Low &&
-            bar1.Close == bar2.Close &&
-            bar1.Volume == bar2.Volume &&
-            bar1.Ticks == bar2.Ticks
-            ;
+        public static bool operator ==(Bar bar1, Bar bar2) =>
+            (bar1 is null && bar2 is null) ||
+            (!(bar1 is null) && !(bar2 is null) && Equals(bar1,bar2));
         public static bool operator !=(Bar bar1, Bar bar2) => !(bar1 == bar2);
+
         public static bool operator <(Bar bar1, Bar bar2) => bar1.Time < bar2.Time;
         public static bool operator >(Bar bar1, Bar bar2) => bar1.Time > bar2.Time;
         public static bool operator <=(Bar bar1, Bar bar2) => bar1.Time <= bar2.Time;
@@ -321,7 +422,20 @@ namespace KrTrade.Nt.Core.Bars
         public override bool Equals(object obj) => obj is Bar other && this == other;
         public override int GetHashCode() => Time.GetHashCode();
 
+        public override string ToString() 
+            => $"Time: {Time.ToString(Data.TimeFormat.Minute, Data.FormatType.Log, Data.FormatLength.Short)}, Open: {Open}, High: {High}, Low: {Low}, Close: {Close}, Volume: {Volume}, Ticks: {Ticks}.";
+
         #endregion
+
+        private static bool Equals(Bar bar1, Bar bar2) =>
+            bar1.Idx == bar2.Idx &&
+            bar1.Time == bar2.Time &&
+            bar1.Open == bar2.Open &&
+            bar1.High == bar2.High &&
+            bar1.Low == bar2.Low &&
+            bar1.Close == bar2.Close &&
+            bar1.Volume == bar2.Volume &&
+            bar1.Ticks == bar2.Ticks;
 
     }
 }

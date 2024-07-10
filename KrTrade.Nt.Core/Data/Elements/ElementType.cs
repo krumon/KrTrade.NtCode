@@ -6,10 +6,11 @@
         UNKNOWN,
         // SERVICES TYPE
         BARS_MANAGER_SERVICE,
+        BARS_CACHE_SERVICE,
         BARS_SERVICE,
         PRINT_SERVICE,
         PLOT_SERVICE,
-        //SERIES TYPE
+        // SERIES TYPE
         MEDIAN_SERIES,
         TYPICAL_SERIES,
         WEIGHTED_SERIES,

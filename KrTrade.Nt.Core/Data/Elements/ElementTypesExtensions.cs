@@ -191,6 +191,8 @@ namespace KrTrade.Nt.Core.Data
                     return ElementType.PLOT_SERVICE;
                 case ServiceType.PRINT:
                     return ElementType.PRINT_SERVICE;
+                case ServiceType.BARS_CACHE:
+                    return ElementType.BARS_CACHE_SERVICE;
                 default:
                     return ElementType.UNKNOWN;
             }
@@ -333,6 +335,8 @@ namespace KrTrade.Nt.Core.Data
             {
                 case ElementType.BARS_MANAGER_SERVICE:
                     return ServiceType.BARS_MANAGER;
+                case ElementType.BARS_CACHE_SERVICE:
+                    return ServiceType.BARS_CACHE;
                 case ElementType.BARS_SERVICE:
                     return ServiceType.BARS;
                 case ElementType.PLOT_SERVICE:

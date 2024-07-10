@@ -14,10 +14,10 @@ namespace KrTrade.Nt.Core
         /// <param name="args">The arguments of the 'MarketData' event.</param>
         void MarketData(MarketDataEventArgs args);
 
-        /// <summary>
-        /// Method to be executed to update the service when a <see cref="IBarsService"/> market data is updated.
-        /// </summary>
-        /// <param name="updatedBarsService">The <see cref="IBarsService"/> updated.</param>
-        void MarketData(IBarsService updatedBarsService);
+        ///// <summary>
+        ///// Method to be executed to update the service when a <see cref="IBarsService"/> market data is updated.
+        ///// </summary>
+        ///// <param name="updatedBarsService">The <see cref="IBarsService"/> updated.</param>
+        //void MarketData(IBarsService updatedBarsService);
     }
 }

@@ -72,9 +72,10 @@ namespace KrTrade.Nt.Core.Logging
         public void LogException(Exception exception) => LogException(LogLevel.Error, exception);
         public void LogException(LogLevel logLevel, Exception exception) => Log(logLevel, null, exception);
         public void LogText(LogLevel logLevel, string message) => Log(logLevel, message, null);
-        public void Log(LogLevel logLevel, object value, Exception exception)
+        public void Log(LogLevel logLevel, object value, Exception exception) => Log(logLevel, BarsLogLevel.Tick, value, exception);
+        public void Log(LogLevel logLevel, BarsLogLevel barsLogLevel, object value, Exception exception)
         {
-            if (!IsLogLevelsEnable(logLevel))
+            if (!IsLogLevelsEnable(logLevel, barsLogLevel))
                 return;
 
             LogEntry logEntry = CreateLogEntry(logLevel, value, exception);
@@ -120,19 +121,21 @@ namespace KrTrade.Nt.Core.Logging
                 Ninjascript.State,
                 Ninjascript.BarsInProgress,
                 Ninjascript.CurrentBars[Ninjascript.BarsInProgress],
-                Ninjascript.BarsArray[Ninjascript.BarsInProgress].Instrument.MasterInstrument.Name,
-                Ninjascript.BarsArray[Ninjascript.BarsInProgress].BarsPeriod,
+                Ninjascript.Instruments[Ninjascript.BarsInProgress].MasterInstrument.Name,
+                Ninjascript.BarsPeriods[Ninjascript.BarsInProgress],
                 IsInRunningStates() ? Ninjascript.Times[Ninjascript.BarsInProgress][0] : DateTime.Now,
                 value,
                 exception
                 );
         }
 
-        public bool IsLogLevelsEnable(LogLevel logLevel)
+        public bool IsLogLevelsEnable(LogLevel logLevel, BarsLogLevel barsLogLevel)
         {
             if (!Options.IsEnable)
                 return false;
             if (logLevel < Options.LogLevel)
+                return false;
+            if (barsLogLevel < Options.BarsLogLevel)
                 return false;
             if (NinjascriptLogLevel == NinjascriptLogLevel.None)
                 return false;

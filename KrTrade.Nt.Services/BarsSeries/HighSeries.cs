@@ -1,5 +1,4 @@
 ﻿using KrTrade.Nt.Core.Data;
-using KrTrade.Nt.Core;
 using KrTrade.Nt.Core.Services;
 
 namespace KrTrade.Nt.Services.Series
@@ -32,7 +31,7 @@ namespace KrTrade.Nt.Services.Series
             }
         }
 
-        protected override SeriesType ToElementType() => SeriesType.CURRENT_BAR;
+        protected override SeriesType ToElementType() => SeriesType.HIGH;
         protected override void DataLoaded(out bool isDataLoaded)
         {
             Input = Bars.Ninjascript.Highs[Bars.Index];

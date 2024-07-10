@@ -74,7 +74,6 @@ namespace KrTrade.Nt.Core
 
                 string key = item.Key;
                 string name = item.Name;
-
                 // El servicio no existe
                 if (!ContainsKey(key))
                 {

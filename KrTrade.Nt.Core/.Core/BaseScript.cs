@@ -235,19 +235,46 @@ namespace KrTrade.Nt.Core
             switch (level)
             {
                 case LogLevel.Trace:
-                    printService?.LogTrace(message);
+                    printService?.Log(LogLevel.Trace, message, null);
                     break;
                 case LogLevel.Debug:
-                    printService?.LogDebug(message);
+                    printService?.Log(LogLevel.Trace, message, null);
                     break;
                 case LogLevel.Information:
-                    printService?.LogInformation(message);
+                    printService?.Log(LogLevel.Trace, message, null);
                     break;
                 case LogLevel.Warning:
-                    printService?.LogWarning(message);
+                    printService?.Log(LogLevel.Trace, message, null);
                     break;
                 case LogLevel.Error:
-                    printService?.LogError(message);
+                    printService?.Log(LogLevel.Trace, message, null);
+                    break;
+                default:
+                    break;
+            }
+        }
+        protected void Log(IPrintService printService, LogLevel level, BarsLogLevel barsLogLevel, string state, string name = "")
+        {
+            if (printService == null || !printService.IsEnable)
+                return;
+
+            string message = name + " " + state;
+            switch (level)
+            {
+                case LogLevel.Trace:
+                    printService?.Log(LogLevel.Trace, barsLogLevel, message, null);
+                    break;
+                case LogLevel.Debug:
+                    printService?.Log(LogLevel.Debug, barsLogLevel, message, null);
+                    break;
+                case LogLevel.Information:
+                    printService?.Log(LogLevel.Information, barsLogLevel, message, null);
+                    break;
+                case LogLevel.Warning:
+                    printService?.Log(LogLevel.Warning, barsLogLevel, message, null);
+                    break;
+                case LogLevel.Error:
+                    printService?.Log(LogLevel.Error, barsLogLevel, message, null);
                     break;
                 default:
                     break;
@@ -267,7 +294,6 @@ namespace KrTrade.Nt.Core
             else
                 Log(printService, LogLevel.Error, "could not be configured. You are configuring the service out of configure or data loaded states.", Name);
         }
-
     }
 
     public abstract class BaseOptionsScript<TType,TOptions> : BaseScript<TType>, IOptionsScript<TType,TOptions>

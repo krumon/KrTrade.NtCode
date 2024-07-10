@@ -1,5 +1,4 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using KrTrade.Nt.Core.Caches;
 using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.Helpers;
 using KrTrade.Nt.Core.Logging;
@@ -22,8 +21,8 @@ namespace KrTrade.Nt.Services
         public int DefaultCachesCapacity { get; protected set; }
         public int DefaultRemovedCachesCapacity { get; protected set; }
 
-        public BarsCache[] BarsArray => _barsServiceCollection.BarsArray;
-        public BarsCache Bars => _barsServiceCollection[0].Bars;
+        public IBarsService[] BarsArray => _barsServiceCollection.BarsArray;
+        public IBarsCacheService Bars => _barsServiceCollection[0].Bars;
 
         //public int CurrentBar => _barsServiceCollection[0].CurrentBar;
         //public DateTime Time => _barsServiceCollection[0].Time;
@@ -239,26 +238,12 @@ namespace KrTrade.Nt.Services
             // Check FILTERS
             _barsServiceCollection[BarsInProgress].BarUpdate();
         }
-        protected void BarUpdate(IBarsService updatedBarsSeries)
-        {
-            if (!Options.IsEnable || !IsDataLoaded)
-                return;
-
-            _barsServiceCollection[BarsInProgress].BarUpdate(updatedBarsSeries);
-        }
         protected void MarketData(NinjaTrader.Data.MarketDataEventArgs args)
         {
             if (!Options.IsEnable || !IsDataLoaded)
                 return;
 
             _barsServiceCollection[BarsInProgress].MarketData(args);
-        }
-        protected void MarketData(IBarsService updatedBarsSeries)
-        {
-            if (!Options.IsEnable || !IsDataLoaded)
-                return;
-
-            _barsServiceCollection[BarsInProgress].MarketData(updatedBarsSeries);
         }
         protected void MarketDepth(NinjaTrader.Data.MarketDepthEventArgs args)
         {
@@ -267,20 +252,9 @@ namespace KrTrade.Nt.Services
 
             _barsServiceCollection[BarsInProgress].MarketDepth(args);
         }
-        protected void MarketDepth(IBarsService updatedBarsSeries)
-        {
-            if (!Options.IsEnable || !IsDataLoaded)
-                return;
-
-            _barsServiceCollection[BarsInProgress].MarketDepth(updatedBarsSeries);
-        }
         protected void Render()
         {
             _barsServiceCollection[BarsInProgress].Render();
-        }
-        protected void Render(IBarsService updatedBarsSeries)
-        {
-            _barsServiceCollection[BarsInProgress].Render(updatedBarsSeries);
         }
 
         protected override ServiceType ToElementType() => ServiceType.BARS_MANAGER;

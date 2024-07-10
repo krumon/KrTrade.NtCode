@@ -68,6 +68,7 @@ namespace KrTrade.Nt.Core.Caches
         public T this[int index]
         {
             get => IsValidIndex(index) ? _cache[index] : throw new ArgumentOutOfRangeException(nameof(index));
+            protected set => _cache[index] = value;
         }
 
         // IEnumerable implementation
@@ -105,10 +106,10 @@ namespace KrTrade.Nt.Core.Caches
                 OnElementRemoved(removedItem);
         }
 
-        // ISeries implementation
-        public abstract void Add(int barsAgo);
-        public abstract void Update(int barsAgo);
-        public abstract void Update(NinjaTrader.Data.MarketDataEventArgs args, int barsAgo);
+        //// ISeries implementation
+        //public abstract void Add(int barsAgo);
+        //public abstract void Update(int barsAgo);
+        //public abstract void Update(NinjaTrader.Data.MarketDataEventArgs args, int barsAgo);
 
         /// <summary>
         /// Create <see cref="ICache{T}"/> instance with specified capacity.

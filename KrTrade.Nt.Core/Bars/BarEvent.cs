@@ -5,6 +5,12 @@
     /// </summary>
     public enum BarEvent
     {
+
+        /// <summary>
+        /// Indicates that the last bar has been removed.
+        /// </summary>
+        Closed,
+
         /// <summary>
         /// Indicates that the last bar has been updated.
         /// </summary>
@@ -14,11 +20,6 @@
         /// Indicates that the last bar has been closed.
         /// </summary>
         Removed,
-
-        /// <summary>
-        /// Indicates that the last bar has been removed.
-        /// </summary>
-        Closed,
 
         /// <summary>
         /// Indicates that the first tick of the bar has occurred.
@@ -36,6 +37,12 @@
         /// Indicates that one tick has occurred.
         /// This event is active when the calcule mode is 'Calculate.EachTick'
         /// </summary>
-        Tick
+        Tick,
+
+        /// <summary>
+        /// Indicates that one market data has occurred.
+        /// </summary>
+        MarketData
+
     }
 }

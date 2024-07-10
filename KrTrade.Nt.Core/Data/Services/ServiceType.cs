@@ -7,6 +7,7 @@
     {
         UNKNOWN,
         BARS_MANAGER,
+        BARS_CACHE,
         BARS,
         PRINT,
         PLOT,

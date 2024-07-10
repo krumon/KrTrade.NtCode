@@ -3,6 +3,7 @@ using KrTrade.Nt.Core.DataSeries;
 using KrTrade.Nt.Core.Infos;
 using KrTrade.Nt.Core.TradingHours;
 using NinjaTrader.NinjaScript;
+using System;
 using System.Diagnostics;
 
 namespace KrTrade.Nt.Services
@@ -14,6 +15,16 @@ namespace KrTrade.Nt.Services
         /// Gets or sets the Data Series instrument code.
         /// </summary>
         public InstrumentCode InstrumentCode { get; set; }
+
+        /// <summary>
+        /// Future contracts expiry month.
+        /// </summary>
+        public int ContractMonth {  get; set; }
+
+        /// <summary>
+        /// Future contracts expiry year.
+        /// </summary>
+        public int ContractYear { get; set; }
 
         /// <summary>
         /// Gets or sets data series trading hours code.
@@ -42,6 +53,9 @@ namespace KrTrade.Nt.Services
         /// <param name="index">The index of 'NinjaScript.DataSeries'.</param>
         public void SetNinjascriptValues(NinjaScriptBase ninjascript, int index)
         {
+            DateTime expiry = ninjascript.BarsArray[index].Instrument.Expiry;
+            ContractMonth = expiry.Month;
+            ContractYear = expiry.Year;
             InstrumentCode = ninjascript.BarsArray[index].Instrument.MasterInstrument.Name.ToInstrumentCode();
             TradingHoursCode = ninjascript.BarsArray[index].TradingHours.Name.ToTradingHoursCode();
             TimeFrame = ninjascript.BarsPeriods[index].ToTimeFrame();
@@ -49,6 +63,8 @@ namespace KrTrade.Nt.Services
         }
 
         public override string ToString() => $"{InstrumentCode}({TimeFrame})";
+
+        public string ToInstrumentName() => (ContractMonth == 0 || ContractYear == 0) ? InstrumentCode.ToString() : $"{InstrumentCode} {ContractMonth.ToString("00")}-{ContractYear.ToString("00")}";
 
         /// <summary>
         /// Converts the actual object to long string.
@@ -71,11 +87,15 @@ namespace KrTrade.Nt.Services
         /// Create <see cref="BarsServiceInfo"/> instance with specified properties.
         /// </summary>
         /// <param name="instrumentCode">The instrument unique code.</param>
-        /// <param name="tradingHoursCode">The data series <see cref="Data.TradingHoursCode"/>.</param>
-        /// <param name="timeFrame">The data series <see cref="Data.TimeFrame"/>.</param>
-        /// <param name="marketDataType">The data series <see cref="Data.MarketDataType"/>.</param>
-        public BarsServiceInfo(InstrumentCode instrumentCode, TradingHoursCode tradingHoursCode, TimeFrame timeFrame, MarketDataType marketDataType) : this(ServiceType.BARS)
+        /// <param name="contractMonth">The month of the contract. Necesary for future instruments.</param>
+        /// <param name="contractYear">The year of the contract. Necesary for future instruments.</param>
+        /// <param name="tradingHoursCode">The data series <see cref="Core.Data.TradingHoursCode"/>.</param>
+        /// <param name="timeFrame">The data series <see cref="Core.Data.TimeFrame"/>.</param>
+        /// <param name="marketDataType">The data series <see cref="Core.Data.MarketDataType"/>.</param>
+        public BarsServiceInfo(InstrumentCode instrumentCode, int contractMonth, int contractYear, TradingHoursCode tradingHoursCode, TimeFrame timeFrame, MarketDataType marketDataType) : this(ServiceType.BARS)
         {
+            ContractMonth = contractMonth;
+            ContractYear = contractYear;
             InstrumentCode = instrumentCode;
             TradingHoursCode = tradingHoursCode;
             TimeFrame = timeFrame;
@@ -111,7 +131,7 @@ namespace KrTrade.Nt.Services
         {
             return new DataSeriesInfo
             {
-                InstrumentName = InstrumentCode.ToString(),
+                InstrumentName = (ContractMonth == 0 || ContractYear == 0) ? InstrumentCode.ToString() : $"{InstrumentCode} {ContractMonth.ToString("00")}-{ContractYear.ToString("00")}",
                 BarsPeriod = TimeFrame.ToBarsPeriod(),
                 TradingHoursName = TradingHoursCode.ToName()
             };
@@ -125,9 +145,6 @@ namespace KrTrade.Nt.Services
         /// <returns></returns>
         public bool EqualsTo(NinjaScriptBase ninjascript, int index)
         {
-            // TODO: Delete this breakpoint.
-            Debugger.Break();
-
             if (ninjascript != null &&
                 index < ninjascript.BarsArray.Length &&
                 InstrumentCode == ninjascript.BarsArray[index].Instrument.MasterInstrument.Name.ToInstrumentCode() &&

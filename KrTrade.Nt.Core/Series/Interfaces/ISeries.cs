@@ -28,10 +28,20 @@ namespace KrTrade.Nt.Core.Series
         /// </summary>
         bool IsFull { get; }
 
-        ///// <summary>
-        ///// Remove the current element of the series.
-        ///// </summary>
-        //void RemoveLastElement();
+        /// <summary>
+        /// Remove the current element of the series.
+        /// </summary>
+        void RemoveLastElement();
+
+        /// <summary>
+        /// Add new element to the series.
+        /// </summary>
+        void Add();
+
+        /// <summary>
+        /// Update the current element of the series.
+        /// </summary>
+        void Update();
 
         /// <summary>
         /// Reset the <see cref="ISeries"/>. Clear the cache and initialize all properties.

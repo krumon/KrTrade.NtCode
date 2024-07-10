@@ -9,10 +9,8 @@ namespace KrTrade.Nt.Core.Caches
     /// <summary>
     /// Base class for all caches.
     /// </summary>
-    public class BarsCache : Cache<Bar>, IBarsCache, ITerminated, IBarUpdate, IMarketData, IMarketDepth
+    public class BarsCache : Cache<Bar>, IBarsCache
     {
-        protected IBarsService BarsService { get; set; }
-
         public int Idx => this[0].Idx;
         public DateTime Time => this[0].Time;
         public double Open => this[0].Open;
@@ -22,144 +20,168 @@ namespace KrTrade.Nt.Core.Caches
         public double Volume => this[0].Volume;
         public long Ticks => this[0].Ticks;
 
-        public BarsCache(int capacity = Globals.SERIES_DEFAULT_CAPACITY, int oldValuesCapacity = Globals.SERIES_DEFAULT_OLD_VALUES_CAPACITY) : base(capacity,oldValuesCapacity)
-        {
-            BarsService = null;
-        }
-        public BarsCache(IBarsService barsService) : base(barsService.CacheCapacity, barsService.RemovedCacheCapacity)
-        {
-            BarsService = barsService ?? throw new System.ArgumentNullException(nameof(barsService));
-        }
+        public BarsCache(int capacity, int oldValuesCapacity) : base(capacity, oldValuesCapacity) { }
+        public BarsCache() : base(Globals.SERIES_DEFAULT_CAPACITY, Globals.SERIES_DEFAULT_OLD_VALUES_CAPACITY) { }
 
-        public override void Add(int barsAgo) => Add(BarsService, barsAgo);
-        public override void Update(int barsAgo) => Update(BarsService, barsAgo);
-        public override void Update(NinjaTrader.Data.MarketDataEventArgs args, int barsAgo) => Update(args, barsAgo);
-
-        public void Add(IBarsService barsService = null, int barsAgo = 0) => Add(barsService?.Ninjascript ?? BarsService?.Ninjascript,barsService == null ? BarsService == null ? 0 : BarsService.Index : barsService.Index, barsAgo);
-        public void Add(NinjaScriptBase ninjascript, int barsInProgress, int barsAgo)
+        public void Add(IBarsService barsService, int barsAgo) 
         {
-            if (ninjascript == null)
-            {
-                ninjascript.Print("The BAR cannot be added to the cache. The 'NinjaScript' or 'IBarsService' cannot be null.");
-                return;
-            }
-
             Bar bar = new Bar();
-            if (bar.Set(ninjascript,barsInProgress, barsAgo))
+            if (bar.Update(barsService, barsAgo))
                 Add(bar);
             else
-                ninjascript.Print("The BAR cannot be added to the cache. The 'NinjaScript' is out of Historical or RealTime State.");
+                barsService.Ninjascript.Print("The BAR cannot be added to the cache.");
+
+        }
+        public void Add(NinjaScriptBase ninjascript, int barsInProgress, int barsAgo)
+        {
+            Bar bar = new Bar();
+            if (bar.Update(ninjascript,barsInProgress,barsAgo))
+                Add(bar);
+            else
+                ninjascript.Print("The BAR cannot be added to the cache.");
+        }
+        public void Add(IBarsService barsService, NinjaTrader.Data.MarketDataEventArgs args)
+        {
+            Bar bar = new Bar();
+            if (bar.Update(barsService, args))
+                Add(bar);
+            else
+                barsService.Ninjascript.Print("The BAR cannot be added to the cache.");
+        }
+        public void Add(NinjaScriptBase ninjascript, int barsInProgress, NinjaTrader.Data.MarketDataEventArgs args)
+        {
+            Bar bar = new Bar();
+            if (bar.Update(ninjascript, barsInProgress, args))
+                Add(bar);
+            else
+                ninjascript.Print("The BAR cannot be added to the cache.");
         }
 
-        public void Update(IBarsService barsService = null, int barsAgo = 0) => Update(barsService?.Ninjascript ?? BarsService?.Ninjascript, barsService == null ? BarsService == null ? 0 : BarsService.Index : barsService.Index, barsAgo);
-        public void Update(NinjaScriptBase ninjascript, int barsInProgress,int barsAgo = 0)
+        public void Update(IBarsService barsService, int barsAgo)
         {
-            if (ninjascript == null)
-            {
-                ninjascript.Print("The BAR cannot be updated. The 'NinjaScript' or 'IBarsService' cannot be null.");
-                return;
-            }
-
+            Bar currentValue = new Bar();
+            currentValue.Update(barsService,barsAgo);
             if (barsAgo == 0)
             {
-                Bar lastValue = new Bar();
-                CurrentValue.CopyTo(lastValue);
-                if (this[barsAgo].Update(ninjascript, barsInProgress, barsAgo))
+                if (this[barsAgo] != currentValue)
                 {
-                    LastValue = lastValue;
-                    this[barsAgo].CopyTo(CurrentValue);
+                    Bar aux = CurrentValue;
+                    CurrentValue = currentValue;
+                    LastValue = aux;
+                    this[barsAgo] = CurrentValue;
+                }
+                else
+                    barsService.Ninjascript.Print("The BAR cannot be updated.");
+            }
+            else
+            {
+                if (this[barsAgo] != currentValue)
+                    this[barsAgo] = currentValue;
+                else
+                    barsService.Ninjascript.Print("The BAR cannot be updated.");
+            }
+        }
+        public void Update(NinjaScriptBase ninjascript, int barsInProgress, int barsAgo)
+        {
+            Bar currentValue = new Bar();
+            currentValue.Update(ninjascript,barsInProgress,barsAgo);
+            if (barsAgo == 0)
+            {
+                if (this[barsAgo] != currentValue)
+                {
+                    Bar aux = CurrentValue;
+                    CurrentValue = currentValue;
+                    LastValue = aux;
+                    this[barsAgo] = CurrentValue;
                 }
                 else
                     ninjascript.Print("The BAR cannot be updated.");
             }
             else
-                if (!this[barsAgo].Update(ninjascript, barsInProgress, barsAgo))
-                    ninjascript.Print("The BAR cannot be updated.");
-        }
-
-        public void Update(NinjaTrader.Data.MarketDataEventArgs args, int barsAgo = 0, IBarsService barsService = null)
-        {
-            if (BarsService == null) return;
-
-            if (barsAgo == 0)
             {
-                Bars.Bar lastValue = new Bars.Bar();
-                CurrentValue.CopyTo(lastValue);
-                if (this[barsAgo].Update(barsService ?? BarsService, args))
-                {
-                    LastValue = lastValue;
-                    this[barsAgo].CopyTo(CurrentValue);
-                }
-            }
-            else
-                this[barsAgo].Update(barsService ?? BarsService, args);
-        }
-        public void Update(NinjaScriptBase ninjascript, NinjaTrader.Data.MarketDataEventArgs args, int barsAgo = 0)
-        {
-            if (ninjascript == null)
-            {
-                ninjascript.Print("The BAR cannot be updated. The 'NinjaScript' or 'IBarsService' cannot be null.");
-                return;
-            }
-
-            if (barsAgo == 0)
-            {
-                Bar lastValue = new Bar();
-                CurrentValue.CopyTo(lastValue);
-                if (this[barsAgo].Update(ninjascript, args))
-                {
-                    LastValue = lastValue;
-                    this[barsAgo].CopyTo(CurrentValue);
-                }
+                if (this[barsAgo] != currentValue) 
+                    this[barsAgo] = currentValue;
                 else
                     ninjascript.Print("The BAR cannot be updated.");
             }
+        }
+        public void Update(IBarsService barsService, NinjaTrader.Data.MarketDataEventArgs args)
+        {
+            Bar currentValue = new Bar();
+            currentValue.Update(barsService, args);
+            if (this[0] != currentValue)
+            {
+                Bar aux = CurrentValue;
+                CurrentValue = currentValue;
+                LastValue = aux;
+                this[0] = CurrentValue;
+            }
             else
-                if (!this[barsAgo].Update(ninjascript, args))
+                barsService.Ninjascript.Print("The BAR cannot be updated.");
+        }
+        public void Update(NinjaScriptBase ninjascript, int barsInProgress, NinjaTrader.Data.MarketDataEventArgs args)
+        {
+            Bar currentValue = new Bar();
+            currentValue.Update(ninjascript, barsInProgress, args);
+            if (this[0] != currentValue)
+            {
+                Bar aux = CurrentValue;
+                CurrentValue = currentValue;
+                LastValue = aux;
+                this[0] = CurrentValue;
+            }
+            else
                 ninjascript.Print("The BAR cannot be updated.");
         }
 
-        public void Terminated() => Dispose();
 
-        public void BarUpdate()
-        {
-            if (BarsService == null)
-                return;
+        //public void Terminated() => Dispose();
 
-            if (BarsService.LastBarIsRemoved)
-                RemoveLastElement();
-            else if (BarsService.IsClosed)
-                Add(0);
-            else if (BarsService.IsPriceChanged || BarsService.IsTick)
-                Update(0);
-        }
-        public void BarUpdate(IBarsService updatedBarsService)
-        {
-            throw new System.NotImplementedException();
-        }
-        public void MarketData(NinjaTrader.Data.MarketDataEventArgs args)
-        {
-            if (args == null)
-                return;
-            Update(args);
-        }
-        public void MarketData(IBarsService updatedBarsService)
-        {
-            throw new System.NotImplementedException();
-        }
-        public void MarketDepth(NinjaTrader.Data.MarketDepthEventArgs args)
-        {
-            throw new System.NotImplementedException();
-        }
-        public void MarketDepth(IBarsService updatedBarsService)
-        {
-            throw new System.NotImplementedException();
-        }
+        //public void BarUpdate()
+        //{
+        //    if (BarsService == null)
+        //        return;
+
+        //    if (BarsService.LastBarIsRemoved)
+        //        RemoveLastElement();
+        //    else if (BarsService.IsClosed)
+        //        Add(0);
+        //    else if (BarsService.IsPriceChanged || BarsService.IsTick)
+        //        Update(0);
+        //}
+        //public void BarUpdate(IBarsService updatedBarsService)
+        //{
+        //    if (updatedBarsService == null)
+        //        return;
+
+        //    updatedBarsService[0].CopyTo(this[0]);
+        //}
+        //public void MarketData(NinjaTrader.Data.MarketDataEventArgs args)
+        //{
+        //    if (args == null)
+        //        return;
+        //    Update(args,0);
+        //}
+        //public void MarketData(IBarsService updatedBarsService)
+        //{
+        //    if (updatedBarsService == null)
+        //        return;
+
+        //    updatedBarsService[0].CopyTo(this[0]);
+        //}
+        //public void MarketDepth(NinjaTrader.Data.MarketDepthEventArgs args)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
+        //public void MarketDepth(IBarsService updatedBarsService)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
 
         public Bar GetBar(int barsAgo) => this[barsAgo].Get();
         public Bar GetBar(int barsAgo, int period)
         {
-            if (!IsValidRange(barsAgo, period)) return null;
+            if (!IsValidRange(barsAgo, period)) return default;
 
             Bar bar = new Bar();
             this[barsAgo].CopyTo(bar);
@@ -168,5 +190,8 @@ namespace KrTrade.Nt.Core.Caches
             return bar;
         }
 
+        public override string ToString() => ToString(0);
+
+        public string ToString(int barsAgo) => IsValidIndex(barsAgo) ? this[barsAgo].ToString() : "BarsCache index out of range.";
     }
 }

@@ -137,7 +137,7 @@
         /// Log a collection of values with label in NinjaScript output window.
         /// </summary>
         /// <param name="values">The values to log.</param>
-        void Log(params object[] values);
+        void LogValues(params object[] values);
 
         /// <summary>
         /// Log a collection of values with label in NinjaScript output window.

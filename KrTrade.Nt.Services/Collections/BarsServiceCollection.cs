@@ -1,5 +1,4 @@
 ﻿using KrTrade.Nt.Core.Bars;
-using KrTrade.Nt.Core.Caches;
 using KrTrade.Nt.Core.Data;
 using KrTrade.Nt.Core.Infos;
 using KrTrade.Nt.Core.Logging;
@@ -36,7 +35,8 @@ namespace KrTrade.Nt.Services
 
         new public BarsServiceCollectionOptions Options => (BarsServiceCollectionOptions)base.Options;
         
-        public BarsCache[] BarsArray {  get; private set; }
+        public IBarsService[] BarsArray {  get; private set; }
+        public IBarsCacheService Bars => BarsArray[BarsInProgress].Bars;
 
         //public int CurrentBar => IsValidIndex(0) ? _collection[0].CurrentBar : 0;
         //public DateTime Time => IsValidIndex(0) ? _collection[0].Time : DateTime.MinValue;
@@ -175,7 +175,7 @@ namespace KrTrade.Nt.Services
         public bool IsFirstTick => IsValidIndex(0) && _collection[BarsInProgress].IsFirstTick;
         public bool IsPriceChanged => IsValidIndex(0) && _collection[BarsInProgress].IsPriceChanged;
 
-        IServiceCollectionInfo<IBarsServiceInfo, IBarsServiceOptions> IHasInfo<IServiceCollectionInfo<IBarsServiceInfo, IBarsServiceOptions>>.Info => throw new System.NotImplementedException();
+        //IServiceCollectionInfo<IBarsServiceInfo, IBarsServiceOptions> IHasInfo<IServiceCollectionInfo<IBarsServiceInfo, IBarsServiceOptions>>.Info => throw new System.NotImplementedException();
 
         protected override void DataLoaded(out bool isDataLoaded)
         {
@@ -196,10 +196,10 @@ namespace KrTrade.Nt.Services
                 return;
             }
 
-            BarsArray = new BarsCache[Count];
+            BarsArray = new BarsService[Count];
 
             for ( int i = 0; i < Count; i++)
-                BarsArray[i] = _collection[i].Bars;
+                BarsArray[i] = _collection[i];
 
             //CurrentBars = new int[Count];
             //Times = new DateTime[Count];
@@ -220,40 +220,20 @@ namespace KrTrade.Nt.Services
             if (IsValidIndex(BarsInProgress))
                 _collection[BarsInProgress].MarketData(args);
         }
-        public void MarketData(IBarsService updatedBarsSeries)
-        {
-            if (IsValidIndex(BarsInProgress))
-                _collection[BarsInProgress].MarketData(updatedBarsSeries);
-        }
         public void MarketDepth(NinjaTrader.Data.MarketDepthEventArgs args)
         {
             if (IsValidIndex(BarsInProgress))
                 _collection[BarsInProgress].MarketDepth(args);
-        }
-        public void MarketDepth(IBarsService updatedBarsSeries)
-        {
-            if (IsValidIndex(BarsInProgress))
-                _collection[BarsInProgress].MarketDepth(updatedBarsSeries);
         }
         public void Render()
         {
             if (IsValidIndex(BarsInProgress))
                 _collection[BarsInProgress].Render();
         }
-        public void Render(IBarsService updatedBarsSeries)
-        {
-            if (IsValidIndex(BarsInProgress))
-                _collection[BarsInProgress].Render(updatedBarsSeries);
-        }
         public void BarUpdate()
         {
             if (IsValidIndex(BarsInProgress))
                 _collection[BarsInProgress].BarUpdate();
-        }
-        public void BarUpdate(IBarsService updatedBarsSeries)
-        {
-            if (IsValidIndex(BarsInProgress))
-                _collection[BarsInProgress].BarUpdate(updatedBarsSeries);
         }
 
         public override string ToString() => ToString(); //this[BarsInProgress].ToString();
